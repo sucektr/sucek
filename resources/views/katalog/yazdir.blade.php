@@ -31,16 +31,17 @@ body{font-family:'DM Sans',sans-serif;background:#EBEBEB;}
 .btn-geri:hover{background:#F5F5F5;}
 @media print{
     *,-webkit-*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
-    body{background:white!important;}
+    html,body{margin:0!important;padding:0!important;background:white!important;}
     .bar-actions{display:none!important;}
     .katalog-sayfa{
         height:297mm!important;min-height:unset!important;
         overflow:hidden!important;
         margin:0!important;box-shadow:none!important;
-        page-break-after:always;break-after:page;
+        page-break-before:always;break-before:page;
+        page-break-after:avoid;break-after:avoid;
         page-break-inside:avoid;break-inside:avoid;
     }
-    .katalog-sayfa:last-child{page-break-after:avoid;break-after:avoid;}
+    .katalog-sayfa:first-child{page-break-before:avoid;break-before:avoid;}
     @page{size:A4 portrait;margin:0;}
 }
 </style>
