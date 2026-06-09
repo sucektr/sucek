@@ -19,6 +19,7 @@ class DeployController extends Controller
         $artisan = $kok . '/artisan';
 
         $adimlar = [
+            'git remote'     => "cd \"{$kok}\" && git remote set-url origin https://github.com/sucektr/sucek.git 2>&1",
             'git pull'       => "cd \"{$kok}\" && git pull origin main 2>&1",
             'migrate'        => "\"{$php}\" \"{$artisan}\" migrate --force 2>&1",
             'config:cache'   => "\"{$php}\" \"{$artisan}\" config:cache 2>&1",
@@ -37,8 +38,7 @@ class DeployController extends Controller
                 'cikti'    => implode("\n", $cikti),
                 'basarili' => $kod === 0,
             ];
-            // git pull başarısız olduysa sonraki adımları çalıştırma
-            if ($ad === 'git pull' && $kod !== 0) {
+            if (in_array($ad, ['git remote', 'git pull']) && $kod !== 0) {
                 break;
             }
         }

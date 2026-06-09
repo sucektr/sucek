@@ -18,7 +18,7 @@
           GitHub'daki son değişiklikleri sunucuya çeker ve aşağıdaki işlemleri sırayla çalıştırır:
         </p>
         <ul class="mt-2 space-y-0.5">
-          @foreach(['git pull origin main', 'php artisan migrate --force', 'config:cache', 'route:cache', 'view:cache', 'storage:link'] as $adim)
+          @foreach(['git remote set-url (HTTPS)', 'git pull origin main', 'php artisan migrate --force', 'config:cache', 'route:cache', 'view:cache', 'storage:link'] as $adim)
           <li class="flex items-center gap-2 text-[12px] text-[#475569]">
             <i class="ti ti-chevron-right text-[#CC2200] text-xs"></i>
             <code class="font-mono">{{ $adim }}</code>
