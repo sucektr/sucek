@@ -9,13 +9,13 @@ class RecaptchaService
 {
     public function siteKey(): string
     {
-        return icerik('sistem', 'recaptcha_site_key', config('services.recaptcha.site', ''));
+        return icerik('sistem', 'recaptcha_site_key', config('services.recaptcha.site') ?? '');
     }
 
     public function dogrula(string $token, string $ip): bool
     {
-        $secret  = icerik('sistem', 'recaptcha_secret_key', config('services.recaptcha.secret', ''));
-        $minSkor = (float) icerik('sistem', 'recaptcha_min_score', config('services.recaptcha.score', '0.5'));
+        $secret  = icerik('sistem', 'recaptcha_secret_key', config('services.recaptcha.secret') ?? '');
+        $minSkor = (float) icerik('sistem', 'recaptcha_min_score', config('services.recaptcha.score') ?? '0.5');
 
         if (empty($secret)) {
             return true; // Anahtar tanımlı değilse geç (geliştirme ortamı)
