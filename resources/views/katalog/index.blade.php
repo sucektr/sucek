@@ -3,7 +3,19 @@
 
 @push('styles')
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
 <style>
+#ks-quill .ql-toolbar.ql-snow{border-radius:4px 4px 0 0;border-color:rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);padding:5px 8px;}
+#ks-quill .ql-toolbar.ql-snow .ql-stroke{stroke:rgba(255,255,255,0.55);}
+#ks-quill .ql-toolbar.ql-snow .ql-fill{fill:rgba(255,255,255,0.55);}
+#ks-quill .ql-toolbar.ql-snow button:hover .ql-stroke,#ks-quill .ql-toolbar.ql-snow button.ql-active .ql-stroke{stroke:#B8962E;}
+#ks-quill .ql-toolbar.ql-snow button:hover .ql-fill,#ks-quill .ql-toolbar.ql-snow button.ql-active .ql-fill{fill:#B8962E;}
+#ks-quill .ql-toolbar.ql-snow .ql-picker-label{color:rgba(255,255,255,0.55);}
+#ks-quill .ql-toolbar.ql-snow .ql-picker-label .ql-stroke{stroke:rgba(255,255,255,0.55);}
+#ks-quill .ql-container.ql-snow{border-radius:0 0 4px 4px;border-color:rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);min-height:80px;}
+#ks-quill .ql-editor{color:rgba(255,255,255,0.9);min-height:80px;font-size:12px;line-height:1.7;padding:8px 10px;}
+#ks-quill .ql-editor.ql-blank::before{color:rgba(255,255,255,0.25);font-style:normal;}
+</style>
 [x-cloak]{display:none!important;}
 .katalog-builder{display:flex;height:100%;overflow:hidden;}
 .kb-side{width:320px;flex-shrink:0;background:#0F172A;display:flex;flex-direction:column;overflow-y:auto;}
@@ -89,6 +101,7 @@ $initialData = [
 @endphp
 
 @section('content')
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 
 <script>
 window._kbInit = {!! json_encode($initialData, JSON_UNESCAPED_UNICODE) !!};
@@ -277,6 +290,24 @@ function katalogBuilder() {
             this.kisiselForm = { ad: '', aciklama: '' };
             this.kisiselDosya = null; this.kisiselOnizleme = null;
             this.kisiselModal = true;
+            this.$nextTick(function() {
+                if (!window._ksQuill) {
+                    window._ksQuill = new Quill('#ks-quill', {
+                        theme: 'snow',
+                        placeholder: 'Teknik özellikler…',
+                        modules: {
+                            toolbar: [
+                                ['bold', 'italic', 'underline'],
+                                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                                [{ 'align': [] }],
+                                ['clean']
+                            ]
+                        }
+                    });
+                } else {
+                    window._ksQuill.setContents([]);
+                }
+            });
         },
 
         kisiselGorselSec: function(event) {
@@ -298,7 +329,8 @@ function katalogBuilder() {
             self.kisiselKaydediliyor = true;
             var fd = new FormData();
             fd.append('ad', self.kisiselForm.ad.trim());
-            fd.append('aciklama', self.kisiselForm.aciklama || '');
+            var aciklama = window._ksQuill ? window._ksQuill.root.innerHTML : (self.kisiselForm.aciklama || '');
+            fd.append('aciklama', aciklama);
             if (self.kisiselDosya) fd.append('gorsel', self.kisiselDosya);
             fd.append('_token', document.querySelector('meta[name="csrf-token"]').content);
             fetch('{{ route("katalog.urunlerim.store") }}', { method: 'POST', body: fd })
@@ -627,7 +659,7 @@ function katalogBuilder() {
         </div>
         <div>
           <label class="kb-label">Açıklama / Özellikler</label>
-          <textarea x-model="kisiselForm.aciklama" rows="3" class="kb-input" placeholder="Teknik özellikler…"></textarea>
+          <div id="ks-quill"></div>
         </div>
       </div>
       <div style="padding:12px 20px;border-top:1px solid rgba(255,255,255,0.1);display:flex;gap:8px;justify-content:flex-end;">

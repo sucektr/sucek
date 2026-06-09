@@ -34,9 +34,14 @@
 .um-btn-kaydet:hover{background:#c8a84b;}
 .um-btn-iptal{padding:9px 16px;background:transparent;color:#666;border:1px solid rgba(0,0,0,0.15);border-radius:7px;font-size:12px;cursor:pointer;font-family:inherit;}
 .um-btn-iptal:hover{background:#F5F5F5;}
-.ql-container{font-size:13px;min-height:120px;}
-.ql-toolbar{border-radius:7px 7px 0 0;}
-.ql-container{border-radius:0 0 7px 7px;}
+.ql-toolbar.ql-snow{border-radius:7px 7px 0 0;border-color:rgba(0,0,0,0.2);background:#FAFAFA;}
+.ql-container.ql-snow{border-radius:0 0 7px 7px;border-color:rgba(0,0,0,0.2);font-size:13px;min-height:160px;}
+.ql-editor{min-height:160px;line-height:1.8;color:#0F0F0F;}
+.ql-editor.ql-blank::before{color:#B0B0B0;font-style:normal;}
+.ql-snow .ql-picker.ql-header .ql-picker-label::before,.ql-snow .ql-picker.ql-header .ql-picker-item::before{content:'Normal';}
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="1"]::before,.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="1"]::before{content:'Başlık 1';}
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="2"]::before,.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="2"]::before{content:'Başlık 2';}
+.ql-snow .ql-picker.ql-header .ql-picker-label[data-value="3"]::before,.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="3"]::before{content:'Başlık 3';}
 </style>
 @endpush
 
@@ -157,10 +162,13 @@ function urunlerim() {
                     placeholder: 'Teknik özellikler, açıklama…',
                     modules: {
                         toolbar: [
-                            [{ 'header': [2, 3, false] }],
-                            ['bold', 'italic', 'underline'],
-                            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                            ['clean']
+                            [{ 'header': [1, 2, 3, false] }],
+                            ['bold', 'italic', 'underline', 'strike'],
+                            [{ 'color': [] }, { 'background': [] }],
+                            [{ 'align': [] }],
+                            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                            [{ 'indent': '-1' }, { 'indent': '+1' }],
+                            ['blockquote', 'clean']
                         ]
                     }
                 });
