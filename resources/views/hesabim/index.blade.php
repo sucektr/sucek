@@ -167,6 +167,16 @@
       @endif
     </button>
     @endforeach
+    @if($user->isTeknik())
+    <button @click="sekme='urunlerim'"
+            :class="sekme==='urunlerim'
+              ? 'border-b-2 border-[#B8962E] text-[#B8962E]'
+              : 'text-[#A8A8A8] hover:text-[#5A5A5A]'"
+            class="flex items-center gap-1.5 px-4 py-3 text-[11px] font-semibold tracking-[.08em] uppercase whitespace-nowrap transition-colors -mb-px shrink-0">
+      <i class="ti ti-package text-sm"></i>
+      Ürünlerim
+    </button>
+    @endif
   </div>
 
   {{-- Flash mesajları --}}
@@ -610,6 +620,136 @@
     </div>
   </div>
 
+  {{-- ══════════════════════════════════════════════════════════════════════ --}}
+  {{-- ÜRÜNLERİM (sadece teknik üye)                                          --}}
+  {{-- ══════════════════════════════════════════════════════════════════════ --}}
+  @if($user->isTeknik())
+  <div x-show="sekme==='urunlerim'"
+       x-transition:enter="transition ease-out duration-150"
+       x-transition:enter-start="opacity-0 translate-y-1"
+       x-transition:enter-end="opacity-100 translate-y-0"
+       x-data="urunlerimHesabim()"
+       style="display:none;">
+
+    {{-- Başlık --}}
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <p class="text-[10px] text-[#A8A8A8] uppercase tracking-[1.5px] mb-0.5">Teknik Üye</p>
+        <h2 class="text-[20px] font-semibold text-[#0F0F0F]">Ürünlerim</h2>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="{{ route('katalog.index') }}"
+           class="flex items-center gap-1.5 text-[11px] font-medium text-[#A8A8A8] hover:text-[#0F0F0F] border border-[rgba(0,0,0,0.12)] hover:border-[rgba(0,0,0,0.3)] px-3 py-2 rounded-[7px] transition-colors min-h-[36px]">
+          <i class="ti ti-book-2 text-xs"></i> Katalog Oluşturucu
+        </a>
+        <button @click="yeniAc()"
+                class="flex items-center gap-1.5 px-4 py-2.5 bg-[#B8962E] text-[#0F0F0F] text-[11px] font-semibold tracking-[.1em] uppercase rounded-[8px] hover:bg-[#c8a84b] transition-colors min-h-[36px] cursor-pointer">
+          <i class="ti ti-plus text-sm"></i> Ürün Ekle
+        </button>
+      </div>
+    </div>
+
+    {{-- Boş durum --}}
+    <div x-show="urunler.length===0"
+         class="flex flex-col items-center justify-center py-16 text-center">
+      <div class="w-16 h-16 rounded-full bg-[#F0F0F0] flex items-center justify-center mb-4">
+        <i class="ti ti-box-off text-3xl text-[#D0D0D0]"></i>
+      </div>
+      <p class="text-[15px] font-medium text-[#5A5A5A] mb-1">Henüz ürün eklemediniz</p>
+      <p class="text-[13px] text-[#A8A8A8] mb-5">Ürün ekleyerek kataloglarınızda kullanabilirsiniz.</p>
+      <button @click="yeniAc()"
+              class="flex items-center gap-2 bg-[#B8962E] text-[#0F0F0F] text-[11px] font-semibold tracking-[1.5px] uppercase px-6 py-3 rounded-[8px] hover:bg-[#c8a84b] transition-colors cursor-pointer">
+        <i class="ti ti-plus text-sm"></i> İlk Ürünü Ekle
+      </button>
+    </div>
+
+    {{-- Ürün listesi --}}
+    <div class="space-y-3" x-show="urunler.length>0">
+      <template x-for="urun in urunler" :key="urun.id">
+        <div class="bg-white border border-[rgba(0,0,0,0.07)] rounded-[14px] p-4 flex items-center gap-4 hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)] transition-shadow">
+          <div class="w-16 h-16 rounded-[8px] bg-[#F0F0F0] flex items-center justify-center overflow-hidden shrink-0">
+            <img x-show="urun.gorsel" :src="urun.gorsel" :alt="urun.ad" class="w-full h-full object-cover">
+            <i x-show="!urun.gorsel" class="ti ti-photo text-2xl text-[#C0C0C0]"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-[14px] font-semibold text-[#0F0F0F] mb-0.5" x-text="urun.ad"></p>
+            <p class="text-[12px] text-[#A8A8A8] truncate" x-html="urun.aciklama ? urun.aciklama.replace(/<[^>]+>/g,'').substring(0,100) : '—'"></p>
+          </div>
+          <div class="flex gap-2 shrink-0">
+            <button @click="duzenleAc(urun)"
+                    class="w-9 h-9 flex items-center justify-center border border-[rgba(0,0,0,0.12)] rounded-[7px] text-[#5A5A5A] hover:text-[#0F0F0F] hover:border-[rgba(0,0,0,0.3)] transition-all cursor-pointer">
+              <i class="ti ti-edit text-sm"></i>
+            </button>
+            <button @click="sil(urun.id)"
+                    class="w-9 h-9 flex items-center justify-center border border-[rgba(0,0,0,0.12)] rounded-[7px] text-[#5A5A5A] hover:text-[#dc2626] hover:border-[#dc2626] transition-all cursor-pointer">
+              <i class="ti ti-trash text-sm"></i>
+            </button>
+          </div>
+        </div>
+      </template>
+    </div>
+
+    {{-- Modal --}}
+    <div x-show="modalAcik"
+         class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+         @click.self="modalKapat()"
+         x-cloak>
+      <div class="bg-white rounded-[14px] w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-[0_20px_60px_rgba(0,0,0,0.3)]">
+
+        <div class="px-6 py-4 border-b border-[rgba(0,0,0,0.08)] flex items-center justify-between">
+          <span class="text-[15px] font-semibold text-[#0F0F0F]"
+                x-text="duzenlenenId ? 'Ürünü Düzenle' : 'Yeni Ürün Ekle'"></span>
+          <button @click="modalKapat()"
+                  class="w-8 h-8 flex items-center justify-center text-[#A8A8A8] hover:text-[#0F0F0F] cursor-pointer transition-colors">
+            <i class="ti ti-x text-lg"></i>
+          </button>
+        </div>
+
+        <div class="p-6 space-y-4">
+          <div>
+            <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">Ürün Adı <span class="text-[#CC2200]">*</span></label>
+            <input x-model="form.ad" type="text"
+                   class="w-full px-3.5 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[13px] focus:outline-none focus:border-[#B8962E] transition-colors"
+                   placeholder="Ürün adını girin…">
+            <p x-show="hatalar.ad" x-text="hatalar.ad" class="text-[11px] text-[#dc2626] mt-1"></p>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">Görsel</label>
+            <div @click="$refs.hGorselInput.click()"
+                 class="w-full h-36 border-2 border-dashed border-[rgba(0,0,0,0.15)] rounded-[8px] flex items-center justify-center overflow-hidden bg-[#FAFAFA] hover:border-[#B8962E] cursor-pointer transition-colors">
+              <img x-show="gorselOnizleme" :src="gorselOnizleme" class="w-full h-full object-contain">
+              <div x-show="!gorselOnizleme" class="text-center text-[#B0B0B0]">
+                <i class="ti ti-upload text-3xl block mb-1"></i>
+                <span class="text-[12px]">Tıklayarak görsel yükleyin</span>
+              </div>
+            </div>
+            <input type="file" accept="image/*" x-ref="hGorselInput" @change="gorselSec($event)" style="display:none;">
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">Açıklama / Teknik Özellikler</label>
+            <div id="h-quill-editor" style="background:white;"></div>
+          </div>
+        </div>
+
+        <div class="px-6 py-4 border-t border-[rgba(0,0,0,0.08)] flex gap-3 justify-end">
+          <button @click="modalKapat()"
+                  class="px-4 py-2.5 text-[11px] font-medium text-[#5A5A5A] border border-[rgba(0,0,0,0.15)] rounded-[7px] hover:bg-[#F5F5F5] cursor-pointer transition-colors">
+            İptal
+          </button>
+          <button @click="kaydet()" :disabled="kaydediliyor"
+                  class="px-5 py-2.5 bg-[#B8962E] text-[#0F0F0F] text-[11px] font-semibold tracking-[.1em] uppercase rounded-[7px] hover:bg-[#c8a84b] disabled:opacity-50 cursor-pointer transition-colors">
+            <span x-text="kaydediliyor ? 'Kaydediliyor…' : (duzenlenenId ? 'Güncelle' : 'Kaydet')"></span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  @endif
+
 </section>
 
 @endsection
@@ -618,5 +758,146 @@
 <style>
 .scrollbar-hide::-webkit-scrollbar{display:none;}
 .scrollbar-hide{-ms-overflow-style:none;scrollbar-width:none;}
+[x-cloak]{display:none!important;}
 </style>
+@if($user->isTeknik())
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+<style>
+.ql-toolbar.ql-snow{border-radius:7px 7px 0 0;border-color:rgba(0,0,0,0.15);background:#FAFAFA;}
+.ql-container.ql-snow{border-radius:0 0 7px 7px;border-color:rgba(0,0,0,0.15);font-size:13px;min-height:120px;}
+.ql-editor{min-height:120px;line-height:1.75;color:#0F0F0F;}
+.ql-editor.ql-blank::before{color:#B0B0B0;font-style:normal;}
+</style>
+@endif
+@endpush
+
+@push('scripts')
+@if($user->isTeknik())
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+<script>
+var _urunlerimHesabimInit = {!! json_encode($urunler, JSON_UNESCAPED_UNICODE) !!};
+
+function urunlerimHesabim() {
+    return {
+        urunler: _urunlerimHesabimInit,
+        modalAcik: false,
+        duzenlenenId: null,
+        form: { ad: '' },
+        gorselDosya: null,
+        gorselOnizleme: null,
+        kaydediliyor: false,
+        hatalar: {},
+
+        _initQuill: function() {
+            if (!window._hQuill) {
+                window._hQuill = new Quill('#h-quill-editor', {
+                    theme: 'snow',
+                    placeholder: 'Teknik özellikler, açıklama…',
+                    modules: {
+                        toolbar: [
+                            ['bold', 'italic', 'underline'],
+                            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                            [{ 'align': [] }],
+                            ['clean']
+                        ]
+                    }
+                });
+            }
+        },
+
+        yeniAc: function() {
+            var self = this;
+            this.form = { ad: '' };
+            this.gorselDosya = null;
+            this.gorselOnizleme = null;
+            this.duzenlenenId = null;
+            this.hatalar = {};
+            this.modalAcik = true;
+            this.$nextTick(function() {
+                self._initQuill();
+                window._hQuill.setContents([]);
+            });
+        },
+
+        duzenleAc: function(urun) {
+            var self = this;
+            this.form = { ad: urun.ad };
+            this.gorselDosya = null;
+            this.gorselOnizleme = urun.gorsel || null;
+            this.duzenlenenId = urun.id;
+            this.hatalar = {};
+            this.modalAcik = true;
+            this.$nextTick(function() {
+                self._initQuill();
+                window._hQuill.clipboard.dangerouslyPasteHTML(urun.aciklama || '');
+            });
+        },
+
+        modalKapat: function() {
+            this.modalAcik = false;
+        },
+
+        gorselSec: function(event) {
+            var file = event.target.files[0];
+            if (!file) return;
+            this.gorselDosya = file;
+            var reader = new FileReader();
+            var self = this;
+            reader.onload = function(e) { self.gorselOnizleme = e.target.result; };
+            reader.readAsDataURL(file);
+        },
+
+        kaydet: function() {
+            var self = this;
+            self.hatalar = {};
+            if (!self.form.ad.trim()) {
+                self.hatalar.ad = 'Ürün adı zorunludur.';
+                return;
+            }
+            self.kaydediliyor = true;
+            var aciklama = window._hQuill ? window._hQuill.root.innerHTML : '';
+            var fd = new FormData();
+            fd.append('ad', self.form.ad.trim());
+            fd.append('aciklama', aciklama);
+            if (self.gorselDosya) fd.append('gorsel', self.gorselDosya);
+            fd.append('_token', document.querySelector('meta[name="csrf-token"]').content);
+
+            var url = self.duzenlenenId
+                ? '{{ route("katalog.urunlerim.update", ":id") }}'.replace(':id', self.duzenlenenId)
+                : '{{ route("katalog.urunlerim.store") }}';
+
+            fetch(url, { method: 'POST', body: fd })
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (data.success) {
+                        if (self.duzenlenenId) {
+                            var idx = self.urunler.findIndex(function(u) { return u.id === self.duzenlenenId; });
+                            if (idx >= 0) { var arr = self.urunler.slice(); arr[idx] = data.urun; self.urunler = arr; }
+                        } else {
+                            self.urunler = [data.urun].concat(self.urunler);
+                        }
+                        self.modalKapat();
+                    }
+                })
+                .catch(function() { alert('Kaydetme sırasında bir hata oluştu.'); })
+                .finally(function() { self.kaydediliyor = false; });
+        },
+
+        sil: function(id) {
+            if (!confirm('Bu ürünü silmek istediğinizden emin misiniz?')) return;
+            var self = this;
+            fetch('{{ route("katalog.urunlerim.destroy", ":id") }}'.replace(':id', id), {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                },
+            }).then(function(r) {
+                if (r.ok) self.urunler = self.urunler.filter(function(u) { return u.id !== id; });
+            });
+        },
+    };
+}
+</script>
+@endif
 @endpush

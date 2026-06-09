@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Adres;
 use App\Models\Siparis;
+use App\Models\UserUrun;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -19,7 +20,20 @@ class HesabimController extends Controller
 
         $aktifSekme = session()->pull('aktif_sekme', 'siparisler');
 
-        return view('hesabim.index', compact('siparisler', 'teklifler', 'kargoAdresi', 'faturaAdresi', 'aktifSekme'));
+        $urunler = $user->isTeknik()
+            ? UserUrun::where('user_id', $user->id)
+                ->orderByDesc('created_at')
+                ->get()
+                ->map(fn($u) => [
+                    'id'       => $u->id,
+                    'ad'       => $u->ad,
+                    'gorsel'   => $u->gorsel ? asset('storage/' . $u->gorsel) : null,
+                    'aciklama' => $u->aciklama ?? '',
+                ])
+                ->values()
+            : collect();
+
+        return view('hesabim.index', compact('siparisler', 'teklifler', 'kargoAdresi', 'faturaAdresi', 'aktifSekme', 'urunler'));
     }
 
     public function profilGuncelle(Request $request)
