@@ -115,7 +115,6 @@
       <form id="iletisim-form" action="{{ route('iletisim.gonder') }}" method="POST" class="space-y-4" novalidate>
         @csrf
         <input type="hidden" name="kaynak" value="iletisim">
-        <input type="hidden" name="recaptcha_token" id="iletisim-recaptcha-token">
 
         <div class="grid sm:grid-cols-2 gap-4">
           <div>
@@ -164,20 +163,19 @@
           @error('mesaj')<p class="text-[11px] text-[#CC2200] mt-1.5">{{ $message }}</p>@enderror
         </div>
 
+        @php $rcKey = app(\App\Services\RecaptchaService::class)->siteKey(); @endphp
+        @if($rcKey)
+        <div class="g-recaptcha" data-sitekey="{{ $rcKey }}" data-theme="light"></div>
+        @error('recaptcha')<p class="text-[11px] text-[#CC2200]">{{ $message }}</p>@enderror
+        @endif
+
         <button type="submit"
                 class="w-full flex items-center justify-center gap-2 bg-[#141414] text-white text-[11px] font-semibold tracking-[1.5px] uppercase py-4 rounded-[10px] hover:bg-[#2a2a2a] active:scale-[0.98] transition-all duration-200 min-h-[52px]">
           <i class="ti ti-send text-sm" aria-hidden="true"></i>
           Mesajı Gönder
         </button>
 
-        @error('recaptcha_token')
-          <p class="text-[11px] text-[#CC2200] text-center">{{ $message }}</p>
-        @enderror
-
-        <p class="text-[11px] text-[#A8A8A8] text-center">
-          Genellikle 1 iş günü içinde dönüş yapıyoruz.
-          <br>Bu site Google reCAPTCHA ile korunmaktadır.
-        </p>
+        <p class="text-[11px] text-[#A8A8A8] text-center">Genellikle 1 iş günü içinde dönüş yapıyoruz.</p>
       </form>
     </div>
 
@@ -233,26 +231,8 @@
 @endsection
 
 @push('scripts')
-@php $rcSiteKey = app(\App\Services\RecaptchaService::class)->siteKey(); @endphp
-@if($rcSiteKey)
-<script src="https://www.google.com/recaptcha/api.js?render={{ $rcSiteKey }}"></script>
-<script>
-(function () {
-  var siteKey = '{{ $rcSiteKey }}';
-  var form    = document.getElementById('iletisim-form');
-  var input   = document.getElementById('iletisim-recaptcha-token');
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    grecaptcha.ready(function () {
-      grecaptcha.execute(siteKey, { action: 'iletisim' }).then(function (token) {
-        input.value = token;
-        form.submit();
-      });
-    });
-  });
-})();
-</script>
+@if(app(\App\Services\RecaptchaService::class)->aktif())
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endif
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>

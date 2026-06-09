@@ -72,7 +72,6 @@
       <form id="uye-ol-form" action="{{ route('uye-ol.post') }}" method="POST" class="space-y-5"
             x-data="{ showPass: false, showPass2: false }">
         @csrf
-        <input type="hidden" name="recaptcha_token" id="uyeol-recaptcha-token">
 
         <div>
           <label for="name" class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.08em] mb-2">Ad Soyad</label>
@@ -114,14 +113,16 @@
           </div>
         </div>
 
+        @php $rcKey = app(\App\Services\RecaptchaService::class)->siteKey(); @endphp
+        @if($rcKey)
+        <div class="g-recaptcha" data-sitekey="{{ $rcKey }}"></div>
+        @error('recaptcha')<p class="text-[11px] text-[#CC2200]">{{ $message }}</p>@enderror
+        @endif
+
         <button type="submit"
                 class="w-full bg-[#0F0F0F] text-white text-[12px] font-semibold tracking-[2px] uppercase py-4 rounded-[10px] hover:bg-[#2a2a2a] active:scale-[0.98] transition-all duration-200 min-h-[52px]">
           Hesap Oluştur
         </button>
-
-        @error('recaptcha_token')
-          <p class="text-[11px] text-[#CC2200] text-center">{{ $message }}</p>
-        @enderror
 
         <p class="text-[11px] text-[#A8A8A8] text-center leading-relaxed">
           Üye olarak
@@ -145,25 +146,7 @@
 @endsection
 
 @push('scripts')
-@php $rcSiteKey = app(\App\Services\RecaptchaService::class)->siteKey(); @endphp
-@if($rcSiteKey)
-<script src="https://www.google.com/recaptcha/api.js?render={{ $rcSiteKey }}"></script>
-<script>
-(function () {
-  var siteKey = '{{ $rcSiteKey }}';
-  var form    = document.getElementById('uye-ol-form');
-  var input   = document.getElementById('uyeol-recaptcha-token');
-
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    grecaptcha.ready(function () {
-      grecaptcha.execute(siteKey, { action: 'uye_ol' }).then(function (token) {
-        input.value = token;
-        form.submit();
-      });
-    });
-  });
-})();
-</script>
+@if(app(\App\Services\RecaptchaService::class)->aktif())
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endif
 @endpush

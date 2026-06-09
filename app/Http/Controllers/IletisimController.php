@@ -22,11 +22,13 @@ class IletisimController extends Controller
             'mesaj'   => 'required|string|min:10|max:2000',
         ]);
 
-        $token = $request->input('recaptcha_token', '');
-        if ($recaptcha->siteKey() && ! $recaptcha->dogrula($token, $request->ip())) {
-            return back()
-                ->withInput()
-                ->withErrors(['recaptcha_token' => 'Güvenlik doğrulaması başarısız. Lütfen tekrar deneyin.']);
+        if ($recaptcha->aktif()) {
+            $token = $request->input('g-recaptcha-response', '');
+            if (empty($token) || ! $recaptcha->dogrula($token, $request->ip())) {
+                return back()
+                    ->withInput()
+                    ->withErrors(['recaptcha' => 'Lütfen "Ben robot değilim" kutucuğunu işaretleyin.']);
+            }
         }
 
         \App\Models\IletisimMesaji::create([

@@ -12,13 +12,18 @@ class RecaptchaService
         return icerik('sistem', 'recaptcha_site_key', config('services.recaptcha.site') ?? '');
     }
 
+    public function aktif(): bool
+    {
+        return $this->siteKey() !== '';
+    }
+
+    // reCAPTCHA v2 doğrulama — score yok, sadece success kontrolü
     public function dogrula(string $token, string $ip): bool
     {
-        $secret  = icerik('sistem', 'recaptcha_secret_key', config('services.recaptcha.secret') ?? '');
-        $minSkor = (float) icerik('sistem', 'recaptcha_min_score', config('services.recaptcha.score') ?? '0.5');
+        $secret = icerik('sistem', 'recaptcha_secret_key', config('services.recaptcha.secret') ?? '');
 
         if (empty($secret)) {
-            return true; // Anahtar tanımlı değilse geç (geliştirme ortamı)
+            return true;
         }
 
         try {
@@ -28,7 +33,7 @@ class RecaptchaService
                 'remoteip' => $ip,
             ])->json();
 
-            return ($yanit['success'] ?? false) && (($yanit['score'] ?? 0) >= $minSkor);
+            return $yanit['success'] ?? false;
         } catch (\Throwable $e) {
             Log::warning('reCAPTCHA doğrulaması başarısız', ['hata' => $e->getMessage()]);
             return false;

@@ -263,11 +263,10 @@ class IcerikController extends Controller
             'sistem' => [
                 'baslik'   => 'Sistem Ayarları',
                 'ikon'     => 'ti-shield-lock',
-                'aciklama' => 'reCAPTCHA anahtarları ve sistem güvenlik ayarları',
+                'aciklama' => 'Google reCAPTCHA v2 anahtarları — google.com/recaptcha/admin adresinden "reCAPTCHA v2 → Checkbox" türünde alın',
                 'alanlar'  => [
-                    ['alan' => 'recaptcha_site_key',   'baslik' => 'reCAPTCHA Site Anahtarı (public)',  'tip' => 'metin', 'sira' => 1],
-                    ['alan' => 'recaptcha_secret_key', 'baslik' => 'reCAPTCHA Gizli Anahtar (secret)',  'tip' => 'metin', 'sira' => 2],
-                    ['alan' => 'recaptcha_min_score',  'baslik' => 'reCAPTCHA Min. Skor (0.0–1.0, önerilen: 0.5)', 'tip' => 'metin', 'sira' => 3],
+                    ['alan' => 'recaptcha_site_key',   'baslik' => 'reCAPTCHA Site Anahtarı (public key)',  'tip' => 'metin', 'sira' => 1],
+                    ['alan' => 'recaptcha_secret_key', 'baslik' => 'reCAPTCHA Gizli Anahtar (secret key)', 'tip' => 'metin', 'sira' => 2],
                 ],
             ],
             'iletisim' => [
