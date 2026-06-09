@@ -16,6 +16,7 @@ use App\Http\Controllers\TeklifController;
 use App\Http\Controllers\HesabimController;
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\SiparisController as AdminSiparisController;
+use App\Http\Controllers\Admin\DeployController;
 use App\Http\Controllers\PremiumController;
 use App\Http\Controllers\SoyAgaciController;
 use App\Http\Controllers\HaberController;
@@ -182,6 +183,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('soy-agaci', [Admin\SoyAgaciController::class, 'index'])->name('soy-agaci.index');
         Route::post('soy-agaci/{degisiklik}/karar', [Admin\SoyAgaciController::class, 'karar'])->name('soy-agaci.karar');
+
+        Route::get('guncelle', [DeployController::class, 'index'])->name('deploy.index');
+        Route::post('guncelle', [DeployController::class, 'guncelle'])->name('deploy.guncelle');
     });
 
     // Katalog Oluşturucu — admin + izinli premium üyeler erişebilir
