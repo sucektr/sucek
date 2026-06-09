@@ -245,11 +245,6 @@ $tocAdi    = fn($urun) => $icindekiler[$urun->id] ?? $icindekiler[(string)$urun-
         </div>
     </div>
 
-    {{-- Sayfa numarası --}}
-    <div style="margin-top:12px;padding-top:7px;border-top:1px solid #F1F5F9;">
-        <span style="font-size:10px;color:#CBD5E1;">{{ $i + 1 }} / {{ $urunler->count() }}</span>
-    </div>
-
     <div style="margin:0 -20mm -18mm;">
         <div style="height:3px;background:#B8962E;"></div>
         <div style="height:8px;background:#0F172A;"></div>

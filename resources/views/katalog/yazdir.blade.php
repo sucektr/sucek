@@ -185,10 +185,6 @@ $tocAdi    = fn($urun) => $icindekiler[$urun->id] ?? $icindekiler[(string)$urun-
         </div>
     </div>
 
-    <div style="margin-top:16px;padding-top:8px;border-top:1px solid rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center;">
-        <span style="font-size:10px;color:#C0C0C0;">{{ $i + 1 }} / {{ $urunler->count() }}</span>
-        <span style="font-size:7px;letter-spacing:.08em;color:#C0C0C0;text-transform:uppercase;font-family:'DM Sans',sans-serif;">{{ $kapak['marka'] ?? 'SUÇEK' }}</span>
-    </div>
 
 </div>
 @endforeach
