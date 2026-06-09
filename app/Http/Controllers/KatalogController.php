@@ -31,12 +31,20 @@ class KatalogController extends Controller
 
         $kapakVarsayilan = [
             'marka'       => 'SUÇEK',
+            'marka2'      => '',
+            'logo'        => '',
             'kurum'       => '',
             'ihale_no'    => '',
             'ihale_tarih' => '',
+            'ihale_yeri'  => '',
             'ihale_saat'  => '',
             'ekstralar'   => [],
-            'logo'        => '',
+            'stiller'     => [
+                'kurum_font'   => 'inter',
+                'kurum_boyut'  => 52,
+                'baslik_boyut' => 19,
+                'vurgu_renk'   => '#B8962E',
+            ],
         ];
         $kapakBirlestir = array_merge($kapakVarsayilan, array_filter($kapakBase, fn($v) => $v !== null && $v !== ''));
         if (!isset($kapakBirlestir['ekstralar']) || !is_array($kapakBirlestir['ekstralar'])) {
@@ -51,17 +59,22 @@ class KatalogController extends Controller
 
     public function urunler(Request $request)
     {
-        $q = Urun::query();
-        if ($request->filled('ara')) $q->where('ad', 'like', '%' . $request->ara . '%');
-        if ($request->filled('kategori')) $q->where('kategori', $request->kategori);
+        try {
+            $q = Urun::where('aktif', true);
+            if ($request->filled('ara')) $q->where('ad', 'like', '%' . $request->ara . '%');
+            if ($request->filled('kategori')) $q->where('kategori', $request->kategori);
 
-        $adminUrunler = $q->orderBy('ad')->get()->map(fn($u) => $this->urunDizi($u));
+            $adminUrunler = $q->orderBy('ad')->get()->map(fn($u) => $this->urunDizi($u))->values();
 
-        $uq = UserUrun::where('user_id', auth()->id());
-        if ($request->filled('ara')) $uq->where('ad', 'like', '%' . $request->ara . '%');
-        $userUrunler = $uq->orderBy('ad')->get()->map(fn($u) => $this->userUrunDizi($u));
+            $uq = UserUrun::where('user_id', auth()->id());
+            if ($request->filled('ara')) $uq->where('ad', 'like', '%' . $request->ara . '%');
+            $userUrunler = $uq->orderBy('ad')->get()->map(fn($u) => $this->userUrunDizi($u))->values();
 
-        return $adminUrunler->merge($userUrunler)->values();
+            $hepsi = $adminUrunler->concat($userUrunler)->values();
+            return response()->json($hepsi);
+        } catch (\Throwable $e) {
+            return response()->json(['hata' => $e->getMessage()], 500);
+        }
     }
 
     public function kaydet(Request $request)

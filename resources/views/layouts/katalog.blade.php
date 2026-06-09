@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 
   @vite(['resources/css/app.css', 'resources/js/app.js'])
+  <style>[x-cloak]{display:none!important;}</style>
   @stack('styles')
 </head>
 <body

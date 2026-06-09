@@ -8,4 +8,9 @@ class UserUrun extends Model
 {
     protected $table = 'user_urunler';
     protected $fillable = ['user_id', 'ad', 'gorsel', 'aciklama'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

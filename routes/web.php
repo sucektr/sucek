@@ -184,6 +184,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('soy-agaci', [Admin\SoyAgaciController::class, 'index'])->name('soy-agaci.index');
         Route::post('soy-agaci/{degisiklik}/karar', [Admin\SoyAgaciController::class, 'karar'])->name('soy-agaci.karar');
 
+        Route::get('uye-urunleri', [Admin\UyeUrunController::class, 'index'])->name('uye-urunleri.index');
+        Route::get('uye-urunleri/{id}/donustur', [Admin\UyeUrunController::class, 'donustur'])->name('uye-urunleri.donustur');
+        Route::post('uye-urunleri/{id}/kaydet', [Admin\UyeUrunController::class, 'kaydet'])->name('uye-urunleri.kaydet');
+
         Route::get('guncelle', [DeployController::class, 'index'])->name('deploy.index');
         Route::post('guncelle', [DeployController::class, 'guncelle'])->name('deploy.guncelle');
     });

@@ -65,7 +65,16 @@ class KatalogController extends Controller
         if ($request->filled('ara')) $q->where('ad', 'like', '%' . $request->ara . '%');
         if ($request->filled('kategori')) $q->where('kategori', $request->kategori);
 
-        return $q->orderBy('ad')->get()->map(fn($u) => $this->urunDizi($u));
+        $adminUrunler = $q->orderBy('ad')->get()->map(fn($u) => $this->urunDizi($u))->values();
+
+        if (!auth()->user()->is_admin) {
+            $uq = UserUrun::where('user_id', auth()->id());
+            if ($request->filled('ara')) $uq->where('ad', 'like', '%' . $request->ara . '%');
+            $userUrunler = $uq->orderBy('ad')->get()->map(fn($u) => $this->userUrunDizi($u))->values();
+            return response()->json($adminUrunler->concat($userUrunler)->values());
+        }
+
+        return response()->json($adminUrunler);
     }
 
     public function kaydet(Request $request)
@@ -154,6 +163,18 @@ class KatalogController extends Controller
             'gorsel'   => $u->gorsel ? asset('storage/' . $u->gorsel) : null,
             'aciklama' => $u->aciklama ?? '',
             'tip'      => 'admin',
+        ];
+    }
+
+    private function userUrunDizi(UserUrun $u): array
+    {
+        return [
+            'id'       => 'u' . $u->id,
+            'ad'       => $u->ad,
+            'kategori' => 'Kişisel',
+            'gorsel'   => $u->gorsel ? asset('storage/' . $u->gorsel) : null,
+            'aciklama' => $u->aciklama ?? '',
+            'tip'      => 'kullanici',
         ];
     }
 }

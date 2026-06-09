@@ -76,6 +76,13 @@
     <a href="{{ route('admin.erisim.index') }}" class="nav-link {{ request()->routeIs('admin.erisim.*') ? 'active' : '' }}">
       <i class="ti ti-shield-lock"></i> Erişim Yetkileri
     </a>
+    @php $bekleyenUrunSayisi = \App\Models\UserUrun::count(); @endphp
+    <a href="{{ route('admin.uye-urunleri.index') }}" class="nav-link {{ request()->routeIs('admin.uye-urunleri.*') ? 'active' : '' }}">
+      <i class="ti ti-box"></i> Üye Ürünleri
+      @if($bekleyenUrunSayisi > 0)
+        <span class="badge-red">{{ $bekleyenUrunSayisi }}</span>
+      @endif
+    </a>
 
     <div class="nav-section mt-2">Araçlar</div>
     <a href="{{ route('admin.katalog.index') }}" class="nav-link {{ request()->routeIs('admin.katalog.*') ? 'active' : '' }}">
