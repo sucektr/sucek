@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 class DeployController extends Controller
 {
@@ -14,22 +15,14 @@ class DeployController extends Controller
 
     public function guncelle(Request $request)
     {
-        $kok     = base_path();
-        $php     = PHP_BINARY;
-        $artisan = $kok . '/artisan';
-
-        $adimlar = [
-            'git remote'     => "cd \"{$kok}\" && git remote set-url origin https://github.com/sucektr/sucek.git 2>&1",
-            'git pull'       => "cd \"{$kok}\" && git pull origin main 2>&1",
-            'migrate'        => "\"{$php}\" \"{$artisan}\" migrate --force 2>&1",
-            'config:cache'   => "\"{$php}\" \"{$artisan}\" config:cache 2>&1",
-            'route:cache'    => "\"{$php}\" \"{$artisan}\" route:cache 2>&1",
-            'view:cache'     => "\"{$php}\" \"{$artisan}\" view:cache 2>&1",
-            'storage:link'   => "\"{$php}\" \"{$artisan}\" storage:link 2>&1",
-        ];
-
+        $kok = base_path();
         $sonuclar = [];
-        foreach ($adimlar as $ad => $komut) {
+
+        // ── Git adımları (exec gerekli) ───────────────────────────────────
+        foreach ([
+            'git remote' => "cd \"{$kok}\" && git remote set-url origin https://github.com/sucektr/sucek.git 2>&1",
+            'git pull'   => "cd \"{$kok}\" && git pull origin main 2>&1",
+        ] as $ad => $komut) {
             $cikti = [];
             $kod   = 0;
             exec($komut, $cikti, $kod);
@@ -38,9 +31,35 @@ class DeployController extends Controller
                 'cikti'    => implode("\n", $cikti),
                 'basarili' => $kod === 0,
             ];
-            if (in_array($ad, ['git remote', 'git pull']) && $kod !== 0) {
-                break;
+            if ($kod !== 0) {
+                return view('admin.deploy.index', compact('sonuclar'));
             }
+        }
+
+        // ── Artisan adımları (PHP içinde) ────────────────────────────────
+        $artisanAdimlar = [
+            'migrate'       => fn() => Artisan::call('migrate', ['--force' => true]),
+            'config:cache'  => fn() => Artisan::call('config:cache'),
+            'route:cache'   => fn() => Artisan::call('route:cache'),
+            'view:cache'    => fn() => Artisan::call('view:cache'),
+            'storage:link'  => fn() => Artisan::call('storage:link', ['--force' => true]),
+        ];
+
+        foreach ($artisanAdimlar as $ad => $calistir) {
+            try {
+                $kod    = $calistir();
+                $cikti  = Artisan::output();
+                $basarili = $kod === 0;
+            } catch (\Throwable $e) {
+                $cikti    = $e->getMessage();
+                $basarili = false;
+            }
+
+            $sonuclar[] = [
+                'ad'       => $ad,
+                'cikti'    => trim($cikti),
+                'basarili' => $basarili,
+            ];
         }
 
         return view('admin.deploy.index', compact('sonuclar'));
