@@ -19,6 +19,13 @@
 
 @section('content')
 
+@if(session('basari'))
+<div class="mx-4 lg:mx-8 mt-4 flex items-center gap-3 bg-[#E6F4EC] border border-[#9DD4B5] text-[#1A5C3A] rounded-[10px] px-5 py-4 text-[13px]" role="alert">
+  <i class="ti ti-circle-check text-lg shrink-0"></i>
+  <span>{{ session('basari') }}</span>
+</div>
+@endif
+
 {{-- ─── Hero Accordion ─────────────────────────────────────────────────── --}}
 
 {{-- Mobile: 2×2 basit grid (md altı) --}}
@@ -510,7 +517,7 @@
     </div>
 
     {{-- Form --}}
-    <form action="{{ route('iletisim.gonder') }}" method="POST" class="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-sm flex flex-col" novalidate>
+    <form id="anasayfa-iletisim-form" action="{{ route('iletisim.gonder') }}" method="POST" class="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-sm flex flex-col" novalidate>
       @csrf
       <input type="hidden" name="kaynak" value="iletisim">
       <h3 class="text-[15px] font-bold text-[#0F172A] border-b border-[#E2E8F0] pb-4 mb-5">Mesaj Gönder</h3>
@@ -542,6 +549,12 @@
           @error('mesaj')<p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>@enderror
         </div>
       </div>
+      @php $rcKey = app(\App\Services\RecaptchaService::class)->siteKey(); @endphp
+      @if($rcKey)
+      <div class="g-recaptcha mt-1" data-sitekey="{{ $rcKey }}" data-theme="light"></div>
+      @error('recaptcha')<p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>@enderror
+      @endif
+
       <button type="submit"
               class="mt-5 w-full bg-[#CC2200] text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-[#a31b00] active:scale-[0.98] transition-all duration-200 min-h-[44px] flex items-center justify-center gap-2">
         <i class="ti ti-send text-base" aria-hidden="true"></i>Gönder
@@ -554,6 +567,9 @@
 @endsection
 
 @push('scripts')
+@if(app(\App\Services\RecaptchaService::class)->aktif())
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+@endif
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 (function () {
