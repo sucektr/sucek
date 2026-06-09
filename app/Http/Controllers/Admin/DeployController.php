@@ -38,11 +38,14 @@ class DeployController extends Controller
 
         // ── Artisan adımları (PHP içinde) ────────────────────────────────
         $artisanAdimlar = [
-            'migrate'       => fn() => Artisan::call('migrate', ['--force' => true]),
-            'config:cache'  => fn() => Artisan::call('config:cache'),
-            'route:cache'   => fn() => Artisan::call('route:cache'),
-            'view:cache'    => fn() => Artisan::call('view:cache'),
-            'storage:link'  => fn() => Artisan::call('storage:link', ['--force' => true]),
+            'migrate'        => fn() => Artisan::call('migrate', ['--force' => true]),
+            'config:clear'   => fn() => Artisan::call('config:clear'),
+            'config:cache'   => fn() => Artisan::call('config:cache'),
+            'route:clear'    => fn() => Artisan::call('route:clear'),
+            'route:cache'    => fn() => Artisan::call('route:cache'),
+            'view:clear'     => fn() => Artisan::call('view:clear'),
+            'view:cache'     => fn() => Artisan::call('view:cache'),
+            'storage:link'   => fn() => Artisan::call('storage:link', ['--force' => true]),
         ];
 
         foreach ($artisanAdimlar as $ad => $calistir) {
