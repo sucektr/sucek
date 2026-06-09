@@ -46,7 +46,7 @@
 @endpush
 
 @section('content')
-<div style="flex:1;overflow-y:auto;background:#F5F5F5;" x-data="urunlerim()">
+<div style="flex:1;overflow-y:auto;background:#F5F5F5;" x-data="urunlerim()" @paste.window="modalAcik && gorselYapistir($event)">
 
   <div class="um-wrap">
 
@@ -110,11 +110,16 @@
 
         <div style="margin-bottom:16px;">
           <label class="um-label">Görsel</label>
-          <div class="um-gorsel-preview" @click="$refs.gorselInput.click()">
+          <div @click="$refs.gorselInput.click()"
+               @dragover.prevent="dragUzerinde=true"
+               @dragleave.prevent="dragUzerinde=false"
+               @drop.prevent="gorselBirak($event)"
+               :class="dragUzerinde ? 'border-[#B8962E] !bg-[#FEFBF0]' : ''"
+               class="um-gorsel-preview">
             <img x-show="gorselOnizleme" :src="gorselOnizleme" style="width:100%;height:140px;object-fit:contain;">
-            <div x-show="!gorselOnizleme" style="text-align:center;color:#B0B0B0;">
+            <div x-show="!gorselOnizleme" style="text-align:center;color:#B0B0B0;pointer-events:none;">
               <i class="ti ti-upload" style="font-size:28px;display:block;margin-bottom:6px;"></i>
-              <span style="font-size:12px;">Tıklayarak görsel yükleyin</span>
+              <span style="font-size:12px;">Tıklayın, sürükleyin veya Ctrl+V</span>
             </div>
           </div>
           <input type="file" accept="image/*" x-ref="gorselInput" @change="gorselSec($event)" style="display:none;">
@@ -151,6 +156,7 @@ function urunlerim() {
         form: { ad: '', aciklama: '' },
         gorselDosya: null,
         gorselOnizleme: null,
+        dragUzerinde: false,
         kaydediliyor: false,
         hatalar: {},
         quill: null,
@@ -201,14 +207,33 @@ function urunlerim() {
             this.modalAcik = false;
         },
 
-        gorselSec: function(event) {
-            var file = event.target.files[0];
-            if (!file) return;
+        gorselIsle: function(file) {
+            if (!file || !file.type.startsWith('image/')) return;
             this.gorselDosya = file;
             var reader = new FileReader();
             var self = this;
             reader.onload = function(e) { self.gorselOnizleme = e.target.result; };
             reader.readAsDataURL(file);
+        },
+
+        gorselSec: function(event) {
+            this.gorselIsle(event.target.files[0]);
+        },
+
+        gorselBirak: function(event) {
+            this.dragUzerinde = false;
+            this.gorselIsle(event.dataTransfer.files[0]);
+        },
+
+        gorselYapistir: function(event) {
+            var items = event.clipboardData && event.clipboardData.items;
+            if (!items) return;
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf('image') !== -1) {
+                    var file = items[i].getAsFile();
+                    if (file) { this.gorselIsle(file); break; }
+                }
+            }
         },
 
         kaydet: function() {

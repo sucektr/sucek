@@ -629,6 +629,7 @@
        x-transition:enter-start="opacity-0 translate-y-1"
        x-transition:enter-end="opacity-100 translate-y-0"
        x-data="urunlerimHesabim()"
+       @paste.window="modalAcik && gorselYapistir($event)"
        style="display:none;">
 
     {{-- Başlık --}}
@@ -717,11 +718,15 @@
           <div>
             <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">Görsel</label>
             <div @click="$refs.hGorselInput.click()"
-                 class="w-full h-36 border-2 border-dashed border-[rgba(0,0,0,0.15)] rounded-[8px] flex items-center justify-center overflow-hidden bg-[#FAFAFA] hover:border-[#B8962E] cursor-pointer transition-colors">
+                 @dragover.prevent="dragUzerinde=true"
+                 @dragleave.prevent="dragUzerinde=false"
+                 @drop.prevent="gorselBirak($event)"
+                 :class="dragUzerinde ? 'border-[#B8962E] bg-[#FEFBF0]' : 'border-[rgba(0,0,0,0.15)] bg-[#FAFAFA] hover:border-[#B8962E]'"
+                 class="w-full h-36 border-2 border-dashed rounded-[8px] flex items-center justify-center overflow-hidden cursor-pointer transition-colors">
               <img x-show="gorselOnizleme" :src="gorselOnizleme" class="w-full h-full object-contain">
-              <div x-show="!gorselOnizleme" class="text-center text-[#B0B0B0]">
+              <div x-show="!gorselOnizleme" class="text-center text-[#B0B0B0] pointer-events-none">
                 <i class="ti ti-upload text-3xl block mb-1"></i>
-                <span class="text-[12px]">Tıklayarak görsel yükleyin</span>
+                <span class="text-[12px]">Tıklayın, sürükleyin veya Ctrl+V</span>
               </div>
             </div>
             <input type="file" accept="image/*" x-ref="hGorselInput" @change="gorselSec($event)" style="display:none;">
@@ -785,6 +790,7 @@ function urunlerimHesabim() {
         form: { ad: '' },
         gorselDosya: null,
         gorselOnizleme: null,
+        dragUzerinde: false,
         kaydediliyor: false,
         hatalar: {},
 
@@ -837,14 +843,33 @@ function urunlerimHesabim() {
             this.modalAcik = false;
         },
 
-        gorselSec: function(event) {
-            var file = event.target.files[0];
-            if (!file) return;
+        gorselIsle: function(file) {
+            if (!file || !file.type.startsWith('image/')) return;
             this.gorselDosya = file;
             var reader = new FileReader();
             var self = this;
             reader.onload = function(e) { self.gorselOnizleme = e.target.result; };
             reader.readAsDataURL(file);
+        },
+
+        gorselSec: function(event) {
+            this.gorselIsle(event.target.files[0]);
+        },
+
+        gorselBirak: function(event) {
+            this.dragUzerinde = false;
+            this.gorselIsle(event.dataTransfer.files[0]);
+        },
+
+        gorselYapistir: function(event) {
+            var items = event.clipboardData && event.clipboardData.items;
+            if (!items) return;
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf('image') !== -1) {
+                    var file = items[i].getAsFile();
+                    if (file) { this.gorselIsle(file); break; }
+                }
+            }
         },
 
         kaydet: function() {
