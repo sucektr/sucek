@@ -15,17 +15,15 @@ class IletisimController extends Controller
     public function gonder(Request $request, RecaptchaService $recaptcha)
     {
         $validated = $request->validate([
-            'ad'               => 'required|string|max:100',
-            'email'            => 'required|email|max:150',
-            'telefon'          => 'nullable|string|max:20',
-            'konu'             => 'nullable|string|max:150',
-            'mesaj'            => 'required|string|min:10|max:2000',
-            'recaptcha_token'  => 'required|string',
-        ], [
-            'recaptcha_token.required' => 'Güvenlik doğrulaması eksik. Lütfen sayfayı yenileyip tekrar deneyin.',
+            'ad'      => 'required|string|max:100',
+            'email'   => 'required|email|max:150',
+            'telefon' => 'nullable|string|max:20',
+            'konu'    => 'nullable|string|max:150',
+            'mesaj'   => 'required|string|min:10|max:2000',
         ]);
 
-        if (! $recaptcha->dogrula($request->input('recaptcha_token'), $request->ip())) {
+        $token = $request->input('recaptcha_token', '');
+        if ($recaptcha->siteKey() && ! $recaptcha->dogrula($token, $request->ip())) {
             return back()
                 ->withInput()
                 ->withErrors(['recaptcha_token' => 'Güvenlik doğrulaması başarısız. Lütfen tekrar deneyin.']);

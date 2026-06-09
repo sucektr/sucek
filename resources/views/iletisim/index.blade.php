@@ -233,10 +233,12 @@
 @endsection
 
 @push('scripts')
-<script src="https://www.google.com/recaptcha/api.js?render={{ app(\App\Services\RecaptchaService::class)->siteKey() }}"></script>
+@php $rcSiteKey = app(\App\Services\RecaptchaService::class)->siteKey(); @endphp
+@if($rcSiteKey)
+<script src="https://www.google.com/recaptcha/api.js?render={{ $rcSiteKey }}"></script>
 <script>
 (function () {
-  var siteKey = '{{ app(\App\Services\RecaptchaService::class)->siteKey() }}';
+  var siteKey = '{{ $rcSiteKey }}';
   var form    = document.getElementById('iletisim-form');
   var input   = document.getElementById('iletisim-recaptcha-token');
 
@@ -251,6 +253,7 @@
   });
 })();
 </script>
+@endif
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 (function () {

@@ -18,21 +18,20 @@ class RegisterController extends Controller
     public function uyeOl(Request $request, RecaptchaService $recaptcha)
     {
         $request->validate([
-            'name'                  => 'required|string|max:100',
-            'email'                 => 'required|email|unique:users,email',
-            'password'              => 'required|min:8|confirmed',
-            'recaptcha_token'       => 'required|string',
+            'name'     => 'required|string|max:100',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|min:8|confirmed',
         ], [
-            'name.required'         => 'Ad Soyad zorunludur.',
-            'email.required'        => 'E-posta zorunludur.',
-            'email.unique'          => 'Bu e-posta zaten kayıtlı.',
-            'password.required'     => 'Şifre zorunludur.',
-            'password.min'          => 'Şifre en az 8 karakter olmalı.',
-            'password.confirmed'    => 'Şifreler eşleşmiyor.',
-            'recaptcha_token.required' => 'Güvenlik doğrulaması eksik. Lütfen sayfayı yenileyip tekrar deneyin.',
+            'name.required'      => 'Ad Soyad zorunludur.',
+            'email.required'     => 'E-posta zorunludur.',
+            'email.unique'       => 'Bu e-posta zaten kayıtlı.',
+            'password.required'  => 'Şifre zorunludur.',
+            'password.min'       => 'Şifre en az 8 karakter olmalı.',
+            'password.confirmed' => 'Şifreler eşleşmiyor.',
         ]);
 
-        if (! $recaptcha->dogrula($request->input('recaptcha_token'), $request->ip())) {
+        $token = $request->input('recaptcha_token', '');
+        if ($recaptcha->siteKey() && ! $recaptcha->dogrula($token, $request->ip())) {
             return back()
                 ->withInput()
                 ->withErrors(['recaptcha_token' => 'Güvenlik doğrulaması başarısız. Lütfen tekrar deneyin.']);
