@@ -69,9 +69,10 @@
       </div>
       @endif
 
-      <form action="{{ route('uye-ol.post') }}" method="POST" class="space-y-5"
+      <form id="uye-ol-form" action="{{ route('uye-ol.post') }}" method="POST" class="space-y-5"
             x-data="{ showPass: false, showPass2: false }">
         @csrf
+        <input type="hidden" name="recaptcha_token" id="uyeol-recaptcha-token">
 
         <div>
           <label for="name" class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.08em] mb-2">Ad Soyad</label>
@@ -118,10 +119,15 @@
           Hesap Oluştur
         </button>
 
+        @error('recaptcha_token')
+          <p class="text-[11px] text-[#CC2200] text-center">{{ $message }}</p>
+        @enderror
+
         <p class="text-[11px] text-[#A8A8A8] text-center leading-relaxed">
           Üye olarak
           <a href="{{ route('yasal', 'kisisel-verilerin-korunmasi') }}" class="underline hover:text-[#0F0F0F]">Kişisel Verilerin Korunması</a> ve
           <a href="{{ route('yasal', 'gizlilik-politikasi') }}" class="underline hover:text-[#0F0F0F]">Gizlilik Politikası</a>'nı kabul etmiş olursunuz.
+          <br>Bu site Google reCAPTCHA ile korunmaktadır.
         </p>
       </form>
 
@@ -137,3 +143,24 @@
 
 </div>
 @endsection
+
+@push('scripts')
+<script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site') }}"></script>
+<script>
+(function () {
+  var siteKey = '{{ config('services.recaptcha.site') }}';
+  var form    = document.getElementById('uye-ol-form');
+  var input   = document.getElementById('uyeol-recaptcha-token');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    grecaptcha.ready(function () {
+      grecaptcha.execute(siteKey, { action: 'uye_ol' }).then(function (token) {
+        input.value = token;
+        form.submit();
+      });
+    });
+  });
+})();
+</script>
+@endpush

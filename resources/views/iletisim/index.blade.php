@@ -112,9 +112,10 @@
 
     {{-- Form --}}
     <div>
-      <form action="{{ route('iletisim.gonder') }}" method="POST" class="space-y-4" novalidate>
+      <form id="iletisim-form" action="{{ route('iletisim.gonder') }}" method="POST" class="space-y-4" novalidate>
         @csrf
         <input type="hidden" name="kaynak" value="iletisim">
+        <input type="hidden" name="recaptcha_token" id="iletisim-recaptcha-token">
 
         <div class="grid sm:grid-cols-2 gap-4">
           <div>
@@ -169,7 +170,14 @@
           Mesajı Gönder
         </button>
 
-        <p class="text-[11px] text-[#A8A8A8] text-center">Genellikle 1 iş günü içinde dönüş yapıyoruz.</p>
+        @error('recaptcha_token')
+          <p class="text-[11px] text-[#CC2200] text-center">{{ $message }}</p>
+        @enderror
+
+        <p class="text-[11px] text-[#A8A8A8] text-center">
+          Genellikle 1 iş günü içinde dönüş yapıyoruz.
+          <br>Bu site Google reCAPTCHA ile korunmaktadır.
+        </p>
       </form>
     </div>
 
@@ -225,6 +233,24 @@
 @endsection
 
 @push('scripts')
+<script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site') }}"></script>
+<script>
+(function () {
+  var siteKey = '{{ config('services.recaptcha.site') }}';
+  var form    = document.getElementById('iletisim-form');
+  var input   = document.getElementById('iletisim-recaptcha-token');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    grecaptcha.ready(function () {
+      grecaptcha.execute(siteKey, { action: 'iletisim' }).then(function (token) {
+        input.value = token;
+        form.submit();
+      });
+    });
+  });
+})();
+</script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 (function () {

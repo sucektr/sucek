@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\RecaptchaService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -14,12 +15,13 @@ class RegisterController extends Controller
         return view('auth.uye-ol');
     }
 
-    public function uyeOl(Request $request)
+    public function uyeOl(Request $request, RecaptchaService $recaptcha)
     {
         $request->validate([
             'name'                  => 'required|string|max:100',
             'email'                 => 'required|email|unique:users,email',
             'password'              => 'required|min:8|confirmed',
+            'recaptcha_token'       => 'required|string',
         ], [
             'name.required'         => 'Ad Soyad zorunludur.',
             'email.required'        => 'E-posta zorunludur.',
@@ -27,7 +29,14 @@ class RegisterController extends Controller
             'password.required'     => 'Şifre zorunludur.',
             'password.min'          => 'Şifre en az 8 karakter olmalı.',
             'password.confirmed'    => 'Şifreler eşleşmiyor.',
+            'recaptcha_token.required' => 'Güvenlik doğrulaması eksik. Lütfen sayfayı yenileyip tekrar deneyin.',
         ]);
+
+        if (! $recaptcha->dogrula($request->input('recaptcha_token'), $request->ip())) {
+            return back()
+                ->withInput()
+                ->withErrors(['recaptcha_token' => 'Güvenlik doğrulaması başarısız. Lütfen tekrar deneyin.']);
+        }
 
         $user = User::create([
             'name'     => $request->name,
