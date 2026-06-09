@@ -59,9 +59,6 @@ jobs:
             PHP="${{ secrets.PHP_BIN }}"
             COMPOSER="${{ secrets.COMPOSER_BIN }}"
 
-            # Bağımlılıkları kur
-            $PHP $COMPOSER install --no-dev --optimize-autoloader --no-interaction
-
             # Cache'leri temizle ve yeniden oluştur
             $PHP artisan config:clear
             $PHP artisan route:clear
