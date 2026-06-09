@@ -16,6 +16,7 @@
 #ks-quill .ql-editor{color:rgba(255,255,255,0.9);min-height:80px;font-size:12px;line-height:1.7;padding:8px 10px;}
 #ks-quill .ql-editor.ql-blank::before{color:rgba(255,255,255,0.25);font-style:normal;}
 </style>
+<style>
 [x-cloak]{display:none!important;}
 .katalog-builder{display:flex;height:100%;overflow:hidden;}
 .kb-side{width:320px;flex-shrink:0;background:#0F172A;display:flex;flex-direction:column;overflow-y:auto;}
