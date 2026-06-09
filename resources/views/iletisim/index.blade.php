@@ -1,0 +1,245 @@
+@extends('layouts.app')
+
+@section('title', 'İletişim — SUÇEK')
+@section('meta-description', 'SUÇEK ile iletişime geçin. Mimarlık, inşaat ve koleksiyon hizmetlerimiz hakkında bilgi alın.')
+
+@push('styles')
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+@endpush
+
+@section('content')
+
+{{-- Hero --}}
+<section class="relative overflow-hidden min-h-[220px] flex items-end" aria-label="İletişim hero">
+  <div class="absolute inset-0 bg-[#141414]"></div>
+  <div class="absolute inset-0 opacity-[0.06]"
+       style="background-image: repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 50%); background-size: 20px 20px;"></div>
+  <div class="relative z-10 px-9 lg:px-14 py-12 w-full">
+    <p class="text-[9px] font-medium tracking-[3px] uppercase text-[rgba(255,255,255,0.40)] mb-2">İLETİŞİM</p>
+    <h1 class="font-display text-[36px] lg:text-[48px] font-semibold text-white leading-[1.1]">
+      {{ icerik('iletisim','hero_baslik','Bize Ulaşın') }}
+    </h1>
+    <p class="text-[13px] text-[rgba(255,255,255,0.45)] mt-2 max-w-md">
+      {{ icerik('iletisim','hero_alt_baslik','Projeleriniz ve hizmetlerimiz hakkında konuşalım.') }}
+    </p>
+  </div>
+</section>
+
+{{-- Başarı Mesajı --}}
+@if(session('basari'))
+<div class="mx-9 lg:mx-14 mt-6 flex items-start gap-3 bg-[#E6F4EC] border border-[#9DD4B5] text-[#1A5C3A] rounded-[10px] px-5 py-4 text-[13px]" role="alert">
+  <i class="ti ti-circle-check text-lg mt-0.5 shrink-0"></i>
+  <span>{{ session('basari') }}</span>
+</div>
+@endif
+
+{{-- Bilgi Kartları + Harita --}}
+<section class="section" aria-label="İletişim bilgileri">
+  <div class="grid lg:grid-cols-5 gap-8">
+
+    {{-- Sol: Bilgi Kartları --}}
+    <div class="lg:col-span-2 flex flex-col gap-3">
+
+      <div class="flex items-start gap-4 bg-white border border-[rgba(0,0,0,0.07)] rounded-[14px] p-5">
+        <div class="w-10 h-10 rounded-[10px] bg-[#F0F0F0] flex items-center justify-center shrink-0">
+          <i class="ti ti-map-pin text-[#0F0F0F] text-lg"></i>
+        </div>
+        <div>
+          <p class="text-[9px] font-medium tracking-[2px] uppercase text-[#A8A8A8] mb-1">ADRES</p>
+          <p class="text-[14px] font-medium text-[#0F0F0F] leading-snug">{{ icerik('site','adres','Kazım Karabekir Mah. Misaki-i Milli Cad. No: 6/A Etimesgut, Ankara') }}</p>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-4 bg-white border border-[rgba(0,0,0,0.07)] rounded-[14px] p-5">
+        <div class="w-10 h-10 rounded-[10px] bg-[#F0F0F0] flex items-center justify-center shrink-0">
+          <i class="ti ti-phone text-[#0F0F0F] text-lg"></i>
+        </div>
+        <div>
+          <p class="text-[9px] font-medium tracking-[2px] uppercase text-[#A8A8A8] mb-1">TELEFON</p>
+          <a href="tel:{{ preg_replace('/[^+\d]/', '', icerik('site','telefon','+905442948402')) }}"
+             class="text-[14px] font-medium text-[#0F0F0F] hover:text-[#CC2200] transition-colors">
+            {{ icerik('site','telefon','+90 (544) 294 84 02') }}
+          </a>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-4 bg-white border border-[rgba(0,0,0,0.07)] rounded-[14px] p-5">
+        <div class="w-10 h-10 rounded-[10px] bg-[#F0F0F0] flex items-center justify-center shrink-0">
+          <i class="ti ti-mail text-[#0F0F0F] text-lg"></i>
+        </div>
+        <div>
+          <p class="text-[9px] font-medium tracking-[2px] uppercase text-[#A8A8A8] mb-1">E-POSTA</p>
+          <a href="mailto:{{ icerik('site','email','info@sucek.com.tr') }}"
+             class="text-[14px] font-medium text-[#0F0F0F] hover:text-[#CC2200] transition-colors">
+            {{ icerik('site','email','info@sucek.com.tr') }}
+          </a>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-4 bg-white border border-[rgba(0,0,0,0.07)] rounded-[14px] p-5">
+        <div class="w-10 h-10 rounded-[10px] bg-[#F0F0F0] flex items-center justify-center shrink-0">
+          <i class="ti ti-clock text-[#0F0F0F] text-lg"></i>
+        </div>
+        <div>
+          <p class="text-[9px] font-medium tracking-[2px] uppercase text-[#A8A8A8] mb-1">ÇALIŞMA SAATLERİ</p>
+          <p class="text-[13px] font-medium text-[#0F0F0F]">{{ icerik('site','calisma_hafta','Pzt–Cum 09:00–18:00') }}</p>
+          <p class="text-[12px] text-[#A8A8A8] mt-0.5">{{ icerik('site','calisma_cumartesi','Cts 10:00–15:00') }}</p>
+          <p class="text-[12px] text-[#A8A8A8] mt-0.5">{{ icerik('site','calisma_pazar','Pazar: Kapalı') }}</p>
+        </div>
+      </div>
+
+    </div>
+
+    {{-- Sağ: OpenStreetMap --}}
+    <div class="lg:col-span-3">
+      <div id="sucek-harita" class="rounded-[16px] overflow-hidden border border-[rgba(0,0,0,0.07)]" style="height:420px;"></div>
+    </div>
+
+  </div>
+</section>
+
+{{-- İletişim Formu --}}
+<section class="section border-t border-[rgba(0,0,0,0.06)]" aria-label="Mesaj formu">
+
+  <div class="mb-8">
+    <p class="text-[9px] font-medium tracking-[3px] uppercase text-[#A8A8A8] mb-1.5">MESAJ GÖNDERIN</p>
+    <h2 class="font-display text-[28px] lg:text-[36px] font-semibold text-[#0F0F0F]">
+      {{ icerik('iletisim','form_baslik','Nasıl Yardımcı Olabiliriz?') }}
+    </h2>
+  </div>
+
+  <div class="grid lg:grid-cols-2 gap-12">
+
+    {{-- Form --}}
+    <div>
+      <form action="{{ route('iletisim.gonder') }}" method="POST" class="space-y-4" novalidate>
+        @csrf
+        <input type="hidden" name="kaynak" value="iletisim">
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label for="ad" class="form-label">Ad Soyad <span class="text-[#CC2200]">*</span></label>
+            <input id="ad" name="ad" type="text" required
+                   value="{{ old('ad') }}"
+                   placeholder="Adınız Soyadınız"
+                   class="form-input @error('ad') border-[#CC2200] @enderror"
+                   autocomplete="name">
+            @error('ad')<p class="text-[11px] text-[#CC2200] mt-1.5">{{ $message }}</p>@enderror
+          </div>
+          <div>
+            <label for="email" class="form-label">E-posta <span class="text-[#CC2200]">*</span></label>
+            <input id="email" name="email" type="email" required
+                   value="{{ old('email') }}"
+                   placeholder="ornek@email.com"
+                   class="form-input @error('email') border-[#CC2200] @enderror"
+                   autocomplete="email">
+            @error('email')<p class="text-[11px] text-[#CC2200] mt-1.5">{{ $message }}</p>@enderror
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label for="telefon" class="form-label">Telefon</label>
+            <input id="telefon" name="telefon" type="tel"
+                   value="{{ old('telefon') }}"
+                   placeholder="+90 (___) ___ __ __"
+                   class="form-input"
+                   autocomplete="tel">
+          </div>
+          <div>
+            <label for="konu" class="form-label">Konu</label>
+            <input id="konu" name="konu" type="text"
+                   value="{{ old('konu') }}"
+                   placeholder="Mimarlık, İnşaat, Koleksiyon..."
+                   class="form-input">
+          </div>
+        </div>
+
+        <div>
+          <label for="mesaj" class="form-label">Mesajınız <span class="text-[#CC2200]">*</span></label>
+          <textarea id="mesaj" name="mesaj" rows="6" required
+                    placeholder="Projeniz veya talebiniz hakkında bilgi verin..."
+                    class="form-input resize-none @error('mesaj') border-[#CC2200] @enderror">{{ old('mesaj') }}</textarea>
+          @error('mesaj')<p class="text-[11px] text-[#CC2200] mt-1.5">{{ $message }}</p>@enderror
+        </div>
+
+        <button type="submit"
+                class="w-full flex items-center justify-center gap-2 bg-[#141414] text-white text-[11px] font-semibold tracking-[1.5px] uppercase py-4 rounded-[10px] hover:bg-[#2a2a2a] active:scale-[0.98] transition-all duration-200 min-h-[52px]">
+          <i class="ti ti-send text-sm" aria-hidden="true"></i>
+          Mesajı Gönder
+        </button>
+
+        <p class="text-[11px] text-[#A8A8A8] text-center">Genellikle 1 iş günü içinde dönüş yapıyoruz.</p>
+      </form>
+    </div>
+
+    {{-- Yan Bilgi --}}
+    <div class="flex flex-col gap-6 lg:pl-6 lg:border-l lg:border-[rgba(0,0,0,0.07)]">
+
+      <div>
+        <h3 class="font-display text-[20px] font-semibold text-[#0F0F0F] mb-3">
+          {{ icerik('iletisim','yon_baslik','Projeleriniz İçin Buradayız') }}
+        </h3>
+        <p class="text-[14px] text-[#5A5A5A] leading-relaxed">
+          {{ icerik('iletisim','yon_metin','Mimarlık, inşaat, antika koleksiyon ve mağaza hizmetlerimiz hakkında her türlü soru ve talebiniz için iletişim formunu doldurabilir ya da doğrudan bizimle iletişime geçebilirsiniz.') }}
+        </p>
+      </div>
+
+      <div class="space-y-3">
+        <p class="text-[9px] font-medium tracking-[2px] uppercase text-[#A8A8A8]">HİZMET ALANLARI</p>
+        @foreach([
+          ['ti-building', 'Mimari Tasarım & Ruhsat'],
+          ['ti-home-2', 'Anahtar Teslim İnşaat'],
+          ['ti-diamond', 'Antika & Koleksiyon'],
+          ['ti-shopping-bag', 'Spor & Dekorasyon Mağazası'],
+        ] as [$icon, $label])
+        <div class="flex items-center gap-3 py-2.5 border-b border-[rgba(0,0,0,0.05)]">
+          <i class="ti {{ $icon }} text-[#B8962E] text-base w-5 shrink-0"></i>
+          <span class="text-[13px] font-medium text-[#3A3A3A]">{{ $label }}</span>
+        </div>
+        @endforeach
+      </div>
+
+      <div class="bg-[#141414] rounded-[14px] p-6">
+        <p class="text-[9px] font-medium tracking-[2px] uppercase text-[rgba(255,255,255,0.40)] mb-2">SOSYAL MEDYA</p>
+        <div class="flex gap-3 mt-3">
+          <a href="https://www.instagram.com/sucektr/" target="_blank" rel="noopener" class="w-10 h-10 rounded-[8px] border border-[rgba(255,255,255,0.15)] flex items-center justify-center text-[rgba(255,255,255,0.60)] hover:text-white hover:border-white transition-all" aria-label="Instagram">
+            <i class="ti ti-brand-instagram text-base"></i>
+          </a>
+          <a href="https://www.facebook.com/sucektr/" target="_blank" rel="noopener" class="w-10 h-10 rounded-[8px] border border-[rgba(255,255,255,0.15)] flex items-center justify-center text-[rgba(255,255,255,0.60)] hover:text-white hover:border-white transition-all" aria-label="Facebook">
+            <i class="ti ti-brand-facebook text-base"></i>
+          </a>
+          <a href="https://in.pinterest.com/sucektr/" target="_blank" rel="noopener" class="w-10 h-10 rounded-[8px] border border-[rgba(255,255,255,0.15)] flex items-center justify-center text-[rgba(255,255,255,0.60)] hover:text-white hover:border-white transition-all" aria-label="Pinterest">
+            <i class="ti ti-brand-pinterest text-base"></i>
+          </a>
+          <a href="https://wa.me/905442948402" target="_blank" rel="noopener" class="w-10 h-10 rounded-[8px] border border-[rgba(255,255,255,0.15)] flex items-center justify-center text-[rgba(255,255,255,0.60)] hover:text-white hover:border-white transition-all" aria-label="WhatsApp">
+            <i class="ti ti-brand-whatsapp text-base"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+@endsection
+
+@push('scripts')
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function () {
+  const lat  = parseFloat('{{ icerik("iletisim","harita_lat","39.9501") }}');
+  const lng  = parseFloat('{{ icerik("iletisim","harita_lng","32.7013") }}');
+  const zoom = parseInt('{{ icerik("iletisim","harita_zoom","15") }}');
+
+  const map = L.map('sucek-harita').setView([lat, lng], zoom);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    maxZoom: 19
+  }).addTo(map);
+  L.marker([lat, lng]).addTo(map).bindPopup(
+    '<strong>{{ icerik("site","sirket_adi","SUÇEK") }}</strong><br>{{ icerik("site","adres","Etimesgut, Ankara") }}'
+  ).openPopup();
+})();
+</script>
+@endpush

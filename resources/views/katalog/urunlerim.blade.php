@@ -1,0 +1,258 @@
+@extends('layouts.katalog')
+@section('title', 'Kendi Ürünlerim')
+
+@push('styles')
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+<style>
+.um-wrap{max-width:900px;margin:0 auto;padding:24px 16px;}
+.um-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;}
+.um-btn-add{display:flex;align-items:center;gap:7px;padding:9px 18px;background:#B8962E;color:#0F0F0F;border:none;border-radius:8px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;cursor:pointer;font-family:inherit;transition:background .15s;}
+.um-btn-add:hover{background:#c8a84b;}
+.um-card{background:white;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,0.08);margin-bottom:14px;display:flex;align-items:center;gap:14px;padding:14px 16px;}
+.um-card-img{width:72px;height:72px;border-radius:6px;background:#F0F0F0;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.um-card-img img{width:100%;height:100%;object-fit:cover;}
+.um-card-info{flex:1;min-width:0;}
+.um-card-ad{font-size:14px;font-weight:600;color:#0F0F0F;margin-bottom:3px;}
+.um-card-aciklama{font-size:12px;color:#888;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:480px;}
+.um-card-actions{display:flex;gap:6px;flex-shrink:0;}
+.um-btn-icon{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid rgba(0,0,0,0.12);border-radius:6px;cursor:pointer;color:#666;font-size:14px;transition:all .15s;}
+.um-btn-icon:hover{color:#0F0F0F;border-color:rgba(0,0,0,0.3);}
+.um-btn-icon.del:hover{color:#dc2626;border-color:#dc2626;}
+/* Modal */
+.um-modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;}
+.um-modal{background:white;border-radius:12px;width:100%;max-width:620px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+.um-modal-head{padding:18px 20px 14px;border-bottom:1px solid rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:space-between;}
+.um-modal-body{padding:20px;}
+.um-label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#666;margin-bottom:6px;}
+.um-input{width:100%;padding:9px 12px;border:1px solid rgba(0,0,0,0.2);border-radius:7px;font-size:13px;font-family:inherit;outline:none;transition:border-color .15s;color:#0F0F0F;}
+.um-input:focus{border-color:#B8962E;}
+.um-gorsel-preview{width:100%;height:140px;border:2px dashed rgba(0,0,0,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#FAFAFA;cursor:pointer;transition:border-color .15s;}
+.um-gorsel-preview:hover{border-color:#B8962E;}
+.um-gorsel-preview img{width:100%;height:100%;object-fit:contain;}
+.um-modal-foot{padding:14px 20px;border-top:1px solid rgba(0,0,0,0.08);display:flex;gap:8px;justify-content:flex-end;}
+.um-btn-kaydet{padding:9px 20px;background:#B8962E;color:#0F0F0F;border:none;border-radius:7px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;cursor:pointer;font-family:inherit;}
+.um-btn-kaydet:hover{background:#c8a84b;}
+.um-btn-iptal{padding:9px 16px;background:transparent;color:#666;border:1px solid rgba(0,0,0,0.15);border-radius:7px;font-size:12px;cursor:pointer;font-family:inherit;}
+.um-btn-iptal:hover{background:#F5F5F5;}
+.ql-container{font-size:13px;min-height:120px;}
+.ql-toolbar{border-radius:7px 7px 0 0;}
+.ql-container{border-radius:0 0 7px 7px;}
+</style>
+@endpush
+
+@section('content')
+<div style="flex:1;overflow-y:auto;background:#F5F5F5;" x-data="urunlerim()">
+
+  <div class="um-wrap">
+
+    <div class="um-header">
+      <div>
+        <a href="{{ route('katalog.index') }}"
+           style="font-size:11px;color:#888;text-decoration:none;display:inline-flex;align-items:center;gap:4px;margin-bottom:6px;">
+          <i class="ti ti-arrow-left" style="font-size:10px;"></i> Katalog Oluşturucuya Dön
+        </a>
+        <h1 style="font-size:22px;font-weight:700;color:#0F0F0F;margin:0;">Kendi Ürünlerim</h1>
+        <p style="font-size:12px;color:#888;margin:4px 0 0;">Kataloğa ekleyebileceğin kişisel ürün listesi</p>
+      </div>
+      <button class="um-btn-add" @click="yeniAc()">
+        <i class="ti ti-plus"></i> Ürün Ekle
+      </button>
+    </div>
+
+    <div x-show="urunler.length===0 && !yukleniyor"
+         style="text-align:center;padding:60px 0;color:#C0C0C0;">
+      <i class="ti ti-box-off" style="font-size:48px;display:block;margin-bottom:12px;opacity:.3;"></i>
+      <p style="font-size:14px;margin:0;">Henüz ürün eklemediniz.</p>
+      <p style="font-size:12px;margin:6px 0 0;">Yukarıdaki butona tıklayarak başlayın.</p>
+    </div>
+
+    <template x-for="urun in urunler" :key="urun.id">
+      <div class="um-card">
+        <div class="um-card-img">
+          <img x-show="urun.gorsel" :src="urun.gorsel" :alt="urun.ad">
+          <i x-show="!urun.gorsel" class="ti ti-photo" style="font-size:22px;color:#C0C0C0;"></i>
+        </div>
+        <div class="um-card-info">
+          <div class="um-card-ad" x-text="urun.ad"></div>
+          <div class="um-card-aciklama" x-html="urun.aciklama ? urun.aciklama.replace(/<[^>]+>/g,'').substring(0,120) : '—'"></div>
+        </div>
+        <div class="um-card-actions">
+          <button class="um-btn-icon" @click="duzenleAc(urun)" title="Düzenle"><i class="ti ti-edit"></i></button>
+          <button class="um-btn-icon del" @click="sil(urun.id)" title="Sil"><i class="ti ti-trash"></i></button>
+        </div>
+      </div>
+    </template>
+
+  </div>
+
+  {{-- Modal --}}
+  <div x-show="modalAcik" class="um-modal-bg" @click.self="modalKapat()" x-cloak>
+    <div class="um-modal">
+
+      <div class="um-modal-head">
+        <span style="font-size:15px;font-weight:700;color:#0F0F0F;" x-text="duzenlenenId ? 'Ürünü Düzenle' : 'Yeni Ürün Ekle'"></span>
+        <button @click="modalKapat()" style="background:transparent;border:none;cursor:pointer;font-size:18px;color:#888;line-height:1;">
+          <i class="ti ti-x"></i>
+        </button>
+      </div>
+
+      <div class="um-modal-body">
+        <div style="margin-bottom:16px;">
+          <label class="um-label">Ürün Adı *</label>
+          <input x-model="form.ad" type="text" class="um-input" placeholder="Ürün adını girin…">
+          <p x-show="hatalar.ad" x-text="hatalar.ad" style="font-size:11px;color:#dc2626;margin:4px 0 0;"></p>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <label class="um-label">Görsel</label>
+          <div class="um-gorsel-preview" @click="$refs.gorselInput.click()">
+            <img x-show="gorselOnizleme" :src="gorselOnizleme" style="width:100%;height:140px;object-fit:contain;">
+            <div x-show="!gorselOnizleme" style="text-align:center;color:#B0B0B0;">
+              <i class="ti ti-upload" style="font-size:28px;display:block;margin-bottom:6px;"></i>
+              <span style="font-size:12px;">Tıklayarak görsel yükleyin</span>
+            </div>
+          </div>
+          <input type="file" accept="image/*" x-ref="gorselInput" @change="gorselSec($event)" style="display:none;">
+        </div>
+
+        <div style="margin-bottom:4px;">
+          <label class="um-label">Açıklama / Teknik Özellikler</label>
+          <div id="um-quill-editor" style="background:white;"></div>
+        </div>
+      </div>
+
+      <div class="um-modal-foot">
+        <button class="um-btn-iptal" @click="modalKapat()">İptal</button>
+        <button class="um-btn-kaydet" @click="kaydet()" :disabled="kaydediliyor">
+          <span x-text="kaydediliyor ? 'Kaydediliyor…' : (duzenlenenId ? 'Güncelle' : 'Kaydet')"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+@endsection
+
+@push('scripts')
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+<script>
+var _urunlerInit = {!! json_encode($urunler->values(), JSON_UNESCAPED_UNICODE) !!};
+
+function urunlerim() {
+    return {
+        urunler: _urunlerInit,
+        modalAcik: false,
+        duzenlenenId: null,
+        form: { ad: '', aciklama: '' },
+        gorselDosya: null,
+        gorselOnizleme: null,
+        kaydediliyor: false,
+        hatalar: {},
+        quill: null,
+
+        init: function() {
+            this.$nextTick(() => {
+                this.quill = new Quill('#um-quill-editor', {
+                    theme: 'snow',
+                    placeholder: 'Teknik özellikler, açıklama…',
+                    modules: {
+                        toolbar: [
+                            [{ 'header': [2, 3, false] }],
+                            ['bold', 'italic', 'underline'],
+                            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                            ['clean']
+                        ]
+                    }
+                });
+            });
+        },
+
+        yeniAc: function() {
+            this.form = { ad: '', aciklama: '' };
+            this.gorselDosya = null;
+            this.gorselOnizleme = null;
+            this.duzenlenenId = null;
+            this.hatalar = {};
+            this.modalAcik = true;
+            this.$nextTick(() => { if (this.quill) this.quill.setContents([]); });
+        },
+
+        duzenleAc: function(urun) {
+            this.form = { ad: urun.ad, aciklama: urun.aciklama };
+            this.gorselDosya = null;
+            this.gorselOnizleme = urun.gorsel || null;
+            this.duzenlenenId = urun.id;
+            this.hatalar = {};
+            this.modalAcik = true;
+            this.$nextTick(() => {
+                if (this.quill) this.quill.clipboard.dangerouslyPasteHTML(urun.aciklama || '');
+            });
+        },
+
+        modalKapat: function() {
+            this.modalAcik = false;
+        },
+
+        gorselSec: function(event) {
+            var file = event.target.files[0];
+            if (!file) return;
+            this.gorselDosya = file;
+            var reader = new FileReader();
+            var self = this;
+            reader.onload = function(e) { self.gorselOnizleme = e.target.result; };
+            reader.readAsDataURL(file);
+        },
+
+        kaydet: function() {
+            var self = this;
+            self.hatalar = {};
+
+            if (!self.form.ad.trim()) {
+                self.hatalar.ad = 'Ürün adı zorunludur.';
+                return;
+            }
+
+            self.kaydediliyor = true;
+            var aciklama = self.quill ? self.quill.root.innerHTML : (self.form.aciklama || '');
+
+            var fd = new FormData();
+            fd.append('ad', self.form.ad.trim());
+            fd.append('aciklama', aciklama);
+            if (self.gorselDosya) fd.append('gorsel', self.gorselDosya);
+            fd.append('_token', document.querySelector('meta[name="csrf-token"]').content);
+
+            var url = self.duzenlenenId
+                ? '{{ route("katalog.urunlerim.update", ":id") }}'.replace(':id', self.duzenlenenId)
+                : '{{ route("katalog.urunlerim.store") }}';
+
+            fetch(url, { method: 'POST', body: fd })
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (data.success) {
+                        if (self.duzenlenenId) {
+                            var idx = self.urunler.findIndex(function(u) { return u.id === self.duzenlenenId; });
+                            if (idx >= 0) { var arr = self.urunler.slice(); arr[idx] = data.urun; self.urunler = arr; }
+                        } else {
+                            self.urunler = [data.urun].concat(self.urunler);
+                        }
+                        self.modalKapat();
+                    }
+                })
+                .catch(function() { alert('Kaydetme sırasında bir hata oluştu.'); })
+                .finally(function() { self.kaydediliyor = false; });
+        },
+
+        sil: function(id) {
+            if (!confirm('Bu ürünü silmek istediğinizden emin misiniz?')) return;
+            var self = this;
+            fetch('{{ url("katalog/urunlerim") }}/' + id, {
+                method: 'DELETE',
+                headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content, 'Accept': 'application/json' },
+            }).then(function(r) {
+                if (r.ok) self.urunler = self.urunler.filter(function(u) { return u.id !== id; });
+            });
+        },
+    };
+}
+</script>
+@endpush

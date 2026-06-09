@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUÇEK Katalog — Kapak Önerisi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{
+    font-family:'DM Sans',sans-serif;
+    background:#1C1C1C;
+    display:flex;flex-direction:column;align-items:center;
+    padding:48px 20px;gap:20px;
+}
+.etiket{
+    width:210mm;
+    font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+    color:rgba(255,255,255,0.25);padding-bottom:10px;
+    border-bottom:1px solid rgba(255,255,255,0.07);
+    margin-bottom:2px;
+}
+.etiket span{color:#B8962E;}
+
+.sayfa{
+    width:210mm;height:297mm;
+    position:relative;overflow:hidden;
+    box-shadow:0 40px 120px rgba(0,0,0,0.8);
+}
+/* SVG zemin — tam arka plan */
+.sayfa > svg{
+    position:absolute;inset:0;
+    width:100%;height:100%;
+    z-index:0;
+}
+/* Metin katmanı */
+.ic{
+    position:absolute;inset:0;
+    z-index:2;
+    display:flex;flex-direction:column;
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     ÖN KAPAK
+══════════════════════════════════ -->
+<div class="etiket"><span>Ön Kapak</span></div>
+<div class="sayfa">
+
+  <svg viewBox="0 0 595 842" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- Altın yatay gradient -->
+      <linearGradient id="g-altin" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#A07818"/>
+        <stop offset="40%"  stop-color="#D4AC45"/>
+        <stop offset="100%" stop-color="#A07818"/>
+      </linearGradient>
+
+      <!-- Koyu şerit gradient (hafif açıklık) -->
+      <linearGradient id="g-koyu" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#252525"/>
+        <stop offset="100%" stop-color="#141414"/>
+      </linearGradient>
+
+      <!-- Altın şerit gradient (üstten alta: açık → koyu) -->
+      <linearGradient id="g-serit-altin" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%"   stop-color="#E8C050"/>
+        <stop offset="50%"  stop-color="#B8962E"/>
+        <stop offset="100%" stop-color="#7A5E0E"/>
+      </linearGradient>
+
+      <!-- Koyu şerit gradient -->
+      <linearGradient id="g-serit-koyu" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%"   stop-color="#3A3A3A"/>
+        <stop offset="100%" stop-color="#0D0D0D"/>
+      </linearGradient>
+
+      <!-- Gölge filtresi — koyu şerit -->
+      <filter id="golge-koyu" x="-10%" y="-30%" width="120%" height="160%">
+        <feDropShadow dx="0" dy="-10" stdDeviation="14"
+          flood-color="#000" flood-opacity="0.55"/>
+      </filter>
+
+      <!-- Gölge filtresi — altın şerit -->
+      <filter id="golge-altin" x="-10%" y="-30%" width="120%" height="160%">
+        <feDropShadow dx="0" dy="12" stdDeviation="16"
+          flood-color="#000" flood-opacity="0.5"/>
+        <feDropShadow dx="0" dy="-6" stdDeviation="10"
+          flood-color="#000" flood-opacity="0.3"/>
+      </filter>
+
+      <!-- İnce grid (koyu alan dokusu) -->
+      <pattern id="pt-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+        <path d="M20 0L0 0 0 20" fill="none"
+          stroke="rgba(184,150,46,0.07)" stroke-width="0.5"/>
+      </pattern>
+    </defs>
+
+    <!-- 1. Beyaz zemin -->
+    <rect width="595" height="842" fill="#F8F7F5"/>
+
+    <!-- 2. Koyu büyük alan: diyagonal üst kenar (sol:460 sağ:290) -->
+    <!--    Dik açı: 170px düşme — referansa yakın dramatik eğim -->
+    <polygon points="0,460 595,290 595,842 0,842"
+      fill="url(#g-koyu)"/>
+
+    <!-- Koyu alanda ince grid doku -->
+    <polygon points="0,460 595,290 595,842 0,842"
+      fill="url(#pt-grid)" opacity="0.6"/>
+
+    <!-- 3. Koyu ÜST şerit (gümüş/charcoal referans) — arkada -->
+    <!--    60px kalın, koyu alanın biraz üzerinde başlar -->
+    <polygon points="0,355 595,185 595,310 0,480"
+      fill="url(#g-serit-koyu)"
+      filter="url(#golge-koyu)"/>
+
+    <!-- 4. Altın ÖN şerit — önde, 3D gölgeli -->
+    <!--    80px kalın, koyu şeridin üstüne biner, kısmen beyaz alanda -->
+    <polygon points="0,390 595,220 595,360 0,540"
+      fill="url(#g-serit-altin)"
+      filter="url(#golge-altin)"/>
+
+    <!-- Üst ince altın çizgi -->
+    <rect x="0" y="0" width="595" height="3" fill="url(#g-altin)"/>
+
+    <!-- Alt ince altın çizgi -->
+    <rect x="0" y="839" width="595" height="3" fill="url(#g-altin)"/>
+
+    <!-- Sol dikey ince altın çizgi -->
+    <rect x="0" y="0" width="1.5" height="842" fill="#B8962E" opacity="0.5"/>
+
+    <!-- Sağ üst köşe dekor daireler (beyaz alanda, saydam) -->
+    <circle cx="545" cy="30"  r="100" fill="none"
+      stroke="rgba(184,150,46,0.06)" stroke-width="20"/>
+    <circle cx="545" cy="30"  r="58"  fill="none"
+      stroke="rgba(184,150,46,0.05)" stroke-width="12"/>
+
+    <!-- Koyu alanda sol alt dekor -->
+    <circle cx="60"  cy="800" r="90"  fill="none"
+      stroke="rgba(184,150,46,0.06)" stroke-width="18"/>
+    <circle cx="60"  cy="800" r="50"  fill="none"
+      stroke="rgba(184,150,46,0.04)" stroke-width="10"/>
+  </svg>
+
+  <!-- ── Metin Katmanı ── -->
+  <div class="ic">
+
+    <!-- ÜST: İhale bilgileri — beyaz alanda, şeritler başlamadan önceki alan -->
+    <div style="padding:28px 40px 0; flex:0 0 auto;">
+      <!-- Küçük marka + tarih satırı -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:auto;">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:11px;
+          letter-spacing:.38em;text-transform:uppercase;color:#B8962E;">SUÇEK</span>
+        <span style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+          color:#BDBDBD;">Haziran 2024</span>
+      </div>
+
+      <!-- Kurum adı (büyük başlık) -->
+      <div style="margin-top:28px;">
+        <div style="font-size:9px;letter-spacing:.3em;text-transform:uppercase;
+          color:#B8962E;margin-bottom:8px;">Teklif Sunulan Kurum</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:46px;
+          font-weight:600;color:#111;letter-spacing:.04em;text-transform:uppercase;
+          line-height:1.0;margin-bottom:6px;">ÖRNEK<br>KURUM A.Ş.</div>
+        <div style="font-size:12px;color:#999;letter-spacing:.05em;">
+          Genel Müdürlüğü · İstanbul
+        </div>
+      </div>
+
+      <!-- Katalog başlığı -->
+      <div style="margin-top:20px;padding-top:16px;
+        border-top:1px solid rgba(0,0,0,0.08);">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:15px;
+          font-weight:300;color:#555;letter-spacing:.12em;text-transform:uppercase;">
+          Ürün Kataloğu & Teklif Dosyası
+        </div>
+      </div>
+    </div>
+
+    <!-- ESNEK BOŞLUK — şeritler bu alanın üstünden geçer -->
+    <div style="flex:1;"></div>
+
+    <!-- ALT: Firma bilgileri — koyu alanda -->
+    <div style="padding:0 40px 28px; flex:0 0 auto;">
+
+      <!-- İhale bilgi kutusu -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;
+        border:1px solid rgba(184,150,46,0.2);margin-bottom:28px;">
+        <div style="padding:10px 14px;border-right:1px solid rgba(184,150,46,0.15);">
+          <div style="font-size:8px;letter-spacing:.22em;text-transform:uppercase;
+            color:rgba(184,150,46,0.6);margin-bottom:4px;">İhale No</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:16px;
+            color:rgba(255,255,255,0.9);font-weight:500;">2024/123</div>
+        </div>
+        <div style="padding:10px 14px;border-right:1px solid rgba(184,150,46,0.15);">
+          <div style="font-size:8px;letter-spacing:.22em;text-transform:uppercase;
+            color:rgba(184,150,46,0.6);margin-bottom:4px;">Tarih</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:16px;
+            color:rgba(255,255,255,0.9);font-weight:500;">15.06.2024</div>
+        </div>
+        <div style="padding:10px 14px;">
+          <div style="font-size:8px;letter-spacing:.22em;text-transform:uppercase;
+            color:rgba(184,150,46,0.6);margin-bottom:4px;">Saat</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:16px;
+            color:rgba(255,255,255,0.9);font-weight:500;">14:00</div>
+        </div>
+      </div>
+
+      <!-- Firma adı + alt bilgi -->
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:38px;
+          font-weight:600;color:#B8962E;letter-spacing:.08em;text-transform:uppercase;
+          line-height:1;">SUÇEK</div>
+        <div style="font-size:8px;letter-spacing:.14em;text-transform:uppercase;
+          color:rgba(255,255,255,0.2);text-align:right;line-height:2.2;">
+          Mimarlık<br>İç Mimarlık · Proje
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════
+     ARKA KAPAK
+══════════════════════════════════ -->
+<div class="etiket" style="margin-top:36px;"><span>Arka Kapak</span></div>
+<div class="sayfa">
+
+  <svg viewBox="0 0 595 842" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="g-altin2" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#A07818"/>
+        <stop offset="40%"  stop-color="#D4AC45"/>
+        <stop offset="100%" stop-color="#A07818"/>
+      </linearGradient>
+      <linearGradient id="g-koyu2" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#141414"/>
+        <stop offset="100%" stop-color="#252525"/>
+      </linearGradient>
+      <linearGradient id="g-sa2" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%"   stop-color="#3A3A3A"/>
+        <stop offset="100%" stop-color="#0D0D0D"/>
+      </linearGradient>
+      <linearGradient id="g-sb2" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%"   stop-color="#7A5E0E"/>
+        <stop offset="50%"  stop-color="#B8962E"/>
+        <stop offset="100%" stop-color="#E8C050"/>
+      </linearGradient>
+      <filter id="golge-k2" x="-10%" y="-30%" width="120%" height="160%">
+        <feDropShadow dx="0" dy="10" stdDeviation="14"
+          flood-color="#000" flood-opacity="0.55"/>
+      </filter>
+      <filter id="golge-a2" x="-10%" y="-30%" width="120%" height="160%">
+        <feDropShadow dx="0" dy="-12" stdDeviation="16"
+          flood-color="#000" flood-opacity="0.5"/>
+        <feDropShadow dx="0" dy="6" stdDeviation="10"
+          flood-color="#000" flood-opacity="0.3"/>
+      </filter>
+      <pattern id="pt-grid2" width="20" height="20" patternUnits="userSpaceOnUse">
+        <path d="M20 0L0 0 0 20" fill="none"
+          stroke="rgba(184,150,46,0.07)" stroke-width="0.5"/>
+      </pattern>
+    </defs>
+
+    <!-- Beyaz zemin -->
+    <rect width="595" height="842" fill="#F8F7F5"/>
+
+    <!-- Koyu ÜST alan — ters diyagonal (sol:382 sağ:552) -->
+    <polygon points="0,0 595,0 595,552 0,382" fill="url(#g-koyu2)"/>
+    <polygon points="0,0 595,0 595,552 0,382"
+      fill="url(#pt-grid2)" opacity="0.6"/>
+
+    <!-- Koyu şerit (ters yön — sağ üstten sol alta) -->
+    <polygon points="0,362 595,532 595,607 0,437"
+      fill="url(#g-sa2)"
+      filter="url(#golge-k2)"/>
+
+    <!-- Altın şerit (ters yön) -->
+    <polygon points="0,302 595,472 595,552 0,382"
+      fill="url(#g-sb2)"
+      filter="url(#golge-a2)"/>
+
+    <!-- Üst altın çizgi -->
+    <rect x="0" y="0" width="595" height="3" fill="url(#g-altin2)"/>
+    <!-- Alt altın çizgi -->
+    <rect x="0" y="839" width="595" height="3" fill="url(#g-altin2)"/>
+    <!-- Sol dikey çizgi -->
+    <rect x="0" y="0" width="1.5" height="842" fill="#B8962E" opacity="0.5"/>
+
+    <!-- Koyu alanda sağ üst dekor -->
+    <circle cx="560" cy="60"  r="90"  fill="none"
+      stroke="rgba(184,150,46,0.06)" stroke-width="18"/>
+    <circle cx="560" cy="60"  r="50"  fill="none"
+      stroke="rgba(184,150,46,0.04)" stroke-width="10"/>
+
+    <!-- Alt beyaz alanda sol dekor -->
+    <circle cx="40"  cy="800" r="80"  fill="none"
+      stroke="rgba(184,150,46,0.06)" stroke-width="16"/>
+    <circle cx="40"  cy="800" r="44"  fill="none"
+      stroke="rgba(184,150,46,0.04)" stroke-width="9"/>
+  </svg>
+
+  <!-- ── Metin Katmanı ── -->
+  <div class="ic">
+
+    <!-- ÜST: Firma marka — koyu alanda -->
+    <div style="padding:28px 40px 0;flex:0 0 auto;">
+      <div style="font-size:9px;letter-spacing:.28em;text-transform:uppercase;
+        color:rgba(184,150,46,0.5);margin-bottom:4px;">No: 2024 / 001</div>
+    </div>
+
+    <div style="padding:0 40px;flex:0 0 auto;margin-top:auto;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:64px;
+        font-weight:600;color:#B8962E;letter-spacing:.06em;text-transform:uppercase;
+        line-height:0.95;">SUÇEK</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:16px;
+        font-weight:300;color:rgba(255,255,255,0.35);letter-spacing:.14em;
+        text-transform:uppercase;margin-top:8px;padding-bottom:32px;">
+        Mimarlık & İç Mimarlık & Proje
+      </div>
+    </div>
+
+    <!-- ESNEK BOŞLUK -->
+    <div style="flex:1;"></div>
+
+    <!-- ALT: İletişim — beyaz alanda -->
+    <div style="padding:0 40px 28px;flex:0 0 auto;">
+
+      <div style="border-top:1px solid rgba(184,150,46,0.25);
+        padding-top:16px;margin-bottom:20px;">
+        <div style="font-size:8px;letter-spacing:.26em;text-transform:uppercase;
+          color:#B8962E;margin-bottom:14px;">İletişim Bilgileri</div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div>
+            <div style="font-size:8px;letter-spacing:.16em;text-transform:uppercase;
+              color:#BDBDBD;margin-bottom:3px;">Adres</div>
+            <div style="font-size:13px;color:#1A1A1A;line-height:1.55;">
+              Örnek Mah. Mimarlık Cad. No:1<br>Beşiktaş / İstanbul
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div>
+              <div style="font-size:8px;letter-spacing:.16em;text-transform:uppercase;
+                color:#BDBDBD;margin-bottom:2px;">Telefon</div>
+              <div style="font-size:13px;color:#1A1A1A;">+90 212 000 00 00</div>
+            </div>
+            <div>
+              <div style="font-size:8px;letter-spacing:.16em;text-transform:uppercase;
+                color:#BDBDBD;margin-bottom:2px;">E-posta</div>
+              <div style="font-size:13px;color:#1A1A1A;">info@sucek.com.tr</div>
+            </div>
+            <div>
+              <div style="font-size:8px;letter-spacing:.16em;text-transform:uppercase;
+                color:#BDBDBD;margin-bottom:2px;">Web</div>
+              <div style="font-size:13px;color:#1A1A1A;">www.sucek.com.tr</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:22px;
+            font-weight:600;color:#111;letter-spacing:.14em;text-transform:uppercase;">
+            SUÇEK
+          </div>
+          <div style="width:32px;height:2px;background:#B8962E;margin-top:5px;"></div>
+        </div>
+        <div style="font-size:8px;letter-spacing:.12em;text-transform:uppercase;
+          color:#BDBDBD;text-align:right;line-height:2.2;">
+          Mimarlık · İç Mimarlık<br>Proje Danışmanlık
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
