@@ -155,12 +155,12 @@
     <span>{{ session('basari') }}</span>
   </div>
   @endif
-  @if(session('hata') || $errors->any())
+  @if(session('hata') || ($errors ?? collect())->any())
   <div class="mx-6 mt-4 flex items-start gap-3 bg-[#FEE2E2] border border-[#FCA5A5] text-[#991B1B] rounded-[8px] px-4 py-3 text-[13px]" role="alert">
     <i class="ti ti-alert-circle text-base shrink-0 mt-0.5"></i>
     <div>
       @if(session('hata'))<p>{{ session('hata') }}</p>@endif
-      @foreach($errors->all() as $error)<p>{{ $error }}</p>@endforeach
+      @foreach(($errors ?? collect())->all() as $error)<p>{{ $error }}</p>@endforeach
     </div>
   </div>
   @endif
