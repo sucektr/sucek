@@ -33,7 +33,13 @@ body{font-family:'DM Sans',sans-serif;background:#EBEBEB;}
     *,-webkit-*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
     body{background:white!important;}
     .bar-actions{display:none!important;}
-    .katalog-sayfa{margin:0!important;box-shadow:none!important;page-break-after:always;break-after:page;}
+    .katalog-sayfa{
+        height:297mm!important;min-height:unset!important;
+        overflow:hidden!important;
+        margin:0!important;box-shadow:none!important;
+        page-break-after:always;break-after:page;
+        page-break-inside:avoid;break-inside:avoid;
+    }
     .katalog-sayfa:last-child{page-break-after:avoid;break-after:avoid;}
     @page{size:A4 portrait;margin:0;}
 }
