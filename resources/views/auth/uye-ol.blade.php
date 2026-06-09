@@ -145,10 +145,10 @@
 @endsection
 
 @push('scripts')
-<script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site') }}"></script>
+<script src="https://www.google.com/recaptcha/api.js?render={{ app(\App\Services\RecaptchaService::class)->siteKey() }}"></script>
 <script>
 (function () {
-  var siteKey = '{{ config('services.recaptcha.site') }}';
+  var siteKey = '{{ app(\App\Services\RecaptchaService::class)->siteKey() }}';
   var form    = document.getElementById('uye-ol-form');
   var input   = document.getElementById('uyeol-recaptcha-token');
 

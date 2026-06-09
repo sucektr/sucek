@@ -57,6 +57,11 @@ class IcerikSeeder extends Seeder
 
             // ─── İletişim ─────────────────────────────────────────────────
             ['sayfa' => 'iletisim', 'alan' => 'harita_embed', 'baslik' => 'Google Maps Embed URL', 'tip' => 'url', 'deger' => 'https://maps.google.com/maps?q=Etimesgut+Ankara&output=embed', 'sira' => 1],
+
+            // ─── Sistem Ayarları ──────────────────────────────────────────
+            ['sayfa' => 'sistem', 'alan' => 'recaptcha_site_key',   'baslik' => 'reCAPTCHA Site Anahtarı',  'tip' => 'metin', 'deger' => '', 'sira' => 1],
+            ['sayfa' => 'sistem', 'alan' => 'recaptcha_secret_key', 'baslik' => 'reCAPTCHA Gizli Anahtar', 'tip' => 'metin', 'deger' => '', 'sira' => 2],
+            ['sayfa' => 'sistem', 'alan' => 'recaptcha_min_score',  'baslik' => 'reCAPTCHA Min. Skor',      'tip' => 'metin', 'deger' => '0.5', 'sira' => 3],
         ];
 
         foreach ($kayitlar as $k) {

@@ -260,6 +260,16 @@ class IcerikController extends Controller
                     ['alan' => 'bankalar', 'baslik' => 'Banka Hesapları', 'tip' => 'bankaListesi', 'sira' => 1],
                 ],
             ],
+            'sistem' => [
+                'baslik'   => 'Sistem Ayarları',
+                'ikon'     => 'ti-shield-lock',
+                'aciklama' => 'reCAPTCHA anahtarları ve sistem güvenlik ayarları',
+                'alanlar'  => [
+                    ['alan' => 'recaptcha_site_key',   'baslik' => 'reCAPTCHA Site Anahtarı (public)',  'tip' => 'metin', 'sira' => 1],
+                    ['alan' => 'recaptcha_secret_key', 'baslik' => 'reCAPTCHA Gizli Anahtar (secret)',  'tip' => 'metin', 'sira' => 2],
+                    ['alan' => 'recaptcha_min_score',  'baslik' => 'reCAPTCHA Min. Skor (0.0–1.0, önerilen: 0.5)', 'tip' => 'metin', 'sira' => 3],
+                ],
+            ],
             'iletisim' => [
                 'baslik'   => 'İletişim Sayfası',
                 'ikon'     => 'ti-mail',
