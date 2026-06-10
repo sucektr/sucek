@@ -338,7 +338,8 @@ function katalogBuilder() {
                 .then(function(r){ return r.json(); })
                 .then(function(data){
                     if (data.success && data.urun) {
-                        var yeni = { id: 'u'+data.urun.id, ad: data.urun.ad, kategori: 'Kişisel', gorsel: data.urun.gorsel||null, aciklama: data.urun.aciklama||'', tip: 'kullanici' };
+                        var gorseller = (data.urun.gorseller && Array.isArray(data.urun.gorseller)) ? data.urun.gorseller : (data.urun.gorsel ? [data.urun.gorsel] : []);
+                        var yeni = { id: 'u'+data.urun.id, ad: data.urun.ad, kategori: 'Kişisel', gorsel: data.urun.gorsel||null, gorseller: gorseller, aciklama: data.urun.aciklama||'', tip: 'kullanici' };
                         self.tumUrunler = self.tumUrunler.concat([yeni]);
                         self.kisiselModal = false;
                         self.basariMesaji = '"'+yeni.ad+'" ürün listesine eklendi.';
@@ -798,11 +799,14 @@ function katalogBuilder() {
         <div style="height:1px;background:#0F172A;margin-bottom:18px;"></div>
 
         <div style="display:flex;flex:1;gap:18px;align-items:flex-start;">
-          <div style="width:46%;flex-shrink:0;">
-            <div style="border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;background:#F8FAFC;display:flex;align-items:center;justify-content:center;min-height:200px;max-height:280px;">
-              <img x-show="urun.gorsel" :src="urun.gorsel" :alt="urun.ad"
-                   style="max-width:100%;max-height:280px;object-fit:contain;padding:12px;">
-              <div x-show="!urun.gorsel" style="text-align:center;color:#CBD5E1;font-size:12px;padding:28px;">
+          <div style="width:46%;flex-shrink:0;display:flex;flex-direction:column;gap:6px;">
+            <template x-for="(gUrl, gi) in (urun.gorseller && urun.gorseller.length ? urun.gorseller : (urun.gorsel ? [urun.gorsel] : []))" :key="'g'+gi">
+              <div style="flex:1;min-height:80px;border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;background:#F8FAFC;display:flex;align-items:center;justify-content:center;">
+                <img :src="gUrl" :alt="urun.ad" style="max-width:100%;max-height:100%;object-fit:contain;padding:8px;">
+              </div>
+            </template>
+            <div x-show="!urun.gorsel && (!urun.gorseller || !urun.gorseller.length)" style="min-height:200px;border:1px solid #E2E8F0;border-radius:4px;background:#F8FAFC;display:flex;align-items:center;justify-content:center;">
+              <div style="text-align:center;color:#CBD5E1;font-size:12px;padding:28px;">
                 <i class="ti ti-photo" style="font-size:28px;display:block;margin-bottom:6px;"></i>Görsel yok
               </div>
             </div>

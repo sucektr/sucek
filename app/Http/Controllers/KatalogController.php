@@ -21,7 +21,8 @@ class KatalogController extends Controller
         if ($request->filled('katalog')) {
             $duzenlenenKatalog = Katalog::where('user_id', auth()->id())->find($request->katalog);
             if ($duzenlenenKatalog) {
-                $duzenlenenUrunler = $this->urunleriYukle($duzenlenenKatalog->urun_idler ?? [], auth()->id());
+                $duzenlenenUrunler = $this->urunleriYukle($duzenlenenKatalog->urun_idler ?? [], auth()->id())
+                    ->map(fn($u) => $u instanceof UserUrun ? $this->userUrunDizi($u) : $this->urunDizi($u));
             }
         }
 
@@ -155,24 +156,27 @@ class KatalogController extends Controller
     private function urunDizi(Urun $u): array
     {
         return [
-            'id'       => $u->id,
-            'ad'       => $u->ad,
-            'kategori' => $u->kategori,
-            'gorsel'   => $u->gorsel ? asset('storage/' . $u->gorsel) : null,
-            'aciklama' => $u->aciklama ?? '',
-            'tip'      => 'admin',
+            'id'        => $u->id,
+            'ad'        => $u->ad,
+            'kategori'  => $u->kategori,
+            'gorsel'    => $u->gorsel ? asset('storage/' . $u->gorsel) : null,
+            'gorseller' => $u->gorsel ? [asset('storage/' . $u->gorsel)] : [],
+            'aciklama'  => $u->aciklama ?? '',
+            'tip'       => 'admin',
         ];
     }
 
     private function userUrunDizi(UserUrun $u): array
     {
+        $yollar = !empty($u->gorseller) ? $u->gorseller : ($u->gorsel ? [$u->gorsel] : []);
         return [
-            'id'       => 'u' . $u->id,
-            'ad'       => $u->ad,
-            'kategori' => 'Kişisel',
-            'gorsel'   => $u->gorsel ? asset('storage/' . $u->gorsel) : null,
-            'aciklama' => $u->aciklama ?? '',
-            'tip'      => 'kullanici',
+            'id'        => 'u' . $u->id,
+            'ad'        => $u->ad,
+            'kategori'  => 'Kişisel',
+            'gorsel'    => !empty($yollar) ? asset('storage/' . $yollar[0]) : null,
+            'gorseller' => array_map(fn($p) => asset('storage/' . $p), $yollar),
+            'aciklama'  => $u->aciklama ?? '',
+            'tip'       => 'kullanici',
         ];
     }
 }
