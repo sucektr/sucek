@@ -290,7 +290,8 @@
 .nd-btn.del:hover { background:#CC2200;color:#fff;border-color:#CC2200; }
 
 /* Frame */
-.tree-frame { position:absolute;border-radius:12px;border:2.5px solid;pointer-events:none;transition:box-shadow .2s; }
+.tree-frame { position:absolute;border-radius:12px;border:2.5px solid;transition:box-shadow .2s; }
+.tree-frame:hover { box-shadow:0 0 0 3px rgba(0,0,0,0.06); }
 .frame-header {
   position:absolute;top:-1px;left:14px;
   display:inline-flex;align-items:center;gap:7px;
@@ -396,6 +397,7 @@ let editingFrameId = null, pendingFrameMembers = [];
 let scale = 1, panX = 80, panY = 80;
 let panning = false, lmx = 0, lmy = 0;
 let selBoxing = false, sbStart = {x:0, y:0};
+let draggingFrameId = null, fdOx = 0, fdOy = 0, fdMoved = false;
 let _posTimer = null;
 
 const CSRF      = document.querySelector('meta[name="csrf-token"]').content;
@@ -535,6 +537,23 @@ wrap.addEventListener('mousedown', e => {
   }
 });
 window.addEventListener('mousemove', e => {
+  if (draggingFrameId) {
+    const nx = (e.clientX - panX) / scale, ny = (e.clientY - panY) / scale;
+    const dx = nx - fdOx, dy = ny - fdOy;
+    fdOx = nx; fdOy = ny;
+    if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) fdMoved = true;
+    const frame = getFrame(draggingFrameId);
+    if (frame) {
+      frame.memberIds.forEach(id => {
+        const p = getPerson(id); if (!p) return;
+        p.x += dx; p.y += dy;
+        const nodeEl = document.getElementById('node-' + id);
+        if (nodeEl) { nodeEl.style.left = p.x + 'px'; nodeEl.style.top = p.y + 'px'; }
+      });
+      redrawEdges(); renderFrames();
+    }
+    return;
+  }
   if (panning) { panX += e.clientX - lmx; panY += e.clientY - lmy; lmx = e.clientX; lmy = e.clientY; applyXform(); return; }
   if (selBoxing) {
     const r = wrap.getBoundingClientRect();
@@ -544,6 +563,12 @@ window.addEventListener('mousemove', e => {
   }
 });
 window.addEventListener('mouseup', e => {
+  if (draggingFrameId) {
+    if (fdMoved) scheduleKonumKaydet();
+    draggingFrameId = null; fdMoved = false;
+    wrap.style.cursor = '';
+    return;
+  }
   if (panning) { panning = false; wrap.classList.remove('grabbing'); }
   if (selBoxing) {
     selBoxing = false; selBoxEl.style.display = 'none';
@@ -683,12 +708,20 @@ function renderFrames() {
     const bbox = getFrameBBox(f); if (!bbox) return;
     const el = document.createElement('div');
     el.className = 'tree-frame'; el.id = 'frame-' + f.id;
-    el.style.cssText = `left:${bbox.x}px;top:${bbox.y}px;width:${bbox.w}px;height:${bbox.h}px;border-color:${f.color.hex};background:${f.color.bg}`;
+    el.style.cssText = `left:${bbox.x}px;top:${bbox.y}px;width:${bbox.w}px;height:${bbox.h}px;border-color:${f.color.hex};background:${f.color.bg};pointer-events:all;cursor:grab;`;
     el.innerHTML = `<div class="frame-header" style="border-color:${f.color.hex};background:${f.color.bg};color:${f.color.hex}">
       ${f.label}
       <button class="frame-edit-btn" onclick="openEditFrame(${f.id})" title="Düzenle">✏</button>
       <button class="frame-del-btn" onclick="deleteFrame(${f.id})" title="Sil">🗑</button>
     </div>`;
+    el.addEventListener('mousedown', e => {
+      if (e.target.tagName === 'BUTTON') return;
+      e.stopPropagation();
+      draggingFrameId = f.id; fdMoved = false;
+      fdOx = (e.clientX - panX) / scale;
+      fdOy = (e.clientY - panY) / scale;
+      wrap.style.cursor = 'grabbing';
+    });
     framesLayer.appendChild(el);
   });
 }
