@@ -109,7 +109,7 @@
         </div>
 
         <div style="margin-bottom:16px;">
-          <label class="um-label">Görseller <span style="font-size:10px;color:#C0C0C0;font-weight:400;text-transform:none;letter-spacing:0;">en fazla 6</span></label>
+          <label class="um-label">Görseller <span style="font-size:10px;color:#C0C0C0;font-weight:400;text-transform:none;letter-spacing:0;">en fazla 10</span></label>
           {{-- Mevcut görseller --}}
           <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;" x-show="gorseller.length > 0">
             <template x-for="(g, idx) in gorseller" :key="idx">
@@ -125,7 +125,7 @@
             </template>
           </div>
           {{-- Drop zone --}}
-          <div x-show="gorseller.length < 6"
+          <div x-show="gorseller.length < 10"
                @click="$refs.gorselInput.click()"
                @dragover.prevent="dragUzerinde=true"
                @dragleave.prevent="dragUzerinde=false"
@@ -223,7 +223,7 @@ function urunlerim() {
 
         gorselIsle: function(file) {
             if (!file || !file.type.startsWith('image/')) return;
-            if (this.gorseller.length >= 6) return;
+            if (this.gorseller.length >= 10) return;
             var reader = new FileReader();
             var self = this;
             reader.onload = function(e) {

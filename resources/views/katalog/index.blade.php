@@ -173,6 +173,35 @@ function katalogBuilder() {
 
         secilmisMi: function(id) { return this.seciliUrunler.some(function(u){ return u.id === id; }); },
 
+        tocSayfaNo: function(urunIndex) {
+            var page = 3; // kapak=1, içindekiler=2
+            for (var i = 0; i < urunIndex; i++) {
+                var u = this.seciliUrunler[i];
+                var g = (u.gorseller && u.gorseller.length) ? u.gorseller : (u.gorsel ? [u.gorsel] : []);
+                page += Math.max(1, Math.ceil(g.length / 5));
+            }
+            return page;
+        },
+
+        get sayfalar() {
+            var result = [];
+            this.seciliUrunler.forEach(function(urun, i) {
+                var g = (urun.gorseller && urun.gorseller.length) ? urun.gorseller : (urun.gorsel ? [urun.gorsel] : []);
+                var limit = 5;
+                var total = Math.max(1, Math.ceil(g.length / limit));
+                for (var si = 0; si < total; si++) {
+                    result.push({
+                        urun:        urun,
+                        urunIndex:   i,
+                        sayfaIndex:  si,
+                        toplamSayfa: total,
+                        gorselGrubu: g.slice(si * limit, (si + 1) * limit),
+                    });
+                }
+            });
+            return result;
+        },
+
         init: function() { this.urunleriYukle(); },
 
         urunleriYukle: function() {
@@ -778,7 +807,7 @@ function katalogBuilder() {
                   style="flex:1;font-size:13px;color:#0F172A;cursor:text;padding:2px 6px;border-radius:2px;min-width:0;line-height:1.4;"
                   title="Tıklayarak düzenleyin"></span>
             <span style="font-size:10px;color:#B8962E;font-weight:600;margin-left:10px;flex-shrink:0;font-family:'Cormorant Garamond',serif;min-width:20px;text-align:right;"
-                  x-text="i+3"></span>
+                  x-text="tocSayfaNo(i)"></span>
           </div>
         </template>
       </div>
@@ -789,37 +818,45 @@ function katalogBuilder() {
     </div>
 
     {{-- ── ÜRÜN SAYFALARI ── --}}
-    <template x-for="(urun, i) in seciliUrunler" :key="urun.id+'-'+i">
+    <template x-for="(sayfa, si) in sayfalar" :key="sayfa.urun.id+'-'+sayfa.sayfaIndex">
       <div class="katalog-sayfa">
         <div style="margin-bottom:5px;">
-          <span x-text="(i+1)+'.'" style="font-family:'Cormorant Garamond',serif;font-size:15px;color:#B8962E;font-weight:600;margin-right:7px;"></span>
-          <span x-text="urun.ad"   style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#0F172A;"></span>
+          <span x-text="(sayfa.urunIndex+1)+'.'" style="font-family:'Cormorant Garamond',serif;font-size:15px;color:#B8962E;font-weight:600;margin-right:7px;"></span>
+          <span x-text="sayfa.urun.ad" style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#0F172A;"></span>
+          <span x-show="sayfa.toplamSayfa > 1"
+                x-text="'('+(sayfa.sayfaIndex+1)+' / '+sayfa.toplamSayfa+')'"
+                style="font-size:10px;color:#A8A8A8;margin-left:8px;"></span>
         </div>
         <div style="height:3px;background:#B8962E;margin-bottom:3px;"></div>
         <div style="height:1px;background:#0F172A;margin-bottom:18px;"></div>
 
         <div style="display:flex;flex:1;gap:18px;align-items:flex-start;">
           <div style="width:46%;flex-shrink:0;display:flex;flex-direction:column;gap:6px;">
-            <template x-for="(gUrl, gi) in (urun.gorseller && urun.gorseller.length ? urun.gorseller : (urun.gorsel ? [urun.gorsel] : []))" :key="'g'+gi">
+            <template x-for="(gUrl, gi) in (sayfa.gorselGrubu.length ? sayfa.gorselGrubu : [])" :key="'g'+gi">
               <div style="flex:1;min-height:80px;border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;background:#F8FAFC;display:flex;align-items:center;justify-content:center;">
-                <img :src="gUrl" :alt="urun.ad" style="max-width:100%;max-height:100%;object-fit:contain;padding:8px;">
+                <img :src="gUrl" :alt="sayfa.urun.ad" style="max-width:100%;max-height:100%;object-fit:contain;padding:8px;">
               </div>
             </template>
-            <div x-show="!urun.gorsel && (!urun.gorseller || !urun.gorseller.length)" style="min-height:200px;border:1px solid #E2E8F0;border-radius:4px;background:#F8FAFC;display:flex;align-items:center;justify-content:center;">
+            <div x-show="sayfa.gorselGrubu.length === 0" style="min-height:200px;border:1px solid #E2E8F0;border-radius:4px;background:#F8FAFC;display:flex;align-items:center;justify-content:center;">
               <div style="text-align:center;color:#CBD5E1;font-size:12px;padding:28px;">
                 <i class="ti ti-photo" style="font-size:28px;display:block;margin-bottom:6px;"></i>Görsel yok
               </div>
             </div>
           </div>
           <div style="flex:1;min-width:0;">
-            <div style="font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:#B8962E;margin-bottom:8px;font-weight:600;padding-bottom:6px;border-bottom:1.5px solid rgba(184,150,46,0.25);">Teknik Özellikler</div>
-            <div x-html="urun.aciklama || ''" style="font-size:12px;color:#334155;line-height:1.85;"></div>
-            <div x-show="!urun.aciklama" style="font-size:11px;color:#CBD5E1;font-style:italic;">Açıklama girilmemiş</div>
+            <div style="font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:#B8962E;margin-bottom:8px;font-weight:600;padding-bottom:6px;border-bottom:1.5px solid rgba(184,150,46,0.25);"
+                 x-text="sayfa.sayfaIndex === 0 ? 'Teknik Özellikler' : 'Teknik Özellikler (devam)'"></div>
+            <template x-if="sayfa.sayfaIndex === 0">
+              <div>
+                <div x-html="sayfa.urun.aciklama || ''" style="font-size:12px;color:#334155;line-height:1.85;"></div>
+                <div x-show="!sayfa.urun.aciklama" style="font-size:11px;color:#CBD5E1;font-style:italic;">Açıklama girilmemiş</div>
+              </div>
+            </template>
           </div>
         </div>
 
         <div style="margin-top:12px;padding-top:7px;border-top:1px solid #F1F5F9;">
-          <span style="font-size:10px;color:#CBD5E1;" x-text="(i+1)+' / '+seciliUrunler.length"></span>
+          <span style="font-size:10px;color:#CBD5E1;" x-text="(sayfa.urunIndex+1)+' / '+seciliUrunler.length"></span>
         </div>
 
         <div style="margin:0 -20mm -18mm;">

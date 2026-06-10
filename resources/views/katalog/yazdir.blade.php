@@ -57,6 +57,15 @@ $kapak     = $katalog->kapak_ayarlari ?? [];
 $ekstralar = $kapak['ekstralar'] ?? [];
 $logo      = $kapak['logo'] ?? '';
 $tocAdi    = fn($urun) => $icindekiler[$urun->id] ?? $icindekiler[(string)$urun->id] ?? $urun->ad;
+
+// Her ürünün kaç sayfa tutacağını hesaplayarak ToC sayfa numaralarını hazırla
+$urunSayfaNo = [];
+$cp = 3; // kapak=1, içindekiler=2, ürünler 3'ten başlar
+foreach ($urunler as $u) {
+    $urunSayfaNo[] = $cp;
+    $g  = !empty($u->gorseller) ? $u->gorseller : ($u->gorsel ? [$u->gorsel] : []);
+    $cp += max(1, (int) ceil(count(array_slice($g, 0, 10)) / 5));
+}
 @endphp
 
 {{-- ── KAPAK ── --}}
@@ -135,7 +144,7 @@ $tocAdi    = fn($urun) => $icindekiler[$urun->id] ?? $icindekiler[(string)$urun-
         <div style="display:flex;align-items:baseline;padding:10px 0;border-bottom:1px solid rgba(0,0,0,0.06);{{ $i === 0 ? 'border-top:1px solid rgba(0,0,0,0.06);' : '' }}">
             <span style="min-width:28px;font-family:'Cormorant Garamond',serif;font-size:15px;color:#B8962E;font-weight:600;flex-shrink:0;">{{ $i + 1 }}.</span>
             <span style="flex:1;font-size:13px;color:#0F0F0F;line-height:1.4;">{{ $tocAdi($urun) }}</span>
-            <span style="font-size:11px;color:#B8962E;font-weight:600;margin-left:12px;flex-shrink:0;font-family:'Cormorant Garamond',serif;">{{ $i + 3 }}</span>
+            <span style="font-size:11px;color:#B8962E;font-weight:600;margin-left:12px;flex-shrink:0;font-family:'Cormorant Garamond',serif;">{{ $urunSayfaNo[$i] }}</span>
         </div>
         @endforeach
     </div>
@@ -148,58 +157,68 @@ $tocAdi    = fn($urun) => $icindekiler[$urun->id] ?? $icindekiler[(string)$urun-
 
 {{-- ── ÜRÜN SAYFALARI ── --}}
 @foreach($urunler as $i => $urun)
-<div class="katalog-sayfa" style="page-break-before:always;break-before:page;">
-
-    <div style="margin-bottom:6px;display:flex;justify-content:space-between;align-items:baseline;">
-        <div>
-            <span style="font-family:'Cormorant Garamond',serif;font-size:16px;color:#B8962E;margin-right:8px;font-weight:600;">{{ $i + 1 }}.</span>
-            <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#0F0F0F;">{{ $urun->ad }}</span>
-        </div>
-        <span style="font-size:10px;letter-spacing:.22em;color:#A8A8A8;text-transform:uppercase;">{{ $kapak['marka'] ?? 'SUÇEK' }}</span>
-    </div>
-    <div style="height:3px;background:#B8962E;margin-bottom:3px;"></div>
-    <div style="height:1px;background:#0F0F0F;margin-bottom:20px;"></div>
-
     @php
-    $gorselYollar = !empty($urun->gorseller) ? $urun->gorseller : ($urun->gorsel ? [$urun->gorsel] : []);
-    $gorselYollar = array_slice($gorselYollar, 0, 4);
-    $gSayisi = max(1, count($gorselYollar));
-    // İçerik alanı ~237mm (297mm - 36mm padding - ~24mm header). Her görsel eşit pay alır.
-    $gHt = floor((237 - ($gSayisi - 1) * 3) / $gSayisi) . 'mm';
+    $gorselYollar    = !empty($urun->gorseller) ? $urun->gorseller : ($urun->gorsel ? [$urun->gorsel] : []);
+    $gorselYollar    = array_slice($gorselYollar, 0, 10);
+    $gorselSayfalari = array_chunk($gorselYollar, 5) ?: [[]];
+    $toplamSayfa     = count($gorselSayfalari);
     @endphp
-    <div style="display:flex;flex:1;gap:20px;min-height:0;">
 
-        {{-- Sol: Görseller --}}
-        <div style="width:42%;display:flex;flex-direction:column;gap:10px;overflow:hidden;">
-            @forelse($gorselYollar as $gYol)
-            <div style="height:{{ $gHt }};flex-shrink:0;border:1px solid rgba(0,0,0,0.08);border-radius:4px;overflow:hidden;background:#F5F5F5;">
-                <img src="{{ asset('storage/' . $gYol) }}" alt="{{ $urun->ad }}"
-                     style="width:100%;height:100%;object-fit:contain;padding:8px;">
+    @foreach($gorselSayfalari as $si => $sayfaGorseller)
+    @php
+    $gSayisi = max(1, count($sayfaGorseller));
+    $gHt     = floor((237 - ($gSayisi - 1) * 3) / $gSayisi) . 'mm';
+    @endphp
+    <div class="katalog-sayfa" style="page-break-before:always;break-before:page;">
+
+        <div style="margin-bottom:6px;display:flex;justify-content:space-between;align-items:baseline;">
+            <div>
+                <span style="font-family:'Cormorant Garamond',serif;font-size:16px;color:#B8962E;margin-right:8px;font-weight:600;">{{ $i + 1 }}.</span>
+                <span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#0F0F0F;">{{ $urun->ad }}</span>
+                @if($toplamSayfa > 1)
+                <span style="font-family:'DM Sans',sans-serif;font-size:10px;color:#A8A8A8;margin-left:10px;">({{ $si + 1 }} / {{ $toplamSayfa }})</span>
+                @endif
             </div>
-            @empty
-            <div style="height:{{ $gHt }};flex-shrink:0;border:1px solid rgba(0,0,0,0.08);border-radius:4px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;text-align:center;color:#C0C0C0;font-size:12px;padding:24px;">
-                <div>
-                    <i class="ti ti-photo" style="font-size:28px;display:block;margin-bottom:6px;"></i>
-                    Görsel yüklenmemiş
-                </div>
-            </div>
-            @endforelse
+            <span style="font-size:10px;letter-spacing:.22em;color:#A8A8A8;text-transform:uppercase;">{{ $kapak['marka'] ?? 'SUÇEK' }}</span>
         </div>
+        <div style="height:3px;background:#B8962E;margin-bottom:3px;"></div>
+        <div style="height:1px;background:#0F0F0F;margin-bottom:20px;"></div>
 
-        {{-- Sağ: Teknik Özellikler --}}
-        <div style="flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden;">
-            <div style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#B8962E;margin-bottom:10px;font-weight:500;padding-bottom:6px;border-bottom:1px solid rgba(184,150,46,0.25);flex-shrink:0;">Teknik Özellikler</div>
-            @if(trim(strip_tags($urun->aciklama ?? '')))
-            <div style="flex:1;min-height:0;overflow:hidden;font-size:12px;color:#3A3A3A;line-height:1.7;">{!! $urun->aciklama !!}</div>
-            @else
-            <div style="font-size:11px;color:#C0C0C0;font-style:italic;">Açıklama girilmemiş</div>
-            @endif
+        <div style="display:flex;flex:1;gap:20px;min-height:0;">
+
+            {{-- Sol: Görseller --}}
+            <div style="width:42%;display:flex;flex-direction:column;gap:10px;overflow:hidden;">
+                @forelse($sayfaGorseller as $gYol)
+                <div style="height:{{ $gHt }};flex-shrink:0;border:1px solid rgba(0,0,0,0.08);border-radius:4px;overflow:hidden;background:#F5F5F5;">
+                    <img src="{{ asset('storage/' . $gYol) }}" alt="{{ $urun->ad }}"
+                         style="width:100%;height:100%;object-fit:contain;padding:8px;">
+                </div>
+                @empty
+                <div style="height:{{ $gHt }};flex-shrink:0;border:1px solid rgba(0,0,0,0.08);border-radius:4px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;text-align:center;color:#C0C0C0;font-size:12px;padding:24px;">
+                    <div>
+                        <i class="ti ti-photo" style="font-size:28px;display:block;margin-bottom:6px;"></i>
+                        Görsel yüklenmemiş
+                    </div>
+                </div>
+                @endforelse
+            </div>
+
+            {{-- Sağ: Teknik Özellikler --}}
+            <div style="flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden;">
+                <div style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#B8962E;margin-bottom:10px;font-weight:500;padding-bottom:6px;border-bottom:1px solid rgba(184,150,46,0.25);flex-shrink:0;">Teknik Özellikler{{ $si > 0 ? ' (devam)' : '' }}</div>
+                @if($si === 0)
+                    @if(trim(strip_tags($urun->aciklama ?? '')))
+                    <div style="flex:1;min-height:0;overflow:hidden;font-size:12px;color:#3A3A3A;line-height:1.7;">{!! $urun->aciklama !!}</div>
+                    @else
+                    <div style="font-size:11px;color:#C0C0C0;font-style:italic;">Açıklama girilmemiş</div>
+                    @endif
+                @endif
+            </div>
+
         </div>
 
     </div>
-
-
-</div>
+    @endforeach
 @endforeach
 
 </body>
