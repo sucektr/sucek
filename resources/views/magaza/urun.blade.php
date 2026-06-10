@@ -46,9 +46,9 @@ if ($hasVaryant) {
     adet: 1,
     gorseller: {{ json_encode($gorsellerArray) }},
     hasVaryant: {{ $hasVaryant ? 'true' : 'false' }},
-    secenekler: {!! json_encode($seceneklerJs) !!},
-    varyantlar: {!! json_encode($varyantlarJs) !!},
-    secimler: {!! json_encode($hasVaryant ? $secimlerJs : (object)[]) !!},
+    secenekler: {{ json_encode($seceneklerJs) }},
+    varyantlar: {{ json_encode($varyantlarJs) }},
+    secimler: {{ json_encode($hasVaryant ? $secimlerJs : (object)[]) }},
     get secilenVaryant() {
       if (!this.hasVaryant) return null;
       if (Object.values(this.secimler).some(v => !v)) return null;
