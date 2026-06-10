@@ -20,9 +20,8 @@ class DeployController extends Controller
 
         // ── Git adımları (exec gerekli) ───────────────────────────────────
         foreach ([
-            'git remote'       => "cd \"{$kok}\" && git remote set-url origin https://github.com/sucektr/sucek.git 2>&1",
-            'git pull'         => "cd \"{$kok}\" && git pull origin main 2>&1",
-            'composer install' => "cd \"{$kok}\" && composer install --no-dev --no-interaction --optimize-autoloader 2>&1",
+            'git remote' => "cd \"{$kok}\" && git remote set-url origin https://github.com/sucektr/sucek.git 2>&1",
+            'git pull'   => "cd \"{$kok}\" && git pull origin main 2>&1",
         ] as $ad => $komut) {
             $cikti = [];
             $kod   = 0;
