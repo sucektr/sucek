@@ -90,7 +90,7 @@ class SoyAgaciController extends Controller
 
         SoyAgaciDegisiklik::create([
             'user_id' => auth()->id(),
-            'tip'     => $validated['tip'],
+            'tip'     => $request->input('tip'),
             'veri'    => $veri,
             'durum'   => 'beklemede',
         ]);
