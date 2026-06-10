@@ -25,11 +25,9 @@ class SoyAgaciSeeder extends Seeder
 
         $mevcutSayisi = DB::table('soy_agaci_kisiler')->count();
         if ($mevcutSayisi > 0) {
-            $this->command->warn("Veritabanında zaten {$mevcutSayisi} kişi var. Mevcut veriler silinip yeniden yüklenecek.");
-            if (!$this->command->confirm('Devam etmek istiyor musunuz?', false)) {
-                $this->command->info('İptal edildi.');
-                return;
-            }
+            // Deploy route'undan çalışınca --force geçilir, interaktif onay atlanır
+            $this->command->info("Soy ağacı zaten {$mevcutSayisi} kişi içeriyor — atlandı.");
+            return;
         }
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0');

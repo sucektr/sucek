@@ -38,7 +38,8 @@ class DeployController extends Controller
 
         // ── Artisan adımları (PHP içinde) ────────────────────────────────
         $artisanAdimlar = [
-            'migrate'        => fn() => Artisan::call('migrate', ['--force' => true]),
+            'migrate'           => fn() => Artisan::call('migrate', ['--force' => true]),
+            'soy-agaci:seed'    => fn() => Artisan::call('db:seed', ['--class' => 'SoyAgaciSeeder', '--force' => true]),
             'config:clear'   => fn() => Artisan::call('config:clear'),
             'config:cache'   => fn() => Artisan::call('config:cache'),
             'route:clear'    => fn() => Artisan::call('route:clear'),
