@@ -1,0 +1,1198 @@
+{
+  "people": [
+    {
+      "id": 1,
+      "ad": "Şerif",
+      "soyad": "Suçek",
+      "gender": "male",
+      "meslek": "Kuyumcu",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "1885",
+      "olum": "",
+      "yer": "Priştine",
+      "not": "Aile büyüğü",
+      "x": 200,
+      "y": 150
+    },
+    {
+      "id": 2,
+      "ad": "Hazire",
+      "soyad": "Suçek",
+      "gender": "female",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "1890",
+      "olum": "",
+      "yer": "Priştine",
+      "not": "",
+      "x": 390,
+      "y": 150
+    },
+    {
+      "id": 3,
+      "ad": "Bekir",
+      "soyad": "Suçek",
+      "gender": "male",
+      "meslek": "Kuyumcu",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "1930",
+      "olum": "2015",
+      "yer": "Ankara",
+      "not": "",
+      "x": 282.49999999999994,
+      "y": 320
+    },
+    {
+      "id": 4,
+      "ad": "Hatice",
+      "soyad": "Suçek",
+      "gender": "female",
+      "meslek": "Ev Hanımı",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": 472.49999999999994,
+      "y": 320
+    },
+    {
+      "id": 5,
+      "ad": "Salih",
+      "soyad": "Suçek",
+      "gender": "male",
+      "meslek": "Kuyumcu",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -1339.4698147311922,
+      "y": 449.2234009547767,
+      "locked": true
+    },
+    {
+      "id": 6,
+      "ad": "Nevale",
+      "soyad": "Suçek",
+      "gender": "female",
+      "meslek": "Ev hanımı",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -1160.4019286517512,
+      "y": 451.07110532207787,
+      "locked": true
+    },
+    {
+      "id": 7,
+      "ad": "Arif",
+      "soyad": "Suçek",
+      "gender": "male",
+      "meslek": "Muhasebeci",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -1968.543267311148,
+      "y": 611.8494501740204,
+      "locked": true
+    },
+    {
+      "id": 8,
+      "ad": "Canan",
+      "soyad": "Suçek",
+      "gender": "female",
+      "meslek": "Muhasebeci",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -1781.5545999906751,
+      "y": 611.8494501740204,
+      "locked": true
+    },
+    {
+      "id": 9,
+      "ad": "Salih",
+      "soyad": "Suçek",
+      "gender": "male",
+      "meslek": "Öğrenci",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -1968.543267311148,
+      "y": 751.009757493568,
+      "locked": true
+    },
+    {
+      "id": 10,
+      "ad": "Ahmet Samet",
+      "soyad": "Suçek",
+      "gender": "male",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -1780.0840117553812,
+      "y": 751.009757493568,
+      "locked": true
+    },
+    {
+      "id": 11,
+      "ad": "Nuray",
+      "soyad": "Güner",
+      "gender": "female",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -1551.471656057951,
+      "y": 610.3788619387263,
+      "locked": true
+    },
+    {
+      "id": 12,
+      "ad": "Erdoğan",
+      "soyad": "Güner",
+      "gender": "male",
+      "meslek": "Fırıncı",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -1364.482988737478,
+      "y": 610.3788619387262,
+      "locked": true
+    },
+    {
+      "id": 13,
+      "ad": "İsmail Alptuğ",
+      "soyad": "Güner",
+      "gender": "male",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -1551.471656057951,
+      "y": 751.009757493568,
+      "locked": true
+    },
+    {
+      "id": 14,
+      "ad": "Şevval",
+      "soyad": "Güner",
+      "gender": "female",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -1364.482988737478,
+      "y": 751.009757493568,
+      "locked": true
+    },
+    {
+      "id": 15,
+      "ad": "Tuğba",
+      "soyad": "Canyurt",
+      "gender": "female",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -1134.7349613800811,
+      "y": 610.3788619387262,
+      "locked": true,
+      "photo": null
+    },
+    {
+      "id": 16,
+      "ad": "Esma",
+      "soyad": "Özdemir",
+      "gender": "female",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -717.9830432215132,
+      "y": 610.7624936522813,
+      "locked": true
+    },
+    {
+      "id": 17,
+      "ad": "Yasin",
+      "soyad": "Özdemir",
+      "gender": "male",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -529.9074193792998,
+      "y": 611.8494501740204,
+      "locked": true
+    },
+    {
+      "id": 18,
+      "ad": "Demir",
+      "soyad": "Özdemir",
+      "gender": "male",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -717.9830432215132,
+      "y": 751.009757493568,
+      "locked": true
+    },
+    {
+      "id": 19,
+      "ad": "Derin",
+      "soyad": "Özdemir",
+      "gender": "female",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -530.9943759010389,
+      "y": 751.009757493568,
+      "locked": true
+    },
+    {
+      "id": 20,
+      "ad": "Ömer",
+      "soyad": "Canyurt",
+      "gender": "male",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -946.6593375378676,
+      "y": 611.8494501740204,
+      "locked": true
+    },
+    {
+      "id": 21,
+      "ad": "Ömer Enes",
+      "soyad": "Canyurt",
+      "gender": "male",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -1134.7349613800811,
+      "y": 751.009757493568,
+      "locked": true
+    },
+    {
+      "id": 22,
+      "ad": "Tuğba Zeynep",
+      "soyad": "Canyurt",
+      "gender": "female",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -946.2757058243126,
+      "y": 751.009757493568,
+      "locked": true
+    },
+    {
+      "id": 23,
+      "ad": "Safiye",
+      "soyad": "Atar",
+      "gender": "female",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -196.39390492394853,
+      "y": 451.07110532207787
+    },
+    {
+      "id": 24,
+      "ad": "Celalettin",
+      "soyad": "Atar",
+      "gender": "male",
+      "meslek": "Kasap",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "2006",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -23.801763783943663,
+      "y": 452.26158151255413
+    },
+    {
+      "id": 25,
+      "ad": "Bekir",
+      "soyad": "Atar",
+      "gender": "male",
+      "meslek": "Teknik",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": 147.439905297482,
+      "y": 628.5706433672866
+    },
+    {
+      "id": 26,
+      "ad": "Fahriye",
+      "soyad": "Kunter",
+      "gender": "female",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -244.55806630495212,
+      "y": 633.4363827664947
+    },
+    {
+      "id": 27,
+      "ad": "Hakan",
+      "soyad": "Kunter",
+      "gender": "male",
+      "meslek": "Şöför",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": -60.44041924612859,
+      "y": 636.3775592370829
+    },
+    {
+      "id": 28,
+      "ad": "Abdullah Kadir",
+      "soyad": "Suçek",
+      "gender": "male",
+      "meslek": "Kuyumcu",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": 932.1613907086223,
+      "y": 591.2418126307481
+    },
+    {
+      "id": 29,
+      "ad": "Neşe",
+      "soyad": "Suçek",
+      "gender": "female",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": 1122.1613907086223,
+      "y": 591.2418126307481
+    },
+    {
+      "id": 30,
+      "ad": "Rabia",
+      "soyad": "Yaşdağ",
+      "gender": "female",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": 1528.3378612968577,
+      "y": 601.535930277807
+    },
+    {
+      "id": 31,
+      "ad": "Fikret",
+      "soyad": "Yaşdağ",
+      "gender": "male",
+      "meslek": "Kuyumcu",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": 1718.3378612968577,
+      "y": 601.535930277807
+    },
+    {
+      "id": 32,
+      "ad": "Beytullah",
+      "soyad": "Suçek",
+      "gender": "male",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": 2120.4590734180697,
+      "y": 604.7177484596251
+    },
+    {
+      "id": 33,
+      "ad": "Leyla",
+      "soyad": "Suçek",
+      "gender": "female",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": 2325.4590734180697,
+      "y": 599.7177484596251
+    },
+    {
+      "id": 34,
+      "ad": "Seyfullah",
+      "soyad": "Suçek",
+      "gender": "male",
+      "meslek": "Kuyumcu",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": 2772.6019305609266,
+      "y": 596.1463198881966
+    },
+    {
+      "id": 35,
+      "ad": "Ayşegül",
+      "soyad": "Suçek",
+      "gender": "male",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": 2962.6019305609266,
+      "y": 596.1463198881966
+    },
+    {
+      "id": 36,
+      "ad": "Yasin",
+      "soyad": "Suçek",
+      "gender": "male",
+      "meslek": "Mimar/İç Mimar",
+      "bdGun": 14,
+      "bdAy": 12,
+      "bdYil": "1990",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": 2629.4480844070804,
+      "y": 749.0693968112735
+    },
+    {
+      "id": 37,
+      "ad": "Hatice",
+      "soyad": "Suçek",
+      "gender": "female",
+      "meslek": "İç Mimar",
+      "bdGun": 21,
+      "bdAy": 8,
+      "bdYil": "1996",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": 2815.371161330157,
+      "y": 749.9924737343504
+    },
+    {
+      "id": 38,
+      "ad": "Bekir Alp",
+      "soyad": "Suçek",
+      "gender": "male",
+      "meslek": "",
+      "bdGun": 16,
+      "bdAy": 6,
+      "bdYil": "2025",
+      "olum": "",
+      "yer": "Ankara",
+      "not": "",
+      "x": 2716.0634690224647,
+      "y": 894.3770891189655
+    },
+    {
+      "id": 39,
+      "ad": "Ömer",
+      "soyad": "Suçek",
+      "gender": "male",
+      "meslek": "İç Mimar",
+      "bdGun": 10,
+      "bdAy": 5,
+      "bdYil": "1992",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": 3127.730135689131,
+      "y": 748.710422452299
+    },
+    {
+      "id": 40,
+      "ad": "Büşra",
+      "soyad": "Suçek",
+      "gender": "female",
+      "meslek": "İç Mimar",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": 3317.730135689131,
+      "y": 748.710422452299
+    },
+    {
+      "id": 41,
+      "ad": "Banu",
+      "soyad": "Şahin",
+      "gender": "female",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": 1325.1294030883992,
+      "y": 764.5529132947898
+    },
+    {
+      "id": 42,
+      "ad": "Sertaç",
+      "soyad": "Şahin",
+      "gender": "male",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": 1509.177022136018,
+      "y": 765.743389485266
+    },
+    {
+      "id": 43,
+      "ad": "Burak",
+      "soyad": "Yaşdağ",
+      "gender": "male",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "x": 1750.3674983264943,
+      "y": 766.9338656757423
+    },
+    {
+      "id": 44,
+      "ad": "Pervin",
+      "soyad": "Atar",
+      "gender": "female",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "photo": null,
+      "x": 324.64068128388755,
+      "y": 630.2170736957922
+    },
+    {
+      "id": 45,
+      "ad": "Dilara",
+      "soyad": "?",
+      "gender": "female",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "photo": null,
+      "x": -253.78037134769158,
+      "y": 760.4802315905291
+    },
+    {
+      "id": 46,
+      "ad": "Yaren",
+      "soyad": "Kunter",
+      "gender": "female",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "photo": null,
+      "x": 290.98153341421323,
+      "y": 762.8611839714816
+    },
+    {
+      "id": 47,
+      "ad": "Mustafa",
+      "soyad": "?",
+      "gender": "male",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "photo": null,
+      "x": -79.73275230007259,
+      "y": 764.0516601619578
+    },
+    {
+      "id": 48,
+      "ad": "Gizem",
+      "soyad": "Kunter",
+      "gender": "female",
+      "meslek": "",
+      "bdGun": null,
+      "bdAy": null,
+      "bdYil": "",
+      "olum": "",
+      "yer": "",
+      "not": "",
+      "photo": null,
+      "x": 115.02915246183218,
+      "y": 761.6707077810054
+    }
+  ],
+  "relations": [
+    {
+      "from": 2,
+      "to": 1,
+      "type": "couple"
+    },
+    {
+      "from": 3,
+      "to": 1,
+      "type": "parent"
+    },
+    {
+      "from": 3,
+      "to": 2,
+      "type": "parent"
+    },
+    {
+      "from": 4,
+      "to": 3,
+      "type": "couple"
+    },
+    {
+      "from": 7,
+      "to": 6,
+      "type": "parent"
+    },
+    {
+      "from": 8,
+      "to": 7,
+      "type": "couple"
+    },
+    {
+      "from": 9,
+      "to": 8,
+      "type": "parent"
+    },
+    {
+      "from": 9,
+      "to": 7,
+      "type": "parent"
+    },
+    {
+      "from": 19,
+      "to": 17,
+      "type": "parent"
+    },
+    {
+      "from": 23,
+      "to": 3,
+      "type": "parent"
+    },
+    {
+      "from": 23,
+      "to": 4,
+      "type": "parent"
+    },
+    {
+      "from": 24,
+      "to": 23,
+      "type": "couple"
+    },
+    {
+      "from": 25,
+      "to": 23,
+      "type": "parent"
+    },
+    {
+      "from": 25,
+      "to": 24,
+      "type": "parent"
+    },
+    {
+      "from": 26,
+      "to": 23,
+      "type": "parent"
+    },
+    {
+      "from": 26,
+      "to": 24,
+      "type": "parent"
+    },
+    {
+      "from": 26,
+      "to": 25,
+      "type": "sibling"
+    },
+    {
+      "from": 27,
+      "to": 26,
+      "type": "couple"
+    },
+    {
+      "from": 3,
+      "to": 30,
+      "type": "parent"
+    },
+    {
+      "from": 4,
+      "to": 30,
+      "type": "parent"
+    },
+    {
+      "from": 31,
+      "to": 30,
+      "type": "couple"
+    },
+    {
+      "from": 3,
+      "to": 32,
+      "type": "parent"
+    },
+    {
+      "from": 4,
+      "to": 32,
+      "type": "parent"
+    },
+    {
+      "from": 33,
+      "to": 32,
+      "type": "couple"
+    },
+    {
+      "from": 38,
+      "to": 37,
+      "type": "parent"
+    },
+    {
+      "from": 36,
+      "to": 35,
+      "type": "parent"
+    },
+    {
+      "from": 36,
+      "to": 37,
+      "type": "couple"
+    },
+    {
+      "from": 36,
+      "to": 38,
+      "type": "parent"
+    },
+    {
+      "from": 22,
+      "to": 20,
+      "type": "parent"
+    },
+    {
+      "from": 6,
+      "to": 16,
+      "type": "parent"
+    },
+    {
+      "from": 16,
+      "to": 17,
+      "type": "couple"
+    },
+    {
+      "from": 16,
+      "to": 19,
+      "type": "parent"
+    },
+    {
+      "from": 6,
+      "to": 11,
+      "type": "parent"
+    },
+    {
+      "from": 12,
+      "to": 11,
+      "type": "couple"
+    },
+    {
+      "from": 11,
+      "to": 13,
+      "type": "parent"
+    },
+    {
+      "from": 12,
+      "to": 13,
+      "type": "parent"
+    },
+    {
+      "from": 10,
+      "to": 8,
+      "type": "parent"
+    },
+    {
+      "from": 10,
+      "to": 7,
+      "type": "parent"
+    },
+    {
+      "from": 20,
+      "to": 21,
+      "type": "parent"
+    },
+    {
+      "from": 17,
+      "to": 18,
+      "type": "parent"
+    },
+    {
+      "from": 18,
+      "to": 16,
+      "type": "parent"
+    },
+    {
+      "from": 14,
+      "to": 11,
+      "type": "parent"
+    },
+    {
+      "from": 14,
+      "to": 12,
+      "type": "parent"
+    },
+    {
+      "from": 3,
+      "to": 5,
+      "type": "parent"
+    },
+    {
+      "from": 4,
+      "to": 5,
+      "type": "parent"
+    },
+    {
+      "from": 5,
+      "to": 6,
+      "type": "couple"
+    },
+    {
+      "from": 5,
+      "to": 7,
+      "type": "parent"
+    },
+    {
+      "from": 16,
+      "to": 5,
+      "type": "parent"
+    },
+    {
+      "from": 11,
+      "to": 5,
+      "type": "parent"
+    },
+    {
+      "from": 3,
+      "to": 28,
+      "type": "parent"
+    },
+    {
+      "from": 4,
+      "to": 28,
+      "type": "parent"
+    },
+    {
+      "from": 28,
+      "to": 29,
+      "type": "couple"
+    },
+    {
+      "from": 34,
+      "to": 3,
+      "type": "parent"
+    },
+    {
+      "from": 34,
+      "to": 4,
+      "type": "parent"
+    },
+    {
+      "from": 34,
+      "to": 35,
+      "type": "couple"
+    },
+    {
+      "from": 34,
+      "to": 36,
+      "type": "parent"
+    },
+    {
+      "from": 35,
+      "to": 39,
+      "type": "parent"
+    },
+    {
+      "from": 39,
+      "to": 40,
+      "type": "couple"
+    },
+    {
+      "from": 39,
+      "to": 34,
+      "type": "parent"
+    },
+    {
+      "from": 41,
+      "to": 30,
+      "type": "parent"
+    },
+    {
+      "from": 41,
+      "to": 31,
+      "type": "parent"
+    },
+    {
+      "from": 42,
+      "to": 41,
+      "type": "couple"
+    },
+    {
+      "from": 43,
+      "to": 30,
+      "type": "parent"
+    },
+    {
+      "from": 43,
+      "to": 31,
+      "type": "parent"
+    },
+    {
+      "from": 15,
+      "to": 20,
+      "type": "couple"
+    },
+    {
+      "from": 22,
+      "to": 15,
+      "type": "parent"
+    },
+    {
+      "from": 15,
+      "to": 21,
+      "type": "parent"
+    },
+    {
+      "from": 15,
+      "to": 5,
+      "type": "parent"
+    },
+    {
+      "from": 15,
+      "to": 6,
+      "type": "parent"
+    },
+    {
+      "from": 44,
+      "to": 25,
+      "type": "couple"
+    },
+    {
+      "from": 47,
+      "to": 45,
+      "type": "couple"
+    }
+  ],
+  "frames": [
+    {
+      "id": 2,
+      "memberIds": [
+        17,
+        19,
+        18,
+        16
+      ],
+      "label": "Esma'nın Ailesi",
+      "color": {
+        "hex": "#6a4c9c",
+        "bg": "rgba(106,76,156,.07)",
+        "label": "Mor"
+      }
+    },
+    {
+      "id": 3,
+      "memberIds": [
+        22,
+        21,
+        15,
+        20
+      ],
+      "label": "Tuğba'nın Ailesi",
+      "color": {
+        "hex": "#6a4c9c",
+        "bg": "rgba(106,76,156,.07)",
+        "label": "Mor"
+      }
+    },
+    {
+      "id": 4,
+      "memberIds": [
+        11,
+        13,
+        14,
+        12
+      ],
+      "label": "Nuray'ın Ailesi",
+      "color": {
+        "hex": "#6a4c9c",
+        "bg": "rgba(106,76,156,.07)",
+        "label": "Mor"
+      }
+    },
+    {
+      "id": 5,
+      "memberIds": [
+        8,
+        7,
+        9,
+        10
+      ],
+      "label": "Arif'in Ailesi",
+      "color": {
+        "hex": "#6a4c9c",
+        "bg": "rgba(106,76,156,.07)",
+        "label": "Mor"
+      }
+    },
+    {
+      "id": 6,
+      "memberIds": [
+        19,
+        18,
+        17,
+        16,
+        20,
+        15,
+        21,
+        22,
+        14,
+        12,
+        11,
+        13,
+        10,
+        8,
+        7,
+        9,
+        5,
+        6
+      ],
+      "label": "Salih Suçek ve Evlatları",
+      "color": {
+        "hex": "#c0392b",
+        "bg": "rgba(192,57,43,.07)",
+        "label": "Kırmızı"
+      }
+    }
+  ],
+  "nid": 49,
+  "fnid": 7
+}
