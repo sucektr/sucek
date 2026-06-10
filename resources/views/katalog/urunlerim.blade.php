@@ -109,20 +109,35 @@
         </div>
 
         <div style="margin-bottom:16px;">
-          <label class="um-label">Görsel</label>
-          <div @click="$refs.gorselInput.click()"
+          <label class="um-label">Görseller <span style="font-size:10px;color:#C0C0C0;font-weight:400;text-transform:none;letter-spacing:0;">en fazla 6</span></label>
+          {{-- Mevcut görseller --}}
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;" x-show="gorseller.length > 0">
+            <template x-for="(g, idx) in gorseller" :key="idx">
+              <div style="position:relative;width:68px;height:68px;border-radius:7px;overflow:hidden;border:1px solid rgba(0,0,0,0.1);background:#F5F5F5;flex-shrink:0;">
+                <img :src="g.url" style="width:100%;height:100%;object-fit:cover;">
+                <button @click.stop="gorselSil(idx)"
+                        style="position:absolute;top:2px;right:2px;width:18px;height:18px;background:rgba(0,0,0,0.6);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;">
+                  <i class="ti ti-x" style="font-size:8px;color:white;line-height:1;"></i>
+                </button>
+                <div x-show="idx === 0"
+                     style="position:absolute;bottom:0;left:0;right:0;text-align:center;background:rgba(184,150,46,0.85);font-size:7px;font-weight:700;padding:1px 0;color:#0F0F0F;">ANA</div>
+              </div>
+            </template>
+          </div>
+          {{-- Drop zone --}}
+          <div x-show="gorseller.length < 6"
+               @click="$refs.gorselInput.click()"
                @dragover.prevent="dragUzerinde=true"
                @dragleave.prevent="dragUzerinde=false"
                @drop.prevent="gorselBirak($event)"
                :class="dragUzerinde ? 'border-[#B8962E] !bg-[#FEFBF0]' : ''"
-               class="um-gorsel-preview">
-            <img x-show="gorselOnizleme" :src="gorselOnizleme" style="width:100%;height:140px;object-fit:contain;">
-            <div x-show="!gorselOnizleme" style="text-align:center;color:#B0B0B0;pointer-events:none;">
-              <i class="ti ti-upload" style="font-size:28px;display:block;margin-bottom:6px;"></i>
+               class="um-gorsel-preview" style="height:80px;">
+            <div style="text-align:center;color:#B0B0B0;pointer-events:none;">
+              <i class="ti ti-upload" style="font-size:24px;display:block;margin-bottom:4px;"></i>
               <span style="font-size:12px;">Tıklayın, sürükleyin veya Ctrl+V</span>
             </div>
           </div>
-          <input type="file" accept="image/*" x-ref="gorselInput" @change="gorselSec($event)" style="display:none;">
+          <input type="file" accept="image/*" multiple x-ref="gorselInput" @change="gorselSecCoklu($event)" style="display:none;">
         </div>
 
         <div style="margin-bottom:4px;">
@@ -154,8 +169,7 @@ function urunlerim() {
         modalAcik: false,
         duzenlenenId: null,
         form: { ad: '', aciklama: '' },
-        gorselDosya: null,
-        gorselOnizleme: null,
+        gorseller: [],
         dragUzerinde: false,
         kaydediliyor: false,
         hatalar: {},
@@ -183,8 +197,7 @@ function urunlerim() {
 
         yeniAc: function() {
             this.form = { ad: '', aciklama: '' };
-            this.gorselDosya = null;
-            this.gorselOnizleme = null;
+            this.gorseller = [];
             this.duzenlenenId = null;
             this.hatalar = {};
             this.modalAcik = true;
@@ -193,8 +206,9 @@ function urunlerim() {
 
         duzenleAc: function(urun) {
             this.form = { ad: urun.ad, aciklama: urun.aciklama };
-            this.gorselDosya = null;
-            this.gorselOnizleme = urun.gorsel || null;
+            this.gorseller = (urun.gorseller_yollar || []).map(function(yol, i) {
+                return { url: (urun.gorseller || [])[i] || null, file: null, yol: yol };
+            });
             this.duzenlenenId = urun.id;
             this.hatalar = {};
             this.modalAcik = true;
@@ -209,20 +223,29 @@ function urunlerim() {
 
         gorselIsle: function(file) {
             if (!file || !file.type.startsWith('image/')) return;
-            this.gorselDosya = file;
+            if (this.gorseller.length >= 6) return;
             var reader = new FileReader();
             var self = this;
-            reader.onload = function(e) { self.gorselOnizleme = e.target.result; };
+            reader.onload = function(e) {
+                self.gorseller = self.gorseller.concat([{ url: e.target.result, file: file, yol: null }]);
+            };
             reader.readAsDataURL(file);
         },
 
-        gorselSec: function(event) {
-            this.gorselIsle(event.target.files[0]);
+        gorselSil: function(idx) {
+            this.gorseller = this.gorseller.filter(function(_, i) { return i !== idx; });
+        },
+
+        gorselSecCoklu: function(event) {
+            var self = this;
+            Array.from(event.target.files).forEach(function(f) { self.gorselIsle(f); });
+            event.target.value = '';
         },
 
         gorselBirak: function(event) {
             this.dragUzerinde = false;
-            this.gorselIsle(event.dataTransfer.files[0]);
+            var self = this;
+            Array.from(event.dataTransfer.files).forEach(function(f) { self.gorselIsle(f); });
         },
 
         gorselYapistir: function(event) {
@@ -251,7 +274,11 @@ function urunlerim() {
             var fd = new FormData();
             fd.append('ad', self.form.ad.trim());
             fd.append('aciklama', aciklama);
-            if (self.gorselDosya) fd.append('gorsel', self.gorselDosya);
+            var korunan = self.gorseller.filter(function(g) { return g.yol !== null; }).map(function(g) { return g.yol; });
+            fd.append('gorseller_koru', JSON.stringify(korunan));
+            self.gorseller.filter(function(g) { return g.file !== null; }).forEach(function(g) {
+                fd.append('gorseller_yeni[]', g.file);
+            });
             fd.append('_token', document.querySelector('meta[name="csrf-token"]').content);
 
             var url = self.duzenlenenId

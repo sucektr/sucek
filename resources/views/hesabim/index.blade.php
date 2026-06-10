@@ -716,20 +716,38 @@
           </div>
 
           <div>
-            <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">Görsel</label>
-            <div @click="$refs.hGorselInput.click()"
+            <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">
+              Görseller
+              <span class="text-[#C0C0C0] font-normal normal-case tracking-normal ml-1">en fazla 6</span>
+            </label>
+            {{-- Mevcut görseller --}}
+            <div class="flex flex-wrap gap-2 mb-2" x-show="gorseller.length > 0">
+              <template x-for="(g, idx) in gorseller" :key="idx">
+                <div class="relative w-[68px] h-[68px] rounded-[7px] overflow-hidden border border-[rgba(0,0,0,0.1)] bg-[#F5F5F5] flex-shrink-0">
+                  <img :src="g.url" class="w-full h-full object-cover">
+                  <button @click.stop="gorselSil(idx)"
+                          class="absolute top-0.5 right-0.5 w-[18px] h-[18px] bg-black/60 hover:bg-black/90 rounded-full flex items-center justify-center cursor-pointer transition-colors">
+                    <i class="ti ti-x text-white" style="font-size:8px;line-height:1;"></i>
+                  </button>
+                  <div x-show="idx === 0"
+                       class="absolute bottom-0 left-0 right-0 text-center bg-[rgba(184,150,46,0.85)] text-[#0F0F0F]"
+                       style="font-size:7px;font-weight:700;padding:1px 0;letter-spacing:.05em;">ANA</div>
+                </div>
+              </template>
+            </div>
+            {{-- Drop zone --}}
+            <div x-show="gorseller.length < 6"
+                 @click="$refs.hGorselInput.click()"
                  @dragover.prevent="dragUzerinde=true"
                  @dragleave.prevent="dragUzerinde=false"
                  @drop.prevent="gorselBirak($event)"
                  :class="dragUzerinde ? 'border-[#B8962E] bg-[#FEFBF0]' : 'border-[rgba(0,0,0,0.15)] bg-[#FAFAFA] hover:border-[#B8962E]'"
-                 class="w-full h-36 border-2 border-dashed rounded-[8px] flex items-center justify-center overflow-hidden cursor-pointer transition-colors">
-              <img x-show="gorselOnizleme" :src="gorselOnizleme" class="w-full h-full object-contain">
-              <div x-show="!gorselOnizleme" class="text-center text-[#B0B0B0] pointer-events-none">
-                <i class="ti ti-upload text-3xl block mb-1"></i>
-                <span class="text-[12px]">Tıklayın, sürükleyin veya Ctrl+V</span>
-              </div>
+                 class="w-full py-5 border-2 border-dashed rounded-[8px] flex flex-col items-center justify-center cursor-pointer transition-colors">
+              <i class="ti ti-upload text-2xl text-[#C0C0C0] mb-1 pointer-events-none"></i>
+              <span class="text-[12px] text-[#B0B0B0] pointer-events-none">Tıklayın, sürükleyin veya Ctrl+V</span>
+              <span x-show="gorseller.length === 0" class="text-[10px] text-[#C0C0C0] mt-0.5 pointer-events-none">İlk görsel katalogda ana görsel olur</span>
             </div>
-            <input type="file" accept="image/*" x-ref="hGorselInput" @change="gorselSec($event)" style="display:none;">
+            <input type="file" accept="image/*" multiple x-ref="hGorselInput" @change="gorselSecCoklu($event)" style="display:none;">
           </div>
 
           <div>
@@ -788,8 +806,7 @@ function urunlerimHesabim() {
         modalAcik: false,
         duzenlenenId: null,
         form: { ad: '' },
-        gorselDosya: null,
-        gorselOnizleme: null,
+        gorseller: [],
         dragUzerinde: false,
         kaydediliyor: false,
         hatalar: {},
@@ -814,8 +831,7 @@ function urunlerimHesabim() {
         yeniAc: function() {
             var self = this;
             this.form = { ad: '' };
-            this.gorselDosya = null;
-            this.gorselOnizleme = null;
+            this.gorseller = [];
             this.duzenlenenId = null;
             this.hatalar = {};
             this.modalAcik = true;
@@ -828,8 +844,9 @@ function urunlerimHesabim() {
         duzenleAc: function(urun) {
             var self = this;
             this.form = { ad: urun.ad };
-            this.gorselDosya = null;
-            this.gorselOnizleme = urun.gorsel || null;
+            this.gorseller = (urun.gorseller_yollar || []).map(function(yol, i) {
+                return { url: (urun.gorseller || [])[i] || null, file: null, yol: yol };
+            });
             this.duzenlenenId = urun.id;
             this.hatalar = {};
             this.modalAcik = true;
@@ -845,20 +862,29 @@ function urunlerimHesabim() {
 
         gorselIsle: function(file) {
             if (!file || !file.type.startsWith('image/')) return;
-            this.gorselDosya = file;
+            if (this.gorseller.length >= 6) return;
             var reader = new FileReader();
             var self = this;
-            reader.onload = function(e) { self.gorselOnizleme = e.target.result; };
+            reader.onload = function(e) {
+                self.gorseller = self.gorseller.concat([{ url: e.target.result, file: file, yol: null }]);
+            };
             reader.readAsDataURL(file);
         },
 
-        gorselSec: function(event) {
-            this.gorselIsle(event.target.files[0]);
+        gorselSil: function(idx) {
+            this.gorseller = this.gorseller.filter(function(_, i) { return i !== idx; });
+        },
+
+        gorselSecCoklu: function(event) {
+            var self = this;
+            Array.from(event.target.files).forEach(function(f) { self.gorselIsle(f); });
+            event.target.value = '';
         },
 
         gorselBirak: function(event) {
             this.dragUzerinde = false;
-            this.gorselIsle(event.dataTransfer.files[0]);
+            var self = this;
+            Array.from(event.dataTransfer.files).forEach(function(f) { self.gorselIsle(f); });
         },
 
         gorselYapistir: function(event) {
@@ -884,7 +910,11 @@ function urunlerimHesabim() {
             var fd = new FormData();
             fd.append('ad', self.form.ad.trim());
             fd.append('aciklama', aciklama);
-            if (self.gorselDosya) fd.append('gorsel', self.gorselDosya);
+            var korunan = self.gorseller.filter(function(g) { return g.yol !== null; }).map(function(g) { return g.yol; });
+            fd.append('gorseller_koru', JSON.stringify(korunan));
+            self.gorseller.filter(function(g) { return g.file !== null; }).forEach(function(g) {
+                fd.append('gorseller_yeni[]', g.file);
+            });
             fd.append('_token', document.querySelector('meta[name="csrf-token"]').content);
 
             var url = self.duzenlenenId

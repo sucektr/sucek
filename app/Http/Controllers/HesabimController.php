@@ -24,12 +24,17 @@ class HesabimController extends Controller
             ? UserUrun::where('user_id', $user->id)
                 ->orderByDesc('created_at')
                 ->get()
-                ->map(fn($u) => [
-                    'id'       => $u->id,
-                    'ad'       => $u->ad,
-                    'gorsel'   => $u->gorsel ? asset('storage/' . $u->gorsel) : null,
-                    'aciklama' => $u->aciklama ?? '',
-                ])
+                ->map(function ($u) {
+                    $yollar = !empty($u->gorseller) ? $u->gorseller : ($u->gorsel ? [$u->gorsel] : []);
+                    return [
+                        'id'               => $u->id,
+                        'ad'               => $u->ad,
+                        'gorsel'           => !empty($yollar) ? asset('storage/' . $yollar[0]) : null,
+                        'gorseller'        => array_map(fn($p) => asset('storage/' . $p), $yollar),
+                        'gorseller_yollar' => $yollar,
+                        'aciklama'         => $u->aciklama ?? '',
+                    ];
+                })
                 ->values()
             : collect();
 

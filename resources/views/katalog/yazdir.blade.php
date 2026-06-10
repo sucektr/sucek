@@ -163,27 +163,39 @@ $tocAdi    = fn($urun) => $icindekiler[$urun->id] ?? $icindekiler[(string)$urun-
     <div style="height:3px;background:#B8962E;margin-bottom:3px;"></div>
     <div style="height:1px;background:#0F0F0F;margin-bottom:20px;"></div>
 
-    <div style="display:flex;flex-direction:column;flex:1;gap:16px;">
-        <div style="border:1px solid rgba(0,0,0,0.08);border-radius:4px;overflow:hidden;background:#F5F5F5;display:flex;align-items:center;justify-content:center;max-height:240px;">
-            @if($urun->gorsel)
-            <img src="{{ asset('storage/' . $urun->gorsel) }}" alt="{{ $urun->ad }}"
-                 style="max-width:100%;max-height:240px;object-fit:contain;padding:10px;">
-            @else
-            <div style="text-align:center;color:#C0C0C0;font-size:12px;padding:32px;">
-                <i class="ti ti-photo" style="font-size:32px;display:block;margin-bottom:6px;"></i>
-                Görsel yüklenmemiş
+    @php
+    $gorselYollar = !empty($urun->gorseller) ? $urun->gorseller : ($urun->gorsel ? [$urun->gorsel] : []);
+    $gorselYollar = array_slice($gorselYollar, 0, 4);
+    @endphp
+    <div style="display:flex;flex:1;gap:20px;min-height:0;">
+
+        {{-- Sol: Görseller --}}
+        <div style="width:42%;display:flex;flex-direction:column;gap:10px;min-height:0;">
+            @forelse($gorselYollar as $gYol)
+            <div style="flex:1;border:1px solid rgba(0,0,0,0.08);border-radius:4px;overflow:hidden;background:#F5F5F5;display:flex;align-items:center;justify-content:center;min-height:0;">
+                <img src="{{ asset('storage/' . $gYol) }}" alt="{{ $urun->ad }}"
+                     style="max-width:100%;max-height:100%;object-fit:contain;padding:8px;">
             </div>
-            @endif
+            @empty
+            <div style="flex:1;border:1px solid rgba(0,0,0,0.08);border-radius:4px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;text-align:center;color:#C0C0C0;font-size:12px;padding:24px;">
+                <div>
+                    <i class="ti ti-photo" style="font-size:28px;display:block;margin-bottom:6px;"></i>
+                    Görsel yüklenmemiş
+                </div>
+            </div>
+            @endforelse
         </div>
 
-        <div style="display:flex;flex-direction:column;">
+        {{-- Sağ: Teknik Özellikler --}}
+        <div style="flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden;">
             <div style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#B8962E;margin-bottom:10px;font-weight:500;padding-bottom:6px;border-bottom:1px solid rgba(184,150,46,0.25);">Teknik Özellikler</div>
             @if(trim(strip_tags($urun->aciklama ?? '')))
-            <div style="font-size:12px;color:#3A3A3A;line-height:1.85;">{!! $urun->aciklama !!}</div>
+            <div style="font-size:12px;color:#3A3A3A;line-height:1.85;overflow:hidden;">{!! $urun->aciklama !!}</div>
             @else
             <div style="font-size:11px;color:#C0C0C0;font-style:italic;">Açıklama girilmemiş</div>
             @endif
         </div>
+
     </div>
 
 

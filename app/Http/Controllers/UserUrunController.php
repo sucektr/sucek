@@ -21,21 +21,19 @@ class UserUrunController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'ad'      => 'required|string|max:255',
-            'gorsel'  => 'nullable|image|max:4096',
-            'aciklama'=> 'nullable|string',
+            'ad'                => 'required|string|max:255',
+            'gorseller_yeni.*' => 'nullable|image|max:4096',
+            'aciklama'          => 'nullable|string',
         ]);
 
-        $gorsel = null;
-        if ($request->hasFile('gorsel')) {
-            $gorsel = $request->file('gorsel')->store('user-urunler', 'public');
-        }
+        $yollar = $this->yukleGorseller($request);
 
         $urun = UserUrun::create([
-            'user_id'  => auth()->id(),
-            'ad'       => $request->ad,
-            'gorsel'   => $gorsel,
-            'aciklama' => $request->aciklama,
+            'user_id'   => auth()->id(),
+            'ad'        => $request->ad,
+            'gorsel'    => $yollar[0] ?? null,
+            'gorseller' => $yollar,
+            'aciklama'  => $request->aciklama,
         ]);
 
         return response()->json(['success' => true, 'urun' => $this->dizi($urun)]);
@@ -46,18 +44,32 @@ class UserUrunController extends Controller
         $urun = UserUrun::where('user_id', auth()->id())->findOrFail($id);
 
         $request->validate([
-            'ad'      => 'required|string|max:255',
-            'gorsel'  => 'nullable|image|max:4096',
-            'aciklama'=> 'nullable|string',
+            'ad'                => 'required|string|max:255',
+            'gorseller_yeni.*' => 'nullable|image|max:4096',
+            'aciklama'          => 'nullable|string',
         ]);
 
-        $gorsel = $urun->gorsel;
-        if ($request->hasFile('gorsel')) {
-            if ($gorsel) Storage::disk('public')->delete($gorsel);
-            $gorsel = $request->file('gorsel')->store('user-urunler', 'public');
+        // Korunan yollar (mevcut, silinmeyecek)
+        $korunan = json_decode($request->input('gorseller_koru', '[]'), true) ?: [];
+
+        // Artık kullanılmayan görselleri sil
+        $eskiYollar = $urun->gorseller ?? ($urun->gorsel ? [$urun->gorsel] : []);
+        foreach ($eskiYollar as $yol) {
+            if (!in_array($yol, $korunan)) {
+                Storage::disk('public')->delete($yol);
+            }
         }
 
-        $urun->update(['ad' => $request->ad, 'gorsel' => $gorsel, 'aciklama' => $request->aciklama]);
+        // Yeni görselleri yükle ve birleştir
+        $yeniYollar = $this->yukleGorseller($request);
+        $tumYollar  = array_values(array_merge($korunan, $yeniYollar));
+
+        $urun->update([
+            'ad'        => $request->ad,
+            'gorsel'    => $tumYollar[0] ?? null,
+            'gorseller' => $tumYollar,
+            'aciklama'  => $request->aciklama,
+        ]);
 
         return response()->json(['success' => true, 'urun' => $this->dizi($urun->fresh())]);
     }
@@ -65,18 +77,39 @@ class UserUrunController extends Controller
     public function destroy(int $id)
     {
         $urun = UserUrun::where('user_id', auth()->id())->findOrFail($id);
-        if ($urun->gorsel) Storage::disk('public')->delete($urun->gorsel);
+
+        $yollar = $urun->gorseller ?? ($urun->gorsel ? [$urun->gorsel] : []);
+        foreach ($yollar as $yol) {
+            Storage::disk('public')->delete($yol);
+        }
+
         $urun->delete();
         return response()->json(['success' => true]);
     }
 
+    private function yukleGorseller(Request $request): array
+    {
+        $yollar = [];
+        if ($request->hasFile('gorseller_yeni')) {
+            foreach ($request->file('gorseller_yeni') as $file) {
+                if ($file->isValid()) {
+                    $yollar[] = $file->store('user-urunler', 'public');
+                }
+            }
+        }
+        return $yollar;
+    }
+
     private function dizi(UserUrun $u): array
     {
+        $yollar = !empty($u->gorseller) ? $u->gorseller : ($u->gorsel ? [$u->gorsel] : []);
         return [
-            'id'       => $u->id,
-            'ad'       => $u->ad,
-            'gorsel'   => $u->gorsel ? asset('storage/' . $u->gorsel) : null,
-            'aciklama' => $u->aciklama ?? '',
+            'id'               => $u->id,
+            'ad'               => $u->ad,
+            'gorsel'           => !empty($yollar) ? asset('storage/' . $yollar[0]) : null,
+            'gorseller'        => array_map(fn($p) => asset('storage/' . $p), $yollar),
+            'gorseller_yollar' => $yollar,
+            'aciklama'         => $u->aciklama ?? '',
         ];
     }
 }
