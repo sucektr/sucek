@@ -64,7 +64,7 @@ $cp = 3; // kapak=1, içindekiler=2, ürünler 3'ten başlar
 foreach ($urunler as $u) {
     $urunSayfaNo[] = $cp;
     $g  = !empty($u->gorseller) ? $u->gorseller : ($u->gorsel ? [$u->gorsel] : []);
-    $cp += max(1, (int) ceil(count(array_slice($g, 0, 10)) / 5));
+    $cp += max(1, (int) ceil(count(array_slice($g, 0, 15)) / 5));
 }
 @endphp
 
@@ -159,7 +159,7 @@ foreach ($urunler as $u) {
 @foreach($urunler as $i => $urun)
     @php
     $gorselYollar    = !empty($urun->gorseller) ? $urun->gorseller : ($urun->gorsel ? [$urun->gorsel] : []);
-    $gorselYollar    = array_slice($gorselYollar, 0, 10);
+    $gorselYollar    = array_slice($gorselYollar, 0, 15);
     $gorselSayfalari = array_chunk($gorselYollar, 5) ?: [[]];
     $toplamSayfa     = count($gorselSayfalari);
     @endphp

@@ -718,7 +718,7 @@
           <div>
             <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">
               Görseller
-              <span class="text-[#C0C0C0] font-normal normal-case tracking-normal ml-1">en fazla 10</span>
+              <span class="text-[#C0C0C0] font-normal normal-case tracking-normal ml-1">en fazla 15</span>
             </label>
             {{-- Mevcut görseller --}}
             <div class="flex flex-wrap gap-2 mb-2" x-show="gorseller.length > 0">
@@ -736,7 +736,7 @@
               </template>
             </div>
             {{-- Drop zone --}}
-            <div x-show="gorseller.length < 10"
+            <div x-show="gorseller.length < 15"
                  @click="$refs.hGorselInput.click()"
                  @dragover.prevent="dragUzerinde=true"
                  @dragleave.prevent="dragUzerinde=false"
@@ -862,7 +862,7 @@ function urunlerimHesabim() {
 
         gorselIsle: function(file) {
             if (!file || !file.type.startsWith('image/')) return;
-            if (this.gorseller.length >= 10) return;
+            if (this.gorseller.length >= 15) return;
             var reader = new FileReader();
             var self = this;
             reader.onload = function(e) {
