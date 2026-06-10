@@ -163,18 +163,21 @@ $tocAdi    = fn($urun) => $icindekiler[$urun->id] ?? $icindekiler[(string)$urun-
     @php
     $gorselYollar = !empty($urun->gorseller) ? $urun->gorseller : ($urun->gorsel ? [$urun->gorsel] : []);
     $gorselYollar = array_slice($gorselYollar, 0, 4);
+    $gSayisi = max(1, count($gorselYollar));
+    // İçerik alanı ~237mm (297mm - 36mm padding - ~24mm header). Her görsel eşit pay alır.
+    $gHt = floor((237 - ($gSayisi - 1) * 3) / $gSayisi) . 'mm';
     @endphp
     <div style="display:flex;flex:1;gap:20px;min-height:0;">
 
         {{-- Sol: Görseller --}}
-        <div style="width:42%;display:flex;flex-direction:column;gap:10px;min-height:0;">
+        <div style="width:42%;display:flex;flex-direction:column;gap:10px;overflow:hidden;">
             @forelse($gorselYollar as $gYol)
-            <div style="flex:1;border:1px solid rgba(0,0,0,0.08);border-radius:4px;overflow:hidden;background:#F5F5F5;display:flex;align-items:center;justify-content:center;min-height:0;">
+            <div style="height:{{ $gHt }};flex-shrink:0;border:1px solid rgba(0,0,0,0.08);border-radius:4px;overflow:hidden;background:#F5F5F5;">
                 <img src="{{ asset('storage/' . $gYol) }}" alt="{{ $urun->ad }}"
-                     style="max-width:100%;max-height:100%;object-fit:contain;padding:8px;">
+                     style="width:100%;height:100%;object-fit:contain;padding:8px;">
             </div>
             @empty
-            <div style="flex:1;border:1px solid rgba(0,0,0,0.08);border-radius:4px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;text-align:center;color:#C0C0C0;font-size:12px;padding:24px;">
+            <div style="height:{{ $gHt }};flex-shrink:0;border:1px solid rgba(0,0,0,0.08);border-radius:4px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;text-align:center;color:#C0C0C0;font-size:12px;padding:24px;">
                 <div>
                     <i class="ti ti-photo" style="font-size:28px;display:block;margin-bottom:6px;"></i>
                     Görsel yüklenmemiş
