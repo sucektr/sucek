@@ -26,6 +26,7 @@
     </div>
 
     <button class="tb-btn" onclick="fitView()"><i class="ti ti-arrows-maximize"></i> Sığdır</button>
+    <button class="tb-btn" id="pa-btn" onclick="togglePrintArea()"><i class="ti ti-border-outer"></i> A4 Alanı</button>
     <button class="tb-btn" onclick="printTree()"><i class="ti ti-printer"></i> Yazdır</button>
 
     <div style="flex:1;"></div>
@@ -66,6 +67,13 @@
        background-size:24px 24px;">
     <svg id="tree-svg" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;"></svg>
     <div id="tree-container" style="position:absolute;transform-origin:0 0;">
+      <div id="print-area-guide" style="display:none;position:absolute;box-sizing:border-box;z-index:1;">
+        <div class="pa-label">
+          <i class="ti ti-printer"></i>
+          <span id="pa-label-text">A4 Yatay — Baskı Alanı</span>
+          <button class="pa-rotate" onclick="rotatePrintArea(event)">↔ Döndür</button>
+        </div>
+      </div>
       <div id="frames-layer"></div>
       <div id="nodes-layer"></div>
     </div>
@@ -360,25 +368,56 @@
 #canvas-wrap { cursor:grab; }
 #canvas-wrap.grabbing { cursor:grabbing; }
 
+/* A4 Baskı Alanı Kılavuzu */
+#print-area-guide {
+  border: 2px dashed #b8783a;
+  background: rgba(184,120,58,0.03);
+  pointer-events: all;
+  cursor: grab;
+  transition: border-color .2s;
+}
+#print-area-guide:hover { border-color: #7a4f2e; background: rgba(184,120,58,0.06); }
+#print-area-guide.pa-grabbing { cursor: grabbing !important; }
+.pa-label {
+  position: absolute;
+  top: -26px; left: 0;
+  display: flex; align-items: center; gap: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px; font-weight: 700; color: #b8783a;
+  white-space: nowrap; pointer-events: none;
+}
+.pa-rotate {
+  pointer-events: all;
+  background: #fff; border: 1px solid #b8783a; color: #b8783a;
+  border-radius: 4px; padding: 1px 7px; cursor: pointer;
+  font-size: 10px; font-weight: 700; transition: all .15s;
+  font-family: 'DM Sans', sans-serif;
+}
+.pa-rotate:hover { background: #b8783a; color: #fff; }
+.tb-btn-active { background: #f0d9b5 !important; border-color: #b8783a !important; color: #7a4f2e !important; }
+
 @media print {
   @page { size: A4 landscape; margin: 10mm; }
 
-  /* Hide nav, toolbar, panels, modals */
+  /* Hide nav, toolbar, panels, modals, print guide */
   body > nav { display: none !important; }
   #toolbar, #align-bar, #detail-panel, #bday-panel, #legend,
-  #empty-state, #add-modal, #frame-modal, #sel-box { display: none !important; }
+  #empty-state, #add-modal, #frame-modal, #sel-box,
+  #print-area-guide { display: none !important; }
 
   /* Remove overflow restrictions up the tree */
   html, body { height: auto !important; overflow: visible !important; }
   main { overflow: visible !important; height: auto !important; flex: none !important; }
   #soy-agaci-wrap { height: auto !important; overflow: visible !important; }
   #canvas-wrap {
-    overflow: visible !important;
-    height: auto !important;
     flex: none !important;
     background-image: none !important;
     cursor: default !important;
   }
+  /* Fit-all: tüm içerik görünsün */
+  body:not(.pa-print) #canvas-wrap { overflow: visible !important; height: auto !important; }
+  /* Print area aktif: sadece seçili alan */
+  body.pa-print #canvas-wrap { overflow: hidden !important; }
 
   /* Clean up nodes for print */
   .node-actions { display: none !important; }
@@ -398,6 +437,9 @@ let scale = 1, panX = 80, panY = 80;
 let panning = false, lmx = 0, lmy = 0;
 let selBoxing = false, sbStart = {x:0, y:0};
 let draggingFrameId = null, fdOx = 0, fdOy = 0, fdMoved = false;
+let printAreaOn = false, printAreaOri = 'landscape';
+let paRect = { x: 0, y: 0, w: 1000, h: 707 };
+let paDragging = false, paOx = 0, paOy = 0;
 let _posTimer = null;
 
 const CSRF      = document.querySelector('meta[name="csrf-token"]').content;
@@ -537,6 +579,13 @@ wrap.addEventListener('mousedown', e => {
   }
 });
 window.addEventListener('mousemove', e => {
+  if (paDragging) {
+    const nx = (e.clientX - panX) / scale, ny = (e.clientY - panY) / scale;
+    paRect.x += nx - paOx; paRect.y += ny - paOy;
+    paOx = nx; paOy = ny;
+    updatePAEl();
+    return;
+  }
   if (draggingFrameId) {
     const nx = (e.clientX - panX) / scale, ny = (e.clientY - panY) / scale;
     const dx = nx - fdOx, dy = ny - fdOy;
@@ -563,6 +612,12 @@ window.addEventListener('mousemove', e => {
   }
 });
 window.addEventListener('mouseup', e => {
+  if (paDragging) {
+    paDragging = false;
+    document.getElementById('print-area-guide').classList.remove('pa-grabbing');
+    wrap.style.cursor = '';
+    return;
+  }
   if (draggingFrameId) {
     if (fdMoved) scheduleKonumKaydet();
     draggingFrameId = null; fdMoved = false;
@@ -1046,48 +1101,107 @@ async function deleteNode(id) {
   await degisiklikGonder('kisi_sil', {id});
 }
 
+// ── A4 BASKI ALANI ─────────────────────────────────────────────────────────
+function togglePrintArea() {
+  printAreaOn = !printAreaOn;
+  const el = document.getElementById('print-area-guide');
+  const btn = document.getElementById('pa-btn');
+  if (printAreaOn) {
+    printAreaOri = 'landscape';
+    // Görünür alanın ortasına yerleştir
+    const ratio = 297 / 210;
+    const vw = wrap.clientWidth, vh = wrap.clientHeight;
+    let pw = (vw - 80) / scale, ph = pw / ratio;
+    if (ph > (vh - 80) / scale) { ph = (vh - 80) / scale; pw = ph * ratio; }
+    paRect = {
+      x: -panX / scale + (vw / scale - pw) / 2,
+      y: -panY / scale + (vh / scale - ph) / 2,
+      w: pw, h: ph,
+    };
+    updatePAEl();
+    el.style.display = '';
+    btn.classList.add('tb-btn-active');
+  } else {
+    el.style.display = 'none';
+    btn.classList.remove('tb-btn-active');
+  }
+}
+
+function updatePAEl() {
+  const el = document.getElementById('print-area-guide');
+  el.style.left   = paRect.x + 'px';
+  el.style.top    = paRect.y + 'px';
+  el.style.width  = paRect.w + 'px';
+  el.style.height = paRect.h + 'px';
+}
+
+function rotatePrintArea(e) {
+  if (e) e.stopPropagation();
+  const cx = paRect.x + paRect.w / 2, cy = paRect.y + paRect.h / 2;
+  [paRect.w, paRect.h] = [paRect.h, paRect.w];
+  paRect.x = cx - paRect.w / 2; paRect.y = cy - paRect.h / 2;
+  printAreaOri = printAreaOri === 'landscape' ? 'portrait' : 'landscape';
+  updatePAEl();
+  document.getElementById('pa-label-text').textContent =
+    (printAreaOri === 'landscape' ? 'A4 Yatay' : 'A4 Dikey') + ' — Baskı Alanı';
+}
+
+// Print area drag
+document.getElementById('print-area-guide').addEventListener('mousedown', e => {
+  if (e.target.tagName === 'BUTTON') return;
+  e.stopPropagation();
+  paDragging = true;
+  paOx = (e.clientX - panX) / scale;
+  paOy = (e.clientY - panY) / scale;
+  document.getElementById('print-area-guide').classList.add('pa-grabbing');
+  wrap.style.cursor = 'grabbing';
+});
+
 // ── YAZDIRMA ──────────────────────────────────────────────────────────────
 function printTree() {
   if (!people.length) { toast('Yazdırılacak kişi yok.'); return; }
 
-  // Save current transform state
   const savedScale = scale, savedPanX = panX, savedPanY = panY;
-  const savedWrapMinH = wrap.style.minHeight, savedWrapW = wrap.style.width;
+  const savedWrapMinH = wrap.style.minHeight, savedWrapW = wrap.style.width, savedWrapH = wrap.style.height;
 
-  // Bounding box of all nodes (node size: ~164×120px)
-  const xs = people.map(p => p.x), ys = people.map(p => p.y);
-  const minX = Math.min(...xs) - 20, maxX = Math.max(...xs) + 184;
-  const minY = Math.min(...ys) - 20, maxY = Math.max(...ys) + 140;
-
-  // Print viewport: full window + nav height (nav hidden in print)
   const navH = (document.querySelector('body > nav') || {offsetHeight: 60}).offsetHeight;
-  const printW = window.innerWidth;
-  const printH = window.innerHeight + navH;
+  const printW = window.innerWidth, printH = window.innerHeight + navH;
+  let contentW, contentH;
 
-  // Fit-to-print scale (max 1.5)
-  const ns = Math.min(printW / (maxX - minX || 1), printH / (maxY - minY || 1), 1.5);
-  const npX = (printW - (maxX - minX) * ns) / 2 - minX * ns;
-  const npY = 20 - minY * ns;
+  if (printAreaOn) {
+    // Sadece seçili A4 alanını yazdır
+    const ns = Math.min(printW / paRect.w, printH / paRect.h);
+    scale = ns; panX = -paRect.x * ns; panY = -paRect.y * ns;
+    contentW = Math.ceil(paRect.w * ns);
+    contentH = Math.ceil(paRect.h * ns);
+    wrap.style.width = contentW + 'px';
+    wrap.style.height = contentH + 'px';
+    document.body.classList.add('pa-print');
+  } else {
+    // Tüm düğümleri sığdır
+    const xs = people.map(p => p.x), ys = people.map(p => p.y);
+    const minX = Math.min(...xs) - 20, maxX = Math.max(...xs) + 184;
+    const minY = Math.min(...ys) - 20, maxY = Math.max(...ys) + 140;
+    const ns = Math.min(printW / (maxX - minX || 1), printH / (maxY - minY || 1), 1.5);
+    panX = (printW - (maxX - minX) * ns) / 2 - minX * ns;
+    panY = 20 - minY * ns; scale = ns;
+    contentW = Math.ceil(maxX * ns + panX + 60);
+    contentH = Math.ceil(maxY * ns + panY + 60);
+    wrap.style.minHeight = contentH + 'px';
+    wrap.style.width = contentW + 'px';
+    document.body.classList.remove('pa-print');
+  }
 
-  scale = ns; panX = npX; panY = npY;
-
-  // Canvas dimensions to contain all content
-  const contentW = Math.ceil(maxX * ns + npX + 60);
-  const contentH = Math.ceil(maxY * ns + npY + 60);
-
-  // Expand wrap and SVG so nothing clips
-  wrap.style.minHeight = contentH + 'px';
-  wrap.style.width = contentW + 'px';
   svgEl.setAttribute('width', contentW); svgEl.setAttribute('height', contentH);
   svgEl.style.width = contentW + 'px'; svgEl.style.height = contentH + 'px';
   container.style.transform = `translate(${panX}px,${panY}px) scale(${scale})`;
   redrawEdges();
 
-  // Restore state after print dialog closes
   window.addEventListener('afterprint', function restoreAfterPrint() {
     scale = savedScale; panX = savedPanX; panY = savedPanY;
-    wrap.style.minHeight = savedWrapMinH; wrap.style.width = savedWrapW;
+    wrap.style.minHeight = savedWrapMinH; wrap.style.width = savedWrapW; wrap.style.height = savedWrapH;
     svgEl.style.width = ''; svgEl.style.height = '';
+    document.body.classList.remove('pa-print');
     applyXform();
   }, { once: true });
 
