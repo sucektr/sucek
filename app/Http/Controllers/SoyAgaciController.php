@@ -69,12 +69,18 @@ class SoyAgaciController extends Controller
 
     public function degisiklik(Request $request)
     {
-        $validated = $request->validate([
-            'tip'  => 'required|in:kisi_ekle,kisi_duzenle,kisi_sil,iliski_ekle,iliski_sil',
-            'veri' => 'required|array',
+        $request->validate([
+            'tip' => 'required|in:kisi_ekle,kisi_duzenle,kisi_sil,iliski_ekle,iliski_sil',
         ]);
 
-        $veri = $validated['veri'];
+        // FormData (foto yükleme) → veri JSON string; JSON body → veri array
+        $veri = $request->input('veri');
+        if (is_string($veri)) {
+            $veri = json_decode($veri, true) ?? [];
+        }
+        if (!is_array($veri) || empty($veri)) {
+            return response()->json(['basarili' => false], 422);
+        }
 
         // Fotoğraf yükleme
         if ($request->hasFile('foto')) {

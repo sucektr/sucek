@@ -434,7 +434,7 @@ async function degisiklikGonder(tip, veri, fotoFile) {
   if (btnOnayla) { btnOnayla.disabled = true; btnOnayla.innerHTML = '<i class="ti ti-loader ti-spin"></i> Gönderiliyor…'; }
 
   try {
-    let body, headers = {'X-CSRF-TOKEN': CSRF};
+    let body, headers = {'X-CSRF-TOKEN': CSRF, 'Accept': 'application/json'};
     if (fotoFile) {
       const fd = new FormData();
       fd.append('tip', tip);
