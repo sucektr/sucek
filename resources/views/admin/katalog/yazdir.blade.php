@@ -38,10 +38,6 @@ body{font-family:'Inter',system-ui,sans-serif;background:#EBEBEB;}
         overflow:hidden!important;
         margin:0!important;box-shadow:none!important;
         page-break-inside:avoid;break-inside:avoid;
-        page-break-after:avoid;break-after:avoid;
-    }
-    .katalog-sayfa + .katalog-sayfa{
-        page-break-before:always;break-before:page;
     }
     @page{size:A4 portrait;margin:0;}
 }
@@ -169,7 +165,7 @@ $tocAdi    = fn($urun) => $icindekiler[$urun->id] ?? $icindekiler[(string)$urun-
 </div>
 
 {{-- ── İÇİNDEKİLER ── --}}
-<div class="katalog-sayfa">
+<div class="katalog-sayfa" style="page-break-before:always;break-before:page;">
     <div style="margin-bottom:5px;">
         <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:#0F172A;letter-spacing:.03em;">İçindekiler</div>
     </div>
@@ -194,7 +190,7 @@ $tocAdi    = fn($urun) => $icindekiler[$urun->id] ?? $icindekiler[(string)$urun-
 
 {{-- ── ÜRÜN SAYFALARI ── --}}
 @foreach($urunler as $i => $urun)
-<div class="katalog-sayfa">
+<div class="katalog-sayfa" style="page-break-before:always;break-before:page;">
 
     {{-- Sayfa başlığı --}}
     <div style="margin-bottom:5px;">
