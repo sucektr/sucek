@@ -358,6 +358,31 @@
 
 #canvas-wrap { cursor:grab; }
 #canvas-wrap.grabbing { cursor:grabbing; }
+
+@media print {
+  @page { size: A4 landscape; margin: 10mm; }
+
+  /* Hide nav, toolbar, panels, modals */
+  body > nav { display: none !important; }
+  #toolbar, #align-bar, #detail-panel, #bday-panel, #legend,
+  #empty-state, #add-modal, #frame-modal, #sel-box { display: none !important; }
+
+  /* Remove overflow restrictions up the tree */
+  html, body { height: auto !important; overflow: visible !important; }
+  main { overflow: visible !important; height: auto !important; flex: none !important; }
+  #soy-agaci-wrap { height: auto !important; overflow: visible !important; }
+  #canvas-wrap {
+    overflow: visible !important;
+    height: auto !important;
+    flex: none !important;
+    background-image: none !important;
+    cursor: default !important;
+  }
+
+  /* Clean up nodes for print */
+  .node-actions { display: none !important; }
+  .person-node { transform: none !important; transition: none !important; box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important; }
+}
 </style>
 @endpush
 
@@ -991,6 +1016,48 @@ async function deleteNode(id) {
 // ── YAZDIRMA ──────────────────────────────────────────────────────────────
 function printTree() {
   if (!people.length) { toast('Yazdırılacak kişi yok.'); return; }
+
+  // Save current transform state
+  const savedScale = scale, savedPanX = panX, savedPanY = panY;
+  const savedWrapMinH = wrap.style.minHeight, savedWrapW = wrap.style.width;
+
+  // Bounding box of all nodes (node size: ~164×120px)
+  const xs = people.map(p => p.x), ys = people.map(p => p.y);
+  const minX = Math.min(...xs) - 20, maxX = Math.max(...xs) + 184;
+  const minY = Math.min(...ys) - 20, maxY = Math.max(...ys) + 140;
+
+  // Print viewport: full window + nav height (nav hidden in print)
+  const navH = (document.querySelector('body > nav') || {offsetHeight: 60}).offsetHeight;
+  const printW = window.innerWidth;
+  const printH = window.innerHeight + navH;
+
+  // Fit-to-print scale (max 1.5)
+  const ns = Math.min(printW / (maxX - minX || 1), printH / (maxY - minY || 1), 1.5);
+  const npX = (printW - (maxX - minX) * ns) / 2 - minX * ns;
+  const npY = 20 - minY * ns;
+
+  scale = ns; panX = npX; panY = npY;
+
+  // Canvas dimensions to contain all content
+  const contentW = Math.ceil(maxX * ns + npX + 60);
+  const contentH = Math.ceil(maxY * ns + npY + 60);
+
+  // Expand wrap and SVG so nothing clips
+  wrap.style.minHeight = contentH + 'px';
+  wrap.style.width = contentW + 'px';
+  svgEl.setAttribute('width', contentW); svgEl.setAttribute('height', contentH);
+  svgEl.style.width = contentW + 'px'; svgEl.style.height = contentH + 'px';
+  container.style.transform = `translate(${panX}px,${panY}px) scale(${scale})`;
+  redrawEdges();
+
+  // Restore state after print dialog closes
+  window.addEventListener('afterprint', function restoreAfterPrint() {
+    scale = savedScale; panX = savedPanX; panY = savedPanY;
+    wrap.style.minHeight = savedWrapMinH; wrap.style.width = savedWrapW;
+    svgEl.style.width = ''; svgEl.style.height = '';
+    applyXform();
+  }, { once: true });
+
   window.print();
 }
 
