@@ -101,8 +101,7 @@ class FiyatGuncelleController extends Controller
             'dosya.max'      => 'Dosya 10 MB\'dan büyük olamaz.',
         ]);
 
-        $path     = $request->file('dosya')->store('temp/fiyat');
-        $fullPath = storage_path('app/' . $path);
+        $fullPath = $request->file('dosya')->getRealPath();
 
         try {
             $reader = new XlsxReader();
@@ -110,11 +109,8 @@ class FiyatGuncelleController extends Controller
             $spreadsheet = $reader->load($fullPath);
             $rows        = $spreadsheet->getActiveSheet()->toArray();
         } catch (\Throwable $e) {
-            \Storage::delete($path);
             return back()->withErrors(['dosya' => 'Dosya okunamadı: ' . $e->getMessage()]);
         }
-
-        \Storage::delete($path);
 
         array_shift($rows); // başlık satırını atla
 
