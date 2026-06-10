@@ -191,6 +191,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('guncelle', [DeployController::class, 'index'])->name('deploy.index');
         Route::post('guncelle', [DeployController::class, 'guncelle'])->name('deploy.guncelle');
+
+        Route::get('fiyat-guncelle', [Admin\FiyatGuncelleController::class, 'index'])->name('fiyat-guncelle.index');
+        Route::get('fiyat-guncelle/indir', [Admin\FiyatGuncelleController::class, 'indir'])->name('fiyat-guncelle.indir');
+        Route::post('fiyat-guncelle/yukle', [Admin\FiyatGuncelleController::class, 'yukle'])->name('fiyat-guncelle.yukle');
     });
 
     // Katalog Oluşturucu — admin + izinli premium üyeler erişebilir

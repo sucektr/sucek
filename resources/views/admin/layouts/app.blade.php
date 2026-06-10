@@ -88,6 +88,9 @@
     <a href="{{ route('admin.katalog.index') }}" class="nav-link {{ request()->routeIs('admin.katalog.*') ? 'active' : '' }}">
       <i class="ti ti-book-2"></i> Katalog Oluşturucu
     </a>
+    <a href="{{ route('admin.fiyat-guncelle.index') }}" class="nav-link {{ request()->routeIs('admin.fiyat-guncelle.*') ? 'active' : '' }}">
+      <i class="ti ti-table-options"></i> Toplu Fiyat
+    </a>
     <a href="{{ route('admin.deploy.index') }}" class="nav-link {{ request()->routeIs('admin.deploy.*') ? 'active' : '' }}">
       <i class="ti ti-cloud-download"></i> Güncelle
     </a>
