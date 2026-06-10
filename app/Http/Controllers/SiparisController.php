@@ -91,16 +91,18 @@ class SiparisController extends Controller
             $kdvBirim    = $item['kdv_tutari'] ?? 0;
             $kdvOrani    = $item['kdv_orani'] ?? 0;
             SiparisKalemi::create([
-                'siparis_id'  => $siparis->id,
-                'urun_tipi'   => $item['tip'],
-                'urun_id'     => $item['id'],
-                'urun_adi'    => $item['ad'],
-                'urun_gorsel' => $item['gorsel'] ?? null,
-                'birim_fiyat' => $birimFiyat,
-                'kdv_orani'   => $kdvOrani,
-                'kdv_tutari'  => $kdvBirim * $item['adet'],
-                'adet'        => $item['adet'],
-                'toplam'      => $birimFiyat * $item['adet'],
+                'siparis_id'      => $siparis->id,
+                'urun_tipi'       => $item['tip'],
+                'urun_id'         => $item['id'],
+                'varyant_id'      => $item['varyant_id'] ?? null,
+                'varyant_bilgisi' => $item['varyant_bilgisi'] ?? null,
+                'urun_adi'        => $item['ad'],
+                'urun_gorsel'     => $item['gorsel'] ?? null,
+                'birim_fiyat'     => $birimFiyat,
+                'kdv_orani'       => $kdvOrani,
+                'kdv_tutari'      => $kdvBirim * $item['adet'],
+                'adet'            => $item['adet'],
+                'toplam'          => $birimFiyat * $item['adet'],
             ]);
         }
 

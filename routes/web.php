@@ -149,6 +149,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [Admin\DashboardController::class, 'index'])->name('dashboard');
 
         Route::resource('urunler', Admin\UrunController::class)->except('show')->parameters(['urunler' => 'urun']);
+        Route::post('urunler/{urun}/varyantlar', [Admin\UrunVaryantController::class, 'kaydet'])->name('urunler.varyantlar.kaydet');
+        Route::delete('urunler/{urun}/varyantlar', [Admin\UrunVaryantController::class, 'sil'])->name('urunler.varyantlar.sil');
         Route::resource('koleksiyonlar', Admin\KoleksiyonController::class)->except('show')->parameters(['koleksiyonlar' => 'koleksiyon']);
         Route::resource('projeler', Admin\ProjeController::class)->except('show')->parameters(['projeler' => 'proje']);
         Route::resource('belgeler', Admin\BelgeController::class)->except('show')->parameters(['belgeler' => 'belge']);

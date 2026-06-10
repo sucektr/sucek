@@ -21,39 +21,51 @@ class SepetController extends Controller
     public function ekle(Request $request)
     {
         $request->validate([
-            'urun_id'   => 'required|integer',
-            'urun_tipi' => 'required|in:urun,koleksiyon',
-            'adet'      => 'required|integer|min:1|max:99',
+            'urun_id'    => 'required|integer',
+            'urun_tipi'  => 'required|in:urun,koleksiyon',
+            'adet'       => 'required|integer|min:1|max:99',
+            'varyant_id' => 'nullable|integer',
         ]);
 
-        $sepet = session('sepet', []);
-        $key   = $request->urun_tipi . '_' . $request->urun_id;
+        $sepet     = session('sepet', []);
+        $varyantId = $request->filled('varyant_id') ? (int) $request->varyant_id : null;
+        $key       = $request->urun_tipi . '_' . $request->urun_id . ($varyantId ? '_v' . $varyantId : '');
 
         $model = $request->urun_tipi === 'koleksiyon'
             ? \App\Models\Koleksiyon::findOrFail($request->urun_id)
             : \App\Models\Urun::findOrFail($request->urun_id);
 
-        // KDV alanları yoksa (eski model) sıfır kullan
-        $kdvOrani    = method_exists($model, 'kdvTutari') ? (float) $model->kdv_orani : 0;
-        $fiyatNet    = method_exists($model, 'kdvHaricFiyat') ? $model->kdvHaricFiyat() : (float) $model->fiyat;
-        $kdvBirim    = method_exists($model, 'kdvTutari') ? $model->kdvTutari() : 0.0;
-        $fiyatEfekt  = method_exists($model, 'kdvDahilFiyat') ? $model->kdvDahilFiyat() : (float) $model->fiyat;
+        $varyantBilgisi = null;
+        if ($varyantId) {
+            $varyant = \App\Models\UrunVaryant::where('id', $varyantId)
+                ->where('urun_id', $model->id)
+                ->where('aktif', true)
+                ->firstOrFail();
+            $varyantBilgisi = $varyant->degerler;
+        }
+
+        $kdvOrani     = method_exists($model, 'kdvTutari') ? (float) $model->kdv_orani : 0;
+        $fiyatNet     = method_exists($model, 'kdvHaricFiyat') ? $model->kdvHaricFiyat() : (float) $model->fiyat;
+        $kdvBirim     = method_exists($model, 'kdvTutari') ? $model->kdvTutari() : 0.0;
+        $fiyatEfekt   = method_exists($model, 'kdvDahilFiyat') ? $model->kdvDahilFiyat() : (float) $model->fiyat;
         $musteriKargo = method_exists($model, 'musteriKargoUcreti') ? $model->musteriKargoUcreti() : 0.0;
 
         if (isset($sepet[$key])) {
             $sepet[$key]['adet'] += $request->adet;
         } else {
             $sepet[$key] = [
-                'id'           => $model->id,
-                'tip'          => $request->urun_tipi,
-                'ad'           => $model->ad,
-                'fiyat'        => $fiyatEfekt,    // KDV dahil fiyat (müşteri görür)
-                'fiyat_net'    => $fiyatNet,       // KDV hariç fiyat
-                'kdv_orani'    => $kdvOrani,
-                'kdv_tutari'   => $kdvBirim,       // birim başına KDV
-                'kargo_ucreti' => $musteriKargo,   // müşterinin ödeyeceği kargo (0 = ücretsiz)
-                'gorsel'       => $model->gorsel,
-                'adet'         => $request->adet,
+                'id'              => $model->id,
+                'tip'             => $request->urun_tipi,
+                'ad'              => $model->ad,
+                'fiyat'           => $fiyatEfekt,
+                'fiyat_net'       => $fiyatNet,
+                'kdv_orani'       => $kdvOrani,
+                'kdv_tutari'      => $kdvBirim,
+                'kargo_ucreti'    => $musteriKargo,
+                'gorsel'          => $model->gorsel,
+                'adet'            => $request->adet,
+                'varyant_id'      => $varyantId,
+                'varyant_bilgisi' => $varyantBilgisi,
             ];
         }
 

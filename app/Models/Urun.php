@@ -66,6 +66,29 @@ class Urun extends Model
         return 0.0;
     }
 
+    public function secenekler()
+    {
+        return $this->hasMany(UrunSecenek::class)->orderBy('sira');
+    }
+
+    public function varyantlar()
+    {
+        return $this->hasMany(UrunVaryant::class)->orderBy('id');
+    }
+
+    public function hasVaryant(): bool
+    {
+        return $this->secenekler()->exists();
+    }
+
+    public function toplamStok(): int
+    {
+        if ($this->hasVaryant()) {
+            return (int) $this->varyantlar()->where('aktif', true)->sum('stok');
+        }
+        return (int) $this->stok;
+    }
+
     public function getIndirimYuzdesiAttribute(): ?int
     {
         if ($this->eski_fiyat && $this->eski_fiyat > $this->fiyat) {

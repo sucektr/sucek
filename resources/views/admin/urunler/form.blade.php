@@ -253,6 +253,233 @@
 
   </div>
 </form>
+@if($urun->exists)
+{{-- ── Varyant Yönetimi ──────────────────────────────────────────────────── --}}
+@php
+  $mevcutSecenekler = $urun->secenekler()->with('degerler')->get();
+  $mevcutVaryantlar = $urun->varyantlar()->get();
+
+  $seceneklerJs = $mevcutSecenekler->map(fn($s) => [
+    'ad'      => $s->ad,
+    'degerler' => $s->degerler->pluck('deger')->toArray(),
+  ])->toArray();
+
+  $varyantlarJs = $mevcutVaryantlar->map(fn($v) => [
+    'degerler'  => $v->degerler,
+    'stok'      => $v->stok,
+    'stok_kodu' => $v->stok_kodu ?? '',
+    'aktif'     => $v->aktif,
+  ])->toArray();
+@endphp
+
+<div class="mt-6"
+  x-data="{
+    secenekler: {{ json_encode($seceneklerJs) }},
+    varyantlar: {{ json_encode($varyantlarJs) }},
+    yeniSecenekAd: '',
+    uretildi: {{ count($varyantlarJs) > 0 ? 'true' : 'false' }},
+    silOnay: false,
+
+    secenekEkle() {
+      const ad = this.yeniSecenekAd.trim();
+      if (!ad || this.secenekler.some(s => s.ad === ad)) return;
+      this.secenekler.push({ ad, degerler: [], yeniDeger: '' });
+      this.yeniSecenekAd = '';
+      this.uretildi = false;
+    },
+    secenekSil(i) {
+      this.secenekler.splice(i, 1);
+      this.uretildi = false;
+      if (!this.secenekler.length) this.varyantlar = [];
+    },
+    degerEkle(sec) {
+      const d = (sec.yeniDeger || '').trim();
+      if (!d || sec.degerler.includes(d)) return;
+      sec.degerler.push(d);
+      sec.yeniDeger = '';
+      this.uretildi = false;
+    },
+    degerSil(sec, idx) {
+      sec.degerler.splice(idx, 1);
+      this.uretildi = false;
+    },
+
+    varyantlarUret() {
+      const filtered = this.secenekler.filter(s => s.ad && s.degerler.length);
+      if (!filtered.length) return;
+      let result = [{}];
+      for (const sec of filtered) {
+        const tmp = [];
+        for (const mevcut of result) {
+          for (const d of sec.degerler) {
+            tmp.push({ ...mevcut, [sec.ad]: d });
+          }
+        }
+        result = tmp;
+      }
+      this.varyantlar = result.map(degerler => {
+        const key = JSON.stringify(degerler);
+        const eski = this.varyantlar.find(v => JSON.stringify(v.degerler) === key);
+        return {
+          degerler,
+          stok: eski ? eski.stok : 0,
+          stok_kodu: eski ? (eski.stok_kodu || '') : '',
+          aktif: eski ? eski.aktif : true,
+        };
+      });
+      this.uretildi = true;
+    },
+
+    etiket(v) {
+      return Object.values(v.degerler).join(' / ');
+    },
+
+    seceneklerJson() { return JSON.stringify(this.secenekler); },
+    varyantlarJson() { return JSON.stringify(this.varyantlar); },
+  }"
+>
+  <div class="bg-white rounded-[12px] border border-[#E2E8F0]">
+    <div class="px-6 py-4 border-b border-[#F1F5F9] flex items-center justify-between">
+      <div>
+        <h2 class="text-[14px] font-semibold text-[#0F172A]">Varyantlar</h2>
+        <p class="text-[11px] text-[#94A3B8] mt-0.5">Renk, beden, malzeme gibi seçenekler tanımlayın ve her kombinasyon için stok girin.</p>
+      </div>
+      <template x-if="varyantlar.length > 0">
+        <button type="button" @click="silOnay = !silOnay"
+                class="text-[11px] text-[#DC2626] hover:underline cursor-pointer">
+          Tüm Varyantları Sil
+        </button>
+      </template>
+    </div>
+
+    {{-- Onay --}}
+    <template x-if="silOnay">
+      <div class="px-6 py-3 bg-[#FEF2F2] border-b border-[#FECACA] flex items-center gap-3 text-[12px] text-[#DC2626]">
+        <i class="ti ti-alert-triangle"></i>
+        <span>Tüm seçenek ve varyantlar kalıcı olarak silinecek. Emin misiniz?</span>
+        <form method="POST" action="{{ route('admin.urunler.varyantlar.sil', $urun) }}" class="ml-auto flex gap-2">
+          @csrf @method('DELETE')
+          <button type="submit" class="bg-[#DC2626] text-white px-3 py-1 rounded-[6px] text-[11px] font-semibold">Evet, Sil</button>
+          <button type="button" @click="silOnay = false" class="text-[#64748B] px-3 py-1 border border-[#E2E8F0] rounded-[6px] text-[11px]">İptal</button>
+        </form>
+      </div>
+    </template>
+
+    <div class="p-6 space-y-6">
+
+      {{-- Seçenek Tipleri --}}
+      <div>
+        <p class="text-[11px] font-semibold text-[#475569] uppercase tracking-[.06em] mb-3">Seçenek Tipleri</p>
+
+        <template x-for="(sec, i) in secenekler" :key="i">
+          <div class="mb-3 p-3 bg-[#F8FAFC] rounded-[8px] border border-[#E2E8F0]">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-[13px] font-medium text-[#0F172A]" x-text="sec.ad"></span>
+              <button type="button" @click="secenekSil(i)"
+                      class="ml-auto text-[#DC2626] hover:bg-[#FEE2E2] w-6 h-6 rounded flex items-center justify-center cursor-pointer">
+                <i class="ti ti-x text-[11px]"></i>
+              </button>
+            </div>
+            <div class="flex flex-wrap gap-1.5 mb-2">
+              <template x-for="(d, j) in sec.degerler" :key="j">
+                <span class="inline-flex items-center gap-1 bg-white border border-[#E2E8F0] text-[12px] px-2.5 py-1 rounded-[6px]">
+                  <span x-text="d"></span>
+                  <button type="button" @click="degerSil(sec, j)"
+                          class="text-[#94A3B8] hover:text-[#DC2626] cursor-pointer leading-none">
+                    <i class="ti ti-x text-[9px]"></i>
+                  </button>
+                </span>
+              </template>
+            </div>
+            <div class="flex gap-2">
+              <input type="text" x-model="sec.yeniDeger" placeholder="Değer ekle..."
+                     @keydown.enter.prevent="degerEkle(sec)"
+                     class="flex-1 px-3 py-1.5 text-[12px] border border-[#E2E8F0] rounded-[6px] focus:outline-none focus:border-[#CC2200]">
+              <button type="button" @click="degerEkle(sec)"
+                      class="px-3 py-1.5 bg-[#0F172A] text-white text-[11px] rounded-[6px] hover:bg-[#1e293b] cursor-pointer">
+                Ekle
+              </button>
+            </div>
+          </div>
+        </template>
+
+        {{-- Yeni seçenek tipi --}}
+        <div class="flex gap-2">
+          <input type="text" x-model="yeniSecenekAd" placeholder="Seçenek tipi (Renk, Beden, Malzeme...)"
+                 @keydown.enter.prevent="secenekEkle()"
+                 class="flex-1 px-3 py-2 text-[13px] border border-[#E2E8F0] rounded-[8px] focus:outline-none focus:border-[#CC2200]">
+          <button type="button" @click="secenekEkle()"
+                  class="px-4 py-2 border border-[#E2E8F0] text-[12px] font-medium rounded-[8px] hover:bg-[#F8FAFC] cursor-pointer flex items-center gap-1.5">
+            <i class="ti ti-plus text-[11px]"></i> Tip Ekle
+          </button>
+        </div>
+      </div>
+
+      {{-- Üret Butonu --}}
+      <template x-if="secenekler.some(s => s.degerler.length > 0) && !uretildi">
+        <button type="button" @click="varyantlarUret()"
+                class="w-full py-2.5 bg-[#EFF6FF] border border-[#BFDBFE] text-[#1D4ED8] text-[12px] font-semibold rounded-[8px] hover:bg-[#DBEAFE] cursor-pointer transition-colors">
+          <i class="ti ti-arrows-exchange mr-1"></i> Varyantları Üret / Yenile
+        </button>
+      </template>
+
+      {{-- Varyant Tablosu --}}
+      <template x-if="varyantlar.length > 0">
+        <div>
+          <p class="text-[11px] font-semibold text-[#475569] uppercase tracking-[.06em] mb-2">
+            Varyantlar (<span x-text="varyantlar.length"></span>)
+          </p>
+          <div class="border border-[#E2E8F0] rounded-[8px] overflow-hidden">
+            <table class="w-full text-[12px]">
+              <thead>
+                <tr class="bg-[#F8FAFC] border-b border-[#E2E8F0]">
+                  <th class="text-left px-3 py-2.5 font-semibold text-[#64748B] uppercase tracking-[.05em]">Varyant</th>
+                  <th class="text-left px-3 py-2.5 font-semibold text-[#64748B] uppercase tracking-[.05em] w-36">Stok Kodu</th>
+                  <th class="text-center px-3 py-2.5 font-semibold text-[#64748B] uppercase tracking-[.05em] w-20">Stok</th>
+                  <th class="text-center px-3 py-2.5 font-semibold text-[#64748B] uppercase tracking-[.05em] w-16">Aktif</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-[#F1F5F9]">
+                <template x-for="(v, i) in varyantlar" :key="i">
+                  <tr class="hover:bg-[#FAFAFA]">
+                    <td class="px-3 py-2 font-medium text-[#0F172A]" x-text="etiket(v)"></td>
+                    <td class="px-3 py-2">
+                      <input type="text" x-model="v.stok_kodu" placeholder="SKU"
+                             class="w-full px-2 py-1 text-[12px] border border-[#E2E8F0] rounded-[6px] font-mono focus:outline-none focus:border-[#CC2200]">
+                    </td>
+                    <td class="px-3 py-2">
+                      <input type="number" x-model.number="v.stok" min="0"
+                             class="w-full px-2 py-1 text-[12px] border border-[#E2E8F0] rounded-[6px] text-center focus:outline-none focus:border-[#CC2200]">
+                    </td>
+                    <td class="px-3 py-2 text-center">
+                      <input type="checkbox" x-model="v.aktif" class="w-4 h-4 accent-[#CC2200] cursor-pointer">
+                    </td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </template>
+
+      {{-- Kaydet --}}
+      <template x-if="secenekler.length > 0 || varyantlar.length > 0">
+        <form method="POST" action="{{ route('admin.urunler.varyantlar.kaydet', $urun) }}">
+          @csrf
+          <input type="hidden" name="secenekler_json" :value="seceneklerJson()">
+          <input type="hidden" name="varyantlar_json" :value="varyantlarJson()">
+          <button type="submit"
+                  class="w-full bg-[#CC2200] text-white text-[12px] font-semibold tracking-[1.5px] uppercase py-3 rounded-[10px] hover:bg-[#a31b00] transition-colors cursor-pointer">
+            <i class="ti ti-device-floppy mr-1"></i> Varyantları Kaydet
+          </button>
+        </form>
+      </template>
+
+    </div>
+  </div>
+</div>
+@endif
+
 @endsection
 
 @push('scripts')

@@ -21,6 +21,22 @@ if ($urun->gorsel) $gorsellerArray[] = asset('storage/'.$urun->gorsel);
 foreach ($urun->gorseller ?? [] as $g) {
     $gorsellerArray[] = asset('storage/'.$g);
 }
+
+$hasVaryant  = $urun->hasVaryant();
+$seceneklerJs = [];
+$varyantlarJs = [];
+if ($hasVaryant) {
+    $seceneklerJs = $urun->secenekler()->with('degerler')->get()->map(fn($s) => [
+        'ad'      => $s->ad,
+        'degerler' => $s->degerler->pluck('deger')->toArray(),
+    ])->toArray();
+    $varyantlarJs = $urun->varyantlar()->where('aktif', true)->get()->map(fn($v) => [
+        'id'      => $v->id,
+        'degerler' => $v->degerler,
+        'stok'    => $v->stok,
+    ])->toArray();
+    $secimlerJs = collect($seceneklerJs)->pluck('ad')->mapWithKeys(fn($ad) => [$ad => null])->toArray();
+}
 @endphp
 
 {{-- ─── Ürün Detay ──────────────────────────────────────────────────────── --}}
@@ -29,6 +45,32 @@ foreach ($urun->gorseller ?? [] as $g) {
     gorselIndex: 0,
     adet: 1,
     gorseller: {{ json_encode($gorsellerArray) }},
+    hasVaryant: {{ $hasVaryant ? 'true' : 'false' }},
+    secenekler: {!! json_encode($seceneklerJs) !!},
+    varyantlar: {!! json_encode($varyantlarJs) !!},
+    secimler: {!! json_encode($hasVaryant ? $secimlerJs : (object)[]) !!},
+    get secilenVaryant() {
+      if (!this.hasVaryant) return null;
+      if (Object.values(this.secimler).some(v => !v)) return null;
+      return this.varyantlar.find(v =>
+        Object.keys(this.secimler).every(k => v.degerler[k] === this.secimler[k])
+      ) || null;
+    },
+    get secimTamMi() {
+      if (!this.hasVaryant) return true;
+      return Object.values(this.secimler).every(v => !!v);
+    },
+    get aktifStok() {
+      if (!this.hasVaryant) return {{ $urun->stok }};
+      const v = this.secilenVaryant;
+      return v ? v.stok : 0;
+    },
+    degerMevcut(secAd, deger) {
+      const test = {...this.secimler, [secAd]: deger};
+      return this.varyantlar.some(v =>
+        Object.keys(test).every(k => !test[k] || v.degerler[k] === test[k]) && v.stok > 0
+      );
+    },
     get gorselSayisi() { return this.gorseller.length; },
     onceki() { this.gorselIndex = (this.gorselIndex - 1 + this.gorselSayisi) % this.gorselSayisi; },
     sonraki() { this.gorselIndex = (this.gorselIndex + 1) % this.gorselSayisi; }
@@ -73,12 +115,26 @@ foreach ($urun->gorseller ?? [] as $g) {
         </div>
         @endif
         <div class="absolute top-4 right-4">
+          @if($hasVaryant)
+          <template x-if="!secimTamMi">
+            <span class="text-[10px] font-medium bg-[#F5F5F5] text-[#A8A8A8] px-2.5 py-1 rounded-[6px] border">Seçenek Seçin</span>
+          </template>
+          <template x-if="secimTamMi && aktifStok > 0">
+            <span class="flex items-center gap-1 bg-green-50 border border-green-200 text-green-700 text-[10px] font-medium px-2.5 py-1 rounded-[6px]">
+              <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span> Stokta
+            </span>
+          </template>
+          <template x-if="secimTamMi && aktifStok <= 0">
+            <span class="text-[10px] font-medium bg-[#F5F5F5] text-[#A8A8A8] px-2.5 py-1 rounded-[6px] border">Stok Yok</span>
+          </template>
+          @else
           @if($urun->stok > 0)
           <span class="flex items-center gap-1 bg-green-50 border border-green-200 text-green-700 text-[10px] font-medium px-2.5 py-1 rounded-[6px]">
             <span class="w-1.5 h-1.5 bg-green-500 rounded-full" aria-hidden="true"></span> Stokta
           </span>
           @else
           <span class="text-[10px] font-medium bg-[#F5F5F5] text-[#A8A8A8] px-2.5 py-1 rounded-[6px] border">Stok Yok</span>
+          @endif
           @endif
         </div>
       </div>
@@ -137,6 +193,32 @@ foreach ($urun->gorseller ?? [] as $g) {
         @endif
       </div>
 
+      {{-- Varyant Seçicileri --}}
+      @if($hasVaryant)
+      <div class="space-y-4">
+        <template x-for="(sec, si) in secenekler" :key="si">
+          <div>
+            <p class="text-[10px] font-semibold tracking-[1.5px] uppercase text-[#A8A8A8] mb-2" x-text="sec.ad"></p>
+            <div class="flex flex-wrap gap-2">
+              <template x-for="(d, di) in sec.degerler" :key="di">
+                <button type="button"
+                        @click="secimler[sec.ad] = (secimler[sec.ad] === d ? null : d); adet = 1"
+                        :disabled="!degerMevcut(sec.ad, d)"
+                        :class="secimler[sec.ad] === d
+                          ? 'bg-[#0F0F0F] text-white border-[#0F0F0F]'
+                          : (!degerMevcut(sec.ad, d)
+                            ? 'opacity-35 cursor-not-allowed line-through border-[#E2E2E2] text-[#A8A8A8]'
+                            : 'border-[#E2E2E2] hover:border-[#0F0F0F] text-[#0F0F0F] cursor-pointer')"
+                        class="px-4 py-2 border rounded-[8px] text-[12px] font-medium transition-colors"
+                        x-text="d">
+                </button>
+              </template>
+            </div>
+          </div>
+        </template>
+      </div>
+      @endif
+
       {{-- Adet --}}
       <div>
         <label class="form-label text-[10px]">Adet</label>
@@ -147,7 +229,7 @@ foreach ($urun->gorseller ?? [] as $g) {
             <i class="ti ti-minus text-sm" aria-hidden="true"></i>
           </button>
           <span class="w-12 h-11 flex items-center justify-center border-t border-b border-[rgba(0,0,0,0.15)] text-[14px] font-medium" x-text="adet" aria-live="polite"></span>
-          <button @click="adet = Math.min({{ $urun->stok }}, adet + 1)"
+          <button @click="adet = Math.min(aktifStok, adet + 1)"
                   class="w-11 h-11 flex items-center justify-center border border-[rgba(0,0,0,0.15)] rounded-r-[8px] hover:bg-[#F0F0F0] transition-colors"
                   aria-label="Artır">
             <i class="ti ti-plus text-sm" aria-hidden="true"></i>
@@ -159,16 +241,28 @@ foreach ($urun->gorseller ?? [] as $g) {
       <div class="flex flex-col sm:flex-row gap-2.5">
         <button
           @click="
+            if (hasVaryant && !secimTamMi) { alert('Lütfen tüm seçenekleri seçin.'); return; }
+            if (aktifStok <= 0) return;
             fetch('{{ route('sepet.ekle') }}', {
               method: 'POST',
               headers: {'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},
-              body: JSON.stringify({urun_id:{{ $urun->id }}, urun_tipi:'urun', adet:adet})
+              body: JSON.stringify({
+                urun_id: {{ $urun->id }},
+                urun_tipi: 'urun',
+                adet: adet,
+                varyant_id: hasVaryant && secilenVaryant ? secilenVaryant.id : null
+              })
             }).then(r=>r.json()).then(d=>{ $root.sepetAdet=d.adet; $root.bildirimiGoster('{{ $urun->ad }} sepete eklendi!'); })
           "
-          class="flex-1 flex items-center justify-center gap-2 bg-[#141414] text-white text-[11px] font-semibold tracking-[1.5px] uppercase py-4 rounded-[10px] hover:bg-[#2a2a2a] active:scale-[0.98] transition-all duration-200 min-h-[52px]"
-          @if($urun->stok === 0) disabled @endif>
+          :disabled="aktifStok <= 0 || (hasVaryant && !secimTamMi)"
+          :class="(aktifStok <= 0 || (hasVaryant && !secimTamMi))
+            ? 'bg-[#D0D0D0] cursor-not-allowed'
+            : 'bg-[#141414] hover:bg-[#2a2a2a] active:scale-[0.98] cursor-pointer'"
+          class="flex-1 flex items-center justify-center gap-2 text-white text-[11px] font-semibold tracking-[1.5px] uppercase py-4 rounded-[10px] transition-all duration-200 min-h-[52px]">
           <i class="ti ti-shopping-cart text-sm" aria-hidden="true"></i>
-          {{ $urun->stok > 0 ? 'Sepete Ekle' : 'Stok Yok' }}
+          <span x-text="hasVaryant && !secimTamMi ? 'Seçenek Seçin' : (aktifStok <= 0 ? 'Stok Yok' : 'Sepete Ekle')">
+            {{ $hasVaryant ? 'Seçenek Seçin' : ($urun->stok > 0 ? 'Sepete Ekle' : 'Stok Yok') }}
+          </span>
         </button>
         <a href="{{ route('home') }}#iletisim"
            class="flex items-center justify-center gap-2 border border-[rgba(0,0,0,0.15)] text-[#5A5A5A] text-[11px] font-medium tracking-[1.5px] uppercase py-4 px-5 rounded-[10px] hover:bg-[#F0F0F0] hover:text-[#0F0F0F] transition-all duration-200 min-h-[52px]">
