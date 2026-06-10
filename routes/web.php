@@ -108,6 +108,7 @@ Route::prefix('katalog')->name('katalog.')->middleware(['auth', 'premium:katalog
     // Kullanıcının kendi ürünleri
     Route::get('/urunlerim', [UserUrunController::class, 'index'])->name('urunlerim.index');
     Route::post('/urunlerim', [UserUrunController::class, 'store'])->name('urunlerim.store');
+    Route::post('/urunlerim/gorsel-yukle', [UserUrunController::class, 'gorselYukle'])->name('urunlerim.gorsel.yukle');
     Route::post('/urunlerim/{id}', [UserUrunController::class, 'update'])->name('urunlerim.update');
     Route::delete('/urunlerim/{id}', [UserUrunController::class, 'destroy'])->name('urunlerim.destroy');
 });

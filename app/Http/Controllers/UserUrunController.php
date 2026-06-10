@@ -18,15 +18,25 @@ class UserUrunController extends Controller
         return view('katalog.urunlerim', compact('urunler'));
     }
 
+    public function gorselYukle(Request $request)
+    {
+        $request->validate(['gorsel' => 'required|image|max:4096']);
+        $yol = $request->file('gorsel')->store('user-urunler', 'public');
+        return response()->json(['path' => $yol, 'url' => asset('storage/' . $yol)]);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
-            'ad'                => 'required|string|max:255',
-            'gorseller_yeni.*' => 'nullable|image|max:4096',
-            'aciklama'          => 'nullable|string',
+            'ad'       => 'required|string|max:255',
+            'aciklama' => 'nullable|string',
         ]);
 
-        $yollar = $this->yukleGorseller($request);
+        // Ön yüklenen yollar (sequential upload) veya eski tek-dosya (kisisel modal)
+        $yollar = json_decode($request->input('gorseller_koru', '[]'), true) ?: [];
+        if (empty($yollar)) {
+            $yollar = $this->yukleGorseller($request);
+        }
 
         $urun = UserUrun::create([
             'user_id'   => auth()->id(),

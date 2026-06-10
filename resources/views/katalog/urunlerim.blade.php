@@ -259,7 +259,7 @@ function urunlerim() {
             }
         },
 
-        kaydet: function() {
+        kaydet: async function() {
             var self = this;
             self.hatalar = {};
 
@@ -269,17 +269,32 @@ function urunlerim() {
             }
 
             self.kaydediliyor = true;
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+            // Yeni görselleri tek tek ayrı istekle yükle
+            var yeniYollar = [];
+            for (var i = 0; i < self.gorseller.length; i++) {
+                if (self.gorseller[i].file !== null) {
+                    try {
+                        var ufd = new FormData();
+                        ufd.append('gorsel', self.gorseller[i].file);
+                        ufd.append('_token', csrfToken);
+                        var ur = await fetch('{{ route("katalog.urunlerim.gorsel.yukle") }}', { method: 'POST', body: ufd });
+                        var ud = await ur.json();
+                        if (ud.path) yeniYollar.push(ud.path);
+                        else { alert('Görsel yüklenemedi.'); self.kaydediliyor = false; return; }
+                    } catch(e) { alert('Görsel yüklenirken hata oluştu.'); self.kaydediliyor = false; return; }
+                }
+            }
+
             var aciklama = self.quill ? self.quill.root.innerHTML : (self.form.aciklama || '');
 
             var fd = new FormData();
             fd.append('ad', self.form.ad.trim());
             fd.append('aciklama', aciklama);
             var korunan = self.gorseller.filter(function(g) { return g.yol !== null; }).map(function(g) { return g.yol; });
-            fd.append('gorseller_koru', JSON.stringify(korunan));
-            self.gorseller.filter(function(g) { return g.file !== null; }).forEach(function(g) {
-                fd.append('gorseller_yeni[]', g.file);
-            });
-            fd.append('_token', document.querySelector('meta[name="csrf-token"]').content);
+            fd.append('gorseller_koru', JSON.stringify(korunan.concat(yeniYollar)));
+            fd.append('_token', csrfToken);
 
             var url = self.duzenlenenId
                 ? '{{ route("katalog.urunlerim.update", ":id") }}'.replace(':id', self.duzenlenenId)
