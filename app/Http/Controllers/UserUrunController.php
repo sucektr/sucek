@@ -96,6 +96,11 @@ class UserUrunController extends Controller
                     $yollar[] = $file->store('user-urunler', 'public');
                 }
             }
+        } elseif ($request->hasFile('gorsel')) {
+            $file = $request->file('gorsel');
+            if ($file->isValid()) {
+                $yollar[] = $file->store('user-urunler', 'public');
+            }
         }
         return $yollar;
     }

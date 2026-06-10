@@ -11,9 +11,9 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:#EBEBEB;}
 .katalog-sayfa{
-    width:210mm;min-height:297mm;background:white;padding:18mm 20mm;
+    width:210mm;height:297mm;background:white;padding:18mm 20mm;
     margin:24px auto;box-shadow:0 4px 24px rgba(0,0,0,0.1);
-    display:flex;flex-direction:column;
+    display:flex;flex-direction:column;overflow:hidden;
 }
 .bar-actions{
     position:fixed;bottom:24px;right:24px;z-index:100;display:flex;gap:10px;
@@ -37,11 +37,12 @@ body{font-family:'DM Sans',sans-serif;background:#EBEBEB;}
         height:297mm!important;min-height:unset!important;
         overflow:hidden!important;
         margin:0!important;box-shadow:none!important;
-        page-break-before:always;break-before:page;
-        page-break-after:avoid;break-after:avoid;
         page-break-inside:avoid;break-inside:avoid;
+        page-break-after:avoid;break-after:avoid;
     }
-    .katalog-sayfa:first-child{page-break-before:avoid;break-before:avoid;}
+    .katalog-sayfa + .katalog-sayfa{
+        page-break-before:always;break-before:page;
+    }
     @page{size:A4 portrait;margin:0;}
 }
 </style>
@@ -188,9 +189,9 @@ $tocAdi    = fn($urun) => $icindekiler[$urun->id] ?? $icindekiler[(string)$urun-
 
         {{-- Sağ: Teknik Özellikler --}}
         <div style="flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden;">
-            <div style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#B8962E;margin-bottom:10px;font-weight:500;padding-bottom:6px;border-bottom:1px solid rgba(184,150,46,0.25);">Teknik Özellikler</div>
+            <div style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#B8962E;margin-bottom:10px;font-weight:500;padding-bottom:6px;border-bottom:1px solid rgba(184,150,46,0.25);flex-shrink:0;">Teknik Özellikler</div>
             @if(trim(strip_tags($urun->aciklama ?? '')))
-            <div style="font-size:12px;color:#3A3A3A;line-height:1.85;overflow:hidden;">{!! $urun->aciklama !!}</div>
+            <div style="flex:1;min-height:0;overflow:hidden;font-size:12px;color:#3A3A3A;line-height:1.7;">{!! $urun->aciklama !!}</div>
             @else
             <div style="font-size:11px;color:#C0C0C0;font-style:italic;">Açıklama girilmemiş</div>
             @endif

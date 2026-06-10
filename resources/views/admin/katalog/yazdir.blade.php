@@ -11,9 +11,9 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Inter',system-ui,sans-serif;background:#EBEBEB;}
 .katalog-sayfa{
-    width:210mm;min-height:297mm;background:white;padding:18mm 20mm;
+    width:210mm;height:297mm;background:white;padding:18mm 20mm;
     margin:24px auto;box-shadow:0 4px 24px rgba(0,0,0,0.1);
-    display:flex;flex-direction:column;
+    display:flex;flex-direction:column;overflow:hidden;
 }
 .bar-actions{
     position:fixed;bottom:24px;right:24px;z-index:100;display:flex;gap:10px;
@@ -37,11 +37,12 @@ body{font-family:'Inter',system-ui,sans-serif;background:#EBEBEB;}
         height:297mm!important;min-height:unset!important;
         overflow:hidden!important;
         margin:0!important;box-shadow:none!important;
-        page-break-before:always;break-before:page;
-        page-break-after:avoid;break-after:avoid;
         page-break-inside:avoid;break-inside:avoid;
+        page-break-after:avoid;break-after:avoid;
     }
-    .katalog-sayfa:first-child{page-break-before:avoid;break-before:avoid;}
+    .katalog-sayfa + .katalog-sayfa{
+        page-break-before:always;break-before:page;
+    }
     @page{size:A4 portrait;margin:0;}
 }
 </style>
