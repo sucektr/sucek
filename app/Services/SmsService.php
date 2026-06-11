@@ -98,8 +98,8 @@ class SmsService
             return ['basarili' => false, 'hata' => 'SMS yapılandırması eksik'];
         }
 
-        // Hash: 32 karakter ise MD5 hash (hesaplanmış), 64 karakter ise SHA256 → md5(key+0+secret)
-        $hash = strlen($secret) === 32 ? $secret : md5($key . '0' . $secret);
+        // İletimerkezi hash: md5(usercode + "0" + md5(password))
+        $hash = md5($key . '0' . md5($secret));
 
         $payload = [
             'request' => [
