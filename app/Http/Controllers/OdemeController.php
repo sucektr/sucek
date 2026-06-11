@@ -36,7 +36,8 @@ class OdemeController extends Controller
         $iframeToken = $this->paytrToken($siparis, trim($userIp));
 
         if (!$iframeToken) {
-            return back()->with('hata', 'Ödeme sistemi şu an kullanılamıyor. Lütfen daha sonra tekrar deneyin veya havale ile ödeme yapın.');
+            return redirect()->route('siparis.onay', $referans)
+                ->with('hata', 'Kredi kartı ile ödeme şu an kullanılamıyor. Havale/EFT ile ödeme yapabilirsiniz veya bizimle iletişime geçin.');
         }
 
         return view('siparis.odeme', compact('siparis', 'iframeToken'));
