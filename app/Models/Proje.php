@@ -16,7 +16,6 @@ class Proje extends Model
     ];
     protected $casts = [
         'gorseller' => 'array',
-        'detaylar'  => 'array',
         'aktif'     => 'boolean',
         'one_cikan' => 'boolean',
     ];
