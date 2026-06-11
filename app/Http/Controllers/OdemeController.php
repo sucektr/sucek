@@ -79,7 +79,9 @@ class OdemeController extends Controller
             return response('PAYTR_INVALID_HASH', 400);
         }
 
-        $siparis = Siparis::where('referans', $post['merchant_oid'])->first();
+        $merchantOid = $post['merchant_oid'] ?? '';
+        $siparis = Siparis::where('referans', $merchantOid)->first()
+            ?? Siparis::whereRaw("REPLACE(REPLACE(referans, '-', ''), '_', '') = ?", [$merchantOid])->first();
 
         if (!$siparis) {
             return response('OK');
@@ -113,7 +115,7 @@ class OdemeController extends Controller
         $merchantSalt = icerik('sistem', 'paytr_merchant_salt') ?: config('services.paytr.merchant_salt');
         $testMode     = icerik('sistem', 'paytr_test_mode', (string) config('services.paytr.test_mode', '0'));
 
-        $merchantOid   = $siparis->referans;
+        $merchantOid   = preg_replace('/[^a-zA-Z0-9]/', '', $siparis->referans);
         $email         = $siparis->email;
         $paymentAmount = (int) round((float) $siparis->toplam * 100);
 
