@@ -6,8 +6,40 @@
 
 <div class="section max-w-2xl mx-auto">
 
+  {{-- Kredi kartı + ödeme bekliyor uyarısı --}}
+  @if($siparis->odeme_yontemi === 'kredi_karti' && $siparis->durum === 'bekliyor')
+  <div class="mb-6 bg-[#FEF3C7] border border-yellow-300 rounded-[12px] px-5 py-4">
+    <div class="flex items-start gap-3">
+      <i class="ti ti-alert-triangle text-[#D97706] text-lg shrink-0 mt-0.5"></i>
+      <div class="flex-1">
+        <p class="text-[13px] font-semibold text-[#92400E] mb-1">Ödeme henüz tamamlanmadı</p>
+        <p class="text-[12px] text-[#92400E]">
+          @if(session('hata'))
+            {{ session('hata') }}
+          @else
+            Kredi kartı ile ödeme işlemi tamamlanmadı. Tekrar deneyebilir ya da havale/EFT ile ödeme yapabilirsiniz.
+          @endif
+        </p>
+        <a href="{{ route('siparis.odeme.goster', $siparis->referans) }}"
+           class="inline-flex items-center gap-1.5 mt-3 px-4 py-2 bg-[#D97706] text-white text-[11px] font-semibold rounded-[8px] hover:bg-[#B45309] transition-colors">
+          <i class="ti ti-credit-card text-xs"></i> Kredi Kartı ile Tekrar Dene
+        </a>
+      </div>
+    </div>
+  </div>
+  @endif
+
   {{-- Başarı Mesajı --}}
   <div class="text-center mb-10">
+    @if($siparis->durum === 'bekliyor' && $siparis->odeme_yontemi === 'kredi_karti')
+    <div class="w-16 h-16 rounded-full bg-[#FEF3C7] flex items-center justify-center mx-auto mb-5">
+      <i class="ti ti-clock text-2xl text-[#D97706]"></i>
+    </div>
+    <h1 class="font-serif-sc text-[28px] font-bold text-[#0F0F0F] mb-2">Sipariş Alındı</h1>
+    <p class="text-[13px] text-[#5A5A5A] leading-relaxed max-w-sm mx-auto">
+      Siparişiniz oluşturuldu. Ödeme tamamlandığında hazırlanmaya başlanacak.
+    </p>
+    @else
     <div class="w-16 h-16 rounded-full bg-[#E6F4EC] flex items-center justify-center mx-auto mb-5">
       <i class="ti ti-check text-2xl text-[#1A5C3A]"></i>
     </div>
@@ -15,6 +47,7 @@
     <p class="text-[13px] text-[#5A5A5A] leading-relaxed max-w-sm mx-auto">
       Teşekkürler! Ödemeniz onaylandıktan sonra siparişiniz hazırlanmaya başlanacak.
     </p>
+    @endif
   </div>
 
   {{-- Sipariş Özeti --}}
