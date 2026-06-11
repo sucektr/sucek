@@ -33,7 +33,7 @@
             id="paytriframe"
             frameborder="0"
             scrolling="no"
-            style="width:100%;height:600px;display:block;"></iframe>
+            style="width:100%;height:900px;display:block;"></iframe>
 
   </div>
 
@@ -53,16 +53,22 @@
 window.addEventListener('message', function (e) {
   if (!e.data) return;
   var iframe = document.getElementById('paytriframe');
-  // PayTR sadece sayı gönderir (px cinsinden yükseklik)
-  if (typeof e.data === 'number' || /^\d+$/.test(e.data)) {
+  // PayTR resmi format: "PAYTR:780"
+  if (typeof e.data === 'string' && e.data.indexOf('PAYTR:') === 0) {
+    var h = parseInt(e.data.split(':')[1]);
+    if (h) iframe.style.height = h + 'px';
+    return;
+  }
+  // Alternatif: sadece sayı
+  if (typeof e.data === 'number' || (typeof e.data === 'string' && /^\d+$/.test(e.data))) {
     iframe.style.height = parseInt(e.data) + 'px';
     return;
   }
-  // Alternatif format: URL query string içinde height
+  // Alternatif: URL query string
   if (typeof e.data === 'string' && e.data.indexOf('//paytr.com') !== -1) {
     var params = new URLSearchParams(e.data.split('?')[1] || '');
-    var h = params.get('height');
-    if (h) iframe.style.height = parseInt(h) + 'px';
+    var hq = params.get('height');
+    if (hq) iframe.style.height = parseInt(hq) + 'px';
   }
 }, false);
 </script>
