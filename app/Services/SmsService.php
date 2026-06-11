@@ -89,11 +89,12 @@ class SmsService
             return ['basarili' => true]; // test modunda log ama gerçek gönderim yok
         }
 
-        $key    = config('sms.key');
-        $secret = config('sms.secret');
+        $key        = icerik('sistem', 'iletimerkezi_key');
+        $secret     = icerik('sistem', 'iletimerkezi_secret');
+        $originator = icerik('sistem', 'iletimerkezi_originator', 'SUCEK');
 
         if (!$key || !$secret) {
-            Log::warning('SMS yapılandırması eksik (ILETIMERKEZI_KEY veya ILETIMERKEZI_SECRET)');
+            Log::warning('SMS yapılandırması eksik (İletimerkezi key/secret admin panelinde tanımsız)');
             return ['basarili' => false, 'hata' => 'SMS yapılandırması eksik'];
         }
 
@@ -104,7 +105,7 @@ class SmsService
                     'hash' => md5($key . '0' . $secret),
                 ],
                 'order' => [
-                    'sender'    => config('sms.originator'),
+                    'sender'    => $originator,
                     'iys'       => 0,
                     'iysList'   => 'BIREYSEL',
                     'message'   => [

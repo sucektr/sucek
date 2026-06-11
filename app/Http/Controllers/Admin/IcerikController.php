@@ -263,10 +263,13 @@ class IcerikController extends Controller
             'sistem' => [
                 'baslik'   => 'Sistem Ayarları',
                 'ikon'     => 'ti-shield-lock',
-                'aciklama' => 'Google reCAPTCHA v2 anahtarları — google.com/recaptcha/admin adresinden "reCAPTCHA v2 → Checkbox" türünde alın',
+                'aciklama' => 'reCAPTCHA ve SMS (İletimerkezi) entegrasyon anahtarları',
                 'alanlar'  => [
-                    ['alan' => 'recaptcha_site_key',   'baslik' => 'reCAPTCHA Site Anahtarı (public key)',  'tip' => 'metin', 'sira' => 1],
-                    ['alan' => 'recaptcha_secret_key', 'baslik' => 'reCAPTCHA Gizli Anahtar (secret key)', 'tip' => 'metin', 'sira' => 2],
+                    ['alan' => 'recaptcha_site_key',      'baslik' => 'reCAPTCHA Site Anahtarı (public key)',  'tip' => 'metin', 'sira' => 1],
+                    ['alan' => 'recaptcha_secret_key',    'baslik' => 'reCAPTCHA Gizli Anahtar (secret key)', 'tip' => 'metin', 'sira' => 2],
+                    ['alan' => 'iletimerkezi_key',        'baslik' => 'İletimerkezi API Key',                 'tip' => 'metin', 'sira' => 3],
+                    ['alan' => 'iletimerkezi_secret',     'baslik' => 'İletimerkezi Hash Secret',             'tip' => 'metin', 'sira' => 4],
+                    ['alan' => 'iletimerkezi_originator', 'baslik' => 'İletimerkezi Gönderici Adı (max 11 karakter)', 'tip' => 'metin', 'sira' => 5],
                 ],
             ],
             'iletisim' => [
