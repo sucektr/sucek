@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SiparisDurumMail;
 use App\Models\Siparis;
+use App\Services\MailService;
+use App\Services\SmsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -63,8 +66,8 @@ class OdemeController extends Controller
 
     public function bildirim(Request $request)
     {
-        $merchantKey  = config('services.paytr.merchant_key');
-        $merchantSalt = config('services.paytr.merchant_salt');
+        $merchantKey  = icerik('sistem', 'paytr_merchant_key')  ?: config('services.paytr.merchant_key');
+        $merchantSalt = icerik('sistem', 'paytr_merchant_salt') ?: config('services.paytr.merchant_salt');
         $post         = $request->all();
 
         $hashStr = ($post['merchant_oid'] ?? '') . $merchantSalt . ($post['status'] ?? '') . ($post['total_amount'] ?? '');
@@ -84,6 +87,18 @@ class OdemeController extends Controller
         if (($post['status'] ?? '') === 'success') {
             if ($siparis->durum === 'bekliyor') {
                 $siparis->update(['durum' => 'odeme_alindi']);
+
+                if ($siparis->telefon) {
+                    app(SmsService::class)->sablonGonder('siparis_odeme_alindi', $siparis->telefon, [
+                        'ad_soyad' => $siparis->ad_soyad,
+                        'referans' => $siparis->referans,
+                        'toplam'   => number_format((float) $siparis->toplam, 2, ',', '.') . ' TL',
+                    ]);
+                }
+
+                if ($siparis->email) {
+                    app(MailService::class)->gonder($siparis->email, new SiparisDurumMail($siparis), 'siparis_durum');
+                }
             }
         }
 
@@ -92,10 +107,10 @@ class OdemeController extends Controller
 
     private function paytrToken(Siparis $siparis, string $userIp): ?string
     {
-        $merchantId   = config('services.paytr.merchant_id');
-        $merchantKey  = config('services.paytr.merchant_key');
-        $merchantSalt = config('services.paytr.merchant_salt');
-        $testMode     = config('services.paytr.test_mode', '0');
+        $merchantId   = icerik('sistem', 'paytr_merchant_id')   ?: config('services.paytr.merchant_id');
+        $merchantKey  = icerik('sistem', 'paytr_merchant_key')  ?: config('services.paytr.merchant_key');
+        $merchantSalt = icerik('sistem', 'paytr_merchant_salt') ?: config('services.paytr.merchant_salt');
+        $testMode     = icerik('sistem', 'paytr_test_mode', null) ?? config('services.paytr.test_mode', '0');
 
         $merchantOid   = $siparis->referans;
         $email         = $siparis->email;
