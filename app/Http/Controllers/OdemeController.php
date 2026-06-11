@@ -110,7 +110,7 @@ class OdemeController extends Controller
         $merchantId   = icerik('sistem', 'paytr_merchant_id')   ?: config('services.paytr.merchant_id');
         $merchantKey  = icerik('sistem', 'paytr_merchant_key')  ?: config('services.paytr.merchant_key');
         $merchantSalt = icerik('sistem', 'paytr_merchant_salt') ?: config('services.paytr.merchant_salt');
-        $testMode     = icerik('sistem', 'paytr_test_mode', null) ?? config('services.paytr.test_mode', '0');
+        $testMode     = icerik('sistem', 'paytr_test_mode', (string) config('services.paytr.test_mode', '0'));
 
         $merchantOid   = $siparis->referans;
         $email         = $siparis->email;

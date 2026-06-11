@@ -23,10 +23,10 @@ class OdemeController extends Controller
             ->get();
 
         $paytrAyarlar = [
-            'merchant_id'   => icerik('sistem', 'paytr_merchant_id',   config('services.paytr.merchant_id')),
-            'merchant_key'  => icerik('sistem', 'paytr_merchant_key',  config('services.paytr.merchant_key')),
-            'merchant_salt' => icerik('sistem', 'paytr_merchant_salt', config('services.paytr.merchant_salt')),
-            'test_mode'     => icerik('sistem', 'paytr_test_mode',     config('services.paytr.test_mode', '0')),
+            'merchant_id'   => icerik('sistem', 'paytr_merchant_id',   (string) config('services.paytr.merchant_id', '')),
+            'merchant_key'  => icerik('sistem', 'paytr_merchant_key',  (string) config('services.paytr.merchant_key', '')),
+            'merchant_salt' => icerik('sistem', 'paytr_merchant_salt', (string) config('services.paytr.merchant_salt', '')),
+            'test_mode'     => icerik('sistem', 'paytr_test_mode',     (string) config('services.paytr.test_mode', '0')),
         ];
 
         return view('admin.odeme.index', compact('istatistik', 'kartSiparisler', 'paytrAyarlar'));
