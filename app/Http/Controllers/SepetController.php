@@ -36,12 +36,22 @@ class SepetController extends Controller
             : \App\Models\Urun::findOrFail($request->urun_id);
 
         $varyantBilgisi = null;
+        $varyantGorsel  = null;
         if ($varyantId) {
             $varyant = \App\Models\UrunVaryant::where('id', $varyantId)
                 ->where('urun_id', $model->id)
                 ->where('aktif', true)
                 ->firstOrFail();
             $varyantBilgisi = $varyant->degerler;
+
+            // Seçenek değerlerinden ilk görseli bul (genellikle Renk)
+            foreach (\App\Models\UrunSecenek::with('degerler')->where('urun_id', $model->id)->get() as $sec) {
+                $secVal = $varyantBilgisi[$sec->ad] ?? null;
+                if ($secVal) {
+                    $d = $sec->degerler->firstWhere('deger', $secVal);
+                    if ($d && $d->gorsel) { $varyantGorsel = $d->gorsel; break; }
+                }
+            }
         }
 
         $kdvOrani     = method_exists($model, 'kdvTutari') ? (float) $model->kdv_orani : 0;
@@ -62,7 +72,7 @@ class SepetController extends Controller
                 'kdv_orani'       => $kdvOrani,
                 'kdv_tutari'      => $kdvBirim,
                 'kargo_ucreti'    => $musteriKargo,
-                'gorsel'          => $model->gorsel,
+                'gorsel'          => $varyantGorsel ?? $model->gorsel,
                 'adet'            => $request->adet,
                 'varyant_id'      => $varyantId,
                 'varyant_bilgisi' => $varyantBilgisi,

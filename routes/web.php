@@ -150,6 +150,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::resource('urunler', Admin\UrunController::class)->except('show')->parameters(['urunler' => 'urun']);
         Route::post('urunler/{urun}/varyantlar', [Admin\UrunVaryantController::class, 'kaydet'])->name('urunler.varyantlar.kaydet');
+        Route::post('urunler/{urun}/varyantlar/gorseller', [Admin\UrunVaryantController::class, 'gorsellerKaydet'])->name('urunler.varyantlar.gorseller');
         Route::delete('urunler/{urun}/varyantlar', [Admin\UrunVaryantController::class, 'sil'])->name('urunler.varyantlar.sil');
         Route::resource('koleksiyonlar', Admin\KoleksiyonController::class)->except('show')->parameters(['koleksiyonlar' => 'koleksiyon']);
         Route::resource('projeler', Admin\ProjeController::class)->except('show')->parameters(['projeler' => 'proje']);

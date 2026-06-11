@@ -478,6 +478,51 @@
     </div>
   </div>
 </div>
+
+{{-- ── Seçenek Görselleri ────────────────────────────────────────────────── --}}
+@if($urun->exists && $mevcutSecenekler->count() > 0)
+<div class="mt-4">
+  <div class="bg-white rounded-[12px] border border-[#E2E8F0]">
+    <div class="px-6 py-4 border-b border-[#F1F5F9]">
+      <h2 class="text-[14px] font-semibold text-[#0F172A]">Seçenek Görselleri</h2>
+      <p class="text-[11px] text-[#94A3B8] mt-0.5">Renk gibi görsel seçenekler için değer başına görsel tanımlayın. Müşteri o değeri seçtiğinde ürün görseli otomatik değişir.</p>
+    </div>
+    <form method="POST" action="{{ route('admin.urunler.varyantlar.gorseller', $urun) }}"
+          enctype="multipart/form-data" class="p-6 space-y-6">
+      @csrf
+      @foreach($mevcutSecenekler as $sec)
+      <div>
+        <p class="text-[11px] font-semibold text-[#475569] uppercase tracking-[.06em] mb-3">{{ $sec->ad }}</p>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+          @foreach($sec->degerler as $deger)
+          <div class="border border-[#E2E8F0] rounded-[8px] p-3 flex flex-col gap-2">
+            <p class="text-[12px] font-semibold text-[#0F172A] truncate">{{ $deger->deger }}</p>
+            @if($deger->gorsel)
+            <img src="{{ Storage::url($deger->gorsel) }}"
+                 class="w-full h-20 object-cover rounded-[6px] border border-[#E2E8F0]"
+                 alt="{{ $deger->deger }}">
+            @endif
+            <label class="flex flex-col items-center justify-center h-14 border-dashed border-2 border-[#E2E8F0] rounded-[6px] cursor-pointer hover:border-[#CC2200] transition-colors bg-[#F8FAFC]"
+                   x-data="{ ad: '' }">
+              <i class="ti ti-photo text-[#C0C0C0] text-base mb-0.5"></i>
+              <span class="text-[10px] text-[#94A3B8]" x-text="ad || '{{ $deger->gorsel ? 'Değiştir' : 'Görsel Seç' }}'"></span>
+              <input type="file" name="gorsel[{{ $deger->id }}]" accept="image/*" class="hidden"
+                     @change="ad = $event.target.files[0]?.name?.substring(0,18) || ''">
+            </label>
+          </div>
+          @endforeach
+        </div>
+      </div>
+      @endforeach
+      <div class="flex justify-end">
+        <button type="submit"
+                class="flex items-center gap-2 bg-[#CC2200] text-white text-[11px] font-semibold tracking-[1px] uppercase px-5 py-2.5 rounded-[8px] hover:bg-[#a31b00] transition-colors cursor-pointer">
+          <i class="ti ti-photo-check"></i> Görselleri Kaydet
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
 @endif
 
 @endsection

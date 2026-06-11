@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Urun;
-use App\Models\UrunVaryant;
+use App\Models\UrunSecenekDegeri;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UrunVaryantController extends Controller
 {
@@ -14,7 +15,17 @@ class UrunVaryantController extends Controller
         $secenekler = json_decode($request->input('secenekler_json', '[]'), true) ?? [];
         $varyantlar = json_decode($request->input('varyantlar_json', '[]'), true) ?? [];
 
-        // Mevcut seçenekleri temizle (cascade: değerler de silinir)
+        // Mevcut seçenek değerlerinin görsellerini sakla (yeniden kayıtta kaybolmasın)
+        $mevcutGorseller = [];
+        foreach ($urun->secenekler()->with('degerler')->get() as $sec) {
+            foreach ($sec->degerler as $d) {
+                if ($d->gorsel) {
+                    $mevcutGorseller[$sec->ad][$d->deger] = $d->gorsel;
+                }
+            }
+        }
+
+        // Seçenekleri sil ve yeniden oluştur
         $urun->secenekler()->delete();
 
         foreach ($secenekler as $i => $sec) {
@@ -23,13 +34,16 @@ class UrunVaryantController extends Controller
             $secModel = $urun->secenekler()->create(['ad' => $ad, 'sira' => $i]);
             foreach ($sec['degerler'] ?? [] as $j => $deger) {
                 $deger = trim($deger);
-                if ($deger !== '') {
-                    $secModel->degerler()->create(['deger' => $deger, 'sira' => $j]);
-                }
+                if ($deger === '') continue;
+                $secModel->degerler()->create([
+                    'deger'  => $deger,
+                    'sira'   => $j,
+                    'gorsel' => $mevcutGorseller[$ad][$deger] ?? null,
+                ]);
             }
         }
 
-        // Mevcut varyantları temizle ve yeniden oluştur
+        // Varyantları sil ve yeniden oluştur
         $urun->varyantlar()->delete();
 
         foreach ($varyantlar as $v) {
@@ -46,10 +60,38 @@ class UrunVaryantController extends Controller
         return back()->with('basari', 'Varyantlar kaydedildi.');
     }
 
+    public function gorsellerKaydet(Request $request, Urun $urun)
+    {
+        $request->validate(['gorsel.*' => 'nullable|image|max:4096']);
+
+        foreach ($request->file('gorsel', []) as $degerId => $file) {
+            $deger = UrunSecenekDegeri::whereHas('secenek', fn($q) => $q->where('urun_id', $urun->id))
+                ->find((int) $degerId);
+            if (!$deger) continue;
+
+            if ($deger->gorsel) {
+                Storage::disk('public')->delete($deger->gorsel);
+            }
+            $deger->gorsel = $file->store('urun-secenek-gorseller', 'public');
+            $deger->save();
+        }
+
+        return back()->with('basari', 'Seçenek görselleri kaydedildi.');
+    }
+
     public function sil(Urun $urun)
     {
+        // Görsel dosyalarını da sil
+        foreach ($urun->secenekler()->with('degerler')->get() as $sec) {
+            foreach ($sec->degerler as $d) {
+                if ($d->gorsel) {
+                    Storage::disk('public')->delete($d->gorsel);
+                }
+            }
+        }
         $urun->secenekler()->delete();
         $urun->varyantlar()->delete();
+
         return back()->with('basari', 'Varyant tanımları silindi.');
     }
 }

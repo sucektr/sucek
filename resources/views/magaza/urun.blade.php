@@ -27,8 +27,11 @@ $seceneklerJs = [];
 $varyantlarJs = [];
 if ($hasVaryant) {
     $seceneklerJs = $urun->secenekler()->with('degerler')->get()->map(fn($s) => [
-        'ad'      => $s->ad,
+        'ad'       => $s->ad,
         'degerler' => $s->degerler->pluck('deger')->toArray(),
+        'gorseller' => $s->degerler->filter(fn($d) => $d->gorsel)
+            ->mapWithKeys(fn($d) => [$d->deger => asset('storage/' . $d->gorsel)])
+            ->toArray(),
     ])->toArray();
     $varyantlarJs = $urun->varyantlar()->where('aktif', true)->get()->map(fn($v) => [
         'id'      => $v->id,
@@ -71,6 +74,16 @@ if ($hasVaryant) {
         Object.keys(test).every(k => !test[k] || v.degerler[k] === test[k]) && v.stok > 0
       );
     },
+    get secilenGorsel() {
+      for (const sec of this.secenekler) {
+        const val = this.secimler[sec.ad];
+        if (val && sec.gorseller && sec.gorseller[val]) return sec.gorseller[val];
+      }
+      return null;
+    },
+    get anaGorsel() {
+      return this.secilenGorsel || this.gorseller[this.gorselIndex] || null;
+    },
     get gorselSayisi() { return this.gorseller.length; },
     onceki() { this.gorselIndex = (this.gorselIndex - 1 + this.gorselSayisi) % this.gorselSayisi; },
     sonraki() { this.gorselIndex = (this.gorselIndex + 1) % this.gorselSayisi; }
@@ -82,7 +95,7 @@ if ($hasVaryant) {
     <div class="flex flex-col gap-3">
       <div class="relative aspect-square bg-[#F5F5F5] rounded-[16px] overflow-hidden">
         @if($urun->gorsel)
-        <img :src="gorseller[gorselIndex]" alt="{{ $urun->ad }}"
+        <img :src="anaGorsel" alt="{{ $urun->ad }}"
              class="w-full h-full object-contain transition-opacity duration-150"
              width="600" height="600">
 
