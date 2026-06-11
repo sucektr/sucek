@@ -55,6 +55,12 @@
           </td>
           <td class="px-5 py-3 text-right">
             <div class="flex items-center justify-end gap-1">
+              @if($p->aktif && $p->slug)
+              <a href="{{ route('projeler.show', $p->slug) }}" target="_blank"
+                 class="w-8 h-8 flex items-center justify-center rounded-[6px] border border-[#E2E8F0] hover:bg-[#F1F5F9] text-[#64748B] transition-colors" title="Canlıda Gör">
+                <i class="ti ti-external-link text-sm"></i>
+              </a>
+              @endif
               <a href="{{ route('admin.projeler.edit', $p) }}"
                  class="w-8 h-8 flex items-center justify-center rounded-[6px] border border-[#E2E8F0] hover:bg-[#F1F5F9] text-[#64748B] transition-colors">
                 <i class="ti ti-edit text-sm"></i>

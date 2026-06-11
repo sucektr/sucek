@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', $proje->baslik . ' — SUÇEK')
-@section('meta-description', $proje->aciklama ?? ($proje->baslik . ' projesi.'))
+@section('meta-description', Str::limit(strip_tags($proje->detaylar ?? ''), 160) ?: ($proje->baslik . ' projesi.'))
 
 @section('content')
 
@@ -171,17 +171,6 @@
           </div>
           @endif
 
-          @if(!empty($proje->detaylar))
-          <div class="flex items-start gap-3">
-            <div class="w-8 h-8 rounded-[8px] bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-center shrink-0">
-              <i class="ti ti-info-circle text-[#64748B] text-sm"></i>
-            </div>
-            <div>
-              <dt class="text-[10px] font-medium text-[#94A3B8] uppercase tracking-[1px] mb-0.5">Notlar</dt>
-              <dd class="text-[13px] text-[#374151] leading-relaxed">{{ $proje->detaylar }}</dd>
-            </div>
-          </div>
-          @endif
         </dl>
 
         <div class="mt-6 pt-5 border-t border-[#E2E8F0]">
