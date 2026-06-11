@@ -54,9 +54,9 @@
       </div>
       @endif
 
-      @if($proje->aciklama)
-      <div class="prose prose-slate max-w-none">
-        <p class="text-[15px] text-[#374151] leading-[1.8]">{{ $proje->aciklama }}</p>
+      @if($proje->detaylar)
+      <div class="prose prose-slate max-w-none text-[15px] text-[#374151] leading-[1.8]">
+        {!! $proje->detaylar !!}
       </div>
       @endif
 
