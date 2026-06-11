@@ -63,6 +63,8 @@ class MimarlikController extends Controller
     public function indir(\App\Models\Belge $belge)
     {
         abort_unless($belge->aktif && $belge->herkese_acik, 404);
-        return response()->download(storage_path('app/' . $belge->dosya_yolu), $belge->baslik . '.' . strtolower($belge->dosya_turu));
+        $dosyaYolu = \Illuminate\Support\Facades\Storage::disk('public')->path($belge->dosya_yolu);
+        abort_unless(file_exists($dosyaYolu), 404);
+        return response()->download($dosyaYolu, $belge->baslik . '.' . strtolower($belge->dosya_turu));
     }
 }
