@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SiparisDurumMail;
 use App\Models\Siparis;
+use App\Services\MailService;
 use App\Services\SmsService;
 use Illuminate\Http\Request;
 
@@ -57,6 +59,11 @@ class SiparisController extends Controller
                 'referans' => $siparis->referans,
                 'toplam'   => number_format((float) $siparis->toplam, 2, ',', '.') . ' TL',
             ]);
+        }
+
+        $durumMailMap = ['odeme_alindi', 'hazirlaniyor', 'kargolandi', 'teslim_edildi', 'iptal'];
+        if ($siparis->email && in_array($request->durum, $durumMailMap)) {
+            app(MailService::class)->gonder($siparis->email, new SiparisDurumMail($siparis), 'siparis_durum');
         }
 
         return back()->with('basari', 'Sipariş durumu güncellendi.');

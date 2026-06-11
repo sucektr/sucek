@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SiparisOnayMail;
 use App\Models\Siparis;
 use App\Models\SiparisKalemi;
+use App\Services\MailService;
 use App\Services\SmsService;
 use Illuminate\Http\Request;
 
@@ -116,6 +118,9 @@ class SiparisController extends Controller
                 'toplam'   => number_format((float) $siparis->toplam, 2, ',', '.') . ' TL',
             ]);
         }
+
+        $siparis->load('kalemler');
+        app(MailService::class)->gonder($siparis->email, new SiparisOnayMail($siparis), 'siparis_olusturuldu');
 
         if ($request->odeme_yontemi === 'kredi_karti') {
             return redirect()->route('siparis.odeme.goster', $siparis->referans);

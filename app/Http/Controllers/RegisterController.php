@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\HosgeldinMail;
 use App\Models\User;
+use App\Services\MailService;
 use App\Services\RecaptchaService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -44,6 +46,8 @@ class RegisterController extends Controller
             'email'    => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        app(MailService::class)->gonder($user->email, new HosgeldinMail($user), 'hosgeldin');
 
         Auth::login($user);
         return redirect()->intended(route('home'));

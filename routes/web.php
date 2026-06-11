@@ -199,6 +199,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('fiyat-guncelle/indir', [Admin\FiyatGuncelleController::class, 'indir'])->name('fiyat-guncelle.indir');
         Route::post('fiyat-guncelle/yukle', [Admin\FiyatGuncelleController::class, 'yukle'])->name('fiyat-guncelle.yukle');
 
+        Route::get('mail', [Admin\MailController::class, 'index'])->name('mail.index');
+        Route::post('mail/ayarlar', [Admin\MailController::class, 'ayarlarKaydet'])->name('mail.ayarlar');
+        Route::post('mail/toplu-gonder', [Admin\MailController::class, 'topluGonder'])->name('mail.toplu');
+        Route::post('mail/tek-gonder', [Admin\MailController::class, 'tekGonder'])->name('mail.tek');
+        Route::post('mail/haber/{haber}', [Admin\MailController::class, 'haberMail'])->name('mail.haber');
+
         Route::get('sms', [Admin\SmsController::class, 'index'])->name('sms.index');
         Route::post('sms/ayarlar', [Admin\SmsController::class, 'ayarlarKaydet'])->name('sms.ayarlar');
         Route::patch('sms/sablonlar/{sablon}', [Admin\SmsController::class, 'sablonGuncelle'])->name('sms.sablon');
