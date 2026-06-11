@@ -90,16 +90,13 @@ class SmsService
         }
 
         $key        = icerik('sistem', 'iletimerkezi_key');
-        $secret     = icerik('sistem', 'iletimerkezi_secret');
+        $hash       = icerik('sistem', 'iletimerkezi_hash');
         $originator = icerik('sistem', 'iletimerkezi_originator', 'SUCEK');
 
-        if (!$key || !$secret) {
-            Log::warning('SMS yapılandırması eksik (İletimerkezi key/secret admin panelinde tanımsız)');
+        if (!$key || !$hash) {
+            Log::warning('SMS yapılandırması eksik (İletimerkezi key/hash admin panelinde tanımsız)');
             return ['basarili' => false, 'hata' => 'SMS yapılandırması eksik'];
         }
-
-        // İletimerkezi hash: md5(usercode + "0" + md5(password))
-        $hash = md5($key . '0' . md5($secret));
 
         $payload = [
             'request' => [

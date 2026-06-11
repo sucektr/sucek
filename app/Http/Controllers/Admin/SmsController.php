@@ -24,7 +24,7 @@ class SmsController extends Controller
         ];
         $smsAyarlar = [
             'key'        => icerik('sistem', 'iletimerkezi_key'),
-            'secret'     => icerik('sistem', 'iletimerkezi_secret'),
+            'hash'       => icerik('sistem', 'iletimerkezi_hash'),
             'originator' => icerik('sistem', 'iletimerkezi_originator'),
         ];
 
@@ -35,13 +35,13 @@ class SmsController extends Controller
     {
         $request->validate([
             'key'        => 'required|string|max:100',
-            'secret'     => 'required|string|max:200',
+            'hash'       => 'required|string|max:200',
             'originator' => 'required|string|max:11',
         ]);
 
         foreach ([
             'iletimerkezi_key'        => $request->key,
-            'iletimerkezi_secret'     => $request->secret,
+            'iletimerkezi_hash'       => $request->hash,
             'iletimerkezi_originator' => $request->originator,
         ] as $alan => $deger) {
             \App\Models\Icerik::updateOrCreate(

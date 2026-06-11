@@ -77,12 +77,12 @@
         </div>
         <div>
           <label class="block text-[12px] font-medium text-[#374151] mb-1">
-            Hesap Şifresi
-            <span class="text-[#94A3B8] font-normal">(İletimerkezi giriş şifreniz)</span>
+            Hash
+            <span class="text-[#94A3B8] font-normal">(API Anahtarları &gt; Hash)</span>
           </label>
-          <input type="password" name="secret" value="{{ $smsAyarlar['secret'] }}" required
-                 class="w-full border border-[#E2E8F0] rounded-[8px] px-3 py-2 text-[13px] text-[#0F172A] focus:outline-none focus:border-[#CC2200]"
-                 placeholder="••••••••">
+          <input type="text" name="hash" value="{{ $smsAyarlar['hash'] }}" required
+                 class="w-full border border-[#E2E8F0] rounded-[8px] px-3 py-2 text-[13px] font-mono text-[#0F172A] focus:outline-none focus:border-[#CC2200]"
+                 placeholder="cdefebeb...">
         </div>
         <div>
           <label class="block text-[12px] font-medium text-[#374151] mb-1">Gönderici Adı <span class="text-[#94A3B8]">(max 11 kr)</span></label>
