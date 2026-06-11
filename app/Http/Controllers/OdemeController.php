@@ -141,8 +141,8 @@ class OdemeController extends Controller
         ]));
 
         $baseUrl         = rtrim(config('app.url'), '/');
-        $merchantOkUrl   = $baseUrl . '/siparis/' . $merchantOid . '/odeme/basari';
-        $merchantFailUrl = $baseUrl . '/siparis/' . $merchantOid . '/odeme/hata';
+        $merchantOkUrl   = $baseUrl . '/siparis/' . $siparis->referans . '/odeme/basari';
+        $merchantFailUrl = $baseUrl . '/siparis/' . $siparis->referans . '/odeme/hata';
 
         $hashStr    = $merchantId . $userIp . $merchantOid . $email . $paymentAmount . $userBasket . $noInstallment . $maxInstallment . $currency . $testMode;
         $paytrToken = base64_encode(hash_hmac('sha256', $hashStr . $merchantSalt, $merchantKey, true));
