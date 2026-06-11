@@ -275,9 +275,14 @@
               <i class="ti ti-check text-[9px]"></i> OK
             </span>
             @else
-            <span class="inline-flex items-center gap-1 bg-[#FEE2E2] text-[#DC2626] text-[10px] font-bold px-2 py-0.5 rounded-full" title="{{ $log->hata }}">
-              <i class="ti ti-x text-[9px]"></i> Hata
-            </span>
+            <div>
+              <span class="inline-flex items-center gap-1 bg-[#FEE2E2] text-[#DC2626] text-[10px] font-bold px-2 py-0.5 rounded-full">
+                <i class="ti ti-x text-[9px]"></i> Hata
+              </span>
+              @if($log->hata)
+              <p class="text-[10px] text-[#DC2626] mt-0.5 max-w-[200px] break-words">{{ $log->hata }}</p>
+              @endif
+            </div>
             @endif
           </td>
         </tr>
