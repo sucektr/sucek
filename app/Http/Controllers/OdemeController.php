@@ -106,7 +106,7 @@ class OdemeController extends Controller
         return response('OK');
     }
 
-    private function paytrToken(Siparis $siparis, string $userIp): ?string
+    private function paytrToken(Siparis $siparis, string $userIp): array
     {
         $merchantId   = icerik('sistem', 'paytr_merchant_id')   ?: config('services.paytr.merchant_id');
         $merchantKey  = icerik('sistem', 'paytr_merchant_key')  ?: config('services.paytr.merchant_key');
