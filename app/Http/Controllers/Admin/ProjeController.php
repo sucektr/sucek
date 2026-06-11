@@ -86,9 +86,7 @@ class ProjeController extends Controller
         }
 
         // Mevcut görseller: formdan gelen liste (silinmeyenler)
-        $mevcutGorseller = array_filter(
-            json_decode($request->input('mevcut_gorseller', '[]'), true) ?: []
-        );
+        $mevcutGorseller = array_filter((array) $request->input('mevcut_gorseller', []));
 
         // Silinen görselleri storage'dan kaldır
         foreach (array_diff($proje->gorseller ?: [], $mevcutGorseller) as $silinen) {
