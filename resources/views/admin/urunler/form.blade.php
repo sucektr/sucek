@@ -478,6 +478,7 @@
     </div>
   </div>
 </div>
+@endif
 
 {{-- ── Seçenek Görselleri ────────────────────────────────────────────────── --}}
 @if($urun->exists && $mevcutSecenekler->count() > 0)
