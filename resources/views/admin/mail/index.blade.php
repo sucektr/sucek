@@ -111,6 +111,36 @@
     </div>
   </div>
 
+  {{-- Şablon Önizlemeleri --}}
+  <div class="bg-white border border-[#E2E8F0] rounded-[12px] overflow-hidden">
+    <div class="px-6 py-4 border-b border-[#E2E8F0] flex items-center gap-2">
+      <i class="ti ti-eye text-[#CC2200]"></i>
+      <span class="text-[14px] font-semibold text-[#0F172A]">E-Posta Şablonları</span>
+      <span class="text-[11px] text-[#94A3B8] ml-1">— Örnek veriyle görünüm</span>
+    </div>
+    <div class="p-6">
+      <div class="flex flex-wrap gap-2">
+        @foreach([
+          ['hosgeldin',             'Hoş Geldin',         'ti-user-check',  '#8B5CF6'],
+          ['siparis-onay',          'Sipariş Onayı',      'ti-shopping-bag','#3B82F6'],
+          ['siparis-durum-odeme',   'Ödeme Alındı',       'ti-circle-check','#22C55E'],
+          ['siparis-durum-kargo',   'Kargoya Verildi',    'ti-truck',       '#F59E0B'],
+          ['siparis-durum-iptal',   'İptal Edildi',       'ti-x',           '#EF4444'],
+          ['haber',                 'Haber Duyurusu',     'ti-news',        '#0EA5E9'],
+          ['bulten',                'Bülten',             'ti-mail',        '#CC2200'],
+        ] as [$tip, $etiket, $ikon, $renk])
+        <a href="{{ route('admin.mail.onizleme', $tip) }}" target="_blank"
+           class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-[#E2E8F0] rounded-[8px] text-[12px] font-medium text-[#374151] hover:border-current hover:text-current transition-colors cursor-pointer"
+           style="--c:{{ $renk }};" onmouseover="this.style.color='{{ $renk }}';this.style.borderColor='{{ $renk }}'" onmouseout="this.style.color='';this.style.borderColor=''">
+          <i class="ti {{ $ikon }} text-sm"></i>
+          {{ $etiket }}
+          <i class="ti ti-external-link text-[10px] opacity-50"></i>
+        </a>
+        @endforeach
+      </div>
+    </div>
+  </div>
+
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
     {{-- Toplu Mail --}}

@@ -110,6 +110,65 @@ class MailController extends Controller
         );
     }
 
+    public function onizleme(string $tip)
+    {
+        $ornekSiparis = (object)[
+            'referans'      => 'SC-2026-00042',
+            'ad_soyad'      => 'Fatma Kaya',
+            'email'         => 'fatma@ornek.com',
+            'odeme_yontemi' => 'havale',
+            'durum'         => 'bekliyor',
+            'admin_notu'    => null,
+            'ara_toplam'    => 850.00,
+            'kdv_tutari'    => 153.00,
+            'kargo_ucreti'  => 0,
+            'toplam'        => 1003.00,
+            'kalemler'      => collect([
+                (object)['urun_adi' => 'Ahşap Çerçeve — Kayın', 'varyant_bilgisi' => '30×40 cm', 'adet' => 1, 'toplam' => 450.00],
+                (object)['urun_adi' => 'Dekoratif Tabak', 'varyant_bilgisi' => null, 'adet' => 2, 'toplam' => 400.00],
+            ]),
+        ];
+
+        return match($tip) {
+            'hosgeldin' => view('mail.hosgeldin', [
+                'user' => (object)['name' => 'Ahmet Yılmaz', 'email' => 'ahmet@ornek.com'],
+            ])->render(),
+
+            'siparis-onay' => view('mail.siparis-onay', [
+                'siparis' => $ornekSiparis,
+            ])->render(),
+
+            'siparis-durum-odeme' => view('mail.siparis-durum', [
+                'siparis'    => (object)array_merge((array)$ornekSiparis, ['durum' => 'odeme_alindi']),
+                'durumBaslik' => 'Ödemeniz Alındı',
+                'durumMesaj'  => 'Ödemeniz onaylandı, siparişiniz hazırlanmaya başlıyor.',
+            ])->render(),
+
+            'siparis-durum-kargo' => view('mail.siparis-durum', [
+                'siparis'    => (object)array_merge((array)$ornekSiparis, ['durum' => 'kargolandi', 'admin_notu' => 'Kargo takip no: 12345678', 'odeme_yontemi' => 'kredi_karti']),
+                'durumBaslik' => 'Siparişiniz Kargoya Verildi',
+                'durumMesaj'  => 'Siparişiniz kargo firmasına teslim edildi.',
+            ])->render(),
+
+            'siparis-durum-iptal' => view('mail.siparis-durum', [
+                'siparis'    => (object)array_merge((array)$ornekSiparis, ['durum' => 'iptal']),
+                'durumBaslik' => 'Siparişiniz İptal Edildi',
+                'durumMesaj'  => 'Siparişiniz iptal edildi. Detay için bizimle iletişime geçebilirsiniz.',
+            ])->render(),
+
+            'haber' => view('mail.haber-duyuru', [
+                'haber' => (object)['baslik' => 'Yeni Koleksiyon: 2026 İlkbahar', 'slug' => 'ornek', 'ozet' => 'SUÇEK\'in 2026 ilkbahar koleksiyonu şimdi mağazada! Modern tasarımlar ve özel fırsatlar sizi bekliyor.', 'icerik' => ''],
+            ])->render(),
+
+            'bulten' => view('mail.bulten', [
+                'konu'   => 'Haziran Kampanyası Başladı',
+                'icerik' => "Sayın üyemiz,\n\nHaziran ayına özel kampanyamız başlamıştır.\n\nTüm ürünlerde %15 indirim fırsatını kaçırmayın!\n\nİyi günler.",
+            ])->render(),
+
+            default => abort(404),
+        };
+    }
+
     public function haberMail(Request $request, Haber $haber, MailService $mail)
     {
         $request->validate([
