@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Siparis;
+use App\Services\SmsService;
 use Illuminate\Http\Request;
 
 class SiparisController extends Controller
@@ -41,6 +42,22 @@ class SiparisController extends Controller
             'durum'      => $request->durum,
             'admin_notu' => $request->admin_notu ?? $siparis->admin_notu,
         ]);
+
+        $smsSablonMap = [
+            'odeme_alindi'  => 'siparis_odeme_alindi',
+            'hazirlaniyor'  => 'siparis_hazirlaniyor',
+            'kargolandi'    => 'siparis_kargolandi',
+            'teslim_edildi' => 'siparis_teslim_edildi',
+            'iptal'         => 'siparis_iptal',
+        ];
+
+        if ($siparis->telefon && isset($smsSablonMap[$request->durum])) {
+            app(SmsService::class)->sablonGonder($smsSablonMap[$request->durum], $siparis->telefon, [
+                'ad_soyad' => $siparis->ad_soyad,
+                'referans' => $siparis->referans,
+                'toplam'   => number_format((float) $siparis->toplam, 2, ',', '.') . ' TL',
+            ]);
+        }
 
         return back()->with('basari', 'Sipariş durumu güncellendi.');
     }

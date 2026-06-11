@@ -198,6 +198,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('fiyat-guncelle', [Admin\FiyatGuncelleController::class, 'index'])->name('fiyat-guncelle.index');
         Route::get('fiyat-guncelle/indir', [Admin\FiyatGuncelleController::class, 'indir'])->name('fiyat-guncelle.indir');
         Route::post('fiyat-guncelle/yukle', [Admin\FiyatGuncelleController::class, 'yukle'])->name('fiyat-guncelle.yukle');
+
+        Route::get('sms', [Admin\SmsController::class, 'index'])->name('sms.index');
+        Route::patch('sms/sablonlar/{sablon}', [Admin\SmsController::class, 'sablonGuncelle'])->name('sms.sablon');
+        Route::post('sms/toplu-gonder', [Admin\SmsController::class, 'topluGonder'])->name('sms.toplu');
+        Route::post('sms/tek-gonder', [Admin\SmsController::class, 'tekGonder'])->name('sms.tek');
+        Route::post('sms/haber/{haber}', [Admin\SmsController::class, 'haberSms'])->name('sms.haber');
     });
 
     // Katalog Oluşturucu — admin + izinli premium üyeler erişebilir

@@ -98,6 +98,34 @@
           </button>
         </form>
 
+        {{-- SMS Gönder (sadece yayında olan haberler) --}}
+        @if($haber->yayinda)
+        <div x-data="{ ac: false }" class="relative">
+          <button @click="ac=!ac" title="SMS ile Duyur"
+                  class="w-8 h-8 flex items-center justify-center border border-[#E2E8F0] rounded-[6px] text-[#94A3B8] hover:text-[#7C3AED] hover:border-purple-300 transition-colors bg-white">
+            <i class="ti ti-message-2 text-sm"></i>
+          </button>
+          <div x-show="ac" @click.outside="ac=false" x-cloak
+               class="absolute right-0 top-10 z-50 bg-white border border-[#E2E8F0] rounded-[10px] shadow-lg p-4 w-56">
+            <p class="text-[11px] font-semibold text-[#0F172A] mb-2">SMS ile Duyur</p>
+            <form action="{{ route('admin.sms.haber', $haber) }}" method="POST"
+                  onsubmit="return confirm('Bu haber için SMS gönderilecek. Emin misiniz?')">
+              @csrf
+              <select name="grup" class="w-full border border-[#E2E8F0] rounded-[6px] px-2 py-1.5 text-[11px] text-[#0F172A] mb-2 focus:outline-none focus:border-[#7C3AED]">
+                <option value="sucek">Suçek Aile Üyeleri</option>
+                <option value="tum_premium">Tüm Premium Üyeler</option>
+                <option value="sms_izinli">SMS İzni Olanlar</option>
+              </select>
+              <button type="submit"
+                      class="w-full py-1.5 text-white text-[11px] font-semibold rounded-[6px] transition-colors"
+                      style="background:#7C3AED;" onmouseover="this.style.background='#6d28d9'" onmouseout="this.style.background='#7C3AED'">
+                <i class="ti ti-send text-xs mr-1"></i> SMS Gönder
+              </button>
+            </form>
+          </div>
+        </div>
+        @endif
+
         {{-- Düzenle --}}
         <a href="{{ route('admin.haberler.edit', $haber) }}"
            class="w-8 h-8 flex items-center justify-center border border-[#E2E8F0] rounded-[6px] text-[#94A3B8] hover:text-[#0F172A] hover:border-[#CC2200] transition-colors bg-white">

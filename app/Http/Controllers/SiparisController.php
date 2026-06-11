@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Siparis;
 use App\Models\SiparisKalemi;
+use App\Services\SmsService;
 use Illuminate\Http\Request;
 
 class SiparisController extends Controller
@@ -107,6 +108,14 @@ class SiparisController extends Controller
         }
 
         session()->forget('sepet');
+
+        if ($siparis->telefon) {
+            app(SmsService::class)->sablonGonder('siparis_olusturuldu', $siparis->telefon, [
+                'ad_soyad' => $siparis->ad_soyad,
+                'referans' => $siparis->referans,
+                'toplam'   => number_format((float) $siparis->toplam, 2, ',', '.') . ' TL',
+            ]);
+        }
 
         if ($request->odeme_yontemi === 'kredi_karti') {
             return redirect()->route('siparis.odeme.goster', $siparis->referans);

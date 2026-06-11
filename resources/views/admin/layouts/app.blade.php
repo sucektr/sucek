@@ -91,6 +91,9 @@
     <a href="{{ route('admin.fiyat-guncelle.index') }}" class="nav-link {{ request()->routeIs('admin.fiyat-guncelle.*') ? 'active' : '' }}">
       <i class="ti ti-table-options"></i> Toplu Fiyat
     </a>
+    <a href="{{ route('admin.sms.index') }}" class="nav-link {{ request()->routeIs('admin.sms.*') ? 'active' : '' }}">
+      <i class="ti ti-message-2"></i> SMS
+    </a>
     <a href="{{ route('admin.deploy.index') }}" class="nav-link {{ request()->routeIs('admin.deploy.*') ? 'active' : '' }}">
       <i class="ti ti-cloud-download"></i> Güncelle
     </a>
