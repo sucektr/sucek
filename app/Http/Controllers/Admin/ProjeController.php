@@ -23,18 +23,17 @@ class ProjeController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'baslik'            => 'required|string|max:200',
-            'slug'              => 'required|string|max:200|unique:projeler,slug',
-            'kategori'          => 'required|string|max:100',
-            'alt_kategori'      => 'nullable|string|max:100',
-            'konum'             => 'nullable|string|max:150',
-            'yil'               => 'nullable|integer|min:1900|max:2100',
-            'kapak_gorsel'      => 'nullable|image|max:8192',
-            'yeni_gorseller.*'  => 'nullable|image|max:8192',
-            'detaylar'          => 'nullable|string',
-            'sira'              => 'nullable|integer|min:0',
-            'aktif'             => 'boolean',
-            'one_cikan'         => 'boolean',
+            'baslik'       => 'required|string|max:200',
+            'slug'         => 'required|string|max:200|unique:projeler,slug',
+            'kategori'     => 'required|string|max:100',
+            'alt_kategori' => 'nullable|string|max:100',
+            'konum'        => 'nullable|string|max:150',
+            'yil'          => 'nullable|integer|min:1900|max:2100',
+            'kapak_gorsel' => 'nullable|image|max:8192',
+            'detaylar'     => 'nullable|string',
+            'sira'         => 'nullable|integer|min:0',
+            'aktif'        => 'boolean',
+            'one_cikan'    => 'boolean',
         ]);
 
         if ($request->hasFile('kapak_gorsel')) {
@@ -42,8 +41,8 @@ class ProjeController extends Controller
         }
 
         $gorseller = [];
-        if ($request->hasFile('yeni_gorseller')) {
-            foreach ($request->file('yeni_gorseller') as $gorsel) {
+        foreach ((array) $request->file('yeni_gorseller', []) as $gorsel) {
+            if ($gorsel && $gorsel->isValid()) {
                 $gorseller[] = $gorsel->store('projeler', 'public');
             }
         }
@@ -51,7 +50,6 @@ class ProjeController extends Controller
 
         $data['aktif']     = $request->boolean('aktif');
         $data['one_cikan'] = $request->boolean('one_cikan');
-        unset($data['yeni_gorseller']);
 
         Proje::create($data);
         return redirect()->route('admin.projeler.index')->with('basari', 'Proje eklendi.');
@@ -67,18 +65,17 @@ class ProjeController extends Controller
     public function update(Request $request, Proje $proje)
     {
         $request->validate([
-            'baslik'            => 'required|string|max:200',
-            'slug'              => 'required|string|max:200|unique:projeler,slug,'.$proje->id,
-            'kategori'          => 'required|string|max:100',
-            'alt_kategori'      => 'nullable|string|max:100',
-            'konum'             => 'nullable|string|max:150',
-            'yil'               => 'nullable|integer|min:1900|max:2100',
-            'kapak_gorsel'      => 'nullable|image|max:8192',
-            'yeni_gorseller.*'  => 'nullable|image|max:8192',
-            'detaylar'          => 'nullable|string',
-            'sira'              => 'nullable|integer|min:0',
-            'aktif'             => 'boolean',
-            'one_cikan'         => 'boolean',
+            'baslik'       => 'required|string|max:200',
+            'slug'         => 'required|string|max:200|unique:projeler,slug,'.$proje->id,
+            'kategori'     => 'required|string|max:100',
+            'alt_kategori' => 'nullable|string|max:100',
+            'konum'        => 'nullable|string|max:150',
+            'yil'          => 'nullable|integer|min:1900|max:2100',
+            'kapak_gorsel' => 'nullable|image|max:8192',
+            'detaylar'     => 'nullable|string',
+            'sira'         => 'nullable|integer|min:0',
+            'aktif'        => 'boolean',
+            'one_cikan'    => 'boolean',
         ]);
 
         $data = $request->only(['baslik', 'slug', 'kategori', 'alt_kategori', 'konum', 'yil', 'detaylar', 'sira']);
@@ -100,8 +97,8 @@ class ProjeController extends Controller
 
         // Yeni görselleri yükle
         $yeniGorseller = [];
-        if ($request->hasFile('yeni_gorseller')) {
-            foreach ($request->file('yeni_gorseller') as $gorsel) {
+        foreach ((array) $request->file('yeni_gorseller', []) as $gorsel) {
+            if ($gorsel && $gorsel->isValid()) {
                 $yeniGorseller[] = $gorsel->store('projeler', 'public');
             }
         }
