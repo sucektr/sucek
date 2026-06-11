@@ -98,11 +98,14 @@ class SmsService
             return ['basarili' => false, 'hata' => 'SMS yapılandırması eksik'];
         }
 
+        // Hash: 32 karakter ise MD5 hash (hesaplanmış), 64 karakter ise SHA256 → md5(key+0+secret)
+        $hash = strlen($secret) === 32 ? $secret : md5($key . '0' . $secret);
+
         $payload = [
             'request' => [
                 'authentication' => [
                     'key'  => $key,
-                    'hash' => md5($key . '0' . $secret),
+                    'hash' => $hash,
                 ],
                 'order' => [
                     'sender'    => $originator,
@@ -120,15 +123,18 @@ class SmsService
 
         try {
             $response = Http::timeout(15)->post(config('sms.api_url'), $payload);
+            $rawBody  = $response->body();
             $data     = $response->json();
             $code     = $data['response']['status']['code'] ?? 0;
+
+            Log::info('İletimerkezi API yanıtı', ['code' => $code, 'body' => $rawBody]);
 
             if ($code === 200) {
                 return ['basarili' => true];
             }
 
-            $hata = $data['response']['status']['message'] ?? 'API hatası: ' . $response->status();
-            Log::error('İletimerkezi SMS hatası: ' . $hata, ['numaralar' => $numaralar]);
+            $hata = $data['response']['status']['message'] ?? ('HTTP ' . $response->status() . ': ' . $rawBody);
+            Log::error('İletimerkezi SMS hatası: ' . $hata);
 
             return ['basarili' => false, 'hata' => $hata];
         } catch (\Exception $e) {
