@@ -103,7 +103,8 @@
             <p class="text-[10px] text-[#94A3B8] mt-1 text-right" x-text="mesaj.length + '/500 karakter'"></p>
           </div>
           <button type="submit"
-                  class="w-full py-2.5 bg-[#1E293B] text-white text-[12px] font-semibold rounded-[8px] transition-colors hover:bg-[#0F172A]">
+                  class="w-full py-2.5 text-white text-[12px] font-semibold rounded-[8px] transition-colors"
+                  style="background:#1E293B;" onmouseover="this.style.background='#0F172A'" onmouseout="this.style.background='#1E293B'">
             <i class="ti ti-send text-sm mr-1"></i> Gönder
           </button>
         </form>
