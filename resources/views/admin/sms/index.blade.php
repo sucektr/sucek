@@ -40,6 +40,62 @@
   </div>
 </div>
 
+{{-- API Ayarları --}}
+<div class="bg-white rounded-[12px] border border-[#E2E8F0] overflow-hidden mb-6">
+  <div class="px-6 py-4 border-b border-[#E2E8F0] flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <i class="ti ti-key text-[#CC2200] text-base"></i>
+      <h2 class="text-[13px] font-semibold text-[#0F172A]">İletimerkezi API Ayarları</h2>
+    </div>
+    @if($smsAyarlar['key'])
+    <span class="inline-flex items-center gap-1 bg-[#E6F4EC] text-[#065F46] text-[10px] font-bold px-2 py-1 rounded-full">
+      <i class="ti ti-circle-check text-[9px]"></i> Yapılandırıldı
+    </span>
+    @else
+    <span class="inline-flex items-center gap-1 bg-[#FEE2E2] text-[#DC2626] text-[10px] font-bold px-2 py-1 rounded-full">
+      <i class="ti ti-alert-circle text-[9px]"></i> Eksik
+    </span>
+    @endif
+  </div>
+  <div class="p-6" x-data="{ac: {{ $smsAyarlar['key'] ? 'false' : 'true' }}}">
+    <button type="button" @click="ac=!ac"
+            class="text-[12px] text-[#64748B] hover:text-[#0F172A] flex items-center gap-1 mb-4">
+      <i class="ti text-xs" :class="ac ? 'ti-chevron-up' : 'ti-chevron-down'"></i>
+      <span x-text="ac ? 'Gizle' : 'Düzenle'">Düzenle</span>
+    </button>
+    <form x-show="ac" action="{{ route('admin.sms.ayarlar') }}" method="POST">
+      @csrf
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-[12px] font-medium text-[#374151] mb-1">API Key</label>
+          <input type="text" name="key" value="{{ $smsAyarlar['key'] }}" required
+                 class="w-full border border-[#E2E8F0] rounded-[8px] px-3 py-2 text-[13px] font-mono text-[#0F172A] focus:outline-none focus:border-[#CC2200]"
+                 placeholder="655a244b...">
+        </div>
+        <div>
+          <label class="block text-[12px] font-medium text-[#374151] mb-1">Hash Secret</label>
+          <input type="text" name="secret" value="{{ $smsAyarlar['secret'] }}" required
+                 class="w-full border border-[#E2E8F0] rounded-[8px] px-3 py-2 text-[13px] font-mono text-[#0F172A] focus:outline-none focus:border-[#CC2200]"
+                 placeholder="cdefebeb...">
+        </div>
+        <div>
+          <label class="block text-[12px] font-medium text-[#374151] mb-1">Gönderici Adı <span class="text-[#94A3B8]">(max 11 kr)</span></label>
+          <input type="text" name="originator" value="{{ $smsAyarlar['originator'] }}" required maxlength="11"
+                 class="w-full border border-[#E2E8F0] rounded-[8px] px-3 py-2 text-[13px] text-[#0F172A] focus:outline-none focus:border-[#CC2200]"
+                 placeholder="SUCEK">
+        </div>
+      </div>
+      <div class="mt-4">
+        <button type="submit"
+                class="px-5 py-2 text-white text-[12px] font-semibold rounded-[8px] transition-colors"
+                style="background:#CC2200;" onmouseover="this.style.background='#a31b00'" onmouseout="this.style.background='#CC2200'">
+          <i class="ti ti-device-floppy text-sm mr-1"></i> Kaydet
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
   {{-- Sol kolon --}}

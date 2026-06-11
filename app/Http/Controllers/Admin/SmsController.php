@@ -14,16 +14,43 @@ class SmsController extends Controller
 {
     public function index()
     {
-        $sablonlar = SmsSablon::orderBy('anahtar')->get();
-        $loglar    = SmsLog::latest()->limit(100)->get();
+        $sablonlar  = SmsSablon::orderBy('anahtar')->get();
+        $loglar     = SmsLog::latest()->limit(100)->get();
         $istatistik = [
             'bugun'    => SmsLog::whereDate('created_at', today())->count(),
             'bu_ay'    => SmsLog::whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->count(),
             'basarili' => SmsLog::where('basarili', true)->count(),
             'hatali'   => SmsLog::where('basarili', false)->count(),
         ];
+        $smsAyarlar = [
+            'key'        => icerik('sistem', 'iletimerkezi_key'),
+            'secret'     => icerik('sistem', 'iletimerkezi_secret'),
+            'originator' => icerik('sistem', 'iletimerkezi_originator'),
+        ];
 
-        return view('admin.sms.index', compact('sablonlar', 'loglar', 'istatistik'));
+        return view('admin.sms.index', compact('sablonlar', 'loglar', 'istatistik', 'smsAyarlar'));
+    }
+
+    public function ayarlarKaydet(Request $request)
+    {
+        $request->validate([
+            'key'        => 'required|string|max:100',
+            'secret'     => 'required|string|max:200',
+            'originator' => 'required|string|max:11',
+        ]);
+
+        foreach ([
+            'iletimerkezi_key'        => $request->key,
+            'iletimerkezi_secret'     => $request->secret,
+            'iletimerkezi_originator' => $request->originator,
+        ] as $alan => $deger) {
+            \App\Models\Icerik::updateOrCreate(
+                ['sayfa' => 'sistem', 'alan' => $alan],
+                ['deger' => $deger, 'baslik' => $alan, 'tip' => 'metin', 'sira' => 0]
+            );
+        }
+
+        return back()->with('basari', 'SMS API ayarları kaydedildi.');
     }
 
     public function sablonGuncelle(Request $request, SmsSablon $sablon)

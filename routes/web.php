@@ -200,6 +200,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('fiyat-guncelle/yukle', [Admin\FiyatGuncelleController::class, 'yukle'])->name('fiyat-guncelle.yukle');
 
         Route::get('sms', [Admin\SmsController::class, 'index'])->name('sms.index');
+        Route::post('sms/ayarlar', [Admin\SmsController::class, 'ayarlarKaydet'])->name('sms.ayarlar');
         Route::patch('sms/sablonlar/{sablon}', [Admin\SmsController::class, 'sablonGuncelle'])->name('sms.sablon');
         Route::post('sms/toplu-gonder', [Admin\SmsController::class, 'topluGonder'])->name('sms.toplu');
         Route::post('sms/tek-gonder', [Admin\SmsController::class, 'tekGonder'])->name('sms.tek');
