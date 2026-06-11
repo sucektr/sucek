@@ -33,11 +33,11 @@ class OdemeController extends Controller
         if ($userIp === '127.0.0.1' || $userIp === '::1') {
             $userIp = '88.247.0.1'; // test için geçici genel IP
         }
-        $iframeToken = $this->paytrToken($siparis, trim($userIp));
+        [$iframeToken, $paytrHata] = $this->paytrToken($siparis, trim($userIp));
 
         if (!$iframeToken) {
             return redirect()->route('siparis.onay', $referans)
-                ->with('hata', 'Kredi kartı ile ödeme şu an kullanılamıyor. Havale/EFT ile ödeme yapabilirsiniz veya bizimle iletişime geçin.');
+                ->with('hata', $paytrHata ?: 'Kredi kartı ile ödeme şu an kullanılamıyor. Havale/EFT ile ödeme yapabilirsiniz.');
         }
 
         return view('siparis.odeme', compact('siparis', 'iframeToken'));
@@ -184,14 +184,15 @@ class OdemeController extends Controller
             $result = $response->json();
 
             if (($result['status'] ?? '') === 'success') {
-                return $result['token'];
+                return [$result['token'], null];
             }
 
+            $hata = $result['reason'] ?? $result['err_msg'] ?? ('PayTR API hatası: ' . json_encode($result));
             Log::error('PayTR token hatası', ['result' => $result, 'http_status' => $response->status()]);
-            return null;
+            return [null, $hata];
         } catch (\Throwable $e) {
             Log::error('PayTR bağlantı hatası', ['error' => $e->getMessage()]);
-            return null;
+            return [null, 'PayTR bağlantı hatası: ' . $e->getMessage()];
         }
     }
 }
