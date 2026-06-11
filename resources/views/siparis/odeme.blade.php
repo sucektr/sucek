@@ -33,7 +33,7 @@
             id="paytriframe"
             frameborder="0"
             scrolling="no"
-            style="width:100%;min-height:580px;display:block;"></iframe>
+            style="width:100%;height:600px;display:block;"></iframe>
 
   </div>
 
@@ -51,10 +51,19 @@
 @push('scripts')
 <script>
 window.addEventListener('message', function (e) {
-  if (typeof e.data !== 'string' || e.data.indexOf('//paytr.com') === -1) return;
-  var params = new URLSearchParams(e.data.split('?')[1] || '');
-  var h = params.get('height');
-  if (h) document.getElementById('paytriframe').style.minHeight = parseInt(h) + 'px';
+  if (!e.data) return;
+  var iframe = document.getElementById('paytriframe');
+  // PayTR sadece sayı gönderir (px cinsinden yükseklik)
+  if (typeof e.data === 'number' || /^\d+$/.test(e.data)) {
+    iframe.style.height = parseInt(e.data) + 'px';
+    return;
+  }
+  // Alternatif format: URL query string içinde height
+  if (typeof e.data === 'string' && e.data.indexOf('//paytr.com') !== -1) {
+    var params = new URLSearchParams(e.data.split('?')[1] || '');
+    var h = params.get('height');
+    if (h) iframe.style.height = parseInt(h) + 'px';
+  }
 }, false);
 </script>
 @endpush
