@@ -87,6 +87,7 @@
         <div>
           <div class="flex items-center justify-between mb-2">
             <label for="password" class="text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.08em]">Şifre</label>
+            <a href="{{ route('sifremi-unuttum') }}" class="text-[11px] text-[#A8A8A8] hover:text-[#0F0F0F] transition-colors">Şifremi Unuttum</a>
           </div>
           <div class="relative">
             <input id="password" :type="showPass ? 'text' : 'password'" name="password" required autocomplete="current-password"

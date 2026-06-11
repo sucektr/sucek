@@ -23,6 +23,8 @@ use App\Http\Controllers\HaberController;
 use App\Http\Controllers\OdemeController;
 use App\Http\Controllers\KatalogController;
 use App\Http\Controllers\UserUrunController;
+use App\Http\Controllers\SifremiUnuttumController;
+use App\Http\Controllers\ProjeController;
 
 // Ana Sayfa
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -85,6 +87,10 @@ Route::prefix('sepet')->name('sepet.')->group(function () {
     Route::delete('/temizle', [SepetController::class, 'temizle'])->name('temizle');
 });
 
+// Projeler
+Route::get('/projeler', [ProjeController::class, 'index'])->name('projeler.index');
+Route::get('/projeler/{slug}', [ProjeController::class, 'show'])->name('projeler.show');
+
 // Yasal Sayfalar
 Route::get('/yasal/{sayfa}', [SayfaController::class, 'goster'])->name('yasal');
 
@@ -138,6 +144,14 @@ Route::post('/giris', [LoginController::class, 'giris'])->name('giris.post')->mi
 Route::post('/cikis', [LoginController::class, 'cikis'])->name('cikis');
 Route::get('/uye-ol', [RegisterController::class, 'uyeOlForm'])->name('uye-ol')->middleware('guest');
 Route::post('/uye-ol', [RegisterController::class, 'uyeOl'])->name('uye-ol.post')->middleware('guest');
+
+// Şifremi Unuttum
+Route::middleware('guest')->group(function () {
+    Route::get('/sifremi-unuttum', [SifremiUnuttumController::class, 'form'])->name('sifremi-unuttum');
+    Route::post('/sifremi-unuttum', [SifremiUnuttumController::class, 'gonder'])->name('sifremi-unuttum.gonder');
+    Route::get('/sifre-sifirla/{token}', [SifremiUnuttumController::class, 'sifirlaForm'])->name('sifre-sifirla');
+    Route::post('/sifre-sifirla', [SifremiUnuttumController::class, 'sifirla'])->name('sifre-sifirla.kaydet');
+});
 
 // Admin
 Route::prefix('admin')->name('admin.')->group(function () {
