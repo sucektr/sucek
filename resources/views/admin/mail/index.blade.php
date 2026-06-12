@@ -128,6 +128,7 @@
           ['siparis-durum-iptal',   'İptal Edildi',       'ti-x',           '#EF4444'],
           ['haber',                 'Haber Duyurusu',     'ti-news',        '#0EA5E9'],
           ['bulten',                'Bülten',             'ti-mail',        '#CC2200'],
+          ['yazisma',               'Kurumsal Yazışma',   'ti-building',    '#0F172A'],
         ] as [$tip, $etiket, $ikon, $renk])
         <a href="{{ route('admin.mail.onizleme', $tip) }}" target="_blank"
            class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-[#E2E8F0] rounded-[8px] text-[12px] font-medium text-[#374151] hover:border-current hover:text-current transition-colors cursor-pointer"
@@ -215,6 +216,99 @@
       </form>
     </div>
 
+  </div>
+
+  {{-- Kurumsal Yazışma --}}
+  <div class="bg-white border border-[#E2E8F0] rounded-[12px] overflow-hidden">
+    <div class="px-6 py-4 border-b border-[#E2E8F0] flex items-center gap-2">
+      <i class="ti ti-building text-[#CC2200]"></i>
+      <span class="text-[14px] font-semibold text-[#0F172A]">Kurumsal Yazışma</span>
+      <span class="text-[11px] text-[#94A3B8] ml-1">— Kurumsal imzalı resmi e-posta</span>
+    </div>
+    <form action="{{ route('admin.mail.yazisma') }}" method="POST" class="p-6 space-y-5">
+      @csrf
+
+      {{-- Alıcı + Konu --}}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-[12px] font-medium text-[#374151] mb-1">Alıcı E-posta</label>
+          <input type="email" name="alici" required
+                 class="w-full border border-[#E2E8F0] rounded-[8px] px-3 py-2 text-[13px] text-[#0F172A] focus:outline-none focus:border-[#CC2200]"
+                 placeholder="ornek@kurum.com">
+        </div>
+        <div>
+          <label class="block text-[12px] font-medium text-[#374151] mb-1">Konu</label>
+          <input type="text" name="konu" required maxlength="200"
+                 class="w-full border border-[#E2E8F0] rounded-[8px] px-3 py-2 text-[13px] text-[#0F172A] focus:outline-none focus:border-[#CC2200]"
+                 placeholder="E-posta konusu">
+        </div>
+      </div>
+
+      {{-- Mesaj İçeriği --}}
+      <div>
+        <label class="block text-[12px] font-medium text-[#374151] mb-1">
+          Mesaj İçeriği <span class="text-[#94A3B8] font-normal">(imza otomatik eklenir)</span>
+        </label>
+        <textarea name="icerik" required maxlength="10000" rows="7"
+                  class="w-full border border-[#E2E8F0] rounded-[8px] px-3 py-2 text-[13px] text-[#0F172A] focus:outline-none focus:border-[#CC2200] resize-none"
+                  placeholder="Sayın Yetkili,&#10;&#10;İlgili konuya dair...&#10;&#10;Saygılarımızla,"></textarea>
+      </div>
+
+      {{-- İmza Bilgileri --}}
+      <div>
+        <p class="text-[11px] font-semibold text-[#94A3B8] uppercase tracking-wider mb-3 flex items-center gap-2">
+          <i class="ti ti-signature text-xs"></i> Kurumsal İmza
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-[12px] font-medium text-[#374151] mb-1">Ad Soyad</label>
+            <input type="text" name="imza_ad" required maxlength="100"
+                   class="w-full border border-[#E2E8F0] rounded-[8px] px-3 py-2 text-[13px] text-[#0F172A] focus:outline-none focus:border-[#CC2200]"
+                   placeholder="Adınız Soyadınız"
+                   value="{{ old('imza_ad') }}">
+          </div>
+          <div>
+            <label class="block text-[12px] font-medium text-[#374151] mb-1">Görev / Unvan</label>
+            <input type="text" name="imza_gorev" required maxlength="100"
+                   class="w-full border border-[#E2E8F0] rounded-[8px] px-3 py-2 text-[13px] text-[#0F172A] focus:outline-none focus:border-[#CC2200]"
+                   placeholder="Mimar · Kurucu Ortak"
+                   value="{{ old('imza_gorev') }}">
+          </div>
+          <div>
+            <label class="block text-[12px] font-medium text-[#374151] mb-1">Telefon</label>
+            <input type="text" name="imza_tel" required maxlength="50"
+                   class="w-full border border-[#E2E8F0] rounded-[8px] px-3 py-2 text-[13px] text-[#0F172A] focus:outline-none focus:border-[#CC2200]"
+                   placeholder="+90 555 555 55 55"
+                   value="{{ old('imza_tel') }}">
+          </div>
+          <div>
+            <label class="block text-[12px] font-medium text-[#374151] mb-1">E-posta (imzada görünen)</label>
+            <input type="email" name="imza_email" required maxlength="100"
+                   class="w-full border border-[#E2E8F0] rounded-[8px] px-3 py-2 text-[13px] text-[#0F172A] focus:outline-none focus:border-[#CC2200]"
+                   placeholder="info@sucek.com.tr"
+                   value="{{ old('imza_email', $mailAyarlar['from'] ?? '') }}">
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-[12px] font-medium text-[#374151] mb-1">Adres <span class="text-[#94A3B8] font-normal">(opsiyonel)</span></label>
+            <input type="text" name="imza_adres" maxlength="300"
+                   class="w-full border border-[#E2E8F0] rounded-[8px] px-3 py-2 text-[13px] text-[#0F172A] focus:outline-none focus:border-[#CC2200]"
+                   placeholder="Merkez Mah. Örnek Cad. No:1, Karabük"
+                   value="{{ old('imza_adres') }}">
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 pt-1">
+        <button type="submit"
+                class="flex items-center gap-2 bg-[#0F172A] text-white text-[12px] font-semibold px-5 py-2.5 rounded-[8px] hover:bg-[#1E293B] transition-colors">
+          <i class="ti ti-send text-sm"></i> Gönder
+        </button>
+        <a href="{{ route('admin.mail.onizleme', 'yazisma') }}" target="_blank"
+           class="flex items-center gap-1.5 text-[12px] text-[#64748B] hover:text-[#0F172A] transition-colors">
+          <i class="ti ti-eye text-sm"></i> Önizle
+        </a>
+      </div>
+    </form>
   </div>
 
   {{-- Son Gönderimler --}}

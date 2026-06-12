@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\BultenMail;
 use App\Mail\HaberDuyuruMail;
+use App\Mail\KurumsalYazismaMail;
 use App\Models\Haber;
 use App\Models\MailLog;
 use App\Models\User;
@@ -165,8 +166,51 @@ class MailController extends Controller
                 'icerik' => "Sayın üyemiz,\n\nHaziran ayına özel kampanyamız başlamıştır.\n\nTüm ürünlerde %15 indirim fırsatını kaçırmayın!\n\nİyi günler.",
             ])->render(),
 
+            'yazisma' => view('mail.yazisma', [
+                'konu'       => 'Proje Teklifi Hakkında',
+                'icerik'     => "Sayın Yetkili,\n\nTarafınızla gerçekleştirdiğimiz ön görüşme kapsamında söz konusu projeye ilişkin teklifimizi sunmaktan memnuniyet duyarız.\n\nEk belgeler ve teknik şartname detayları için lütfen bizimle iletişime geçiniz.\n\nSaygılarımızla,",
+                'imzaAd'     => 'Ahmet Suçek',
+                'imzaGorev'  => 'Kurucu Ortak & Mimar',
+                'imzaTel'    => '+90 555 555 55 55',
+                'imzaEmail'  => 'info@sucek.com.tr',
+                'imzaAdres'  => 'Merkez Mah. Örnek Cad. No:1\nKarabük / Türkiye',
+            ])->render(),
+
             default => abort(404),
         };
+    }
+
+    public function yazismaGonder(Request $request, MailService $mail)
+    {
+        $data = $request->validate([
+            'alici'       => 'required|email',
+            'konu'        => 'required|string|max:200',
+            'icerik'      => 'required|string|max:10000',
+            'imza_ad'     => 'required|string|max:100',
+            'imza_gorev'  => 'required|string|max:100',
+            'imza_tel'    => 'required|string|max:50',
+            'imza_email'  => 'required|email|max:100',
+            'imza_adres'  => 'nullable|string|max:300',
+        ]);
+
+        $basarili = $mail->gonder(
+            $data['alici'],
+            new KurumsalYazismaMail(
+                konu:       $data['konu'],
+                icerik:     $data['icerik'],
+                imzaAd:     $data['imza_ad'],
+                imzaGorev:  $data['imza_gorev'],
+                imzaTel:    $data['imza_tel'],
+                imzaEmail:  $data['imza_email'],
+                imzaAdres:  $data['imza_adres'] ?? '',
+            ),
+            'yazisma'
+        );
+
+        return back()->with(
+            $basarili ? 'basari' : 'hata',
+            $basarili ? '"' . $data['alici'] . '" adresine e-posta başarıyla gönderildi.' : 'E-posta gönderilemedi. SMTP ayarlarını kontrol edin.'
+        );
     }
 
     public function haberMail(Request $request, Haber $haber, MailService $mail)

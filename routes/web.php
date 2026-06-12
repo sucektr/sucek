@@ -221,6 +221,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('mail/toplu-gonder', [Admin\MailController::class, 'topluGonder'])->name('mail.toplu');
         Route::post('mail/tek-gonder', [Admin\MailController::class, 'tekGonder'])->name('mail.tek');
         Route::post('mail/haber/{haber}', [Admin\MailController::class, 'haberMail'])->name('mail.haber');
+        Route::post('mail/yazisma-gonder', [Admin\MailController::class, 'yazismaGonder'])->name('mail.yazisma');
         Route::get('mail/onizleme/{tip}', [Admin\MailController::class, 'onizleme'])->name('mail.onizleme');
 
         Route::get('sms', [Admin\SmsController::class, 'index'])->name('sms.index');
