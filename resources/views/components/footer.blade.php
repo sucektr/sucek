@@ -93,7 +93,7 @@
         {{-- ETBİS Rozeti --}}
         <a href="https://www.eticaret.gov.tr/" target="_blank" rel="noopener"
            class="flex items-center gap-2 border border-[rgba(255,255,255,0.10)] rounded px-2.5 py-1.5 hover:border-[rgba(255,255,255,0.25)] transition-colors group">
-          <img src="{{ asset('images/etbis.svg') }}" alt="ETBİS" class="h-5 w-auto opacity-80 group-hover:opacity-100 transition-opacity">
+          <span class="text-[10px] font-bold tracking-widest text-[rgba(255,255,255,0.55)] group-hover:text-white transition-colors">ETBİS</span>
           <span class="w-px h-3 bg-[rgba(255,255,255,0.15)]"></span>
           <span class="text-[10px] text-[rgba(255,255,255,0.30)] group-hover:text-[rgba(255,255,255,0.55)] transition-colors font-mono">4785300354622668</span>
         </a>
