@@ -107,6 +107,19 @@ $initialData = [
 <script>
 window._kbInit = {!! json_encode($initialData, JSON_UNESCAPED_UNICODE) !!};
 
+function sayfaDuzen(gorselGrubu) {
+    return {
+        enine: false,
+        init() {
+            if (!gorselGrubu || !gorselGrubu.length) return;
+            var img = new Image();
+            var self = this;
+            img.onload = function() { self.enine = img.naturalWidth > img.naturalHeight; };
+            img.src = gorselGrubu[0];
+        }
+    };
+}
+
 function katalogBuilder() {
     var init = window._kbInit || {};
     return {
@@ -819,7 +832,7 @@ function katalogBuilder() {
 
     {{-- ── ÜRÜN SAYFALARI ── --}}
     <template x-for="(sayfa, si) in sayfalar" :key="sayfa.urun.id+'-'+sayfa.sayfaIndex">
-      <div class="katalog-sayfa">
+      <div class="katalog-sayfa" x-data="sayfaDuzen(sayfa.gorselGrubu)">
         <div style="margin-bottom:5px;">
           <span x-text="(sayfa.urunIndex+1)+'.'" style="font-family:'Cormorant Garamond',serif;font-size:15px;color:#B8962E;font-weight:600;margin-right:7px;"></span>
           <span x-text="sayfa.urun.ad" style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#0F172A;"></span>
@@ -830,30 +843,61 @@ function katalogBuilder() {
         <div style="height:3px;background:#B8962E;margin-bottom:3px;"></div>
         <div style="height:1px;background:#0F172A;margin-bottom:18px;"></div>
 
-        <div style="display:flex;flex:1;gap:18px;align-items:flex-start;">
-          <div style="width:46%;flex-shrink:0;display:flex;flex-direction:column;gap:6px;">
-            <template x-for="(gUrl, gi) in (sayfa.gorselGrubu.length ? sayfa.gorselGrubu : [])" :key="'g'+gi">
-              <div style="flex:1;min-height:80px;border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;background:#F8FAFC;display:flex;align-items:center;justify-content:center;">
-                <img :src="gUrl" :alt="sayfa.urun.ad" style="max-width:100%;max-height:100%;object-fit:contain;padding:8px;">
-              </div>
-            </template>
-            <div x-show="sayfa.gorselGrubu.length === 0" style="min-height:200px;border:1px solid #E2E8F0;border-radius:4px;background:#F8FAFC;display:flex;align-items:center;justify-content:center;">
-              <div style="text-align:center;color:#CBD5E1;font-size:12px;padding:28px;">
-                <i class="ti ti-photo" style="font-size:28px;display:block;margin-bottom:6px;"></i>Görsel yok
+        {{-- Enine görsel: görseller üstte 2 sütunlu grid, açıklama altta --}}
+        <template x-if="enine">
+          <div style="display:flex;flex-direction:column;flex:1;gap:12px;">
+            <div style="display:flex;flex-wrap:wrap;gap:5px;flex-shrink:0;">
+              <template x-for="(gUrl, gi) in (sayfa.gorselGrubu.length ? sayfa.gorselGrubu : [])" :key="'g'+gi">
+                <div style="flex:1;min-width:calc(50% - 3px);border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;background:#F8FAFC;display:flex;align-items:center;justify-content:center;max-height:150px;">
+                  <img :src="gUrl" :alt="sayfa.urun.ad" style="max-width:100%;max-height:150px;object-fit:contain;padding:6px;">
+                </div>
+              </template>
+              <div x-show="sayfa.gorselGrubu.length === 0" style="width:100%;min-height:100px;border:1px solid #E2E8F0;border-radius:4px;background:#F8FAFC;display:flex;align-items:center;justify-content:center;">
+                <div style="text-align:center;color:#CBD5E1;font-size:12px;padding:20px;">
+                  <i class="ti ti-photo" style="font-size:28px;display:block;margin-bottom:6px;"></i>Görsel yok
+                </div>
               </div>
             </div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:#B8962E;margin-bottom:8px;font-weight:600;padding-bottom:6px;border-bottom:1.5px solid rgba(184,150,46,0.25);"
+                   x-text="sayfa.sayfaIndex === 0 ? 'Teknik Özellikler' : 'Teknik Özellikler (devam)'"></div>
+              <template x-if="sayfa.sayfaIndex === 0">
+                <div>
+                  <div x-html="sayfa.urun.aciklama || ''" style="font-size:12px;color:#334155;line-height:1.85;"></div>
+                  <div x-show="!sayfa.urun.aciklama" style="font-size:11px;color:#CBD5E1;font-style:italic;">Açıklama girilmemiş</div>
+                </div>
+              </template>
+            </div>
           </div>
-          <div style="flex:1;min-width:0;">
-            <div style="font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:#B8962E;margin-bottom:8px;font-weight:600;padding-bottom:6px;border-bottom:1.5px solid rgba(184,150,46,0.25);"
-                 x-text="sayfa.sayfaIndex === 0 ? 'Teknik Özellikler' : 'Teknik Özellikler (devam)'"></div>
-            <template x-if="sayfa.sayfaIndex === 0">
-              <div>
-                <div x-html="sayfa.urun.aciklama || ''" style="font-size:12px;color:#334155;line-height:1.85;"></div>
-                <div x-show="!sayfa.urun.aciklama" style="font-size:11px;color:#CBD5E1;font-style:italic;">Açıklama girilmemiş</div>
+        </template>
+
+        {{-- Dikey / kare görsel: görsel solda, açıklama sağda --}}
+        <template x-if="!enine">
+          <div style="display:flex;flex:1;gap:18px;align-items:flex-start;">
+            <div style="width:46%;flex-shrink:0;display:flex;flex-direction:column;gap:6px;">
+              <template x-for="(gUrl, gi) in (sayfa.gorselGrubu.length ? sayfa.gorselGrubu : [])" :key="'g'+gi">
+                <div style="flex:1;min-height:80px;border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;background:#F8FAFC;display:flex;align-items:center;justify-content:center;">
+                  <img :src="gUrl" :alt="sayfa.urun.ad" style="max-width:100%;max-height:100%;object-fit:contain;padding:8px;">
+                </div>
+              </template>
+              <div x-show="sayfa.gorselGrubu.length === 0" style="min-height:200px;border:1px solid #E2E8F0;border-radius:4px;background:#F8FAFC;display:flex;align-items:center;justify-content:center;">
+                <div style="text-align:center;color:#CBD5E1;font-size:12px;padding:28px;">
+                  <i class="ti ti-photo" style="font-size:28px;display:block;margin-bottom:6px;"></i>Görsel yok
+                </div>
               </div>
-            </template>
+            </div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:#B8962E;margin-bottom:8px;font-weight:600;padding-bottom:6px;border-bottom:1.5px solid rgba(184,150,46,0.25);"
+                   x-text="sayfa.sayfaIndex === 0 ? 'Teknik Özellikler' : 'Teknik Özellikler (devam)'"></div>
+              <template x-if="sayfa.sayfaIndex === 0">
+                <div>
+                  <div x-html="sayfa.urun.aciklama || ''" style="font-size:12px;color:#334155;line-height:1.85;"></div>
+                  <div x-show="!sayfa.urun.aciklama" style="font-size:11px;color:#CBD5E1;font-style:italic;">Açıklama girilmemiş</div>
+                </div>
+              </template>
+            </div>
           </div>
-        </div>
+        </template>
 
         <div style="margin-top:12px;padding-top:7px;border-top:1px solid #F1F5F9;">
           <span style="font-size:10px;color:#CBD5E1;" x-text="(sayfa.urunIndex+1)+' / '+seciliUrunler.length"></span>

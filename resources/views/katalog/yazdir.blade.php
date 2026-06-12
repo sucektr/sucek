@@ -167,7 +167,19 @@ foreach ($urunler as $u) {
     @foreach($gorselSayfalari as $si => $sayfaGorseller)
     @php
     $gSayisi = max(1, count($sayfaGorseller));
-    $gHt     = floor((237 - ($gSayisi - 1) * 3) / $gSayisi) . 'mm';
+
+    // İlk görselin yönünü tespit et
+    $enine = false;
+    if (!empty($sayfaGorseller[0])) {
+        $imgPath = public_path('storage/' . $sayfaGorseller[0]);
+        if (file_exists($imgPath)) {
+            $imgInfo = @getimagesize($imgPath);
+            $enine = $imgInfo && $imgInfo[0] > $imgInfo[1];
+        }
+    }
+
+    // Dikey düzen için yükseklik hesabı (enine değilse kullanılır)
+    $gHt = $enine ? '150px' : (floor((237 - ($gSayisi - 1) * 3) / $gSayisi) . 'mm');
     @endphp
     <div class="katalog-sayfa" style="page-break-before:always;break-before:page;">
 
@@ -184,9 +196,38 @@ foreach ($urunler as $u) {
         <div style="height:3px;background:#B8962E;margin-bottom:3px;"></div>
         <div style="height:1px;background:#0F0F0F;margin-bottom:20px;"></div>
 
+        @if($enine)
+        {{-- Enine görsel: görseller üstte 2 sütunlu grid, açıklama altta --}}
+        <div style="display:flex;flex-direction:column;flex:1;gap:12px;min-height:0;">
+            <div style="display:flex;flex-wrap:wrap;gap:5px;flex-shrink:0;">
+                @forelse($sayfaGorseller as $gYol)
+                <div style="flex:1;min-width:calc(50% - 3px);max-height:150px;border:1px solid rgba(0,0,0,0.08);border-radius:4px;overflow:hidden;background:#F5F5F5;display:flex;align-items:center;justify-content:center;">
+                    <img src="{{ asset('storage/' . $gYol) }}" alt="{{ $urun->ad }}"
+                         style="max-width:100%;max-height:150px;object-fit:contain;padding:6px;">
+                </div>
+                @empty
+                <div style="width:100%;min-height:100px;border:1px solid rgba(0,0,0,0.08);border-radius:4px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;text-align:center;color:#C0C0C0;font-size:12px;padding:20px;">
+                    <div>
+                        <i class="ti ti-photo" style="font-size:28px;display:block;margin-bottom:6px;"></i>
+                        Görsel yüklenmemiş
+                    </div>
+                </div>
+                @endforelse
+            </div>
+            <div style="flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden;">
+                <div style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#B8962E;margin-bottom:10px;font-weight:500;padding-bottom:6px;border-bottom:1px solid rgba(184,150,46,0.25);flex-shrink:0;">Teknik Özellikler{{ $si > 0 ? ' (devam)' : '' }}</div>
+                @if($si === 0)
+                    @if(trim(strip_tags($urun->aciklama ?? '')))
+                    <div style="flex:1;min-height:0;overflow:hidden;font-size:12px;color:#3A3A3A;line-height:1.7;">{!! $urun->aciklama !!}</div>
+                    @else
+                    <div style="font-size:11px;color:#C0C0C0;font-style:italic;">Açıklama girilmemiş</div>
+                    @endif
+                @endif
+            </div>
+        </div>
+        @else
+        {{-- Dikey / kare görsel: görsel solda, açıklama sağda --}}
         <div style="display:flex;flex:1;gap:20px;min-height:0;">
-
-            {{-- Sol: Görseller --}}
             <div style="width:42%;display:flex;flex-direction:column;gap:10px;overflow:hidden;">
                 @forelse($sayfaGorseller as $gYol)
                 <div style="height:{{ $gHt }};flex-shrink:0;border:1px solid rgba(0,0,0,0.08);border-radius:4px;overflow:hidden;background:#F5F5F5;">
@@ -202,8 +243,6 @@ foreach ($urunler as $u) {
                 </div>
                 @endforelse
             </div>
-
-            {{-- Sağ: Teknik Özellikler --}}
             <div style="flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden;">
                 <div style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#B8962E;margin-bottom:10px;font-weight:500;padding-bottom:6px;border-bottom:1px solid rgba(184,150,46,0.25);flex-shrink:0;">Teknik Özellikler{{ $si > 0 ? ' (devam)' : '' }}</div>
                 @if($si === 0)
@@ -214,8 +253,8 @@ foreach ($urunler as $u) {
                     @endif
                 @endif
             </div>
-
         </div>
+        @endif
 
     </div>
     @endforeach
