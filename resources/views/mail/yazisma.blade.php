@@ -14,17 +14,8 @@
         {{-- ── Üst Bar ── --}}
         <tr>
           <td style="background:#1A0A0A;padding:24px 40px;">
-            <table width="100%" cellpadding="0" cellspacing="0">
-              <tr>
-                <td>
-                  <p style="margin:0;font-size:22px;font-weight:700;color:#FFFFFF;letter-spacing:4px;">SUÇEK</p>
-                  <p style="margin:4px 0 0;font-size:10px;color:#CC2200;letter-spacing:2px;text-transform:uppercase;">sucek.com.tr</p>
-                </td>
-                <td align="right" style="vertical-align:middle;">
-                  <p style="margin:0;font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:.06em;text-transform:uppercase;">Resmi Yazışma</p>
-                </td>
-              </tr>
-            </table>
+            <p style="margin:0;font-size:24px;font-weight:700;color:#FFFFFF;letter-spacing:4px;">SUÇEK MİMARLIK</p>
+            <p style="margin:5px 0 0;font-size:9px;color:rgba(255,255,255,0.55);letter-spacing:1.5px;text-transform:uppercase;">İÇ MİMARLIK &nbsp;·&nbsp; PROJE DANIŞMANLIK &nbsp;·&nbsp; İNŞAAT &nbsp;·&nbsp; EMLAK &nbsp;·&nbsp; SPOR MALZEMELERİ</p>
           </td>
         </tr>
 
