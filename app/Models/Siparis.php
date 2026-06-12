@@ -63,8 +63,16 @@ class Siparis extends Model
 
     public static function referansUret(): string
     {
-        $prefix = 'SUCEK-' . date('Ymd');
-        $son = static::where('referans', 'like', $prefix . '-%')->count();
-        return $prefix . '-' . str_pad($son + 1, 3, '0', STR_PAD_LEFT);
+        // 0/O ve 1/I/L karışıklığını önlemek için hariç tutuldu
+        $chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+
+        do {
+            $referans = '';
+            for ($i = 0; $i < 8; $i++) {
+                $referans .= $chars[random_int(0, strlen($chars) - 1)];
+            }
+        } while (static::where('referans', $referans)->exists());
+
+        return $referans;
     }
 }
