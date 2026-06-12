@@ -34,10 +34,15 @@ body{font-family:'DM Sans',sans-serif;background:#EBEBEB;}
     html,body{margin:0!important;padding:0!important;background:white!important;}
     .bar-actions{display:none!important;}
     .katalog-sayfa{
-        height:297mm!important;min-height:unset!important;
+        height:297mm!important;max-height:297mm!important;min-height:unset!important;
         overflow:hidden!important;
         margin:0!important;box-shadow:none!important;
+        page-break-after:always;break-after:page;
+        page-break-before:avoid;break-before:avoid;
         page-break-inside:avoid;break-inside:avoid;
+    }
+    .katalog-sayfa:last-child{
+        page-break-after:avoid!important;break-after:avoid!important;
     }
     @page{size:A4 portrait;margin:0;}
 }
@@ -131,7 +136,7 @@ foreach ($urunler as $u) {
 </div>
 
 {{-- ── İÇİNDEKİLER ── --}}
-<div class="katalog-sayfa" style="page-break-before:always;break-before:page;">
+<div class="katalog-sayfa">
     <div style="margin-bottom:6px;display:flex;justify-content:space-between;align-items:baseline;">
         <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:#0F0F0F;letter-spacing:.04em;">İçindekiler</div>
         <span style="font-size:10px;letter-spacing:.22em;color:#A8A8A8;text-transform:uppercase;">{{ $kapak['marka'] ?? 'SUÇEK' }}</span>
@@ -181,7 +186,7 @@ foreach ($urunler as $u) {
     // Dikey düzen için yükseklik hesabı (enine değilse kullanılır)
     $gHt = $enine ? '150px' : (floor((237 - ($gSayisi - 1) * 3) / $gSayisi) . 'mm');
     @endphp
-    <div class="katalog-sayfa" style="page-break-before:always;break-before:page;">
+    <div class="katalog-sayfa">
 
         <div style="margin-bottom:6px;display:flex;justify-content:space-between;align-items:baseline;">
             <div>
