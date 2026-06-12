@@ -37,12 +37,6 @@ body{font-family:'DM Sans',sans-serif;background:#EBEBEB;}
         height:297mm!important;max-height:297mm!important;min-height:unset!important;
         overflow:hidden!important;
         margin:0!important;box-shadow:none!important;
-        page-break-after:always;break-after:page;
-        page-break-before:avoid;break-before:avoid;
-        page-break-inside:avoid;break-inside:avoid;
-    }
-    .katalog-sayfa:last-child{
-        page-break-after:avoid!important;break-after:avoid!important;
     }
     @page{size:A4 portrait;margin:0;}
 }
