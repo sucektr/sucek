@@ -97,9 +97,6 @@
           <span class="w-px h-3 bg-[rgba(255,255,255,0.15)]"></span>
           <span class="text-[10px] text-[rgba(255,255,255,0.30)] group-hover:text-[rgba(255,255,255,0.55)] transition-colors font-mono">4785300354622668</span>
         </a>
-        <a href="{{ route('yasal', 'gizlilik-politikasi') }}" class="text-[12px] text-[rgba(255,255,255,0.20)] hover:text-[rgba(255,255,255,0.50)] transition-colors">Gizlilik Politikası</a>
-        <a href="{{ route('yasal', 'kisisel-verilerin-korunmasi') }}" class="text-[12px] text-[rgba(255,255,255,0.20)] hover:text-[rgba(255,255,255,0.50)] transition-colors">Kişisel Veriler</a>
-        <a href="{{ route('yasal', 'iade-degisim') }}" class="text-[12px] text-[rgba(255,255,255,0.20)] hover:text-[rgba(255,255,255,0.50)] transition-colors">İade & Değişim</a>
       </div>
     </div>
   </div>
