@@ -89,7 +89,14 @@
       <p class="text-[12px] text-[rgba(255,255,255,0.20)]">
         &copy; {{ date('Y') }} SUÇEK. Tüm hakları saklıdır.
       </p>
-      <div class="flex gap-5">
+      <div class="flex items-center gap-5">
+        {{-- ETBİS Rozeti --}}
+        <a href="https://www.eticaret.gov.tr/" target="_blank" rel="noopener"
+           class="flex items-center gap-2 border border-[rgba(255,255,255,0.10)] rounded px-2.5 py-1.5 hover:border-[rgba(255,255,255,0.25)] transition-colors group">
+          <span class="text-[10px] font-bold tracking-widest text-[rgba(255,255,255,0.55)] group-hover:text-white transition-colors">ETBİS</span>
+          <span class="w-px h-3 bg-[rgba(255,255,255,0.15)]"></span>
+          <span class="text-[10px] text-[rgba(255,255,255,0.30)] group-hover:text-[rgba(255,255,255,0.55)] transition-colors font-mono">4785300354622668</span>
+        </a>
         <a href="{{ route('yasal', 'gizlilik-politikasi') }}" class="text-[12px] text-[rgba(255,255,255,0.20)] hover:text-[rgba(255,255,255,0.50)] transition-colors">Gizlilik Politikası</a>
         <a href="{{ route('yasal', 'kisisel-verilerin-korunmasi') }}" class="text-[12px] text-[rgba(255,255,255,0.20)] hover:text-[rgba(255,255,255,0.50)] transition-colors">Kişisel Veriler</a>
         <a href="{{ route('yasal', 'iade-degisim') }}" class="text-[12px] text-[rgba(255,255,255,0.20)] hover:text-[rgba(255,255,255,0.50)] transition-colors">İade & Değişim</a>

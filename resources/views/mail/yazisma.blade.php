@@ -94,13 +94,42 @@
                       </td>
 
                       {{-- Sağ: Şirket --}}
-                      <td style="vertical-align:top;border-left:1px solid #E2E8F0;padding-left:20px;min-width:150px;">
-                        <p style="margin:0 0 3px;font-size:20px;font-weight:800;color:#1A0A0A;letter-spacing:4px;">SUÇEK</p>
-                        <p style="margin:0 0 12px;font-size:9px;color:#CC2200;letter-spacing:.14em;text-transform:uppercase;font-weight:700;">Mimarlık &amp; İnşaat</p>
-                        @if($imzaAdres)
-                        <p style="margin:0 0 8px;font-size:11px;color:#64748B;line-height:1.65;">{{ $imzaAdres }}</p>
-                        @endif
-                        <p style="margin:0;font-size:10px;color:#94A3B8;">T&uuml;rkiye</p>
+                      <td style="vertical-align:top;border-left:1px solid #E2E8F0;padding-left:20px;min-width:160px;">
+                        <p style="margin:0 0 16px;font-size:13px;font-weight:700;color:#0F172A;">SUÇEK Mimarlık</p>
+                        <table cellpadding="0" cellspacing="4">
+                          @if($imzaAdres)
+                          <tr>
+                            <td style="padding-bottom:7px;">
+                              <table cellpadding="0" cellspacing="0">
+                                <tr>
+                                  <td style="font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.06em;width:52px;padding-top:1px;">ADRES</td>
+                                  <td style="font-size:11px;color:#374151;line-height:1.6;">{{ $imzaAdres }}</td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                          @endif
+                          <tr>
+                            <td style="padding-bottom:7px;">
+                              <table cellpadding="0" cellspacing="0">
+                                <tr>
+                                  <td style="font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.06em;width:52px;padding-top:1px;">E-POSTA</td>
+                                  <td style="font-size:12px;color:#374151;"><a href="mailto:info@sucek.com.tr" style="color:#CC2200;text-decoration:none;">info@sucek.com.tr</a></td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <table cellpadding="0" cellspacing="0">
+                                <tr>
+                                  <td style="font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.06em;width:52px;padding-top:1px;">WEB</td>
+                                  <td style="font-size:12px;"><a href="https://sucek.com.tr" style="color:#CC2200;text-decoration:none;">sucek.com.tr</a></td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
                       </td>
 
                     </tr>
