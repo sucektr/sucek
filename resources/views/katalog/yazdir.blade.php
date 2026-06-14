@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:#EBEBEB;}
@@ -46,10 +47,36 @@ body{font-family:'DM Sans',sans-serif;background:#EBEBEB;}
 
 <div class="bar-actions">
     <button class="btn-geri" onclick="window.close()">← Geri</button>
-    <button class="btn-yazdir" onclick="window.print()">
-        <i class="ti ti-printer"></i> Yazdır / PDF
+    <button class="btn-yazdir" id="btn-pdf" onclick="pdfIndir()">
+        <i class="ti ti-download"></i> PDF İndir
+    </button>
+    <button class="btn-yazdir" onclick="window.print()" style="background:#333;">
+        <i class="ti ti-printer"></i> Yazdır
     </button>
 </div>
+
+<script>
+function pdfIndir() {
+    var btn = document.getElementById('btn-pdf');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="ti ti-loader"></i> Hazırlanıyor...';
+
+    var element = document.getElementById('katalog-icerik');
+    var opt = {
+        margin:      0,
+        filename:    '{{ Str::slug($katalog->baslik) }}-katalog.pdf',
+        image:       { type: 'jpeg', quality: 0.97 },
+        html2canvas: { scale: 2, useCORS: true, logging: false },
+        jsPDF:       { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak:   { mode: 'css', before: '.katalog-sayfa' }
+    };
+
+    html2pdf().set(opt).from(element).save().then(function() {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="ti ti-download"></i> PDF İndir';
+    });
+}
+</script>
 
 @php
 $kapak     = $katalog->kapak_ayarlari ?? [];
@@ -67,6 +94,7 @@ foreach ($urunler as $u) {
 }
 @endphp
 
+<div id="katalog-icerik">
 {{-- ── KAPAK ── --}}
 <div class="katalog-sayfa">
     <div style="height:8px;background:#0F0F0F;margin:-18mm -20mm 0;"></div>
@@ -258,6 +286,8 @@ foreach ($urunler as $u) {
     </div>
     @endforeach
 @endforeach
+
+</div>{{-- #katalog-icerik --}}
 
 </body>
 </html>
