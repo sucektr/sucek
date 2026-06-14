@@ -68,7 +68,7 @@ function pdfIndir() {
         image:       { type: 'jpeg', quality: 0.97 },
         html2canvas: { scale: 2, useCORS: true, logging: false },
         jsPDF:       { unit: 'mm', format: 'a4', orientation: 'portrait' },
-        pagebreak:   { mode: 'css', before: '.katalog-sayfa' }
+        pagebreak:   { mode: 'avoid-all' }
     };
 
     html2pdf().set(opt).from(element).save().then(function() {
@@ -157,17 +157,24 @@ foreach ($urunler as $u) {
     </div>
 </div>
 
-{{-- ── İÇİNDEKİLER ── --}}
+{{-- ── İÇİNDEKİLER (sayfalı) ── --}}
+@php $tocSayfalari = array_chunk($urunler->values()->all(), 25, true); @endphp
+@foreach($tocSayfalari as $tocSayfa => $tocUrunler)
 <div class="katalog-sayfa">
     <div style="margin-bottom:6px;display:flex;justify-content:space-between;align-items:baseline;">
-        <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:#0F0F0F;letter-spacing:.04em;">İçindekiler</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:#0F0F0F;letter-spacing:.04em;">
+            İçindekiler
+            @if(count($tocSayfalari) > 1)
+            <span style="font-size:14px;color:#A8A8A8;font-weight:400;margin-left:8px;">({{ $tocSayfa + 1 }} / {{ count($tocSayfalari) }})</span>
+            @endif
+        </div>
         <span style="font-size:10px;letter-spacing:.22em;color:#A8A8A8;text-transform:uppercase;">{{ $kapak['marka'] ?? 'SUÇEK' }}</span>
     </div>
     <div style="height:3px;background:#B8962E;margin-bottom:3px;"></div>
     <div style="height:1px;background:#0F0F0F;margin-bottom:28px;"></div>
 
     <div style="flex:1;">
-        @foreach($urunler as $i => $urun)
+        @foreach($tocUrunler as $i => $urun)
         <div style="display:flex;align-items:baseline;padding:10px 0;border-bottom:1px solid rgba(0,0,0,0.06);{{ $i === 0 ? 'border-top:1px solid rgba(0,0,0,0.06);' : '' }}">
             <span style="min-width:28px;font-family:'Cormorant Garamond',serif;font-size:15px;color:#B8962E;font-weight:600;flex-shrink:0;">{{ $i + 1 }}.</span>
             <span style="flex:1;font-size:13px;color:#0F0F0F;line-height:1.4;">{{ $tocAdi($urun) }}</span>
@@ -181,6 +188,7 @@ foreach ($urunler as $u) {
         <div style="height:8px;background:#0F0F0F;"></div>
     </div>
 </div>
+@endforeach
 
 {{-- ── ÜRÜN SAYFALARI ── --}}
 @foreach($urunler as $i => $urun)
