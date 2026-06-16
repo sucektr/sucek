@@ -5,6 +5,10 @@
 
     RewriteEngine On
 
+    # www → non-www (301)
+    RewriteCond %{HTTP_HOST} ^www\.sucek\.com\.tr [NC]
+    RewriteRule ^(.*)$ https://sucek.com.tr/$1 [R=301,L]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

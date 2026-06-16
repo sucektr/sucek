@@ -26,6 +26,14 @@ use App\Http\Controllers\UserUrunController;
 use App\Http\Controllers\SifremiUnuttumController;
 use App\Http\Controllers\ProjeController;
 
+// Eski Wix URL'lerinden 301 yönlendirme
+Route::get('/mimari',          fn() => redirect('/mimarlik', 301));
+Route::get('/icmimari',        fn() => redirect('/mimarlik/ic-mimari', 301));
+Route::get('/içmimari',        fn() => redirect('/mimarlik/ic-mimari', 301));
+Route::get('/evraklar',        fn() => redirect('/iletisim', 301));
+Route::get('/blog',            fn() => redirect('/', 301));
+Route::get('/onlinerandevu',   fn() => redirect('/iletisim', 301));
+
 // Ana Sayfa
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
