@@ -11,19 +11,26 @@
         <p class="text-[13px] text-[rgba(255,255,255,0.40)] leading-relaxed max-w-[210px]">
           {{ icerik('site','footer_aciklama','Mimarlık, inşaat, antika koleksiyon ve mağaza hizmetlerinde güvenilir adresiniz.') }}
         </p>
+        @php
+          $sosyal = [
+            'instagram' => ['ikon' => 'ti-brand-instagram', 'url' => icerik('site','sosyal_instagram','https://www.instagram.com/sucektr/')],
+            'facebook'  => ['ikon' => 'ti-brand-facebook',  'url' => icerik('site','sosyal_facebook','https://www.facebook.com/sucektr/')],
+            'pinterest' => ['ikon' => 'ti-brand-pinterest', 'url' => icerik('site','sosyal_pinterest','https://in.pinterest.com/sucektr/')],
+            'whatsapp'  => ['ikon' => 'ti-brand-whatsapp',  'url' => icerik('site','sosyal_whatsapp','https://wa.me/905442948402')],
+            'youtube'   => ['ikon' => 'ti-brand-youtube',   'url' => icerik('site','sosyal_youtube','')],
+            'linkedin'  => ['ikon' => 'ti-brand-linkedin',  'url' => icerik('site','sosyal_linkedin','')],
+            'tiktok'    => ['ikon' => 'ti-brand-tiktok',    'url' => icerik('site','sosyal_tiktok','')],
+          ];
+        @endphp
         <div class="flex gap-2.5 mt-6">
-          <a href="https://www.instagram.com/sucektr/" aria-label="Instagram" target="_blank" rel="noopener" class="w-8 h-8 flex items-center justify-center rounded-lg border border-[rgba(255,255,255,0.10)] text-[rgba(255,255,255,0.40)] hover:border-[rgba(255,255,255,0.30)] hover:text-white transition-all duration-200">
-            <i class="ti ti-brand-instagram text-[14px]"></i>
-          </a>
-          <a href="https://www.facebook.com/sucektr/" aria-label="Facebook" target="_blank" rel="noopener" class="w-8 h-8 flex items-center justify-center rounded-lg border border-[rgba(255,255,255,0.10)] text-[rgba(255,255,255,0.40)] hover:border-[rgba(255,255,255,0.30)] hover:text-white transition-all duration-200">
-            <i class="ti ti-brand-facebook text-[14px]"></i>
-          </a>
-          <a href="https://in.pinterest.com/sucektr/" aria-label="Pinterest" target="_blank" rel="noopener" class="w-8 h-8 flex items-center justify-center rounded-lg border border-[rgba(255,255,255,0.10)] text-[rgba(255,255,255,0.40)] hover:border-[rgba(255,255,255,0.30)] hover:text-white transition-all duration-200">
-            <i class="ti ti-brand-pinterest text-[14px]"></i>
-          </a>
-          <a href="https://wa.me/905442948402" aria-label="WhatsApp" target="_blank" rel="noopener" class="w-8 h-8 flex items-center justify-center rounded-lg border border-[rgba(255,255,255,0.10)] text-[rgba(255,255,255,0.40)] hover:border-[rgba(255,255,255,0.30)] hover:text-white transition-all duration-200">
-            <i class="ti ti-brand-whatsapp text-[14px]"></i>
-          </a>
+          @foreach($sosyal as $ad => $s)
+            @if($s['url'])
+            <a href="{{ $s['url'] }}" aria-label="{{ ucfirst($ad) }}" target="_blank" rel="noopener"
+               class="w-8 h-8 flex items-center justify-center rounded-lg border border-[rgba(255,255,255,0.10)] text-[rgba(255,255,255,0.40)] hover:border-[rgba(255,255,255,0.30)] hover:text-white transition-all duration-200">
+              <i class="ti {{ $s['ikon'] }} text-[14px]"></i>
+            </a>
+            @endif
+          @endforeach
         </div>
       </div>
 

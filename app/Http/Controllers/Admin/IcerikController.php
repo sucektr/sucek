@@ -29,6 +29,13 @@ class IcerikController extends Controller
                     ['alan' => 'logo',              'baslik' => 'Logo',                      'tip' => 'gorsel',   'sira' => 10],
                     ['alan' => 'seo_baslik',        'baslik' => 'SEO — Varsayılan Sayfa Başlığı (boşsa: SUÇEK — Mimarlık · ...)', 'tip' => 'metin',    'sira' => 11],
                     ['alan' => 'seo_aciklama',      'baslik' => 'SEO — Varsayılan Meta Açıklaması',                              'tip' => 'textarea', 'sira' => 12],
+                    ['alan' => 'sosyal_instagram',  'baslik' => 'Sosyal Medya — Instagram URL',  'tip' => 'url', 'sira' => 13],
+                    ['alan' => 'sosyal_facebook',   'baslik' => 'Sosyal Medya — Facebook URL',   'tip' => 'url', 'sira' => 14],
+                    ['alan' => 'sosyal_pinterest',  'baslik' => 'Sosyal Medya — Pinterest URL',  'tip' => 'url', 'sira' => 15],
+                    ['alan' => 'sosyal_whatsapp',   'baslik' => 'Sosyal Medya — WhatsApp URL (örn: https://wa.me/905551234567)', 'tip' => 'url', 'sira' => 16],
+                    ['alan' => 'sosyal_youtube',    'baslik' => 'Sosyal Medya — YouTube URL (boş = gizle)',    'tip' => 'url', 'sira' => 17],
+                    ['alan' => 'sosyal_linkedin',   'baslik' => 'Sosyal Medya — LinkedIn URL (boş = gizle)',   'tip' => 'url', 'sira' => 18],
+                    ['alan' => 'sosyal_tiktok',     'baslik' => 'Sosyal Medya — TikTok URL (boş = gizle)',     'tip' => 'url', 'sira' => 19],
                 ],
             ],
             'anasayfa' => [
