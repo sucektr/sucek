@@ -28,6 +28,7 @@ class User extends Authenticatable
         'dogum_ay',
         'dogum_yil',
         'sms_izni',
+        'iletisim_izni',
     ];
 
     /**
@@ -48,6 +49,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'sms_izni'          => 'boolean',
+        'iletisim_izni'     => 'boolean',
         'dogum_gun'         => 'integer',
         'dogum_ay'          => 'integer',
         'dogum_yil'         => 'integer',

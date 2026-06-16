@@ -23,6 +23,7 @@ class RegisterController extends Controller
             'name'     => 'required|string|max:100',
             'email'    => 'required|email|unique:users,email',
             'password' => 'required|min:8|confirmed',
+            'kvkk'     => 'accepted',
         ], [
             'name.required'      => 'Ad Soyad zorunludur.',
             'email.required'     => 'E-posta zorunludur.',
@@ -30,6 +31,7 @@ class RegisterController extends Controller
             'password.required'  => 'Şifre zorunludur.',
             'password.min'       => 'Şifre en az 8 karakter olmalı.',
             'password.confirmed' => 'Şifreler eşleşmiyor.',
+            'kvkk.accepted'      => 'KVKK Aydınlatma Metnini onaylamanız zorunludur.',
         ]);
 
         if ($recaptcha->aktif()) {
@@ -42,9 +44,10 @@ class RegisterController extends Controller
         }
 
         $user = User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password),
+            'name'           => $request->name,
+            'email'          => $request->email,
+            'password'       => Hash::make($request->password),
+            'iletisim_izni'  => $request->boolean('iletisim_izni'),
         ]);
 
         app(MailService::class)->gonder($user->email, new HosgeldinMail($user), 'hosgeldin');

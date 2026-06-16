@@ -119,16 +119,37 @@
         @error('recaptcha')<p class="text-[11px] text-[#CC2200]">{{ $message }}</p>@enderror
         @endif
 
+        {{-- İletişim izni --}}
+        <label class="flex items-start gap-3 cursor-pointer group">
+          <input type="checkbox" name="iletisim_izni" value="1" {{ old('iletisim_izni') ? 'checked' : '' }}
+                 class="mt-0.5 w-4 h-4 shrink-0 rounded border-[rgba(0,0,0,0.25)] text-[#0F0F0F] focus:ring-[#0F0F0F] cursor-pointer">
+          <span class="text-[13px] text-[#5A5A5A] leading-relaxed group-hover:text-[#0F0F0F] transition-colors">
+            İletişim bilgilerime e-ileti ve SMS gönderilmesine izin veriyorum.
+          </span>
+        </label>
+
+        {{-- KVKK onayı (zorunlu) --}}
+        <label class="flex items-start gap-3 cursor-pointer group">
+          <input type="checkbox" name="kvkk" value="1" {{ old('kvkk') ? 'checked' : '' }}
+                 class="mt-0.5 w-4 h-4 shrink-0 rounded border-[rgba(0,0,0,0.25)] text-[#0F0F0F] focus:ring-[#0F0F0F] cursor-pointer @error('kvkk') border-[#CC2200] @enderror">
+          <span class="text-[13px] text-[#5A5A5A] leading-relaxed group-hover:text-[#0F0F0F] transition-colors">
+            Kişisel verilerimin işlenmesine ait
+            <a href="{{ route('yasal', 'kisisel-verilerin-korunmasi') }}" target="_blank"
+               class="text-[#0F0F0F] font-semibold underline hover:text-[#CC2200] transition-colors">KVKK Aydınlatma Metnini</a>
+            okudum ve onaylıyorum. <span class="text-[#CC2200]">*</span>
+          </span>
+        </label>
+        @error('kvkk')
+        <p class="text-[11px] text-[#CC2200] -mt-3">{{ $message }}</p>
+        @enderror
+
         <button type="submit"
                 class="w-full bg-[#0F0F0F] text-white text-[12px] font-semibold tracking-[2px] uppercase py-4 rounded-[10px] hover:bg-[#2a2a2a] active:scale-[0.98] transition-all duration-200 min-h-[52px]">
           Hesap Oluştur
         </button>
 
         <p class="text-[11px] text-[#A8A8A8] text-center leading-relaxed">
-          Üye olarak
-          <a href="{{ route('yasal', 'kisisel-verilerin-korunmasi') }}" class="underline hover:text-[#0F0F0F]">Kişisel Verilerin Korunması</a> ve
-          <a href="{{ route('yasal', 'gizlilik-politikasi') }}" class="underline hover:text-[#0F0F0F]">Gizlilik Politikası</a>'nı kabul etmiş olursunuz.
-          <br>Bu site Google reCAPTCHA ile korunmaktadır.
+          Bu site Google reCAPTCHA ile korunmaktadır.
         </p>
       </form>
 
