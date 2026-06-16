@@ -27,12 +27,14 @@ class IcerikController extends Controller
                     ['alan' => 'calisma_cumartesi', 'baslik' => 'Çalışma Saati (Cumartesi)', 'tip' => 'metin',    'sira' => 8],
                     ['alan' => 'calisma_pazar',     'baslik' => 'Çalışma Saati (Pazar)',     'tip' => 'metin',    'sira' => 9],
                     ['alan' => 'logo',              'baslik' => 'Logo',                      'tip' => 'gorsel',   'sira' => 10],
+                    ['alan' => 'seo_baslik',        'baslik' => 'SEO — Varsayılan Sayfa Başlığı (boşsa: SUÇEK — Mimarlık · ...)', 'tip' => 'metin',    'sira' => 11],
+                    ['alan' => 'seo_aciklama',      'baslik' => 'SEO — Varsayılan Meta Açıklaması',                              'tip' => 'textarea', 'sira' => 12],
                 ],
             ],
             'anasayfa' => [
                 'baslik'   => 'Ana Sayfa',
                 'ikon'     => 'ti-home',
-                'aciklama' => 'Banner, hero kart görselleri, yaklaşım, referanslar',
+                'aciklama' => 'Banner, hero kart görselleri, yaklaşım, referanslar + SEO',
                 'alanlar'  => [
                     ['alan' => 'banner_metni',      'baslik' => 'Banner Metni',                                  'tip' => 'metin',    'sira' => 1],
                     ['alan' => 'banner_link',        'baslik' => 'Banner Linki (boş = otomatik mağaza sayfası)', 'tip' => 'url',      'sira' => 2],
@@ -52,6 +54,8 @@ class IcerikController extends Controller
                     ['alan' => 'ref_3_metin',       'baslik' => 'Referans 3 — Metin',      'tip' => 'textarea', 'sira' => 16],
                     ['alan' => 'ref_3_ad',          'baslik' => 'Referans 3 — Ad',         'tip' => 'metin',    'sira' => 17],
                     ['alan' => 'ref_3_unvan',       'baslik' => 'Referans 3 — Unvan',      'tip' => 'metin',    'sira' => 18],
+                    ['alan' => 'seo_baslik',        'baslik' => 'SEO — Sayfa Başlığı (Google\'da görünen)',    'tip' => 'metin',    'sira' => 19],
+                    ['alan' => 'seo_aciklama',      'baslik' => 'SEO — Meta Açıklaması (Google\'da görünen)', 'tip' => 'textarea', 'sira' => 20],
                 ],
             ],
             'mimarlik' => [
@@ -110,6 +114,8 @@ class IcerikController extends Controller
                     ['alan' => 'ref_kurum_7_logo',    'baslik' => 'Referans 7 — Logo',             'tip' => 'gorsel',   'sira' => 49],
                     ['alan' => 'ref_kurum_8_ad',      'baslik' => 'Referans 8 — Kurum Adı',        'tip' => 'metin',    'sira' => 50],
                     ['alan' => 'ref_kurum_8_logo',    'baslik' => 'Referans 8 — Logo',             'tip' => 'gorsel',   'sira' => 51],
+                    ['alan' => 'seo_baslik',          'baslik' => 'SEO — Sayfa Başlığı (Google\'da görünen)',    'tip' => 'metin',    'sira' => 52],
+                    ['alan' => 'seo_aciklama',        'baslik' => 'SEO — Meta Açıklaması (Google\'da görünen)', 'tip' => 'textarea', 'sira' => 53],
                 ],
             ],
             'ruhsat' => [
@@ -122,6 +128,8 @@ class IcerikController extends Controller
                     ['alan' => 'hero_baslik',     'baslik' => 'Hero Başlığı',              'tip' => 'metin',    'sira' => 3],
                     ['alan' => 'hero_alt_baslik', 'baslik' => 'Hero Alt Yazısı',           'tip' => 'textarea', 'sira' => 4],
                     ['alan' => 'icerik',          'baslik' => 'Sayfa İçeriği (HTML desteklenir)', 'tip' => 'html', 'sira' => 5],
+                    ['alan' => 'seo_baslik',      'baslik' => 'SEO — Sayfa Başlığı (Google\'da görünen)',    'tip' => 'metin',    'sira' => 6],
+                    ['alan' => 'seo_aciklama',    'baslik' => 'SEO — Meta Açıklaması (Google\'da görünen)', 'tip' => 'textarea', 'sira' => 7],
                 ],
             ],
             'icmimari' => [
@@ -134,6 +142,8 @@ class IcerikController extends Controller
                     ['alan' => 'hero_baslik',     'baslik' => 'Hero Başlığı',              'tip' => 'metin',    'sira' => 3],
                     ['alan' => 'hero_alt_baslik', 'baslik' => 'Hero Alt Yazısı',           'tip' => 'textarea', 'sira' => 4],
                     ['alan' => 'icerik',          'baslik' => 'Sayfa İçeriği (HTML desteklenir)', 'tip' => 'html', 'sira' => 5],
+                    ['alan' => 'seo_baslik',      'baslik' => 'SEO — Sayfa Başlığı (Google\'da görünen)',    'tip' => 'metin',    'sira' => 6],
+                    ['alan' => 'seo_aciklama',    'baslik' => 'SEO — Meta Açıklaması (Google\'da görünen)', 'tip' => 'textarea', 'sira' => 7],
                 ],
             ],
             'insaat' => [
@@ -159,6 +169,8 @@ class IcerikController extends Controller
                     ['alan' => 'hizmet_6_aciklama', 'baslik' => 'Hizmet 6 — Açıklama', 'tip' => 'textarea', 'sira' => 16],
                     ['alan' => 'cta_baslik',        'baslik' => 'CTA Başlığı',          'tip' => 'metin',    'sira' => 17],
                     ['alan' => 'cta_metin',         'baslik' => 'CTA Alt Metni',        'tip' => 'metin',    'sira' => 18],
+                    ['alan' => 'seo_baslik',        'baslik' => 'SEO — Sayfa Başlığı (Google\'da görünen)',    'tip' => 'metin',    'sira' => 19],
+                    ['alan' => 'seo_aciklama',      'baslik' => 'SEO — Meta Açıklaması (Google\'da görünen)', 'tip' => 'textarea', 'sira' => 20],
                 ],
             ],
             'koleksiyon' => [
@@ -170,6 +182,8 @@ class IcerikController extends Controller
                     ['alan' => 'hero_gorsel',     'baslik' => 'Hero Görseli',    'tip' => 'gorsel',   'sira' => 2],
                     ['alan' => 'hero_baslik',     'baslik' => 'Hero Başlığı',    'tip' => 'metin',    'sira' => 3],
                     ['alan' => 'hero_alt_baslik', 'baslik' => 'Hero Alt Yazısı', 'tip' => 'textarea', 'sira' => 4],
+                    ['alan' => 'seo_baslik',      'baslik' => 'SEO — Sayfa Başlığı (Google\'da görünen)',    'tip' => 'metin',    'sira' => 5],
+                    ['alan' => 'seo_aciklama',    'baslik' => 'SEO — Meta Açıklaması (Google\'da görünen)', 'tip' => 'textarea', 'sira' => 6],
                 ],
             ],
             'magaza' => [
@@ -181,6 +195,8 @@ class IcerikController extends Controller
                     ['alan' => 'hero_gorsel',     'baslik' => 'Hero Görseli',    'tip' => 'gorsel',   'sira' => 2],
                     ['alan' => 'hero_baslik',     'baslik' => 'Hero Başlığı',    'tip' => 'metin',    'sira' => 3],
                     ['alan' => 'hero_alt_baslik', 'baslik' => 'Hero Alt Yazısı', 'tip' => 'textarea', 'sira' => 4],
+                    ['alan' => 'seo_baslik',      'baslik' => 'SEO — Sayfa Başlığı (Google\'da görünen)',    'tip' => 'metin',    'sira' => 5],
+                    ['alan' => 'seo_aciklama',    'baslik' => 'SEO — Meta Açıklaması (Google\'da görünen)', 'tip' => 'textarea', 'sira' => 6],
                 ],
             ],
             'yasal' => [
@@ -285,6 +301,26 @@ class IcerikController extends Controller
                     ['alan' => 'form_baslik',     'baslik' => 'Form Bölümü Başlığı',       'tip' => 'metin',    'sira' => 6],
                     ['alan' => 'yon_baslik',      'baslik' => 'Yan Panel Başlığı',         'tip' => 'metin',    'sira' => 7],
                     ['alan' => 'yon_metin',       'baslik' => 'Yan Panel Metni',           'tip' => 'textarea', 'sira' => 8],
+                    ['alan' => 'seo_baslik',      'baslik' => 'SEO — Sayfa Başlığı (Google\'da görünen)',    'tip' => 'metin',    'sira' => 9],
+                    ['alan' => 'seo_aciklama',    'baslik' => 'SEO — Meta Açıklaması (Google\'da görünen)', 'tip' => 'textarea', 'sira' => 10],
+                ],
+            ],
+            'projeler' => [
+                'baslik'   => 'Projelerimiz',
+                'ikon'     => 'ti-layout-grid',
+                'aciklama' => 'Projelerimiz sayfası SEO ayarları',
+                'alanlar'  => [
+                    ['alan' => 'seo_baslik',   'baslik' => 'SEO — Sayfa Başlığı (Google\'da görünen)',    'tip' => 'metin',    'sira' => 1],
+                    ['alan' => 'seo_aciklama', 'baslik' => 'SEO — Meta Açıklaması (Google\'da görünen)', 'tip' => 'textarea', 'sira' => 2],
+                ],
+            ],
+            'haberler' => [
+                'baslik'   => 'Haberler',
+                'ikon'     => 'ti-news',
+                'aciklama' => 'Haberler sayfası SEO ayarları',
+                'alanlar'  => [
+                    ['alan' => 'seo_baslik',   'baslik' => 'SEO — Sayfa Başlığı (Google\'da görünen)',    'tip' => 'metin',    'sira' => 1],
+                    ['alan' => 'seo_aciklama', 'baslik' => 'SEO — Meta Açıklaması (Google\'da görünen)', 'tip' => 'textarea', 'sira' => 2],
                 ],
             ],
         ];

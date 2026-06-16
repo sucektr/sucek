@@ -1,11 +1,47 @@
+@php
+use App\Models\Icerik;
+use Illuminate\Support\Facades\Route;
+$_routeSayfa = [
+    'home'                 => 'anasayfa',
+    'mimarlik.index'       => 'mimarlik',
+    'mimarlik.ruhsat'      => 'ruhsat',
+    'mimarlik.ic-mimari'   => 'icmimari',
+    'insaat.index'         => 'insaat',
+    'koleksiyon.index'     => 'koleksiyon',
+    'magaza.index'         => 'magaza',
+    'iletisim.index'       => 'iletisim',
+    'projeler.index'       => 'projeler',
+    'haberler.index'       => 'haberler',
+];
+$_sayfa = $_routeSayfa[Route::currentRouteName() ?? ''] ?? null;
+$_seoBaslik   = null;
+$_seoAciklama = null;
+if ($_sayfa) {
+    $_seoRows = Icerik::where('sayfa', $_sayfa)->whereIn('alan', ['seo_baslik','seo_aciklama'])->get()->keyBy('alan');
+    $_seoBaslik   = $_seoRows['seo_baslik']?->deger   ?: null;
+    $_seoAciklama = $_seoRows['seo_aciklama']?->deger ?: null;
+}
+if (!$_seoBaslik) {
+    $_siteRow = Icerik::where('sayfa', 'site')->where('alan', 'seo_baslik')->value('deger');
+    $_seoBaslik = $_siteRow ?: null;
+}
+if (!$_seoAciklama) {
+    $_siteRow2 = Icerik::where('sayfa', 'site')->where('alan', 'seo_aciklama')->value('deger');
+    $_seoAciklama = $_siteRow2 ?: null;
+}
+@endphp
 <!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>@yield('title', 'SUÇEK') — Mimarlık · İnşaat · Koleksiyon · Mağaza</title>
-  <meta name="description" content="@yield('meta-description', 'SUÇEK — Mimarlık, inşaat, antika koleksiyon ve mağaza hizmetleri.')">
+  @if($_seoBaslik)<title>{{ $_seoBaslik }}</title>
+  @else<title>@yield('title', 'SUÇEK — Mimarlık · İnşaat · Koleksiyon · Mağaza')</title>
+  @endif
+  @if($_seoAciklama)<meta name="description" content="{{ $_seoAciklama }}">
+  @else<meta name="description" content="@yield('meta-description', 'SUÇEK — Mimarlık, inşaat, antika koleksiyon ve mağaza hizmetleri.')">
+  @endif
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
