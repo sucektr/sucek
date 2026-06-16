@@ -293,6 +293,7 @@ class IcerikController extends Controller
                     ['alan' => 'iletimerkezi_key',        'baslik' => 'İletimerkezi API Key',                 'tip' => 'metin', 'sira' => 3],
                     ['alan' => 'iletimerkezi_secret',     'baslik' => 'İletimerkezi Hash Secret',             'tip' => 'metin', 'sira' => 4],
                     ['alan' => 'iletimerkezi_originator', 'baslik' => 'İletimerkezi Gönderici Adı (max 11 karakter)', 'tip' => 'metin', 'sira' => 5],
+                    ['alan' => 'google_maps_key',         'baslik' => 'Google Maps API Anahtarı',                  'tip' => 'metin', 'sira' => 6],
                 ],
             ],
             'iletisim' => [

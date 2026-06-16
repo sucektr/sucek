@@ -4,7 +4,6 @@
 @section('meta-description', 'SUÇEK ile iletişime geçin. Mimarlık, inşaat ve koleksiyon hizmetlerimiz hakkında bilgi alın.')
 
 @push('styles')
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 @endpush
 
 @section('content')
@@ -208,19 +207,27 @@
 
       <div class="bg-[#141414] rounded-[14px] p-6">
         <p class="text-[9px] font-medium tracking-[2px] uppercase text-[rgba(255,255,255,0.40)] mb-2">SOSYAL MEDYA</p>
-        <div class="flex gap-3 mt-3">
-          <a href="https://www.instagram.com/sucektr/" target="_blank" rel="noopener" class="w-10 h-10 rounded-[8px] border border-[rgba(255,255,255,0.15)] flex items-center justify-center text-[rgba(255,255,255,0.60)] hover:text-white hover:border-white transition-all" aria-label="Instagram">
-            <i class="ti ti-brand-instagram text-base"></i>
-          </a>
-          <a href="https://www.facebook.com/sucektr/" target="_blank" rel="noopener" class="w-10 h-10 rounded-[8px] border border-[rgba(255,255,255,0.15)] flex items-center justify-center text-[rgba(255,255,255,0.60)] hover:text-white hover:border-white transition-all" aria-label="Facebook">
-            <i class="ti ti-brand-facebook text-base"></i>
-          </a>
-          <a href="https://in.pinterest.com/sucektr/" target="_blank" rel="noopener" class="w-10 h-10 rounded-[8px] border border-[rgba(255,255,255,0.15)] flex items-center justify-center text-[rgba(255,255,255,0.60)] hover:text-white hover:border-white transition-all" aria-label="Pinterest">
-            <i class="ti ti-brand-pinterest text-base"></i>
-          </a>
-          <a href="https://wa.me/905442948402" target="_blank" rel="noopener" class="w-10 h-10 rounded-[8px] border border-[rgba(255,255,255,0.15)] flex items-center justify-center text-[rgba(255,255,255,0.60)] hover:text-white hover:border-white transition-all" aria-label="WhatsApp">
-            <i class="ti ti-brand-whatsapp text-base"></i>
-          </a>
+        @php
+          $sosyalIletisim = [
+            'Instagram' => ['ikon' => 'ti-brand-instagram', 'url' => icerik('site','sosyal_instagram','https://www.instagram.com/sucektr/')],
+            'Facebook'  => ['ikon' => 'ti-brand-facebook',  'url' => icerik('site','sosyal_facebook','https://www.facebook.com/sucektr/')],
+            'Pinterest' => ['ikon' => 'ti-brand-pinterest', 'url' => icerik('site','sosyal_pinterest','https://in.pinterest.com/sucektr/')],
+            'WhatsApp'  => ['ikon' => 'ti-brand-whatsapp',  'url' => icerik('site','sosyal_whatsapp','https://wa.me/905442948402')],
+            'YouTube'   => ['ikon' => 'ti-brand-youtube',   'url' => icerik('site','sosyal_youtube','')],
+            'LinkedIn'  => ['ikon' => 'ti-brand-linkedin',  'url' => icerik('site','sosyal_linkedin','')],
+            'TikTok'    => ['ikon' => 'ti-brand-tiktok',    'url' => icerik('site','sosyal_tiktok','')],
+          ];
+        @endphp
+        <div class="flex flex-wrap gap-3 mt-3">
+          @foreach($sosyalIletisim as $ad => $s)
+            @if($s['url'])
+            <a href="{{ $s['url'] }}" target="_blank" rel="noopener"
+               class="w-10 h-10 rounded-[8px] border border-[rgba(255,255,255,0.15)] flex items-center justify-center text-[rgba(255,255,255,0.60)] hover:text-white hover:border-white transition-all"
+               aria-label="{{ $ad }}">
+              <i class="ti {{ $s['ikon'] }} text-base"></i>
+            </a>
+            @endif
+          @endforeach
         </div>
       </div>
 
@@ -234,21 +241,71 @@
 @if(app(\App\Services\RecaptchaService::class)->aktif())
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endif
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+@php
+  $mapsKey = icerik('sistem','google_maps_key', env('GOOGLE_MAPS_KEY',''));
+  $haritaLat  = icerik('iletisim','harita_lat','39.9501');
+  $haritaLng  = icerik('iletisim','harita_lng','32.7013');
+  $haritaZoom = icerik('iletisim','harita_zoom','15');
+  $sirketAdi  = icerik('site','sirket_adi','SUÇEK');
+  $adres      = icerik('site','adres','Etimesgut, Ankara');
+@endphp
+@if($mapsKey)
 <script>
 (function () {
-  const lat  = parseFloat('{{ icerik("iletisim","harita_lat","39.9501") }}');
-  const lng  = parseFloat('{{ icerik("iletisim","harita_lng","32.7013") }}');
-  const zoom = parseInt('{{ icerik("iletisim","harita_zoom","15") }}');
+  window._sucekHaritaInit = function () {
+    const lat  = parseFloat('{{ $haritaLat }}');
+    const lng  = parseFloat('{{ $haritaLng }}');
+    const zoom = parseInt('{{ $haritaZoom }}');
 
-  const map = L.map('sucek-harita').setView([lat, lng], zoom);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    maxZoom: 19
-  }).addTo(map);
-  L.marker([lat, lng]).addTo(map).bindPopup(
-    '<strong>{{ icerik("site","sirket_adi","SUÇEK") }}</strong><br>{{ icerik("site","adres","Etimesgut, Ankara") }}'
-  ).openPopup();
+    const map = new google.maps.Map(document.getElementById('sucek-harita'), {
+      center: { lat, lng },
+      zoom: zoom,
+      mapTypeControl: false,
+      streetViewControl: false,
+      fullscreenControl: true,
+      zoomControl: true,
+      styles: [
+        { featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] },
+        { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+      ],
+    });
+
+    const marker = new google.maps.Marker({
+      position: { lat, lng },
+      map,
+      title: '{{ $sirketAdi }}',
+    });
+
+    const info = new google.maps.InfoWindow({
+      content: '<div style="font-family:Inter,sans-serif;padding:4px 2px;min-width:160px">' +
+               '<p style="font-weight:700;font-size:13px;margin:0 0 4px">{{ $sirketAdi }}</p>' +
+               '<p style="font-size:12px;color:#5A5A5A;margin:0">{{ $adres }}</p>' +
+               '<a href="https://www.google.com/maps/dir/?api=1&destination={{ urlencode($adres) }}" ' +
+               'target="_blank" style="display:inline-block;margin-top:8px;font-size:11px;font-weight:600;color:#CC2200;text-decoration:none;">Yol Tarifi Al →</a>' +
+               '</div>',
+    });
+
+    marker.addListener('click', () => info.open(map, marker));
+    info.open(map, marker);
+  };
 })();
 </script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ $mapsKey }}&callback=_sucekHaritaInit&loading=async" async defer></script>
+@else
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script>
+(function () {
+  const lat  = parseFloat('{{ $haritaLat }}');
+  const lng  = parseFloat('{{ $haritaLng }}');
+  const zoom = parseInt('{{ $haritaZoom }}');
+  const map = L.map('sucek-harita').setView([lat, lng], zoom);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap', maxZoom: 19
+  }).addTo(map);
+  L.marker([lat, lng]).addTo(map)
+   .bindPopup('<strong>{{ $sirketAdi }}</strong><br>{{ $adres }}').openPopup();
+})();
+</script>
+@endif
 @endpush
