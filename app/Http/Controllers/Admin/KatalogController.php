@@ -61,7 +61,7 @@ class KatalogController extends Controller
 
     public function urunler(Request $request)
     {
-        $q = Urun::where('aktif', true);
+        $q = Urun::query();
         if ($request->filled('ara')) $q->where('ad', 'like', '%' . $request->ara . '%');
         if ($request->filled('kategori')) $q->where('kategori', $request->kategori);
 
