@@ -303,9 +303,10 @@ class IcerikController extends Controller
                 'alanlar'  => [
                     ['alan' => 'hero_baslik',     'baslik' => 'Hero Başlığı',              'tip' => 'metin',    'sira' => 1],
                     ['alan' => 'hero_alt_baslik', 'baslik' => 'Hero Alt Yazısı',           'tip' => 'textarea', 'sira' => 2],
-                    ['alan' => 'harita_lat',      'baslik' => 'Harita Enlemi (latitude)',  'tip' => 'metin',    'sira' => 3],
-                    ['alan' => 'harita_lng',      'baslik' => 'Harita Boylamı (longitude)','tip' => 'metin',    'sira' => 4],
-                    ['alan' => 'harita_zoom',     'baslik' => 'Harita Yakınlaştırma (1–18)','tip' => 'metin',   'sira' => 5],
+                    ['alan' => 'harita_embed',    'baslik' => 'Google Maps Embed URL (Google Maps\'ten "Paylaş → Haritayı yerleştir" ile alın — sadece src="..." içindeki URL)',  'tip' => 'metin', 'sira' => 3],
+                    ['alan' => 'harita_lat',      'baslik' => 'Harita Enlemi (latitude) — embed varsa kullanılmaz',   'tip' => 'metin', 'sira' => 4],
+                    ['alan' => 'harita_lng',      'baslik' => 'Harita Boylamı (longitude) — embed varsa kullanılmaz', 'tip' => 'metin', 'sira' => 5],
+                    ['alan' => 'harita_zoom',     'baslik' => 'Harita Yakınlaştırma (1–18) — embed varsa kullanılmaz','tip' => 'metin', 'sira' => 6],
                     ['alan' => 'form_baslik',     'baslik' => 'Form Bölümü Başlığı',       'tip' => 'metin',    'sira' => 6],
                     ['alan' => 'yon_baslik',      'baslik' => 'Yan Panel Başlığı',         'tip' => 'metin',    'sira' => 7],
                     ['alan' => 'yon_metin',       'baslik' => 'Yan Panel Metni',           'tip' => 'textarea', 'sira' => 8],

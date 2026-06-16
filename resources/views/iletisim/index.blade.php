@@ -89,9 +89,17 @@
 
     </div>
 
-    {{-- Sağ: OpenStreetMap --}}
+    {{-- Sağ: Google Maps --}}
+    @php $haritaEmbed = icerik('iletisim','harita_embed',''); @endphp
     <div class="lg:col-span-3">
+      @if($haritaEmbed)
+      <iframe src="{{ $haritaEmbed }}"
+              class="rounded-[16px] border border-[rgba(0,0,0,0.07)] w-full"
+              style="height:420px;border:0;"
+              allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      @else
       <div id="sucek-harita" class="rounded-[16px] overflow-hidden border border-[rgba(0,0,0,0.07)]" style="height:420px;"></div>
+      @endif
     </div>
 
   </div>
