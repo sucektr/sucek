@@ -18,8 +18,8 @@ $_seoBaslik   = null;
 $_seoAciklama = null;
 if ($_sayfa) {
     $_seoRows = Icerik::where('sayfa', $_sayfa)->whereIn('alan', ['seo_baslik','seo_aciklama'])->get()->keyBy('alan');
-    $_seoBaslik   = $_seoRows['seo_baslik']?->deger   ?: null;
-    $_seoAciklama = $_seoRows['seo_aciklama']?->deger ?: null;
+    $_seoBaslik   = $_seoRows->get('seo_baslik')?->deger   ?: null;
+    $_seoAciklama = $_seoRows->get('seo_aciklama')?->deger ?: null;
 }
 if (!$_seoBaslik) {
     $_siteRow = Icerik::where('sayfa', 'site')->where('alan', 'seo_baslik')->value('deger');
