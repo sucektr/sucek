@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @push('styles')
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
   .urun-slider-track::-webkit-scrollbar { display: none; }
 </style>
@@ -477,8 +476,16 @@
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
-    {{-- Harita (OpenStreetMap) --}}
+    {{-- Harita --}}
+    @php $welcomeEmbed = icerik('iletisim','harita_embed',''); @endphp
+    @if($welcomeEmbed)
+    <iframe src="{{ $welcomeEmbed }}"
+            class="rounded-xl border border-[#E2E8F0] shadow-sm w-full"
+            style="height:100%;min-height:300px;border:0;"
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    @else
     <div id="welcome-harita" class="rounded-xl border border-[#E2E8F0] overflow-hidden shadow-sm" style="height:100%; min-height:300px;"></div>
+    @endif
 
     {{-- Bilgi --}}
     <div class="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-6 flex flex-col gap-5">
@@ -570,21 +577,4 @@
 @if(app(\App\Services\RecaptchaService::class)->aktif())
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endif
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-(function () {
-  const lat  = parseFloat('{{ icerik("iletisim","harita_lat","39.9501") }}');
-  const lng  = parseFloat('{{ icerik("iletisim","harita_lng","32.7013") }}');
-  const zoom = parseInt('{{ icerik("iletisim","harita_zoom","15") }}');
-
-  const map = L.map('welcome-harita').setView([lat, lng], zoom);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    maxZoom: 19
-  }).addTo(map);
-  L.marker([lat, lng]).addTo(map).bindPopup(
-    '<strong>{{ icerik("site","sirket_adi","SUÇEK") }}</strong><br>{{ icerik("site","adres","Etimesgut, Ankara") }}'
-  );
-})();
-</script>
 @endpush
