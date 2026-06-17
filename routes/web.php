@@ -39,6 +39,14 @@ Route::get('/uploads/{path}', function (string $path) {
     return response()->file($file);
 })->where('path', '.*')->name('uploads.serve');
 
+// Dil değiştirme
+Route::get('/dil/{dil}', function (string $dil) {
+    if (in_array($dil, ['tr', 'en'])) {
+        session(['site_dil' => $dil]);
+    }
+    return redirect()->back('/');
+})->name('dil.degistir');
+
 // Eski Wix URL'lerinden 301 yönlendirme
 Route::get('/mimari',          fn() => redirect('/mimarlik', 301));
 Route::get('/icmimari',        fn() => redirect('/mimarlik/ic-mimari', 301));

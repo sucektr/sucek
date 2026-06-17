@@ -1,29 +1,41 @@
 <?php
 
 if (!function_exists('_icerik_cache')) {
-    function _icerik_cache(): array
+    function _icerik_cache(string $dil = 'tr'): array
     {
-        static $cache = null;
-        if ($cache === null) {
-            $cache = [];
+        static $cache = [];
+        if (!isset($cache[$dil])) {
+            $cache[$dil] = [];
             try {
-                foreach (\App\Models\Icerik::all() as $row) {
-                    $cache["{$row->sayfa}.{$row->alan}"] = $row;
+                foreach (\App\Models\Icerik::where('dil', $dil)->get() as $row) {
+                    $cache[$dil]["{$row->sayfa}.{$row->alan}"] = $row;
                 }
             } catch (\Exception $e) {
                 // DB henüz hazır değil (migration öncesi vb.)
             }
         }
-        return $cache;
+        return $cache[$dil];
     }
 }
 
 if (!function_exists('icerik')) {
     function icerik(string $sayfa, string $alan, string $varsayilan = ''): string
     {
-        $cache = _icerik_cache();
+        $dil = app()->getLocale();
+        $cache = _icerik_cache($dil);
         $row = $cache["{$sayfa}.{$alan}"] ?? null;
-        return ($row && $row->deger !== null && $row->deger !== '') ? $row->deger : $varsayilan;
+        if ($row && $row->deger !== null && $row->deger !== '') {
+            return $row->deger;
+        }
+        // İngilizce yoksa Türkçeye düş
+        if ($dil !== 'tr') {
+            $cacheTr = _icerik_cache('tr');
+            $rowTr = $cacheTr["{$sayfa}.{$alan}"] ?? null;
+            if ($rowTr && $rowTr->deger !== null && $rowTr->deger !== '') {
+                return $rowTr->deger;
+            }
+        }
+        return $varsayilan;
     }
 }
 
@@ -50,10 +62,19 @@ if (!function_exists('kargoUcreti')) {
 if (!function_exists('icerik_gorsel')) {
     function icerik_gorsel(string $sayfa, string $alan, string $varsayilan = ''): string
     {
-        $cache = _icerik_cache();
+        $dil = app()->getLocale();
+        $cache = _icerik_cache($dil);
         $row = $cache["{$sayfa}.{$alan}"] ?? null;
         if ($row && $row->gorsel) {
             return url('/uploads/' . $row->gorsel);
+        }
+        // İngilizce yoksa Türkçeye düş
+        if ($dil !== 'tr') {
+            $cacheTr = _icerik_cache('tr');
+            $rowTr = $cacheTr["{$sayfa}.{$alan}"] ?? null;
+            if ($rowTr && $rowTr->gorsel) {
+                return url('/uploads/' . $rowTr->gorsel);
+            }
         }
         return $varsayilan;
     }

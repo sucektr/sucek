@@ -196,6 +196,20 @@
       @endauth
     </div>
 
+    {{-- Dil Değiştirici --}}
+    @php $aktifDil = app()->getLocale(); @endphp
+    <div class="hidden lg:flex items-center ml-3">
+      <a href="{{ route('dil.degistir', $aktifDil === 'tr' ? 'en' : 'tr') }}"
+         class="flex items-center gap-1 text-[11px] font-medium px-2.5 py-1 rounded-md border border-[#E2E8F0] text-[#64748B] hover:border-[#CC2200] hover:text-[#CC2200] transition-colors"
+         title="{{ $aktifDil === 'tr' ? 'Switch to English' : 'Türkçeye geç' }}">
+        @if($aktifDil === 'tr')
+          <span>🇬🇧</span> EN
+        @else
+          <span>🇹🇷</span> TR
+        @endif
+      </a>
+    </div>
+
     {{-- Sepet + Auth --}}
     <div class="hidden lg:flex items-center gap-1.5 ml-auto">
       <a href="{{ route('sepet.index') }}"

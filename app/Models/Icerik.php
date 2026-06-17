@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Icerik extends Model
 {
     protected $table = 'site_icerik';
-    protected $fillable = ['sayfa', 'alan', 'baslik', 'tip', 'deger', 'gorsel', 'sira'];
+    protected $fillable = ['sayfa', 'alan', 'dil', 'baslik', 'tip', 'deger', 'gorsel', 'sira'];
 }

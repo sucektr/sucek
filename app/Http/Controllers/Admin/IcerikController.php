@@ -347,9 +347,41 @@ class IcerikController extends Controller
         abort_unless(isset($tanimlar[$sayfa]), 404);
 
         $tanim  = $tanimlar[$sayfa];
-        $mevcut = Icerik::where('sayfa', $sayfa)->get()->keyBy('alan');
+        $mevcut = Icerik::where('sayfa', $sayfa)->get()->keyBy(
+            fn($r) => $r->dil === 'tr' ? $r->alan : $r->alan . '_en_row'
+        );
 
         return view('admin.icerik.sayfa', compact('sayfa', 'tanim', 'mevcut'));
+    }
+
+    private function gorselIsle(Request $request, string $field, string $sayfa, Icerik $row): ?string
+    {
+        $dosya = $request->file($field);
+        if (!$dosya->isValid()) {
+            return "\"{$field}\" yüklenemedi. Dosyayı kontrol edip tekrar deneyin.";
+        }
+        if ($dosya->getSize() > 5 * 1024 * 1024) {
+            return "\"{$field}\" en fazla 5 MB olabilir.";
+        }
+        if (!in_array($dosya->getMimeType(), ['image/jpeg','image/png','image/gif','image/webp','image/bmp','image/avif'])) {
+            return "\"{$field}\" yalnızca JPG, PNG, WEBP veya GIF olabilir.";
+        }
+        $boyutlar = @getimagesize($dosya->getRealPath());
+        if ($boyutlar && ($boyutlar[0] > 4000 || $boyutlar[1] > 4000)) {
+            return "\"{$field}\" en fazla 4000×4000 piksel olabilir. Görseli küçülterek tekrar deneyin.";
+        }
+        if ($row->gorsel) {
+            Storage::disk('uploads')->delete($row->gorsel);
+        }
+        $yol = $dosya->store("icerik/{$sayfa}", 'uploads');
+        if (!$yol) {
+            return "\"{$field}\" kaydedilemedi. Sunucu klasör izinlerini kontrol edin.";
+        }
+        @chmod(public_path('uploads/icerik'), 0755);
+        @chmod(public_path("uploads/icerik/{$sayfa}"), 0755);
+        @chmod(public_path('uploads/' . $yol), 0644);
+        $row->gorsel = $yol;
+        return null; // başarı
     }
 
     public function guncelle(Request $request, string $sayfa)
@@ -357,63 +389,38 @@ class IcerikController extends Controller
         $tanimlar = $this->sayfaTanimlari();
         abort_unless(isset($tanimlar[$sayfa]), 404);
 
-        foreach ($tanimlar[$sayfa]['alanlar'] as $tanim) {
-            $alan = $tanim['alan'];
-            $tip  = $tanim['tip'];
+        foreach (['tr', 'en'] as $dil) {
+            $suffix = $dil === 'tr' ? '' : '_en';
 
-            $row          = Icerik::firstOrNew(['sayfa' => $sayfa, 'alan' => $alan]);
-            $row->baslik  = $tanim['baslik'];
-            $row->tip     = $tip;
-            $row->sira    = $tanim['sira'];
+            foreach ($tanimlar[$sayfa]['alanlar'] as $tanim) {
+                $alan = $tanim['alan'];
+                $tip  = $tanim['tip'];
 
-            if ($tip === 'gorsel') {
-                if ($request->hasFile("f_{$alan}")) {
-                    $dosya = $request->file("f_{$alan}");
-                    if (!$dosya->isValid()) {
-                        return back()
-                            ->withErrors(["f_{$alan}" => "\"{$tanim['baslik']}\" yüklenemedi. Dosyayı kontrol edip tekrar deneyin."])
-                            ->withInput();
+                $row         = Icerik::firstOrNew(['sayfa' => $sayfa, 'alan' => $alan, 'dil' => $dil]);
+                $row->baslik = $tanim['baslik'];
+                $row->tip    = $tip;
+                $row->sira   = $tanim['sira'];
+                $row->dil    = $dil;
+
+                if ($tip === 'gorsel') {
+                    $field = "f_{$alan}{$suffix}";
+                    if ($request->hasFile($field)) {
+                        $hata = $this->gorselIsle($request, $field, $sayfa, $row);
+                        if ($hata !== null) {
+                            return back()->withErrors([$field => $hata])->withInput();
+                        }
+                    } elseif ($request->boolean("{$field}_sil")) {
+                        if ($row->gorsel) {
+                            Storage::disk('uploads')->delete($row->gorsel);
+                        }
+                        $row->gorsel = null;
                     }
-                    if ($dosya->getSize() > 5 * 1024 * 1024) {
-                        return back()
-                            ->withErrors(["f_{$alan}" => "\"{$tanim['baslik']}\" en fazla 5 MB olabilir."])
-                            ->withInput();
-                    }
-                    if (!in_array($dosya->getMimeType(), ['image/jpeg','image/png','image/gif','image/webp','image/bmp','image/avif'])) {
-                        return back()
-                            ->withErrors(["f_{$alan}" => "\"{$tanim['baslik']}\" yalnızca JPG, PNG, WEBP veya GIF olabilir."])
-                            ->withInput();
-                    }
-                    $boyutlar = @getimagesize($dosya->getRealPath());
-                    if ($boyutlar && ($boyutlar[0] > 4000 || $boyutlar[1] > 4000)) {
-                        return back()
-                            ->withErrors(["f_{$alan}" => "\"{$tanim['baslik']}\" en fazla 4000×4000 piksel olabilir. Görseli küçülterek tekrar deneyin."])
-                            ->withInput();
-                    }
-                    if ($row->gorsel) {
-                        Storage::disk('uploads')->delete($row->gorsel);
-                    }
-                    $yol = $dosya->store("icerik/{$sayfa}", 'uploads');
-                    if (!$yol) {
-                        return back()
-                            ->withErrors(["f_{$alan}" => "\"{$tanim['baslik']}\" kaydedilemedi. Sunucu klasör izinlerini kontrol edin."])
-                            ->withInput();
-                    }
-                    @chmod(public_path('uploads/icerik'), 0755);
-                    @chmod(public_path("uploads/icerik/{$sayfa}"), 0755);
-                    @chmod(public_path('uploads/' . $yol), 0644);
-                    $row->gorsel = $yol;
-                } elseif ($request->boolean("f_{$alan}_sil")) {
-                    if ($row->gorsel) {
-                        Storage::disk('uploads')->delete($row->gorsel);
-                    }
-                    $row->gorsel = null;
+                } else {
+                    $row->deger = $request->input("f_{$alan}{$suffix}", '');
                 }
-            } else {
-                $row->deger = $request->input("f_{$alan}", '');
-            }
 
-            $row->save();
+                $row->save();
+            }
         }
 
         return redirect()->route('admin.icerik.sayfa', $sayfa)
