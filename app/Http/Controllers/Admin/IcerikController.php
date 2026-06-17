@@ -367,8 +367,18 @@ class IcerikController extends Controller
             $row->sira    = $tanim['sira'];
 
             if ($tip === 'gorsel') {
-                $dosya = $request->file("f_{$alan}");
-                if ($dosya && $dosya->isValid()) {
+                if ($request->boolean("f_{$alan}_sil")) {
+                    if ($row->gorsel) {
+                        Storage::disk('public')->delete($row->gorsel);
+                    }
+                    $row->gorsel = null;
+                } elseif ($request->hasFile("f_{$alan}")) {
+                    $dosya = $request->file("f_{$alan}");
+                    if (!$dosya->isValid()) {
+                        return back()
+                            ->withErrors(["f_{$alan}" => "\"{$tanim['baslik']}\" yüklenemedi. Dosyayı kontrol edip tekrar deneyin."])
+                            ->withInput();
+                    }
                     if ($dosya->getSize() > 5 * 1024 * 1024) {
                         return back()
                             ->withErrors(["f_{$alan}" => "\"{$tanim['baslik']}\" en fazla 5 MB olabilir."])
@@ -383,10 +393,6 @@ class IcerikController extends Controller
                         Storage::disk('public')->delete($row->gorsel);
                     }
                     $row->gorsel = $dosya->store("icerik/{$sayfa}", 'public');
-                } elseif ($dosya && !$dosya->isValid()) {
-                    return back()
-                        ->withErrors(["f_{$alan}" => "\"{$tanim['baslik']}\" yüklenemedi. Dosyayı kontrol edip tekrar deneyin."])
-                        ->withInput();
                 }
             } else {
                 $row->deger = $request->input("f_{$alan}", '');

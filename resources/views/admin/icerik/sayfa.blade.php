@@ -33,18 +33,34 @@
       @if($tip === 'gorsel')
         {{-- Mevcut görsel --}}
         @if($row && $row->gorsel)
-        <div class="mb-3 relative inline-block">
-          <img src="{{ url('/storage/' . $row->gorsel) }}" alt="{{ $alan_tanim['baslik'] }}"
-               class="h-40 w-auto rounded-[8px] object-cover border border-[#E2E8F0]">
-          <span class="absolute top-1 left-1 bg-[rgba(0,0,0,0.55)] text-white text-[9px] px-2 py-0.5 rounded-full">Mevcut</span>
+        <div class="mb-3 flex items-start gap-3" id="gorsel-wrap-{{ $alan }}">
+          <div class="relative inline-block">
+            <img src="{{ url('/storage/' . $row->gorsel) }}" alt="{{ $alan_tanim['baslik'] }}"
+                 class="h-40 w-auto rounded-[8px] object-cover border border-[#E2E8F0]">
+            <span class="absolute top-1 left-1 bg-[rgba(0,0,0,0.55)] text-white text-[9px] px-2 py-0.5 rounded-full">Mevcut</span>
+          </div>
+          <div class="flex flex-col gap-2 pt-1">
+            <input type="hidden" name="f_{{ $alan }}_sil" value="0" id="sil-flag-{{ $alan }}">
+            <button type="button"
+                    onclick="
+                      document.getElementById('sil-flag-{{ $alan }}').value='1';
+                      document.getElementById('gorsel-wrap-{{ $alan }}').style.display='none';
+                      document.getElementById('gorsel-yeni-{{ $alan }}').style.display='flex';
+                      document.getElementById('gorsel-info-{{ $alan }}').style.display='none';
+                    "
+                    class="flex items-center gap-1.5 text-[11px] text-red-500 border border-red-200 rounded-[6px] px-3 py-1.5 hover:bg-red-50 transition-colors">
+              <i class="ti ti-trash text-sm"></i> Görseli Kaldır
+            </button>
+          </div>
         </div>
-        <p class="text-[11px] text-[#94A3B8] mb-2">Yeni görsel yükleyerek değiştirebilirsiniz:</p>
+        <p class="text-[11px] text-[#94A3B8] mb-2" id="gorsel-info-{{ $alan }}">Yeni görsel yükleyerek değiştirebilirsiniz:</p>
         @endif
         @error('f_' . $alan)
         <p class="text-[12px] text-red-500 flex items-center gap-1 mb-2">
           <i class="ti ti-alert-circle"></i> {{ $message }}
         </p>
         @enderror
+        <div id="gorsel-yeni-{{ $alan }}" style="{{ ($row && $row->gorsel) ? 'display:none' : '' }}">
         <label class="flex flex-col items-center justify-center w-full h-28 border-2 border-dashed {{ $errors->has('f_'.$alan) ? 'border-red-400 bg-red-50' : 'border-[#E2E8F0] bg-[#F8FAFC]' }} rounded-[8px] cursor-pointer hover:border-[#CC2200] transition-colors"
                id="label-{{ $alan }}">
           <i class="ti ti-upload text-2xl text-[#C0C0C0] mb-1" id="icon-{{ $alan }}"></i>
@@ -73,6 +89,7 @@
                    }
                  ">
         </label>
+        </div>
 
       @elseif($tip === 'html')
         <div class="quill-wrapper rounded-[8px] overflow-hidden border border-[#E2E8F0]">
