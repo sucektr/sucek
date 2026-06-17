@@ -367,12 +367,7 @@ class IcerikController extends Controller
             $row->sira    = $tanim['sira'];
 
             if ($tip === 'gorsel') {
-                if ($request->boolean("f_{$alan}_sil")) {
-                    if ($row->gorsel) {
-                        Storage::disk('public')->delete($row->gorsel);
-                    }
-                    $row->gorsel = null;
-                } elseif ($request->hasFile("f_{$alan}")) {
+                if ($request->hasFile("f_{$alan}")) {
                     $dosya = $request->file("f_{$alan}");
                     if (!$dosya->isValid()) {
                         return back()
@@ -392,7 +387,15 @@ class IcerikController extends Controller
                     if ($row->gorsel) {
                         Storage::disk('public')->delete($row->gorsel);
                     }
-                    $row->gorsel = $dosya->store("icerik/{$sayfa}", 'public');
+                    $yol = $dosya->store("icerik/{$sayfa}", 'public');
+                    if ($yol) {
+                        $row->gorsel = $yol;
+                    }
+                } elseif ($request->boolean("f_{$alan}_sil")) {
+                    if ($row->gorsel) {
+                        Storage::disk('public')->delete($row->gorsel);
+                    }
+                    $row->gorsel = null;
                 }
             } else {
                 $row->deger = $request->input("f_{$alan}", '');
