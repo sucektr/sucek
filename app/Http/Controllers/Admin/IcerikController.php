@@ -384,6 +384,12 @@ class IcerikController extends Controller
                             ->withErrors(["f_{$alan}" => "\"{$tanim['baslik']}\" yalnızca JPG, PNG, WEBP veya GIF olabilir."])
                             ->withInput();
                     }
+                    $boyutlar = @getimagesize($dosya->getRealPath());
+                    if ($boyutlar && ($boyutlar[0] > 4000 || $boyutlar[1] > 4000)) {
+                        return back()
+                            ->withErrors(["f_{$alan}" => "\"{$tanim['baslik']}\" en fazla 4000×4000 piksel olabilir. Görseli küçülterek tekrar deneyin."])
+                            ->withInput();
+                    }
                     if ($row->gorsel) {
                         Storage::disk('uploads')->delete($row->gorsel);
                     }
@@ -393,6 +399,7 @@ class IcerikController extends Controller
                             ->withErrors(["f_{$alan}" => "\"{$tanim['baslik']}\" kaydedilemedi. Sunucu klasör izinlerini kontrol edin."])
                             ->withInput();
                     }
+                    @chmod(public_path('uploads/' . $yol), 0644);
                     $row->gorsel = $yol;
                 } elseif ($request->boolean("f_{$alan}_sil")) {
                     if ($row->gorsel) {

@@ -67,27 +67,20 @@
           <span class="text-[12px] text-[#94A3B8]" id="txt-{{ $alan }}">
             {{ ($row && $row->gorsel) ? 'Değiştir' : 'Görsel Seç' }}
           </span>
-          <span class="text-[10px] text-[#C0C0C0] mt-0.5">JPG, PNG, WEBP · Maks. 5MB</span>
+          <span class="text-[10px] text-[#C0C0C0] mt-0.5">JPG, PNG, WEBP · Maks. 5MB · 4000×4000px</span>
           <input type="file" name="f_{{ $alan }}" accept="image/*" class="hidden"
-                 onchange="
-                   const f=this.files[0];
-                   if(!f) return;
+                 onchange="(function(inp){
+                   const f=inp.files[0]; if(!f) return;
                    const lbl=document.getElementById('label-{{ $alan }}');
                    const ico=document.getElementById('icon-{{ $alan }}');
                    const txt=document.getElementById('txt-{{ $alan }}');
-                   if(f.size > 5*1024*1024){
-                     txt.textContent='Dosya çok büyük! Maks. 5MB';
-                     ico.className='ti ti-alert-circle text-2xl text-red-500 mb-1';
-                     lbl.classList.add('border-red-400','bg-red-50');
-                     lbl.classList.remove('border-[#E2E8F0]','bg-[#F8FAFC]');
-                     this.value='';
-                   } else {
-                     txt.textContent=f.name;
-                     ico.className='ti ti-check text-2xl text-green-500 mb-1';
-                     lbl.classList.remove('border-red-400','bg-red-50');
-                     lbl.classList.add('border-[#E2E8F0]','bg-[#F8FAFC]');
-                   }
-                 ">
+                   function hata(msg){txt.textContent=msg;ico.className='ti ti-alert-circle text-2xl text-red-500 mb-1';lbl.classList.add('border-red-400','bg-red-50');lbl.classList.remove('border-[#E2E8F0]','bg-[#F8FAFC]');inp.value='';}
+                   function tamam(){txt.textContent=f.name;ico.className='ti ti-check text-2xl text-green-500 mb-1';lbl.classList.remove('border-red-400','bg-red-50');lbl.classList.add('border-[#E2E8F0]','bg-[#F8FAFC]');}
+                   if(f.size>5*1024*1024){hata('Dosya çok büyük! Maks. 5MB');return;}
+                   const r=new FileReader();
+                   r.onload=function(e){const img=new Image();img.onload=function(){(img.width>4000||img.height>4000)?hata('Görsel çok büyük! Maks. 4000×4000px'):tamam();};img.src=e.target.result;};
+                   r.readAsDataURL(f);
+                 })(this)">
         </label>
         </div>
 
