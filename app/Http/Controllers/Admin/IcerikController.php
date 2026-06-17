@@ -357,6 +357,19 @@ class IcerikController extends Controller
         $tanimlar = $this->sayfaTanimlari();
         abort_unless(isset($tanimlar[$sayfa]), 404);
 
+        $rules = [];
+        foreach ($tanimlar[$sayfa]['alanlar'] as $tanim) {
+            if ($tanim['tip'] === 'gorsel') {
+                $rules['f_' . $tanim['alan']] = 'nullable|image|max:5120';
+            }
+        }
+        if ($rules) {
+            $request->validate($rules, [
+                '*.max'   => 'Görsel en fazla 5 MB olabilir.',
+                '*.image' => 'Yalnızca JPG, PNG, WEBP veya GIF yükleyebilirsiniz.',
+            ]);
+        }
+
         foreach ($tanimlar[$sayfa]['alanlar'] as $tanim) {
             $alan = $tanim['alan'];
             $tip  = $tanim['tip'];

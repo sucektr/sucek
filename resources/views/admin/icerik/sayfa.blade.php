@@ -40,7 +40,12 @@
         </div>
         <p class="text-[11px] text-[#94A3B8] mb-2">Yeni görsel yükleyerek değiştirebilirsiniz:</p>
         @endif
-        <label class="flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-[#E2E8F0] rounded-[8px] cursor-pointer hover:border-[#CC2200] transition-colors bg-[#F8FAFC]"
+        @error('f_' . $alan)
+        <p class="text-[12px] text-red-500 flex items-center gap-1 mb-2">
+          <i class="ti ti-alert-circle"></i> {{ $message }}
+        </p>
+        @enderror
+        <label class="flex flex-col items-center justify-center w-full h-28 border-2 border-dashed {{ $errors->has('f_'.$alan) ? 'border-red-400 bg-red-50' : 'border-[#E2E8F0] bg-[#F8FAFC]' }} rounded-[8px] cursor-pointer hover:border-[#CC2200] transition-colors"
                id="label-{{ $alan }}">
           <i class="ti ti-upload text-2xl text-[#C0C0C0] mb-1" id="icon-{{ $alan }}"></i>
           <span class="text-[12px] text-[#94A3B8]" id="txt-{{ $alan }}">
@@ -50,9 +55,21 @@
           <input type="file" name="f_{{ $alan }}" accept="image/*" class="hidden"
                  onchange="
                    const f=this.files[0];
-                   if(f){
-                     document.getElementById('txt-{{ $alan }}').textContent=f.name;
-                     document.getElementById('icon-{{ $alan }}').className='ti ti-check text-2xl text-green-500 mb-1';
+                   if(!f) return;
+                   const lbl=document.getElementById('label-{{ $alan }}');
+                   const ico=document.getElementById('icon-{{ $alan }}');
+                   const txt=document.getElementById('txt-{{ $alan }}');
+                   if(f.size > 5*1024*1024){
+                     txt.textContent='Dosya çok büyük! Maks. 5MB';
+                     ico.className='ti ti-alert-circle text-2xl text-red-500 mb-1';
+                     lbl.classList.add('border-red-400','bg-red-50');
+                     lbl.classList.remove('border-[#E2E8F0]','bg-[#F8FAFC]');
+                     this.value='';
+                   } else {
+                     txt.textContent=f.name;
+                     ico.className='ti ti-check text-2xl text-green-500 mb-1';
+                     lbl.classList.remove('border-red-400','bg-red-50');
+                     lbl.classList.add('border-[#E2E8F0]','bg-[#F8FAFC]');
                    }
                  ">
         </label>
