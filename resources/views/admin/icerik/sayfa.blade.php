@@ -38,6 +38,8 @@
             <img src="{{ url('/uploads/' . $row->gorsel) }}" alt="{{ $alan_tanim['baslik'] }}"
                  class="h-40 w-auto rounded-[8px] object-cover border border-[#E2E8F0]">
             <span class="absolute top-1 left-1 bg-[rgba(0,0,0,0.55)] text-white text-[9px] px-2 py-0.5 rounded-full">Mevcut</span>
+            <a href="{{ url('/uploads/' . $row->gorsel) }}" target="_blank"
+               class="absolute bottom-1 left-1 bg-[rgba(0,0,0,0.55)] text-white text-[9px] px-2 py-0.5 rounded-full hover:bg-black">URL test</a>
           </div>
           <div class="flex flex-col gap-2 pt-1">
             <input type="hidden" name="f_{{ $alan }}_sil" value="0" id="sil-flag-{{ $alan }}">

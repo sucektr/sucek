@@ -399,6 +399,8 @@ class IcerikController extends Controller
                             ->withErrors(["f_{$alan}" => "\"{$tanim['baslik']}\" kaydedilemedi. Sunucu klasör izinlerini kontrol edin."])
                             ->withInput();
                     }
+                    @chmod(public_path('uploads/icerik'), 0755);
+                    @chmod(public_path("uploads/icerik/{$sayfa}"), 0755);
                     @chmod(public_path('uploads/' . $yol), 0644);
                     $row->gorsel = $yol;
                 } elseif ($request->boolean("f_{$alan}_sil")) {
