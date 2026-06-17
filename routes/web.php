@@ -26,12 +26,18 @@ use App\Http\Controllers\UserUrunController;
 use App\Http\Controllers\SifremiUnuttumController;
 use App\Http\Controllers\ProjeController;
 
-// Storage dosyalarını symlink olmadan sun (fallback; symlink varsa Apache direkt okur)
+// Storage / uploads dosyalarını symlink olmadan sun (fallback; Apache direkt okuyabiliyorsa bu çalışmaz zaten)
 Route::get('/storage/{path}', function (string $path) {
     $file = storage_path('app/public/' . $path);
     abort_unless(file_exists($file) && is_file($file), 404);
     return response()->file($file);
 })->where('path', '.*')->name('storage.serve');
+
+Route::get('/uploads/{path}', function (string $path) {
+    $file = public_path('uploads/' . $path);
+    abort_unless(file_exists($file) && is_file($file), 404);
+    return response()->file($file);
+})->where('path', '.*')->name('uploads.serve');
 
 // Eski Wix URL'lerinden 301 yönlendirme
 Route::get('/mimari',          fn() => redirect('/mimarlik', 301));
