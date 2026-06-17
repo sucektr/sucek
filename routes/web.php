@@ -25,6 +25,7 @@ use App\Http\Controllers\KatalogController;
 use App\Http\Controllers\UserUrunController;
 use App\Http\Controllers\SifremiUnuttumController;
 use App\Http\Controllers\ProjeController;
+use App\Http\Controllers\MerchantFeedController;
 
 // Storage / uploads dosyalarını symlink olmadan sun (fallback; Apache direkt okuyabiliyorsa bu çalışmaz zaten)
 Route::get('/storage/{path}', function (string $path) {
@@ -38,6 +39,9 @@ Route::get('/uploads/{path}', function (string $path) {
     abort_unless(file_exists($file) && is_file($file), 404);
     return response()->file($file);
 })->where('path', '.*')->name('uploads.serve');
+
+// Google Merchant Center ürün feed'i
+Route::get('/feed.xml', [MerchantFeedController::class, 'feed'])->name('merchant.feed');
 
 // Dil değiştirme
 Route::get('/dil/{dil}', function (string $dil) {
