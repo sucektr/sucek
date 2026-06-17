@@ -379,21 +379,24 @@ class IcerikController extends Controller
                             ->withErrors(["f_{$alan}" => "\"{$tanim['baslik']}\" en fazla 5 MB olabilir."])
                             ->withInput();
                     }
-                    if (!in_array($dosya->getMimeType(), ['image/jpeg','image/png','image/gif','image/webp','image/bmp'])) {
+                    if (!in_array($dosya->getMimeType(), ['image/jpeg','image/png','image/gif','image/webp','image/bmp','image/avif'])) {
                         return back()
                             ->withErrors(["f_{$alan}" => "\"{$tanim['baslik']}\" yalnızca JPG, PNG, WEBP veya GIF olabilir."])
                             ->withInput();
                     }
                     if ($row->gorsel) {
-                        Storage::disk('public')->delete($row->gorsel);
+                        Storage::disk('uploads')->delete($row->gorsel);
                     }
-                    $yol = $dosya->store("icerik/{$sayfa}", 'public');
-                    if ($yol) {
-                        $row->gorsel = $yol;
+                    $yol = $dosya->store("icerik/{$sayfa}", 'uploads');
+                    if (!$yol) {
+                        return back()
+                            ->withErrors(["f_{$alan}" => "\"{$tanim['baslik']}\" kaydedilemedi. Sunucu klasör izinlerini kontrol edin."])
+                            ->withInput();
                     }
+                    $row->gorsel = $yol;
                 } elseif ($request->boolean("f_{$alan}_sil")) {
                     if ($row->gorsel) {
-                        Storage::disk('public')->delete($row->gorsel);
+                        Storage::disk('uploads')->delete($row->gorsel);
                     }
                     $row->gorsel = null;
                 }
