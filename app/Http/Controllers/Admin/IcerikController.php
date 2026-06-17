@@ -369,9 +369,9 @@ class IcerikController extends Controller
             if ($tip === 'gorsel') {
                 if ($request->hasFile("f_{$alan}") && $request->file("f_{$alan}")->isValid()) {
                     if ($row->gorsel) {
-                        Storage::disk('uploads')->delete($row->gorsel);
+                        Storage::disk('public')->delete($row->gorsel);
                     }
-                    $row->gorsel = $request->file("f_{$alan}")->store("icerik/{$sayfa}", 'uploads');
+                    $row->gorsel = $request->file("f_{$alan}")->store("icerik/{$sayfa}", 'public');
                 }
             } else {
                 $row->deger = $request->input("f_{$alan}", '');

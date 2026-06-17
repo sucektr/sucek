@@ -34,7 +34,7 @@
         {{-- Mevcut görsel --}}
         @if($row && $row->gorsel)
         <div class="mb-3 relative inline-block">
-          <img src="{{ Storage::disk('uploads')->url($row->gorsel) }}" alt="{{ $alan_tanim['baslik'] }}"
+          <img src="{{ Storage::disk('public')->url($row->gorsel) }}" alt="{{ $alan_tanim['baslik'] }}"
                class="h-40 w-auto rounded-[8px] object-cover border border-[#E2E8F0]">
           <span class="absolute top-1 left-1 bg-[rgba(0,0,0,0.55)] text-white text-[9px] px-2 py-0.5 rounded-full">Mevcut</span>
         </div>
