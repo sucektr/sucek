@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Icerik;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class IcerikController extends Controller
 {
@@ -368,10 +367,17 @@ class IcerikController extends Controller
 
             if ($tip === 'gorsel') {
                 if ($request->hasFile("f_{$alan}") && $request->file("f_{$alan}")->isValid()) {
-                    if ($row->gorsel) {
-                        Storage::disk('public')->delete($row->gorsel);
+                    if ($row->gorsel && file_exists(public_path($row->gorsel))) {
+                        @unlink(public_path($row->gorsel));
                     }
-                    $row->gorsel = $request->file("f_{$alan}")->store("icerik/{$sayfa}", 'public');
+                    $dosya    = $request->file("f_{$alan}");
+                    $dizin    = public_path("uploads/icerik/{$sayfa}");
+                    if (!is_dir($dizin)) {
+                        mkdir($dizin, 0755, true);
+                    }
+                    $dosyaAdi = uniqid() . '_' . time() . '.' . $dosya->getClientOriginalExtension();
+                    $dosya->move($dizin, $dosyaAdi);
+                    $row->gorsel = "uploads/icerik/{$sayfa}/{$dosyaAdi}";
                 }
             } else {
                 $row->deger = $request->input("f_{$alan}", '');
