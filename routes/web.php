@@ -44,7 +44,7 @@ Route::get('/dil/{dil}', function (string $dil) {
     if (in_array($dil, ['tr', 'en'])) {
         session(['site_dil' => $dil]);
     }
-    return redirect()->back()->fallback('/');
+    return redirect(url()->previous('/'));
 })->name('dil.degistir');
 
 // Eski Wix URL'lerinden 301 yönlendirme
