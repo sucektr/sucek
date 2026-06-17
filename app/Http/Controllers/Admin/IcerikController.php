@@ -357,19 +357,6 @@ class IcerikController extends Controller
         $tanimlar = $this->sayfaTanimlari();
         abort_unless(isset($tanimlar[$sayfa]), 404);
 
-        $rules = [];
-        foreach ($tanimlar[$sayfa]['alanlar'] as $tanim) {
-            if ($tanim['tip'] === 'gorsel') {
-                $rules['f_' . $tanim['alan']] = 'nullable|image|max:5120';
-            }
-        }
-        if ($rules) {
-            $request->validate($rules, [
-                '*.max'   => 'Görsel en fazla 5 MB olabilir.',
-                '*.image' => 'Yalnızca JPG, PNG, WEBP veya GIF yükleyebilirsiniz.',
-            ]);
-        }
-
         foreach ($tanimlar[$sayfa]['alanlar'] as $tanim) {
             $alan = $tanim['alan'];
             $tip  = $tanim['tip'];
@@ -380,11 +367,26 @@ class IcerikController extends Controller
             $row->sira    = $tanim['sira'];
 
             if ($tip === 'gorsel') {
-                if ($request->hasFile("f_{$alan}") && $request->file("f_{$alan}")->isValid()) {
+                $dosya = $request->file("f_{$alan}");
+                if ($dosya && $dosya->isValid()) {
+                    if ($dosya->getSize() > 5 * 1024 * 1024) {
+                        return back()
+                            ->withErrors(["f_{$alan}" => "\"{$tanim['baslik']}\" en fazla 5 MB olabilir."])
+                            ->withInput();
+                    }
+                    if (!in_array($dosya->getMimeType(), ['image/jpeg','image/png','image/gif','image/webp','image/bmp'])) {
+                        return back()
+                            ->withErrors(["f_{$alan}" => "\"{$tanim['baslik']}\" yalnızca JPG, PNG, WEBP veya GIF olabilir."])
+                            ->withInput();
+                    }
                     if ($row->gorsel) {
                         Storage::disk('public')->delete($row->gorsel);
                     }
-                    $row->gorsel = $request->file("f_{$alan}")->store("icerik/{$sayfa}", 'public');
+                    $row->gorsel = $dosya->store("icerik/{$sayfa}", 'public');
+                } elseif ($dosya && !$dosya->isValid()) {
+                    return back()
+                        ->withErrors(["f_{$alan}" => "\"{$tanim['baslik']}\" yüklenemedi. Dosyayı kontrol edip tekrar deneyin."])
+                        ->withInput();
                 }
             } else {
                 $row->deger = $request->input("f_{$alan}", '');
