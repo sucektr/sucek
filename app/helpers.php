@@ -53,7 +53,7 @@ if (!function_exists('icerik_gorsel')) {
         $cache = _icerik_cache();
         $row = $cache["{$sayfa}.{$alan}"] ?? null;
         if ($row && $row->gorsel) {
-            return \Illuminate\Support\Facades\Storage::disk('public')->url($row->gorsel);
+            return url('/storage/' . $row->gorsel);
         }
         return $varsayilan;
     }
