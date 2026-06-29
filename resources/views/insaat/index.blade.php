@@ -14,7 +14,7 @@
   <div class="absolute inset-0"
        style="background-image:url('{{ icerik_gorsel('insaat','hero_gorsel','https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1280&q=80') }}'); background-size:cover; background-position:center;"></div>
   <div class="absolute inset-0 bg-gradient-to-r from-[rgba(15,15,15,0.88)] via-[rgba(15,15,15,0.55)] to-transparent"></div>
-  <div class="relative z-10 flex flex-col lg:flex-row items-end lg:items-center gap-8 px-9 lg:px-14 py-16 lg:py-20 w-full">
+  <div class="relative z-10 flex flex-col lg:flex-row items-end lg:items-center gap-8 px-5 lg:px-14 py-12 lg:py-20 w-full">
     <div class="flex-1">
       <p class="text-[9px] font-medium tracking-[3px] uppercase text-[rgba(255,255,255,0.45)] mb-3">İNŞAAT HİZMETLERİ</p>
       <h1 class="font-display text-[42px] lg:text-[56px] font-semibold text-white leading-[1.05] mb-5">
@@ -94,7 +94,7 @@
 
 {{-- ─── CTA ────────────────────────────────────────────────────────────── --}}
 <section class="section">
-  <div class="bg-[#141414] rounded-[16px] px-10 lg:px-16 py-12 flex flex-col lg:flex-row items-center justify-between gap-6">
+  <div class="bg-[#141414] rounded-[16px] px-6 lg:px-16 py-10 lg:py-12 flex flex-col lg:flex-row items-center justify-between gap-6 text-center lg:text-left">
     <div>
       <h2 class="font-display text-[28px] lg:text-[34px] font-semibold text-white mb-2">{{ icerik('insaat','cta_baslik','Projenizin Maliyetini Hesaplayın') }}</h2>
       <p class="text-[13px] text-[rgba(255,255,255,0.50)]">{{ icerik('insaat','cta_metin','Anlık maliyet tahmini için hesaplama aracımızı kullanın.') }}</p>

@@ -36,7 +36,7 @@
             <i class="ti ti-user text-sm mr-1.5 text-[#A0A0A0]"></i>Kişisel Bilgiler
           </h2>
           <div class="space-y-4">
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label class="block text-[10px] font-medium uppercase tracking-[.06em] text-[#6B6B6B] mb-1.5">Ad Soyad <span class="text-[#CC2200]">*</span></label>
                 <input type="text" name="ad_soyad" required
@@ -74,7 +74,7 @@
                         class="w-full px-4 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[13px] focus:outline-none focus:border-[#0F0F0F] transition-colors resize-none"
                         placeholder="Mahalle, sokak, kapı no...">{{ old('teslimat_adres', $kargoAdresi?->adres_satiri) }}</textarea>
             </div>
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label class="block text-[10px] font-medium uppercase tracking-[.06em] text-[#6B6B6B] mb-1.5">İlçe</label>
                 <input type="text" name="teslimat_ilce"
@@ -90,7 +90,7 @@
                        placeholder="Şehir">
               </div>
             </div>
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label class="block text-[10px] font-medium uppercase tracking-[.06em] text-[#6B6B6B] mb-1.5">Posta Kodu</label>
                 <input type="text" name="teslimat_posta"

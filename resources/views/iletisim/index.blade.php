@@ -95,10 +95,10 @@
       @if($haritaEmbed)
       <iframe src="{{ $haritaEmbed }}"
               class="rounded-[16px] border border-[rgba(0,0,0,0.07)] w-full"
-              style="height:420px;border:0;"
+              style="height:280px;border:0;" class="md:!h-[420px]"
               allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       @else
-      <div id="sucek-harita" class="rounded-[16px] overflow-hidden border border-[rgba(0,0,0,0.07)]" style="height:420px;"></div>
+      <div id="sucek-harita" class="rounded-[16px] overflow-hidden border border-[rgba(0,0,0,0.07)] h-[280px] md:h-[420px]"></div>
       @endif
     </div>
 

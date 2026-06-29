@@ -69,6 +69,7 @@
     background-color: #F8FAFC;
     color: #0F172A;
     line-height: 1.6;
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
