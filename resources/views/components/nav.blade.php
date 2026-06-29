@@ -242,14 +242,22 @@
       @endauth
     </div>
 
-    {{-- Mobile Hamburger --}}
-    <button class="lg:hidden ml-auto p-2 rounded-md text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors"
-            @click="menuOpen = !menuOpen"
-            :aria-expanded="menuOpen"
-            aria-label="Menüyü aç/kapat">
-      <i class="ti ti-menu-2 text-xl" x-show="!menuOpen"></i>
-      <i class="ti ti-x text-xl" x-show="menuOpen" style="display:none;"></i>
-    </button>
+    {{-- Mobile: Sepet + Hamburger --}}
+    <div class="lg:hidden ml-auto flex items-center gap-1">
+      <a href="{{ route('sepet.index') }}"
+         class="relative p-2 rounded-md text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors"
+         aria-label="Sepet">
+        <i class="ti ti-shopping-cart text-xl"></i>
+        <span class="cart-badge" x-text="$root.sepetAdet" x-show="$root.sepetAdet > 0" aria-label="Sepetteki ürün sayısı"></span>
+      </a>
+      <button class="p-2 rounded-md text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors"
+              @click="menuOpen = !menuOpen"
+              :aria-expanded="menuOpen"
+              aria-label="Menüyü aç/kapat">
+        <i class="ti ti-menu-2 text-xl" x-show="!menuOpen"></i>
+        <i class="ti ti-x text-xl" x-show="menuOpen" style="display:none;"></i>
+      </button>
+    </div>
   </div>
 
   {{-- Mobile Menu --}}
@@ -278,6 +286,10 @@
       <a href="{{ route('magaza.index') }}" class="text-sm font-medium text-[#64748B] px-3 py-2.5 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">Mağaza</a>
       <a href="{{ route('koleksiyon.index') }}" class="text-sm font-medium text-[#64748B] px-3 py-2.5 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">Koleksiyon</a>
       <a href="{{ route('iletisim.index') }}" @click="menuOpen=false" class="text-sm font-medium text-[#64748B] px-3 py-2.5 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">İletişim</a>
+      <a href="{{ route('sepet.index') }}" @click="menuOpen=false" class="flex items-center gap-2 text-sm font-medium text-[#64748B] px-3 py-2.5 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">
+        <i class="ti ti-shopping-cart text-base"></i>Sepetim
+        <span class="cart-badge relative top-0 right-0 ml-1" x-text="$root.sepetAdet" x-show="$root.sepetAdet > 0"></span>
+      </a>
 
       @auth
       @if(auth()->user()->isSucek())
