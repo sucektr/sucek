@@ -286,7 +286,13 @@ class UrunImportController extends Controller
     private function parseFloat($val): ?float
     {
         if ($val === null || trim((string)$val) === '') return null;
-        $val = str_replace([' ', '.'], ['', ''], str_replace(',', '.', (string)$val));
-        return is_numeric($val) ? (float)$val : null;
+        $str = trim((string)$val);
+        if (str_contains($str, ',')) {
+            // Türkçe format: 1.299,90 → 1299.90
+            $str = str_replace('.', '', $str);
+            $str = str_replace(',', '.', $str);
+        }
+        // Standart format: 1299.90 → olduğu gibi
+        return is_numeric($str) ? (float)$str : null;
     }
 }
