@@ -91,71 +91,85 @@
   }
   </script>
 
+  {{-- Mobil üst checkout butonu --}}
+  <div class="lg:hidden mb-4" x-data="cartData()">
+    <a href="{{ route('siparis.checkout') }}"
+       class="w-full flex items-center justify-center bg-[#141414] text-white text-[11px] font-semibold tracking-[1.5px] uppercase py-4 rounded-[10px] min-h-[52px]">
+      <i class="ti ti-lock text-sm mr-1.5" aria-hidden="true"></i>Siparişi Tamamla
+    </a>
+  </div>
+
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-8" x-data="cartData()">
 
     {{-- Ürün listesi --}}
     <div class="lg:col-span-2 space-y-3">
       @foreach($sepet as $key => $item)
       @php $idx = $loop->index; @endphp
-      <article class="flex items-center gap-4 bg-white border border-[rgba(0,0,0,0.07)] rounded-[12px] p-4">
-        <div class="w-16 h-16 bg-[#F0F0F0] rounded-[8px] overflow-hidden shrink-0">
-          @if($item['gorsel'])
-          <img src="{{ asset('storage/'.$item['gorsel']) }}" alt="{{ $item['ad'] }}" class="w-full h-full object-cover" loading="lazy">
-          @endif
+      <article class="bg-white border border-[rgba(0,0,0,0.07)] rounded-[12px] p-4">
+        <div class="flex gap-3">
+          {{-- Görsel --}}
+          <div class="w-16 h-16 bg-[#F0F0F0] rounded-[8px] overflow-hidden shrink-0">
+            @if($item['gorsel'])
+            <img src="{{ asset('storage/'.$item['gorsel']) }}" alt="{{ $item['ad'] }}" class="w-full h-full object-cover" loading="lazy">
+            @endif
+          </div>
+
+          {{-- Bilgi --}}
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-2">
+              <p class="text-[14px] font-medium text-[#0F0F0F] leading-snug">{{ $item['ad'] }}</p>
+              {{-- Sil --}}
+              <form action="{{ route('sepet.kaldir', $key) }}" method="POST"
+                    onsubmit="return confirm('Bu ürünü sepetten kaldırmak istediğinize emin misiniz?')"
+                    class="shrink-0">
+                @csrf @method('DELETE')
+                <button type="submit"
+                        class="w-7 h-7 flex items-center justify-center rounded-[6px] text-[#A8A8A8] hover:text-red-500 hover:bg-red-50 transition-all"
+                        aria-label="{{ $item['ad'] }} sepetten kaldır">
+                  <i class="ti ti-trash text-sm" aria-hidden="true"></i>
+                </button>
+              </form>
+            </div>
+
+            <p class="text-[12px] text-[#A8A8A8] mt-0.5">{{ number_format($item['fiyat'], 2, ',', '.') }} ₺ / adet</p>
+
+            @if(($item['kargo_ucreti'] ?? 0) > 0)
+            <p class="flex items-center gap-1 text-[11px] text-[#A8A8A8] mt-0.5">
+              <i class="ti ti-truck text-[11px]" aria-hidden="true"></i>
+              {{ number_format($item['kargo_ucreti'], 2, ',', '.') }} ₺ kargo
+            </p>
+            @else
+            <p class="flex items-center gap-1 text-[11px] text-green-600 mt-0.5">
+              <i class="ti ti-truck text-[11px]" aria-hidden="true"></i>
+              Ücretsiz kargo
+            </p>
+            @endif
+
+            {{-- Adet + Toplam --}}
+            <div class="flex items-center justify-between mt-3">
+              <div class="flex items-center gap-1">
+                <button @click="decrement({{ $idx }})"
+                        class="w-8 h-8 flex items-center justify-center border border-[rgba(0,0,0,0.15)] rounded-l-[6px] hover:bg-[#F0F0F0] transition-colors"
+                        aria-label="Azalt">
+                  <i class="ti ti-minus text-xs" aria-hidden="true"></i>
+                </button>
+                <span class="w-9 h-8 flex items-center justify-center border-t border-b border-[rgba(0,0,0,0.15)] text-[13px] font-medium"
+                      x-text="items[{{ $idx }}].adet"
+                      aria-live="polite">{{ $item['adet'] }}</span>
+                <button @click="increment({{ $idx }})"
+                        class="w-8 h-8 flex items-center justify-center border border-[rgba(0,0,0,0.15)] rounded-r-[6px] hover:bg-[#F0F0F0] transition-colors"
+                        aria-label="Artır">
+                  <i class="ti ti-plus text-xs" aria-hidden="true"></i>
+                </button>
+              </div>
+              <p class="text-[15px] font-semibold text-[#0F0F0F]">
+                <span x-text="fmt(items[{{ $idx }}].fiyat * items[{{ $idx }}].adet) + ' ₺'">
+                  {{ number_format($item['fiyat'] * $item['adet'], 2, ',', '.') }} ₺
+                </span>
+              </p>
+            </div>
+          </div>
         </div>
-
-        <div class="flex-1 min-w-0">
-          <p class="text-[14px] font-medium text-[#0F0F0F] truncate">{{ $item['ad'] }}</p>
-          <p class="text-[12px] text-[#A8A8A8] mt-0.5">{{ number_format($item['fiyat'], 2, ',', '.') }} ₺ / adet</p>
-          {{-- Kargo badge --}}
-          @if(($item['kargo_ucreti'] ?? 0) > 0)
-          <p class="flex items-center gap-1 text-[11px] text-[#A8A8A8] mt-1">
-            <i class="ti ti-truck text-[11px]" aria-hidden="true"></i>
-            <span>{{ number_format($item['kargo_ucreti'], 2, ',', '.') }} ₺ kargo</span>
-          </p>
-          @else
-          <p class="flex items-center gap-1 text-[11px] text-green-600 mt-1">
-            <i class="ti ti-truck text-[11px]" aria-hidden="true"></i>
-            <span>Ücretsiz kargo</span>
-          </p>
-          @endif
-        </div>
-
-        {{-- Adet kontrolü --}}
-        <div class="flex items-center gap-1 shrink-0">
-          <button @click="decrement({{ $idx }})"
-                  class="w-8 h-8 flex items-center justify-center border border-[rgba(0,0,0,0.15)] rounded-l-[6px] hover:bg-[#F0F0F0] text-sm transition-colors"
-                  aria-label="Azalt">
-            <i class="ti ti-minus text-xs" aria-hidden="true"></i>
-          </button>
-          <span class="w-9 h-8 flex items-center justify-center border-t border-b border-[rgba(0,0,0,0.15)] text-[13px] font-medium"
-                x-text="items[{{ $idx }}].adet"
-                aria-live="polite">{{ $item['adet'] }}</span>
-          <button @click="increment({{ $idx }})"
-                  class="w-8 h-8 flex items-center justify-center border border-[rgba(0,0,0,0.15)] rounded-r-[6px] hover:bg-[#F0F0F0] text-sm transition-colors"
-                  aria-label="Artır">
-            <i class="ti ti-plus text-xs" aria-hidden="true"></i>
-          </button>
-        </div>
-
-        {{-- Satır toplamı --}}
-        <p class="text-[14px] font-semibold text-[#0F0F0F] shrink-0 w-20 text-right font-display">
-          <span x-text="fmt(items[{{ $idx }}].fiyat * items[{{ $idx }}].adet) + ' ₺'">
-            {{ number_format($item['fiyat'] * $item['adet'], 2, ',', '.') }} ₺
-          </span>
-        </p>
-
-        {{-- Sil --}}
-        <form action="{{ route('sepet.kaldir', $key) }}" method="POST"
-              onsubmit="return confirm('Bu ürünü sepetten kaldırmak istediğinize emin misiniz?')"
-              class="shrink-0">
-          @csrf @method('DELETE')
-          <button type="submit"
-                  class="w-8 h-8 flex items-center justify-center rounded-[6px] text-[#A8A8A8] hover:text-red-500 hover:bg-red-50 transition-all"
-                  aria-label="{{ $item['ad'] }} sepetten kaldır">
-            <i class="ti ti-trash text-sm" aria-hidden="true"></i>
-          </button>
-        </form>
       </article>
       @endforeach
     </div>
