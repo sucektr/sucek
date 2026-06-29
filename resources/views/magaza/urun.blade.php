@@ -290,11 +290,14 @@ if ($hasVaryant) {
           <span class="text-[11px] font-semibold tracking-[1.5px] uppercase text-[#5A5A5A]">Ürün Özellikleri</span>
         </div>
         <dl>
-          @foreach($urun->ozellikler as $label => $deger)
+          @foreach($urun->ozellikler as $oz)
+          @php $ad = is_array($oz) ? ($oz['ad'] ?? '') : ''; $degerler = is_array($oz) ? ($oz['degerler'] ?? []) : []; @endphp
+          @if($ad)
           <div class="flex px-5 py-3 border-b border-[rgba(0,0,0,0.05)] last:border-0">
-            <dt class="w-1/2 text-[12px] text-[#A8A8A8]">{{ $label }}</dt>
-            <dd class="w-1/2 text-[12px] font-medium text-[#0F0F0F]">{{ $deger }}</dd>
+            <dt class="w-1/2 text-[12px] text-[#A8A8A8]">{{ $ad }}</dt>
+            <dd class="w-1/2 text-[12px] font-medium text-[#0F0F0F]">{{ implode(', ', $degerler) }}</dd>
           </div>
+          @endif
           @endforeach
         </dl>
       </div>
