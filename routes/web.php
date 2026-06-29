@@ -246,6 +246,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('fiyat-guncelle/indir', [Admin\FiyatGuncelleController::class, 'indir'])->name('fiyat-guncelle.indir');
         Route::post('fiyat-guncelle/yukle', [Admin\FiyatGuncelleController::class, 'yukle'])->name('fiyat-guncelle.yukle');
 
+        Route::get('urun-import', [Admin\UrunImportController::class, 'index'])->name('urun-import.index');
+        Route::get('urun-import/sablon', [Admin\UrunImportController::class, 'sablon'])->name('urun-import.sablon');
+        Route::post('urun-import/yukle', [Admin\UrunImportController::class, 'yukle'])->name('urun-import.yukle');
+
         Route::get('odeme', [Admin\OdemeController::class, 'index'])->name('odeme.index');
         Route::post('odeme/ayarlar', [Admin\OdemeController::class, 'ayarlarKaydet'])->name('odeme.ayarlar');
 
