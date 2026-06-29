@@ -112,6 +112,35 @@
         </div>
       </div>
 
+      {{-- Özellikler / Filtreler --}}
+      <div class="bg-white rounded-[12px] border border-[#E2E8F0] p-6">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-[13px] font-semibold text-[#0F172A]">Özellikler / Filtreler</h2>
+            <p class="text-[11px] text-[#94A3B8] mt-0.5">Müşterilerin filtreleme yapabileceği özellikler (renk, numara, cinsiyet vb.)</p>
+          </div>
+          <button type="button" id="ozellik-ekle-btn"
+                  class="flex items-center gap-1.5 text-[11px] font-medium text-[#CC2200] border border-[#CC2200] px-3 py-1.5 rounded-[6px] hover:bg-[rgba(204,34,0,0.04)] transition-colors">
+            <i class="ti ti-plus text-sm"></i> Özellik Ekle
+          </button>
+        </div>
+
+        <div id="ozellik-listesi" class="space-y-2"></div>
+
+        <p id="ozellik-bos" class="text-[12px] text-[#94A3B8] italic text-center py-4 {{ $urun->ozellikler ? 'hidden' : '' }}">
+          Henüz özellik eklenmedi.
+        </p>
+
+        <input type="hidden" name="ozellikler_json" id="ozellikler-hidden"
+               value="{{ $urun->ozellikler ? json_encode($urun->ozellikler) : '[]' }}">
+
+        <datalist id="ozellik-onerileri">
+          @foreach(['Cinsiyet','Beden','Numara','Renk','Malzeme','Aktivite','Jant Ebatı','Boyut','Kapasite','Model','Marka'] as $oneri)
+          <option value="{{ $oneri }}">
+          @endforeach
+        </datalist>
+      </div>
+
     </div>
 
     {{-- Sağ: Görsel + Durum --}}
@@ -596,6 +625,117 @@
   hedef.addEventListener('blur', function () {
     if (this.value) this.value = slugify(this.value);
   });
+})();
+</script>
+<script>
+// ─── Özellikler / Filtreler ───────────────────────────────────────────────
+(function () {
+  var listesi  = document.getElementById('ozellik-listesi');
+  var hidden   = document.getElementById('ozellikler-hidden');
+  var bos      = document.getElementById('ozellik-bos');
+  var ekleBtn  = document.getElementById('ozellik-ekle-btn');
+  var ozellikler = [];
+
+  try { ozellikler = JSON.parse(hidden.value) || []; } catch(e) { ozellikler = []; }
+
+  function kaydet() {
+    hidden.value = JSON.stringify(ozellikler);
+    bos.classList.toggle('hidden', ozellikler.length > 0);
+  }
+
+  function satirRender(idx) {
+    var o = ozellikler[idx];
+    var satir = document.createElement('div');
+    satir.className = 'flex items-start gap-2 p-3 bg-[#F8FAFC] rounded-[8px] border border-[#E2E8F0]';
+    satir.dataset.idx = idx;
+
+    // Özellik adı
+    var adInput = document.createElement('input');
+    adInput.type = 'text';
+    adInput.list = 'ozellik-onerileri';
+    adInput.value = o.ad;
+    adInput.placeholder = 'Özellik adı';
+    adInput.className = 'w-36 shrink-0 px-3 py-1.5 border border-[#E2E8F0] rounded-[6px] text-[13px] focus:outline-none focus:border-[#CC2200] bg-white';
+    adInput.oninput = function() { ozellikler[idx].ad = this.value; kaydet(); };
+
+    // Etiket alanı
+    var etiketAlan = document.createElement('div');
+    etiketAlan.className = 'flex-1 flex flex-wrap gap-1.5 items-center min-h-[36px] px-2 py-1.5 border border-[#E2E8F0] rounded-[6px] bg-white cursor-text';
+
+    function etiketlerRender() {
+      etiketAlan.innerHTML = '';
+      o.degerler.forEach(function(d, di) {
+        var tag = document.createElement('span');
+        tag.className = 'inline-flex items-center gap-1 bg-[#0F172A] text-white text-[11px] px-2 py-0.5 rounded-full cursor-pointer hover:bg-[#CC2200] transition-colors';
+        tag.textContent = d;
+        tag.title = 'Kaldır';
+        tag.onclick = function() {
+          ozellikler[idx].degerler.splice(di, 1);
+          etiketlerRender();
+          kaydet();
+        };
+        etiketAlan.appendChild(tag);
+      });
+      var inp = document.createElement('input');
+      inp.type = 'text';
+      inp.placeholder = 'Değer yaz, Enter ile ekle';
+      inp.className = 'flex-1 min-w-[120px] text-[12px] outline-none bg-transparent';
+      inp.onkeydown = function(e) {
+        if ((e.key === 'Enter' || e.key === ',') && this.value.trim()) {
+          e.preventDefault();
+          var val = this.value.trim();
+          if (!o.degerler.includes(val)) {
+            o.degerler.push(val);
+            etiketlerRender();
+            kaydet();
+          } else {
+            this.value = '';
+          }
+        } else if (e.key === 'Backspace' && this.value === '' && o.degerler.length) {
+          o.degerler.pop();
+          etiketlerRender();
+          kaydet();
+        }
+      };
+      etiketAlan.appendChild(inp);
+      etiketAlan.onclick = function() { inp.focus(); };
+    }
+    etiketlerRender();
+
+    // Sil butonu
+    var silBtn = document.createElement('button');
+    silBtn.type = 'button';
+    silBtn.className = 'shrink-0 w-7 h-7 flex items-center justify-center rounded-[6px] text-[#94A3B8] hover:text-red-500 hover:bg-red-50 transition-all mt-0.5';
+    silBtn.innerHTML = '<i class="ti ti-trash text-sm"></i>';
+    silBtn.onclick = function() {
+      ozellikler.splice(idx, 1);
+      render();
+      kaydet();
+    };
+
+    satir.appendChild(adInput);
+    satir.appendChild(etiketAlan);
+    satir.appendChild(silBtn);
+    return satir;
+  }
+
+  function render() {
+    listesi.innerHTML = '';
+    ozellikler.forEach(function(_, idx) {
+      listesi.appendChild(satirRender(idx));
+    });
+    kaydet();
+  }
+
+  ekleBtn.onclick = function() {
+    ozellikler.push({ ad: '', degerler: [] });
+    render();
+    // yeni satırın adına odaklan
+    var inputs = listesi.querySelectorAll('input[list]');
+    if (inputs.length) inputs[inputs.length - 1].focus();
+  };
+
+  render();
 })();
 </script>
 @endpush

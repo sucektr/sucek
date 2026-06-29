@@ -79,28 +79,68 @@
 {{-- ─── İçerik ────────────────────────────────────────────────────────── --}}
 @if($aramaAktif ?? false)
 
-  {{-- Flat grid - arama/filtre aktif --}}
+  {{-- Özellik filtreleri + ürün grid --}}
   <section class="section" aria-label="Arama sonuçları">
-    @if(isset($urunler) && $urunler->count() > 0)
-      <p class="text-[13px] text-[#94A3B8] mb-5">{{ $urunler->total() }} ürün bulundu</p>
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4" role="list">
-        @foreach($urunler as $urun)
-          @include('magaza._urun_karti', compact('urun'))
-        @endforeach
-      </div>
-      @if($urunler->hasPages())
-      <div class="mt-8">{{ $urunler->links() }}</div>
-      @endif
-    @else
-      <div class="flex flex-col items-center justify-center py-20 text-center">
-        <div class="w-16 h-16 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-center mb-4">
-          <i class="ti ti-search-off text-2xl text-[#94A3B8]" aria-hidden="true"></i>
+    <div class="flex gap-6 items-start">
+
+      {{-- Özellik filtre sidebar --}}
+      @if(!empty($ozellikSecenekleri))
+      <aside class="hidden lg:block w-48 shrink-0 space-y-4">
+        @foreach($ozellikSecenekleri as $ad => $degerler)
+        <div>
+          <p class="text-[11px] font-semibold text-[#64748B] uppercase tracking-[.06em] mb-2">{{ $ad }}</p>
+          <div class="space-y-1">
+            @foreach($degerler as $deger)
+            @php
+              $aktif = ($ozellikFiltreler[$ad] ?? '') === $deger;
+              $params = array_merge(request()->except('oz', 'page'), ['oz' => array_merge($ozellikFiltreler ?? [], [$ad => $aktif ? null : $deger])]);
+              $params['oz'] = array_filter($params['oz'], fn($v) => $v !== null);
+            @endphp
+            <a href="{{ route('magaza.index', $params) }}"
+               class="flex items-center gap-2 text-[12px] py-0.5 {{ $aktif ? 'text-[#CC2200] font-semibold' : 'text-[#64748B] hover:text-[#0F172A]' }} transition-colors">
+              <span class="w-3.5 h-3.5 rounded-[3px] border shrink-0 flex items-center justify-center {{ $aktif ? 'bg-[#CC2200] border-[#CC2200]' : 'border-[#CBD5E1]' }}">
+                @if($aktif)<i class="ti ti-check text-white text-[8px]"></i>@endif
+              </span>
+              {{ $deger }}
+            </a>
+            @endforeach
+          </div>
         </div>
-        <p class="text-[15px] font-semibold text-[#0F172A]">Sonuç bulunamadı</p>
-        <p class="text-[13px] text-[#64748B] mt-1">Farklı bir arama terimi veya kategori deneyin.</p>
-        <a href="{{ route('magaza.index') }}" class="mt-4 text-[13px] text-[#CC2200] hover:underline">Filtreyi temizle</a>
-      </div>
-    @endif
+        @endforeach
+
+        @if(!empty($ozellikFiltreler))
+        <a href="{{ route('magaza.index', array_except(request()->all(), 'oz')) }}"
+           class="text-[11px] text-[#94A3B8] hover:text-[#CC2200] transition-colors">
+          × Filtreleri temizle
+        </a>
+        @endif
+      </aside>
+      @endif
+
+      {{-- Ürün grid --}}
+      <div class="flex-1 min-w-0">
+        @if(isset($urunler) && $urunler->count() > 0)
+          <p class="text-[13px] text-[#94A3B8] mb-5">{{ $urunler->total() }} ürün bulundu</p>
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" role="list">
+            @foreach($urunler as $urun)
+              @include('magaza._urun_karti', compact('urun'))
+            @endforeach
+          </div>
+          @if($urunler->hasPages())
+          <div class="mt-8">{{ $urunler->links() }}</div>
+          @endif
+        @else
+          <div class="flex flex-col items-center justify-center py-20 text-center">
+            <div class="w-16 h-16 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-center mb-4">
+              <i class="ti ti-search-off text-2xl text-[#94A3B8]" aria-hidden="true"></i>
+            </div>
+            <p class="text-[15px] font-semibold text-[#0F172A]">Sonuç bulunamadı</p>
+            <p class="text-[13px] text-[#64748B] mt-1">Farklı bir arama terimi veya kategori deneyin.</p>
+            <a href="{{ route('magaza.index') }}" class="mt-4 text-[13px] text-[#CC2200] hover:underline">Filtreyi temizle</a>
+          </div>
+        @endif
+      </div>{{-- /ürün grid --}}
+    </div>{{-- /flex --}}
   </section>
 
 @else

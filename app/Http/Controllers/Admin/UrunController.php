@@ -58,6 +58,7 @@ class UrunController extends Controller
         $data['kdv_dahil']      = $request->boolean('kdv_dahil');
         $data['kargo_bedeli']   = $request->input('kargo_bedeli', 0);
         $data['kargo_kim_oder'] = $request->input('kargo_kim_oder', 'magaza');
+        $data['ozellikler']     = $this->ozelliklerParse($request->input('ozellikler_json', '[]'));
 
         if ($request->hasFile('gorsel')) {
             $data['gorsel'] = $request->file('gorsel')->store('urunler', 'public');
@@ -128,6 +129,7 @@ class UrunController extends Controller
         $data['kdv_dahil']      = $request->boolean('kdv_dahil');
         $data['kargo_bedeli']   = $request->input('kargo_bedeli', 0);
         $data['kargo_kim_oder'] = $request->input('kargo_kim_oder', 'magaza');
+        $data['ozellikler']     = $this->ozelliklerParse($request->input('ozellikler_json', '[]'));
 
         if ($request->hasFile('gorsel')) {
             if ($urun->gorsel) \Illuminate\Support\Facades\Storage::disk('public')->delete($urun->gorsel);
@@ -184,5 +186,24 @@ class UrunController extends Controller
         }
         $urun->delete();
         return back()->with('basari', 'Ürün silindi.');
+    }
+
+    private function ozelliklerParse(string $json): ?array
+    {
+        try {
+            $parsed = json_decode($json, true);
+        } catch (\Throwable $e) {
+            return null;
+        }
+        if (!is_array($parsed)) return null;
+        $temiz = [];
+        foreach ($parsed as $item) {
+            $ad = trim($item['ad'] ?? '');
+            $degerler = array_values(array_filter(array_map('trim', $item['degerler'] ?? []), fn($d) => $d !== ''));
+            if ($ad !== '' && count($degerler) > 0) {
+                $temiz[] = ['ad' => $ad, 'degerler' => $degerler];
+            }
+        }
+        return count($temiz) > 0 ? $temiz : null;
     }
 }
