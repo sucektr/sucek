@@ -53,14 +53,16 @@
   </div>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
     @foreach($projeler as $proje)
-    <article class="group relative rounded-[12px] overflow-hidden aspect-[4/3] cursor-pointer shadow-[0_2px_6px_rgba(0,0,0,0.20)]">
-      <div class="absolute inset-0 bg-[#E0E0E0]"
-           style="{{ $proje->kapak_gorsel ? 'background-image:url('.asset('storage/'.$proje->kapak_gorsel).');background-size:cover;background-position:center;' : '' }}"></div>
-      <div class="absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,0.75)] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-      <div class="absolute bottom-0 left-0 right-0 p-5 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-        <p class="text-[9px] font-medium tracking-[2px] uppercase text-[rgba(255,255,255,0.60)] mb-1">{{ $proje->yil ?? '' }}</p>
-        <h3 class="font-display text-[18px] font-semibold text-white">{{ $proje->baslik }}</h3>
-      </div>
+    <article class="group relative rounded-[12px] overflow-hidden aspect-[4/3] shadow-[0_2px_6px_rgba(0,0,0,0.20)]">
+      <a href="{{ route('projeler.show', $proje->slug) }}" class="absolute inset-0 cursor-pointer">
+        <div class="absolute inset-0 bg-[#E0E0E0]"
+             style="{{ $proje->kapak_gorsel ? 'background-image:url('.asset('storage/'.$proje->kapak_gorsel).');background-size:cover;background-position:center;' : '' }}"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,0.75)] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-5 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+          <p class="text-[9px] font-medium tracking-[2px] uppercase text-[rgba(255,255,255,0.60)] mb-1">{{ $proje->yil ?? '' }}</p>
+          <h3 class="font-display text-[18px] font-semibold text-white">{{ $proje->baslik }}</h3>
+        </div>
+      </a>
     </article>
     @endforeach
   </div>
