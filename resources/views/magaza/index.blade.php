@@ -109,7 +109,7 @@
         @endforeach
 
         @if(!empty($ozellikFiltreler))
-        <a href="{{ route('magaza.index', array_except(request()->all(), 'oz')) }}"
+        <a href="{{ route('magaza.index', request()->except('oz')) }}"
            class="text-[11px] text-[#94A3B8] hover:text-[#CC2200] transition-colors">
           × Filtreleri temizle
         </a>
