@@ -20,27 +20,53 @@ class ProjeController extends Controller
         return view('admin.projeler.form', ['proje' => new Proje]);
     }
 
-    private function kapakGorselHataMesaji(): ?string
+    private function postMaxSizeAsildi(): bool
     {
-        $file = request()->file('kapak_gorsel');
-        if (!$file) return null;
-        $kod = $file->getError();
-        if ($kod === UPLOAD_ERR_OK) return null;
-        $limit = ini_get('upload_max_filesize');
-        $map = [
-            UPLOAD_ERR_INI_SIZE   => "Dosya sunucunun PHP limitini ({$limit}) aşıyor. cPanel → MultiPHP INI Editor'dan upload_max_filesize artırın.",
-            UPLOAD_ERR_FORM_SIZE  => 'Dosya form limitini aşıyor.',
-            UPLOAD_ERR_PARTIAL    => 'Dosya yalnızca kısmen yüklendi. Tekrar deneyin.',
-            UPLOAD_ERR_NO_TMP_DIR => 'Geçici dizin bulunamadı (sunucu yapılandırma hatası).',
-            UPLOAD_ERR_CANT_WRITE => 'Dosya diske yazılamadı (izin hatası).',
-        ];
-        return $map[$kod] ?? "Bilinmeyen yükleme hatası (kod: {$kod}).";
+        $contentLength = (int) ($_SERVER['CONTENT_LENGTH'] ?? 0);
+        if ($contentLength <= 0) return false;
+        $postMaxSize = $this->iniDegerBayt(ini_get('post_max_size'));
+        return $contentLength > $postMaxSize;
+    }
+
+    private function iniDegerBayt(string $deger): int
+    {
+        $son = strtolower(substr(trim($deger), -1));
+        $sayi = (int) $deger;
+        return match ($son) {
+            'g' => $sayi * 1024 * 1024 * 1024,
+            'm' => $sayi * 1024 * 1024,
+            'k' => $sayi * 1024,
+            default => $sayi,
+        };
+    }
+
+    private function uploadHataKontrol(Request $request): ?string
+    {
+        if ($this->postMaxSizeAsildi()) {
+            $limit = ini_get('post_max_size');
+            return "Yüklenen dosyalar toplamda sunucunun limitini ({$limit}) aşıyor. "
+                 . "Lütfen görselleri küçültün (squoosh.app veya tinypng.com) veya cPanel → MultiPHP INI Editor'dan post_max_size değerini artırın.";
+        }
+        $file = $request->file('kapak_gorsel');
+        if ($file && $file->getError() !== UPLOAD_ERR_OK) {
+            $limit = ini_get('upload_max_filesize');
+            $map = [
+                UPLOAD_ERR_INI_SIZE   => "Kapak görseli sunucunun PHP limitini ({$limit}) aşıyor.",
+                UPLOAD_ERR_FORM_SIZE  => 'Kapak görseli form limitini aşıyor.',
+                UPLOAD_ERR_PARTIAL    => 'Kapak görseli yalnızca kısmen yüklendi. Tekrar deneyin.',
+                UPLOAD_ERR_NO_TMP_DIR => 'Geçici dizin bulunamadı (sunucu yapılandırma hatası).',
+                UPLOAD_ERR_CANT_WRITE => 'Dosya diske yazılamadı (izin hatası).',
+            ];
+            return $map[$file->getError()] ?? "Yükleme hatası (kod: {$file->getError()}).";
+        }
+        return null;
     }
 
     public function store(Request $request)
     {
-        if ($hata = $this->kapakGorselHataMesaji()) {
-            return back()->withInput()->withErrors(['kapak_gorsel' => $hata]);
+        if ($hata = $this->uploadHataKontrol($request)) {
+            return redirect()->route('admin.projeler.create')
+                ->withInput()->withErrors(['kapak_gorsel' => $hata]);
         }
 
         $data = $request->validate([
@@ -85,8 +111,9 @@ class ProjeController extends Controller
 
     public function update(Request $request, Proje $proje)
     {
-        if ($hata = $this->kapakGorselHataMesaji()) {
-            return back()->withInput()->withErrors(['kapak_gorsel' => $hata]);
+        if ($hata = $this->uploadHataKontrol($request)) {
+            return redirect()->route('admin.projeler.edit', $proje->id)
+                ->withInput()->withErrors(['kapak_gorsel' => $hata]);
         }
 
         $request->validate([
