@@ -37,6 +37,8 @@ if (!$_seoAciklama) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="google-site-verification" content="-mBy9hOfHJzBVyqrMs5feDIhdq3_Hzre93LsL6e7bC0" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
   @if($_seoBaslik)<title>{{ $_seoBaslik }}</title>
   @else<title>@yield('title', 'SUÇEK — Mimarlık · İnşaat · Koleksiyon · Mağaza')</title>
   @endif
