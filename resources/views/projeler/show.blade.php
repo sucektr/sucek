@@ -9,6 +9,7 @@
   $katLabel = match($proje->kategori) {
     'mimarlik' => 'Mimarlık',
     'insaat'   => 'İnşaat',
+    'diger'    => 'Diğer Projeler',
     default    => ucfirst($proje->kategori ?? ''),
   };
 @endphp

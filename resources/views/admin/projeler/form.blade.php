@@ -62,7 +62,7 @@
               <select name="kategori" required x-model="kategori" @change="altKategori = ''"
                       class="w-full px-4 py-2.5 border border-[#E2E8F0] rounded-[8px] text-[14px] focus:outline-none focus:border-[#CC2200] focus:ring-2 focus:ring-[rgba(204,34,0,0.08)] bg-white">
                 <option value="">Seçin</option>
-                @foreach(['mimarlik' => 'Mimarlık', 'insaat' => 'İnşaat', 'diger' => 'Diğer'] as $val => $lbl)
+                @foreach(['mimarlik' => 'Mimarlık', 'insaat' => 'İnşaat', 'diger' => 'Diğer Projeler'] as $val => $lbl)
                   <option value="{{ $val }}" {{ old('kategori', $proje->kategori) === $val ? 'selected' : '' }}>{{ $lbl }}</option>
                 @endforeach
               </select>
