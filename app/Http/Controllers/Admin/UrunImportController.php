@@ -31,6 +31,7 @@ class UrunImportController extends Controller
         'L' => 'Öne Çıkan (1/0)',
         'M' => 'Kargo Bedeli (TL)',
         'N' => 'Açıklama',
+        'O' => 'Özellikler',
     ];
 
     public function index()
@@ -53,7 +54,7 @@ class UrunImportController extends Controller
         }
 
         // Başlık stili
-        $sheet->getStyle('A1:N1')->applyFromArray([
+        $sheet->getStyle('A1:O1')->applyFromArray([
             'font'      => ['bold' => true, 'color' => ['rgb' => 'FFFFFF'], 'size' => 10],
             'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '0F172A']],
             'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
@@ -62,8 +63,8 @@ class UrunImportController extends Controller
 
         // Örnek satır
         $ornekler = [
-            ['', 'Örnek Yeni Ürün', '', 'spor', 'fitness', 'STK-001', '299.90', '399.90', '20', '10', '1', '0', '0', 'Ürün açıklaması buraya yazılır.'],
-            ['42', 'Mevcut Ürün Adı', 'mevcut-urun-slug', 'insaat', '', 'STK-002', '149.90', '', '10', '5', '1', '1', '29.90', ''],
+            ['', 'Örnek Yeni Ürün', '', 'spor', 'fitness', 'STK-001', '299.90', '399.90', '20', '10', '1', '0', '0', 'Ürün açıklaması buraya yazılır.', 'Marka=Nike;Renk=Kırmızı,Mavi;Beden=M,L,XL'],
+            ['42', 'Mevcut Ürün Adı', 'mevcut-urun-slug', 'insaat', '', 'STK-002', '149.90', '', '10', '5', '1', '1', '29.90', '', 'Marka=Bosch;Jant Ebatı=17'],
         ];
         foreach ($ornekler as $i => $ornek) {
             $row = $i + 2;
@@ -73,7 +74,7 @@ class UrunImportController extends Controller
         }
 
         // Örnek satır stili
-        $sheet->getStyle('A2:N3')->applyFromArray([
+        $sheet->getStyle('A2:O3')->applyFromArray([
             'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'F8FAFC']],
             'font' => ['color' => ['rgb' => '94A3B8'], 'italic' => true, 'size' => 9],
         ]);
@@ -88,13 +89,13 @@ class UrunImportController extends Controller
         $sheet->getStyle('C1')->applyFromArray(['fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '64748B']], 'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']]]);
 
         // Sütun genişlikleri
-        $genislikler = ['A'=>8,'B'=>32,'C'=>28,'D'=>14,'E'=>16,'F'=>14,'G'=>14,'H'=>16,'I'=>12,'J'=>12,'K'=>10,'L'=>12,'M'=>14,'N'=>40];
+        $genislikler = ['A'=>8,'B'=>32,'C'=>28,'D'=>14,'E'=>16,'F'=>14,'G'=>14,'H'=>16,'I'=>12,'J'=>12,'K'=>10,'L'=>12,'M'=>14,'N'=>40,'O'=>45];
         foreach ($genislikler as $col => $w) {
             $sheet->getColumnDimension($col)->setWidth($w);
         }
 
         // Çerçeve
-        $sheet->getStyle('A1:N1')->getBorders()->getBottom()->setBorderStyle(Border::BORDER_MEDIUM);
+        $sheet->getStyle('A1:O1')->getBorders()->getBottom()->setBorderStyle(Border::BORDER_MEDIUM);
 
         // ─── Açıklamalar Sayfası ─────────────────────────────────────────
         $info = $spreadsheet->createSheet();
@@ -115,6 +116,7 @@ class UrunImportController extends Controller
             ['Öne Çıkan (1/0)', '1 = öne çıkan. Boş = 0.', '0'],
             ['Kargo Bedeli (TL)', 'Müşteri kargosu. 0 = ücretsiz. Boş = 0.', '29.90'],
             ['Açıklama', 'Ürün açıklaması. HTML desteklenmez.', 'Kaliteli malzeme...'],
+            ['Özellikler', "Format: Ad=Değer;Ad=Değer — Birden fazla değer için virgül kullanın: Renk=Kırmızı,Mavi", 'Marka=Nike;Renk=Kırmızı,Mavi;Beden=M,L'],
         ];
         foreach ($bilgiler as $r => $satir) {
             foreach ($satir as $c => $deger) {
@@ -189,6 +191,8 @@ class UrunImportController extends Controller
             $oneCikan = isset($row[11]) && trim((string)$row[11]) !== '' ? (bool)(int)$row[11] : null;
             $kargo    = $this->parseFloat($row[12] ?? '');
             $aciklama = isset($row[13]) ? trim((string)$row[13]) : '';
+            $ozelliklerStr = isset($row[14]) ? trim((string)$row[14]) : '';
+            $ozelliklerArr = $this->parseOzellikler($ozelliklerStr);
 
             if ($id === '') {
                 // ─── YENİ ÜRÜN ───────────────────────────────────────────
@@ -227,6 +231,7 @@ class UrunImportController extends Controller
                     'kargo_bedeli' => $kargo ?? 0,
                     'kargo_kim_oder' => ($kargo && $kargo > 0) ? 'musteri' : 'magaza',
                     'aciklama'    => $aciklama ?: null,
+                    'ozellikler'  => $ozelliklerArr ?: null,
                 ]);
 
                 $yeniler[] = ['id' => $urun->id, 'ad' => $ad, 'slug' => $slug];
@@ -252,6 +257,7 @@ class UrunImportController extends Controller
                 if ($oneCikan !== null) $urun->one_cikan  = $oneCikan;
                 if ($kargo !== null)   { $urun->kargo_bedeli = $kargo; $urun->kargo_kim_oder = $kargo > 0 ? 'musteri' : 'magaza'; }
                 if ($aciklama !== '')  $urun->aciklama    = $aciklama;
+                if ($ozelliklerStr !== '') $urun->ozellikler = $ozelliklerArr ?: null;
 
                 $urun->save();
                 $guncellenenler[] = ['id' => $urun->id, 'ad' => $urun->ad];
@@ -281,6 +287,23 @@ class UrunImportController extends Controller
             $slug = $base . '-' . $i++;
         }
         return $slug;
+    }
+
+    private function parseOzellikler(string $str): array
+    {
+        if ($str === '') return [];
+        $sonuc = [];
+        foreach (explode(';', $str) as $parca) {
+            $parca = trim($parca);
+            if (!str_contains($parca, '=')) continue;
+            [$ozAd, $ozDeg] = explode('=', $parca, 2);
+            $ozAd = trim($ozAd);
+            $degerler = array_values(array_filter(array_map('trim', explode(',', trim($ozDeg))), fn($v) => $v !== ''));
+            if ($ozAd !== '' && !empty($degerler)) {
+                $sonuc[] = ['ad' => $ozAd, 'degerler' => $degerler];
+            }
+        }
+        return $sonuc;
     }
 
     private function parseFloat($val): ?float

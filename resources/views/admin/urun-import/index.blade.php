@@ -77,7 +77,7 @@
     </div>
     <p class="text-[13px] text-[#64748B] mb-4 leading-relaxed">
       Şablon dosyasında <strong>Ürünler</strong> ve <strong>Açıklamalar</strong> olmak üzere iki sekme var.
-      Sarı sütunlar zorunlu, gri sütunlar otomatik doldurulur.
+      Sarı sütunlar zorunlu, gri sütunlar otomatik doldurulur. <strong>O</strong> sütununa Marka, Renk, Jant Ebatı gibi özellikler girilebilir.
     </p>
     <div class="bg-[#F8FAFC] rounded-[8px] border border-[#E2E8F0] p-3 mb-4 text-[12px] text-[#64748B] space-y-1">
       <p><span class="inline-block w-3 h-3 rounded-sm bg-[#FEF08A] border border-yellow-300 mr-1.5"></span><strong>Sarı</strong> — Zorunlu (Ürün Adı, Kategori, Fiyat)</p>
