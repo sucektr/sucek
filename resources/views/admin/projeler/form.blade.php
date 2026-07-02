@@ -168,6 +168,8 @@
           <span class="text-[11px] text-[#94A3B8]">{{ $proje->kapak_gorsel ? 'Değiştir' : 'Kapak Seç' }}</span>
           <input type="file" name="kapak_gorsel" id="kapak-input" accept="image/*" class="hidden">
         </label>
+        <div id="kapak-boyut-uyari" class="hidden mt-2 text-[11px] text-amber-600 bg-amber-50 border border-amber-200 rounded-[6px] px-3 py-2"></div>
+        @error('kapak_gorsel')<p class="mt-2 text-[11px] text-[#CC2200] bg-red-50 border border-red-200 rounded-[6px] px-3 py-2">{{ $message }}</p>@enderror
       </div>
 
       {{-- Durum & Sıra --}}
@@ -235,13 +237,22 @@ document.getElementById('proje-form').addEventListener('submit', function () {
   document.getElementById('detaylar-hidden').value = (html === '<p><br></p>') ? '' : html;
 });
 
-// ─── Kapak Görseli Önizleme ──────────────────────────────────────────────
+// ─── Kapak Görseli Önizleme + Boyut Uyarısı ─────────────────────────────
 document.getElementById('kapak-input').addEventListener('change', function () {
   var file = this.files[0];
   if (!file) return;
   var preview = document.getElementById('kapak-preview');
   preview.src = URL.createObjectURL(file);
   preview.classList.remove('hidden');
+
+  var uyari = document.getElementById('kapak-boyut-uyari');
+  var mb = (file.size / 1024 / 1024).toFixed(1);
+  if (file.size > 2 * 1024 * 1024) {
+    uyari.textContent = '⚠ Seçilen dosya ' + mb + ' MB — sunucu limiti 2 MB olabilir. Fotoğrafı sıkıştırıp tekrar deneyin (squoosh.app veya tinypng.com).';
+    uyari.classList.remove('hidden');
+  } else {
+    uyari.classList.add('hidden');
+  }
 });
 
 // ─── Çoklu Görsel Yükleme ────────────────────────────────────────────────
