@@ -54,9 +54,9 @@
           <div class="bg-white border border-[#E2E8F0] rounded-xl shadow-[0_8px_32px_rgba(15,23,42,0.12)] py-1.5" role="menu">
             <a href="{{ route('mimarlik.ruhsat') }}" class="block px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">Ruhsat Süreci</a>
             <a href="{{ route('mimarlik.icmimari') }}" class="block px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">İç Mimari</a>
-            <a href="{{ route('mimarlik.belgeler') }}" class="block px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">Belgeler</a>
             <div class="border-t border-[#F1F5F9] my-1"></div>
             <a href="{{ route('projeler.index') }}" class="block px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">Projelerimiz</a>
+            <a href="{{ route('mimarlik.belgeler') }}" class="block px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">Belgeler</a>
           </div>
         </div>
       </div>
@@ -278,6 +278,9 @@
       </a>
       <a href="{{ route('projeler.index') }}" @click="menuOpen=false" class="text-sm text-[#94A3B8] px-3 py-2 pl-7 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">
         <i class="ti ti-building-arch text-xs mr-1.5"></i>Projelerimiz
+      </a>
+      <a href="{{ route('mimarlik.belgeler') }}" @click="menuOpen=false" class="text-sm text-[#94A3B8] px-3 py-2 pl-7 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">
+        <i class="ti ti-file-certificate text-xs mr-1.5"></i>Belgeler
       </a>
       <a href="{{ route('insaat.index') }}" class="text-sm font-medium text-[#64748B] px-3 py-2.5 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">İnşaat</a>
       <a href="{{ route('insaat.emsal') }}" class="text-sm text-[#94A3B8] px-3 py-2 pl-7 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">
