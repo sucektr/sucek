@@ -62,55 +62,112 @@
 
       {{-- Ek Görseller --}}
       @if(!empty($proje->gorseller) && count($proje->gorseller) > 0)
-      <div>
-        <h2 class="text-[16px] font-semibold text-[#0F172A] mb-4 tracking-tight">Proje Görselleri</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3"
-             x-data="{ lightbox: null }"
-             @keydown.escape.window="lightbox = null">
+      @php $toplamGorsel = count($proje->gorseller); @endphp
+      <div x-data="{
+             aktif: 0,
+             toplam: {{ $toplamGorsel }},
+             lightbox: null,
+             onceki() { this.aktif = (this.aktif - 1 + this.toplam) % this.toplam; },
+             sonraki() { this.aktif = (this.aktif + 1) % this.toplam; }
+           }"
+           @keydown.escape.window="lightbox = null"
+           @keydown.arrow-left.window="lightbox !== null ? lightbox = (lightbox - 1 + toplam) % toplam : onceki()"
+           @keydown.arrow-right.window="lightbox !== null ? lightbox = (lightbox + 1) % toplam : sonraki()">
 
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-[16px] font-semibold text-[#0F172A] tracking-tight">Proje Görselleri</h2>
+          <span class="text-[12px] text-[#94A3B8]" x-text="(aktif + 1) + ' / {{ $toplamGorsel }}'"></span>
+        </div>
+
+        {{-- Ana Slider --}}
+        <div class="relative rounded-xl overflow-hidden bg-[#F1F5F9] aspect-[16/10] group">
+
+          {{-- Görseller --}}
           @foreach($proje->gorseller as $i => $gorsel)
-          <button @click="lightbox = {{ $i }}"
-                  class="relative aspect-[4/3] rounded-xl overflow-hidden bg-[#F1F5F9] cursor-pointer group">
+          <div x-show="aktif === {{ $i }}"
+               x-transition:enter="transition ease-out duration-300"
+               x-transition:enter-start="opacity-0 scale-[1.02]"
+               x-transition:enter-end="opacity-100 scale-100"
+               class="absolute inset-0 cursor-zoom-in"
+               @click="lightbox = {{ $i }}"
+               style="{{ $i > 0 ? 'display:none;' : '' }}">
             <img src="{{ asset('storage/' . $gorsel) }}"
                  alt="{{ $proje->baslik }} görsel {{ $i + 1 }}"
-                 loading="lazy"
-                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-            <div class="absolute inset-0 bg-[#0F172A]/0 group-hover:bg-[#0F172A]/20 transition-all duration-300 flex items-center justify-center">
-              <i class="ti ti-zoom-in text-2xl text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"></i>
+                 {{ $i > 0 ? 'loading=lazy' : '' }}
+                 class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-[#0F172A]/0 hover:bg-[#0F172A]/15 transition-all duration-300 flex items-center justify-center">
+              <i class="ti ti-zoom-in text-3xl text-white opacity-0 group-hover:opacity-80 transition-opacity duration-300 drop-shadow-lg"></i>
             </div>
-          </button>
+          </div>
           @endforeach
 
-          {{-- Lightbox --}}
-          <div x-show="lightbox !== null"
-               x-transition:enter="transition ease-out duration-200"
-               x-transition:enter-start="opacity-0"
-               x-transition:enter-end="opacity-100"
-               class="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
-               @click.self="lightbox = null"
-               style="display:none;">
-            <button @click="lightbox = null"
-                    class="absolute top-4 right-4 text-white/70 hover:text-white text-3xl cursor-pointer" aria-label="Kapat">
-              <i class="ti ti-x"></i>
-            </button>
-            <button @click="lightbox = (lightbox - 1 + {{ count($proje->gorseller) }}) % {{ count($proje->gorseller) }}"
-                    class="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white text-3xl cursor-pointer" aria-label="Önceki">
-              <i class="ti ti-chevron-left"></i>
-            </button>
-            <button @click="lightbox = (lightbox + 1) % {{ count($proje->gorseller) }}"
-                    class="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white text-3xl cursor-pointer" aria-label="Sonraki">
-              <i class="ti ti-chevron-right"></i>
-            </button>
-            @foreach($proje->gorseller as $i => $gorsel)
-            <img x-show="lightbox === {{ $i }}"
-                 src="{{ asset('storage/' . $gorsel) }}"
-                 alt="{{ $proje->baslik }} görsel {{ $i + 1 }}"
-                 class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
-                 style="display:none;">
-            @endforeach
-          </div>
-
+          @if($toplamGorsel > 1)
+          {{-- Sol ok --}}
+          <button @click.stop="onceki()"
+                  class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/80 hover:bg-white rounded-full flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer z-10"
+                  aria-label="Önceki görsel">
+            <i class="ti ti-chevron-left text-[#0F172A] text-lg"></i>
+          </button>
+          {{-- Sağ ok --}}
+          <button @click.stop="sonraki()"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/80 hover:bg-white rounded-full flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer z-10"
+                  aria-label="Sonraki görsel">
+            <i class="ti ti-chevron-right text-[#0F172A] text-lg"></i>
+          </button>
+          @endif
         </div>
+
+        {{-- Thumbnail Strip --}}
+        @if($toplamGorsel > 1)
+        <div class="flex gap-2 mt-3 overflow-x-auto pb-1 scrollbar-hide">
+          @foreach($proje->gorseller as $i => $gorsel)
+          <button @click="aktif = {{ $i }}"
+                  class="shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 cursor-pointer"
+                  :class="aktif === {{ $i }} ? 'border-[#CC2200] opacity-100' : 'border-transparent opacity-50 hover:opacity-80'"
+                  aria-label="Görsel {{ $i + 1 }}">
+            <img src="{{ asset('storage/' . $gorsel) }}"
+                 alt="{{ $proje->baslik }} önizleme {{ $i + 1 }}"
+                 loading="lazy"
+                 class="w-full h-full object-cover">
+          </button>
+          @endforeach
+        </div>
+        @endif
+
+        {{-- Lightbox --}}
+        <div x-show="lightbox !== null"
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             class="fixed inset-0 z-50 bg-black/92 flex items-center justify-center p-4"
+             @click.self="lightbox = null"
+             style="display:none;">
+          <button @click="lightbox = null"
+                  class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer z-10"
+                  aria-label="Kapat">
+            <i class="ti ti-x text-xl"></i>
+          </button>
+          <button @click="lightbox = (lightbox - 1 + toplam) % toplam"
+                  class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer z-10"
+                  aria-label="Önceki">
+            <i class="ti ti-chevron-left text-xl"></i>
+          </button>
+          <button @click="lightbox = (lightbox + 1) % toplam"
+                  class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer z-10"
+                  aria-label="Sonraki">
+            <i class="ti ti-chevron-right text-xl"></i>
+          </button>
+          <div class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/50 text-[12px]"
+               x-text="(lightbox + 1) + ' / {{ $toplamGorsel }}'"></div>
+          @foreach($proje->gorseller as $i => $gorsel)
+          <img x-show="lightbox === {{ $i }}"
+               src="{{ asset('storage/' . $gorsel) }}"
+               alt="{{ $proje->baslik }} görsel {{ $i + 1 }}"
+               class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
+               style="display:none;">
+          @endforeach
+        </div>
+
       </div>
       @endif
 
