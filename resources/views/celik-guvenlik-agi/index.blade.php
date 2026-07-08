@@ -9,7 +9,7 @@
 <section class="relative overflow-hidden" style="min-height:480px;">
   {{-- Arka plan: çelik ağ dokusu --}}
   <div class="absolute inset-0 bg-cover bg-center"
-       style="background-image:url('/images/mesh/hizmet-4.webp');"></div>
+       style="background-image:url('{{ icerik_gorsel('celik-guvenlik-agi','hero_gorsel','/images/mesh/hizmet-4.webp') }}');"></div>
   {{-- Karartma --}}
   <div class="absolute inset-0 bg-gradient-to-r from-[rgba(10,15,30,0.94)] via-[rgba(10,15,30,0.82)] to-[rgba(10,15,30,0.55)]"></div>
   {{-- Kırmızı şerit --}}
@@ -72,9 +72,9 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
       @foreach([
-        ['gorsel'=>'/images/mesh/hizmet-1.webp', 'baslik'=>'İnşaat Güvenliği',  'metin'=>icerik('celik-guvenlik-agi','hizmet_1','Bina inşaatlarında düşme ve yaralanmalara karşı EN 1263 standardına uygun güvenlik ağı sistemleri.')],
-        ['gorsel'=>'/images/mesh/hizmet-2.webp', 'baslik'=>'Balkon & Teras',    'metin'=>icerik('celik-guvenlik-agi','hizmet_2','Konut ve ticari yapılarda balkon, teras ve boşluklara özel koruyucu çelik ağ uygulamaları.')],
-        ['gorsel'=>'/images/mesh/hizmet-3.webp', 'baslik'=>'Endüstriyel Alan',  'metin'=>icerik('celik-guvenlik-agi','hizmet_3','Fabrika, depo ve endüstriyel tesislerde makine koruma, bölme ve güvenlik ağı çözümleri.')],
+        ['gorsel'=>icerik_gorsel('celik-guvenlik-agi','hizmet_1_gorsel','/images/mesh/hizmet-1.webp'), 'baslik'=>'İnşaat Güvenliği',  'metin'=>icerik('celik-guvenlik-agi','hizmet_1','Bina inşaatlarında düşme ve yaralanmalara karşı EN 1263 standardına uygun güvenlik ağı sistemleri.')],
+        ['gorsel'=>icerik_gorsel('celik-guvenlik-agi','hizmet_2_gorsel','/images/mesh/hizmet-2.webp'), 'baslik'=>'Balkon & Teras',    'metin'=>icerik('celik-guvenlik-agi','hizmet_2','Konut ve ticari yapılarda balkon, teras ve boşluklara özel koruyucu çelik ağ uygulamaları.')],
+        ['gorsel'=>icerik_gorsel('celik-guvenlik-agi','hizmet_3_gorsel','/images/mesh/hizmet-3.webp'), 'baslik'=>'Endüstriyel Alan',  'metin'=>icerik('celik-guvenlik-agi','hizmet_3','Fabrika, depo ve endüstriyel tesislerde makine koruma, bölme ve güvenlik ağı çözümleri.')],
       ] as $h)
       <div class="bg-white border border-[#E2E8F0] rounded-xl overflow-hidden hover:shadow-[0_4px_20px_rgba(15,23,42,0.08)] transition-shadow">
         <div class="aspect-[4/3] overflow-hidden">
@@ -126,7 +126,11 @@
       </div>
     </div>
     <div class="grid grid-cols-2 lg:grid-cols-3 gap-3">
-      @foreach(['/images/mesh/proje-1.jpg','/images/mesh/proje-2.jpg','/images/mesh/hero-2.jpg'] as $gorsel)
+      @foreach([
+        icerik_gorsel('celik-guvenlik-agi','proje_1_gorsel','/images/mesh/proje-1.jpg'),
+        icerik_gorsel('celik-guvenlik-agi','proje_2_gorsel','/images/mesh/proje-2.jpg'),
+        icerik_gorsel('celik-guvenlik-agi','proje_3_gorsel','/images/mesh/hero-2.jpg'),
+      ] as $gorsel)
       <div class="aspect-[4/3] rounded-xl overflow-hidden bg-[#E2E8F0]">
         <img src="{{ $gorsel }}" alt="Referans Proje"
              class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 cursor-zoom-in"

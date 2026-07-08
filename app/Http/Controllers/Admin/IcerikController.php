@@ -332,6 +332,29 @@ class IcerikController extends Controller
                     ['alan' => 'seo_aciklama', 'baslik' => 'SEO — Meta Açıklaması (Google\'da görünen)', 'tip' => 'textarea', 'sira' => 2],
                 ],
             ],
+            'celik-guvenlik-agi' => [
+                'baslik'   => 'Çelik Güvenlik Ağı',
+                'ikon'     => 'ti-shield-check',
+                'aciklama' => 'MESH Çelik Ağ bayilik sayfası — hero, uygulama alanları, referans projeler, metinler',
+                'alanlar'  => [
+                    ['alan' => 'hero_gorsel',    'baslik' => 'Hero Arka Plan Görseli',         'tip' => 'gorsel',   'sira' => 1],
+                    ['alan' => 'hero_metin',     'baslik' => 'Hero Açıklama Metni',            'tip' => 'textarea', 'sira' => 2],
+                    ['alan' => 'hizmet_1_gorsel','baslik' => 'Uygulama Alanı 1 — Görsel',      'tip' => 'gorsel',   'sira' => 3],
+                    ['alan' => 'hizmet_1',       'baslik' => 'Uygulama Alanı 1 — Açıklama',   'tip' => 'textarea', 'sira' => 4],
+                    ['alan' => 'hizmet_2_gorsel','baslik' => 'Uygulama Alanı 2 — Görsel',      'tip' => 'gorsel',   'sira' => 5],
+                    ['alan' => 'hizmet_2',       'baslik' => 'Uygulama Alanı 2 — Açıklama',   'tip' => 'textarea', 'sira' => 6],
+                    ['alan' => 'hizmet_3_gorsel','baslik' => 'Uygulama Alanı 3 — Görsel',      'tip' => 'gorsel',   'sira' => 7],
+                    ['alan' => 'hizmet_3',       'baslik' => 'Uygulama Alanı 3 — Açıklama',   'tip' => 'textarea', 'sira' => 8],
+                    ['alan' => 'proje_1_gorsel', 'baslik' => 'Referans Proje 1 — Görsel',      'tip' => 'gorsel',   'sira' => 9],
+                    ['alan' => 'proje_2_gorsel', 'baslik' => 'Referans Proje 2 — Görsel',      'tip' => 'gorsel',   'sira' => 10],
+                    ['alan' => 'proje_3_gorsel', 'baslik' => 'Referans Proje 3 — Görsel',      'tip' => 'gorsel',   'sira' => 11],
+                    ['alan' => 'ozellik_1',      'baslik' => 'Özellik 1 — Yüksek Mukavemet',  'tip' => 'textarea', 'sira' => 12],
+                    ['alan' => 'ozellik_2',      'baslik' => 'Özellik 2 — Özel Ölçü Üretim', 'tip' => 'textarea', 'sira' => 13],
+                    ['alan' => 'ozellik_3',      'baslik' => 'Özellik 3 — Bayilik Güvencesi', 'tip' => 'textarea', 'sira' => 14],
+                    ['alan' => 'seo_baslik',     'baslik' => 'SEO — Sayfa Başlığı',            'tip' => 'metin',    'sira' => 15],
+                    ['alan' => 'seo_aciklama',   'baslik' => 'SEO — Meta Açıklaması',          'tip' => 'textarea', 'sira' => 16],
+                ],
+            ],
         ];
     }
 
