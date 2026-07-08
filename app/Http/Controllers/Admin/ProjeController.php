@@ -78,6 +78,8 @@ class ProjeController extends Controller
             'yil'          => 'nullable|integer|min:1900|max:2100',
             'kapak_gorsel' => 'nullable|image|max:8192',
             'detaylar'     => 'nullable|string',
+            'video_url'    => 'nullable|url|max:500',
+            'video'        => 'nullable|mimetypes:video/mp4,video/quicktime,video/webm|max:51200',
             'sira'         => 'nullable|integer|min:0',
             'aktif'        => 'boolean',
             'one_cikan'    => 'boolean',
@@ -85,6 +87,10 @@ class ProjeController extends Controller
 
         if ($request->hasFile('kapak_gorsel')) {
             $data['kapak_gorsel'] = $request->file('kapak_gorsel')->store('projeler', 'public');
+        }
+
+        if ($request->hasFile('video')) {
+            $data['video'] = $request->file('video')->store('projeler/video', 'public');
         }
 
         $gorseller = [];
@@ -125,16 +131,26 @@ class ProjeController extends Controller
             'yil'          => 'nullable|integer|min:1900|max:2100',
             'kapak_gorsel' => 'nullable|image|max:8192',
             'detaylar'     => 'nullable|string',
+            'video_url'    => 'nullable|url|max:500',
+            'video'        => 'nullable|mimetypes:video/mp4,video/quicktime,video/webm|max:51200',
             'sira'         => 'nullable|integer|min:0',
             'aktif'        => 'boolean',
             'one_cikan'    => 'boolean',
         ]);
 
-        $data = $request->only(['baslik', 'slug', 'kategori', 'alt_kategori', 'konum', 'yil', 'detaylar', 'sira']);
+        $data = $request->only(['baslik', 'slug', 'kategori', 'alt_kategori', 'konum', 'yil', 'detaylar', 'video_url', 'sira']);
 
         if ($request->hasFile('kapak_gorsel')) {
             if ($proje->kapak_gorsel) Storage::disk('public')->delete($proje->kapak_gorsel);
             $data['kapak_gorsel'] = $request->file('kapak_gorsel')->store('projeler', 'public');
+        }
+
+        if ($request->boolean('delete_video') && $proje->video) {
+            Storage::disk('public')->delete($proje->video);
+            $data['video'] = null;
+        } elseif ($request->hasFile('video')) {
+            if ($proje->video) Storage::disk('public')->delete($proje->video);
+            $data['video'] = $request->file('video')->store('projeler/video', 'public');
         }
 
         // Mevcut görseller: formdan gelen liste (silinmeyenler)
@@ -167,6 +183,7 @@ class ProjeController extends Controller
         foreach ($proje->gorseller ?: [] as $gorsel) {
             Storage::disk('public')->delete($gorsel);
         }
+        if ($proje->video) Storage::disk('public')->delete($proje->video);
         $proje->delete();
         return back()->with('basari', 'Proje silindi.');
     }

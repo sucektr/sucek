@@ -147,6 +147,49 @@
 
       </div>
 
+      {{-- Video --}}
+      <div class="bg-white rounded-[12px] border border-[#E2E8F0] p-6">
+        <h2 class="text-[13px] font-semibold text-[#0F172A] mb-1">Video / Animasyon</h2>
+        <p class="text-[11px] text-[#94A3B8] mb-5">YouTube/Vimeo bağlantısı veya MP4 dosyası yükleyin. İkisi birden varsa bağlantı önceliklidir.</p>
+
+        {{-- YouTube / Vimeo URL --}}
+        <div class="mb-4">
+          <label class="block text-[11px] font-medium text-[#64748B] uppercase tracking-[.06em] mb-1.5">YouTube veya Vimeo Bağlantısı</label>
+          <input type="url" name="video_url" value="{{ old('video_url', $proje->video_url) }}"
+                 class="w-full px-4 py-2.5 border border-[#E2E8F0] rounded-[8px] text-[14px] focus:outline-none focus:border-[#CC2200] focus:ring-2 focus:ring-[rgba(204,34,0,0.08)] transition-colors"
+                 placeholder="https://www.youtube.com/watch?v=...">
+          @error('video_url')<p class="text-[11px] text-[#CC2200] mt-1">{{ $message }}</p>@enderror
+        </div>
+
+        {{-- Mevcut Video Dosyası --}}
+        @if($proje->exists && $proje->video)
+        <div class="mb-4 p-3 bg-[#F8FAFC] rounded-[8px] border border-[#E2E8F0] flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2 min-w-0">
+            <i class="ti ti-movie text-[#64748B] text-lg shrink-0"></i>
+            <span class="text-[12px] text-[#0F172A] truncate">Yüklü video dosyası</span>
+          </div>
+          <label class="flex items-center gap-1.5 shrink-0 cursor-pointer">
+            <input type="checkbox" name="delete_video" value="1" class="w-3.5 h-3.5 accent-[#CC2200]">
+            <span class="text-[11px] text-[#CC2200]">Sil</span>
+          </label>
+        </div>
+        @endif
+
+        {{-- Video Dosyası Yükleme --}}
+        <div>
+          <label class="block text-[11px] font-medium text-[#64748B] uppercase tracking-[.06em] mb-1.5">MP4 Dosyası Yükle</label>
+          <label id="video-upload-label"
+                 class="flex flex-col items-center justify-center w-full h-20 border-2 border-dashed border-[#E2E8F0] rounded-[8px] cursor-pointer hover:border-[#CC2200] hover:bg-[rgba(204,34,0,0.02)] transition-colors bg-[#F8FAFC]">
+            <i class="ti ti-movie-plus text-2xl text-[#C0C0C0] mb-1"></i>
+            <span class="text-[12px] text-[#94A3B8]" id="video-upload-label-text">Video seç (MP4, WebM)</span>
+            <input type="file" name="video" id="video-input" accept="video/mp4,video/webm,video/quicktime" class="hidden">
+          </label>
+          <div id="video-boyut-uyari" class="hidden mt-2 text-[11px] text-amber-600 bg-amber-50 border border-amber-200 rounded-[6px] px-3 py-2"></div>
+          <p class="text-[10px] text-[#C0C0C0] mt-1.5">Büyük videolar için YouTube/Vimeo bağlantısını kullanın. Sunucu limiti: {{ ini_get('upload_max_filesize') }}.</p>
+          @error('video')<p class="text-[11px] text-[#CC2200] mt-1">{{ $message }}</p>@enderror
+        </div>
+      </div>
+
     </div>
 
     {{-- Sağ: Kapak + Ayarlar --}}
@@ -288,6 +331,21 @@ function gorselSil(btn) {
     container.classList.add('hidden');
   }
 }
+
+// ─── Video Dosyası Seçme ─────────────────────────────────────────────────
+document.getElementById('video-input').addEventListener('change', function () {
+  var file = this.files[0];
+  if (!file) return;
+  document.getElementById('video-upload-label-text').textContent = file.name;
+  var uyari = document.getElementById('video-boyut-uyari');
+  var mb = (file.size / 1024 / 1024).toFixed(1);
+  if (file.size > 10 * 1024 * 1024) {
+    uyari.textContent = '⚠ Seçilen dosya ' + mb + ' MB — sunucu PHP limiti aşılıyor olabilir. Büyük videolar için YouTube/Vimeo bağlantısını kullanın.';
+    uyari.classList.remove('hidden');
+  } else {
+    uyari.classList.add('hidden');
+  }
+});
 </script>
 <script>
 (function () {

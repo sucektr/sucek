@@ -61,6 +61,41 @@
       </div>
       @endif
 
+      {{-- Video --}}
+      @php
+        $videoEmbed = null;
+        if ($proje->video_url) {
+          if (preg_match('/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/', $proje->video_url, $m)) {
+            $videoEmbed = 'https://www.youtube.com/embed/' . $m[1] . '?rel=0';
+          } elseif (preg_match('/vimeo\.com\/(\d+)/', $proje->video_url, $m)) {
+            $videoEmbed = 'https://player.vimeo.com/video/' . $m[1];
+          }
+        }
+      @endphp
+      @if($videoEmbed || $proje->video)
+      <div>
+        <h2 class="text-[16px] font-semibold text-[#0F172A] tracking-tight mb-4">Video</h2>
+        @if($videoEmbed)
+        <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-[#0F172A] shadow-md">
+          <iframe src="{{ $videoEmbed }}"
+                  class="absolute inset-0 w-full h-full"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                  loading="lazy"
+                  title="{{ $proje->baslik }} — Video">
+          </iframe>
+        </div>
+        @else
+        <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-[#0F172A] shadow-md">
+          <video controls preload="metadata" class="absolute inset-0 w-full h-full">
+            <source src="{{ asset('storage/' . $proje->video) }}" type="video/mp4">
+          </video>
+        </div>
+        @endif
+      </div>
+      @endif
+
       {{-- Ek Görseller --}}
       @if(!empty($proje->gorseller) && count($proje->gorseller) > 0)
       @php $toplamGorsel = count($proje->gorseller); @endphp
