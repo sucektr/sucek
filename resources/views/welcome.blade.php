@@ -307,16 +307,14 @@
 
     {{-- Sağ: arka plan görseli (md+) --}}
     @php $meshBandGorsel = icerik_gorsel('celik-guvenlik-agi','anasayfa_band_gorsel','/images/mesh/hizmet-3.webp'); @endphp
-    <div class="absolute right-0 top-0 bottom-0 w-1/2 hidden md:block">
-      <img src="{{ $meshBandGorsel }}" alt="Çelik Güvenlik Ağı"
-           class="w-full h-full object-cover">
-      <div class="absolute inset-0 bg-gradient-to-r from-white via-white/60 to-transparent"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-1/2 hidden md:block"
+         style="background-image:url('{{ $meshBandGorsel }}');background-size:cover;background-position:center;">
+      <div class="absolute inset-0" style="background:linear-gradient(to right,#fff,rgba(255,255,255,.6),transparent)"></div>
     </div>
 
     {{-- Mobil arka plan --}}
-    <div class="absolute inset-0 md:hidden">
-      <img src="{{ $meshBandGorsel }}" alt="" class="w-full h-full object-cover opacity-10">
-    </div>
+    <div class="absolute inset-0 md:hidden"
+         style="background-image:url('{{ $meshBandGorsel }}');background-size:cover;background-position:center;opacity:.08;"></div>
 
     {{-- Kırmızı üst şerit --}}
     <div class="absolute top-0 left-0 right-0 h-[3px] bg-[#CC2200]"></div>
