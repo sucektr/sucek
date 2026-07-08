@@ -306,15 +306,16 @@
   <div class="relative rounded-xl overflow-hidden bg-white border border-[#E2E8F0]" style="min-height:200px;">
 
     {{-- Sağ: arka plan görseli (md+) --}}
+    @php $meshBandGorsel = icerik_gorsel('celik-guvenlik-agi','anasayfa_band_gorsel','/images/mesh/hizmet-3.webp'); @endphp
     <div class="absolute right-0 top-0 bottom-0 w-1/2 hidden md:block">
-      <img src="/images/mesh/hizmet-3.webp" alt="Çelik Güvenlik Ağı"
+      <img src="{{ $meshBandGorsel }}" alt="Çelik Güvenlik Ağı"
            class="w-full h-full object-cover">
       <div class="absolute inset-0 bg-gradient-to-r from-white via-white/60 to-transparent"></div>
     </div>
 
     {{-- Mobil arka plan --}}
     <div class="absolute inset-0 md:hidden">
-      <img src="/images/mesh/hizmet-3.webp" alt="" class="w-full h-full object-cover opacity-10">
+      <img src="{{ $meshBandGorsel }}" alt="" class="w-full h-full object-cover opacity-10">
     </div>
 
     {{-- Kırmızı üst şerit --}}

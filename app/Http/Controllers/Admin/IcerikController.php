@@ -352,8 +352,9 @@ class IcerikController extends Controller
                     ['alan' => 'ozellik_1',      'baslik' => 'Özellik 1 — Yüksek Mukavemet',  'tip' => 'textarea', 'sira' => 13],
                     ['alan' => 'ozellik_2',      'baslik' => 'Özellik 2 — Özel Ölçü Üretim', 'tip' => 'textarea', 'sira' => 14],
                     ['alan' => 'ozellik_3',      'baslik' => 'Özellik 3 — Bayilik Güvencesi', 'tip' => 'textarea', 'sira' => 15],
-                    ['alan' => 'seo_baslik',     'baslik' => 'SEO — Sayfa Başlığı',            'tip' => 'metin',    'sira' => 16],
-                    ['alan' => 'seo_aciklama',   'baslik' => 'SEO — Meta Açıklaması',          'tip' => 'textarea', 'sira' => 17],
+                    ['alan' => 'anasayfa_band_gorsel', 'baslik' => 'Ana Sayfa Bandı — Arka Plan Görseli', 'tip' => 'gorsel', 'sira' => 16],
+                    ['alan' => 'seo_baslik',     'baslik' => 'SEO — Sayfa Başlığı',            'tip' => 'metin',    'sira' => 17],
+                    ['alan' => 'seo_aciklama',   'baslik' => 'SEO — Meta Açıklaması',          'tip' => 'textarea', 'sira' => 18],
                 ],
             ],
         ];
