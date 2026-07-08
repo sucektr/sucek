@@ -47,17 +47,19 @@ class ProjeController extends Controller
             return "Yüklenen dosyalar toplamda sunucunun limitini ({$limit}) aşıyor. "
                  . "Lütfen görselleri küçültün (squoosh.app veya tinypng.com) veya cPanel → MultiPHP INI Editor'dan post_max_size değerini artırın.";
         }
-        $file = $request->file('kapak_gorsel');
-        if ($file && $file->getError() !== UPLOAD_ERR_OK) {
-            $limit = ini_get('upload_max_filesize');
-            $map = [
-                UPLOAD_ERR_INI_SIZE   => "Kapak görseli sunucunun PHP limitini ({$limit}) aşıyor.",
-                UPLOAD_ERR_FORM_SIZE  => 'Kapak görseli form limitini aşıyor.',
-                UPLOAD_ERR_PARTIAL    => 'Kapak görseli yalnızca kısmen yüklendi. Tekrar deneyin.',
-                UPLOAD_ERR_NO_TMP_DIR => 'Geçici dizin bulunamadı (sunucu yapılandırma hatası).',
-                UPLOAD_ERR_CANT_WRITE => 'Dosya diske yazılamadı (izin hatası).',
-            ];
-            return $map[$file->getError()] ?? "Yükleme hatası (kod: {$file->getError()}).";
+        foreach (['kapak_gorsel' => 'Kapak görseli', 'video' => 'Video'] as $alan => $etiket) {
+            $file = $request->file($alan);
+            if ($file && $file->getError() !== UPLOAD_ERR_OK) {
+                $limit = ini_get('upload_max_filesize');
+                $map = [
+                    UPLOAD_ERR_INI_SIZE   => "{$etiket} sunucunun PHP limitini ({$limit}) aşıyor.",
+                    UPLOAD_ERR_FORM_SIZE  => "{$etiket} form limitini aşıyor.",
+                    UPLOAD_ERR_PARTIAL    => "{$etiket} yalnızca kısmen yüklendi. Tekrar deneyin.",
+                    UPLOAD_ERR_NO_TMP_DIR => 'Geçici dizin bulunamadı (sunucu yapılandırma hatası).',
+                    UPLOAD_ERR_CANT_WRITE => 'Dosya diske yazılamadı (izin hatası).',
+                ];
+                return $map[$file->getError()] ?? "{$etiket} yükleme hatası (kod: {$file->getError()}).";
+            }
         }
         return null;
     }
@@ -79,7 +81,7 @@ class ProjeController extends Controller
             'kapak_gorsel' => 'nullable|image|max:8192',
             'detaylar'     => 'nullable|string',
             'video_url'    => 'nullable|url|max:500',
-            'video'        => 'nullable|mimetypes:video/mp4,video/quicktime,video/webm|max:51200',
+            'video'        => 'nullable|file|extensions:mp4,mov,webm,avi|max:51200',
             'sira'         => 'nullable|integer|min:0',
             'aktif'        => 'boolean',
             'one_cikan'    => 'boolean',
@@ -132,7 +134,7 @@ class ProjeController extends Controller
             'kapak_gorsel' => 'nullable|image|max:8192',
             'detaylar'     => 'nullable|string',
             'video_url'    => 'nullable|url|max:500',
-            'video'        => 'nullable|mimetypes:video/mp4,video/quicktime,video/webm|max:51200',
+            'video'        => 'nullable|file|extensions:mp4,mov,webm,avi|max:51200',
             'sira'         => 'nullable|integer|min:0',
             'aktif'        => 'boolean',
             'one_cikan'    => 'boolean',
