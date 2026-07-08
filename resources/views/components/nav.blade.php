@@ -145,6 +145,13 @@
         </div>
       </div>
 
+      {{-- Çelik Güvenlik Ağı --}}
+      <a href="{{ route('celik-guvenlik-agi.index') }}"
+         class="text-sm font-medium px-3 py-1.5 rounded-md transition-colors duration-150 {{ request()->routeIs('celik-guvenlik-agi.index') ? 'text-[#CC2200] bg-[rgba(204,34,0,0.06)]' : 'text-[#64748B] hover:text-[#0F172A] hover:bg-[#F8FAFC]' }}"
+         @if(request()->routeIs('celik-guvenlik-agi.index')) aria-current="page" @endif>
+        Güvenlik Ağı
+      </a>
+
       {{-- İletişim --}}
       <a href="{{ route('iletisim.index') }}"
          class="text-sm font-medium px-3 py-1.5 rounded-md transition-colors duration-150 {{ request()->routeIs('iletisim.index') ? 'text-[#CC2200] bg-[rgba(204,34,0,0.06)]' : 'text-[#64748B] hover:text-[#0F172A] hover:bg-[#F8FAFC]' }}"
@@ -288,6 +295,9 @@
       </a>
       <a href="{{ route('magaza.index') }}" class="text-sm font-medium text-[#64748B] px-3 py-2.5 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">Mağaza</a>
       <a href="{{ route('koleksiyon.index') }}" class="text-sm font-medium text-[#64748B] px-3 py-2.5 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">Koleksiyon</a>
+      <a href="{{ route('celik-guvenlik-agi.index') }}" @click="menuOpen=false" class="text-sm font-medium text-[#64748B] px-3 py-2.5 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">
+        <i class="ti ti-shield text-xs mr-1.5"></i>Güvenlik Ağı
+      </a>
       <a href="{{ route('iletisim.index') }}" @click="menuOpen=false" class="text-sm font-medium text-[#64748B] px-3 py-2.5 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">İletişim</a>
       <a href="{{ route('sepet.index') }}" @click="menuOpen=false" class="flex items-center gap-2 text-sm font-medium text-[#64748B] px-3 py-2.5 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">
         <i class="ti ti-shopping-cart text-base"></i>Sepetim

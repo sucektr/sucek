@@ -300,6 +300,66 @@
 
 </section>
 
+{{-- ─── Çelik Güvenlik Ağı Promo Bandı ────────────────────────────────── --}}
+{{-- ─── MESH Çelik Ağ Promo ─────────────────────────────────────────────── --}}
+<div class="px-2 pt-2 bg-[#F8FAFC]">
+  <div class="relative rounded-xl overflow-hidden bg-white border border-[#E2E8F0]" style="min-height:200px;">
+
+    {{-- Sağ: arka plan görseli (md+) --}}
+    <div class="absolute right-0 top-0 bottom-0 w-1/2 hidden md:block">
+      <img src="/images/mesh/hizmet-3.webp" alt="Çelik Güvenlik Ağı"
+           class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-r from-white via-white/60 to-transparent"></div>
+    </div>
+
+    {{-- Mobil arka plan --}}
+    <div class="absolute inset-0 md:hidden">
+      <img src="/images/mesh/hizmet-3.webp" alt="" class="w-full h-full object-cover opacity-10">
+    </div>
+
+    {{-- Kırmızı üst şerit --}}
+    <div class="absolute top-0 left-0 right-0 h-[3px] bg-[#CC2200]"></div>
+
+    {{-- İçerik --}}
+    <div class="relative px-6 lg:px-10 py-7 lg:py-9 flex flex-col justify-between h-full" style="min-height:200px;">
+
+      {{-- Üst: logo + rozet --}}
+      <div class="flex items-center gap-3 mb-4">
+        <img src="/images/mesh/logo-color.png" alt="MESH Çelik Ağ" class="h-7 lg:h-8 w-auto">
+        <div class="w-px h-5 bg-[#E2E8F0]"></div>
+        <span class="inline-flex items-center gap-1.5 bg-[#FEF2F0] border border-[#FECDC7] text-[#CC2200] text-[10px] font-bold tracking-[0.1em] uppercase px-2.5 py-1 rounded-full">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#CC2200]"></span> Yetkili Bayii
+        </span>
+      </div>
+
+      {{-- Başlık --}}
+      <div class="mb-5 max-w-sm">
+        <h2 class="text-[20px] lg:text-[24px] font-bold text-[#0F172A] leading-snug tracking-tight mb-2">
+          Çelik Güvenlik Ağı<br>
+          <span class="text-[#CC2200]">çözümleri sunuyoruz</span>
+        </h2>
+        <p class="text-[13px] text-[#64748B] leading-relaxed">
+          İnşaat, balkon, teras ve endüstriyel alanlara özel.<br class="hidden lg:block">
+          Özel ölçü · TSE sertifikalı · Teknik destek dahil
+        </p>
+      </div>
+
+      {{-- CTA --}}
+      <div class="flex items-center gap-3">
+        <a href="{{ route('celik-guvenlik-agi.index') }}"
+           class="inline-flex items-center gap-2 bg-[#CC2200] hover:bg-[#a31b00] text-white text-[12px] font-semibold tracking-wide px-5 py-2.5 rounded-[8px] transition-colors">
+          Detaylı İncele <i class="ti ti-arrow-right text-xs"></i>
+        </a>
+        <a href="{{ route('iletisim.index') }}"
+           class="inline-flex items-center gap-2 border border-[#E2E8F0] hover:border-[#CC2200] text-[#64748B] hover:text-[#CC2200] text-[12px] font-semibold px-5 py-2.5 rounded-[8px] transition-colors">
+          Teklif Al
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 {{-- ─── Öne Çıkan & İndirimli Ürünler ─────────────────────────────────── --}}
 @if(isset($slider_urunler) && $slider_urunler->count() > 0)
 <div style="padding:30px 1.25rem 0;background:#F8FAFC;">

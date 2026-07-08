@@ -26,6 +26,7 @@ use App\Http\Controllers\UserUrunController;
 use App\Http\Controllers\SifremiUnuttumController;
 use App\Http\Controllers\ProjeController;
 use App\Http\Controllers\MerchantFeedController;
+use App\Http\Controllers\CelikGuvenlikAgiController;
 
 // Storage / uploads dosyalarını symlink olmadan sun (fallback; Apache direkt okuyabiliyorsa bu çalışmaz zaten)
 Route::get('/storage/{path}', function (string $path) {
@@ -119,6 +120,9 @@ Route::prefix('sepet')->name('sepet.')->group(function () {
     Route::delete('/kaldir/{id}', [SepetController::class, 'kaldir'])->name('kaldir');
     Route::delete('/temizle', [SepetController::class, 'temizle'])->name('temizle');
 });
+
+// Çelik Güvenlik Ağı (bayilik)
+Route::get('/celik-guvenlik-agi', [CelikGuvenlikAgiController::class, 'index'])->name('celik-guvenlik-agi.index');
 
 // Projeler
 Route::get('/projeler', [ProjeController::class, 'index'])->name('projeler.index');
