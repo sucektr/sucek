@@ -19,7 +19,7 @@
 
     {{-- MESH logosu --}}
     <div class="flex items-center gap-3 mb-8">
-      <img src="/images/mesh/logo.png" alt="MESH Çelik Ağ" class="h-10 w-auto brightness-0 invert opacity-90">
+      <img src="{{ icerik_gorsel('celik-guvenlik-agi','logo','/images/mesh/logo-color.png') }}" alt="MESH Çelik Ağ" class="h-10 w-auto brightness-0 invert opacity-90">
       <div class="w-px h-6 bg-white/20"></div>
       <span class="text-[11px] font-semibold tracking-[0.14em] uppercase text-[#CC2200]">Yetkili Bayii</span>
     </div>
@@ -210,7 +210,7 @@
 <section class="bg-[#0F172A]">
   <div class="max-w-[1280px] mx-auto px-4 lg:px-6 py-10 lg:py-14 flex flex-col lg:flex-row items-center justify-between gap-6">
     <div class="flex items-center gap-5">
-      <img src="/images/mesh/logo.png" alt="MESH Çelik Ağ" class="h-8 w-auto brightness-0 invert opacity-60 shrink-0">
+      <img src="{{ icerik_gorsel('celik-guvenlik-agi','logo','/images/mesh/logo-color.png') }}" alt="MESH Çelik Ağ" class="h-8 w-auto brightness-0 invert opacity-60 shrink-0">
       <div>
         <h2 class="text-[18px] lg:text-[22px] font-bold text-white mb-1">Projeniz için teklif alın</h2>
         <p class="text-[13px] text-[#64748B]">Alanınızı ve ihtiyacınızı belirtin, size en uygun çözümü sunalım.</p>

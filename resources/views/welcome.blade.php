@@ -325,7 +325,7 @@
 
       {{-- Üst: logo + rozet --}}
       <div class="flex items-center gap-3 mb-4">
-        <img src="/images/mesh/logo-color.png" alt="MESH Çelik Ağ" class="h-7 lg:h-8 w-auto">
+        <img src="{{ icerik_gorsel('celik-guvenlik-agi','logo','/images/mesh/logo-color.png') }}" alt="MESH Çelik Ağ" class="h-7 lg:h-8 w-auto">
         <div class="w-px h-5 bg-[#E2E8F0]"></div>
         <span class="inline-flex items-center gap-1.5 bg-[#FEF2F0] border border-[#FECDC7] text-[#CC2200] text-[10px] font-bold tracking-[0.1em] uppercase px-2.5 py-1 rounded-full">
           <span class="w-1.5 h-1.5 rounded-full bg-[#CC2200]"></span> Yetkili Bayii
