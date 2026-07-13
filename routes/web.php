@@ -287,4 +287,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('katalog/{id}/yazdir', [Admin\KatalogController::class, 'yazdir'])->name('katalog.yazdir');
         Route::delete('katalog/{id}', [Admin\KatalogController::class, 'sil'])->name('katalog.sil');
     });
+
+    // Yaklaşık Maliyet & Teklif — admin + izinli premium üyeler erişebilir
+    Route::middleware(['auth', 'premium:maliyet-teklif'])->group(function () {
+        Route::get('maliyet-teklif', [Admin\MaliyetTeklifController::class, 'index'])->name('maliyet-teklif.index');
+    });
 });
