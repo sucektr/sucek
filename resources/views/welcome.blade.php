@@ -309,7 +309,7 @@
     @php $meshBandGorsel = icerik_gorsel('celik-guvenlik-agi','anasayfa_band_gorsel','/images/mesh/hizmet-3.webp'); @endphp
     <div class="absolute right-0 top-0 bottom-0 w-1/2 hidden md:block"
          style="background-image:url('{{ $meshBandGorsel }}');background-size:cover;background-position:center;">
-      <div class="absolute inset-0" style="background:linear-gradient(to right,#fff,rgba(255,255,255,.6),transparent)"></div>
+      <div class="absolute inset-0" style="background:linear-gradient(to right,rgba(255,255,255,.9),rgba(255,255,255,.2),transparent)"></div>
     </div>
 
     {{-- Mobil arka plan --}}
