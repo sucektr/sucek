@@ -190,6 +190,10 @@
                class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">
               <i class="ti ti-topology-star-3 text-base opacity-50"></i> Soy Ağacı
             </a>
+            <a href="{{ route('admin.maliyet-teklif.index') }}"
+               class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">
+              <i class="ti ti-calculator text-base opacity-50"></i> Yaklaşık Maliyet & Teklif
+            </a>
           </div>
         </div>
       </div>
@@ -198,6 +202,11 @@
          class="flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-md transition-colors duration-150 text-[#d97706] hover:bg-[#fffbeb]"
          @if(request()->routeIs('admin.katalog.*')) aria-current="page" @endif>
         <i class="ti ti-book-2 text-[13px]"></i> Katalog
+      </a>
+      <a href="{{ route('admin.maliyet-teklif.index') }}"
+         class="flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-md transition-colors duration-150 text-[#d97706] hover:bg-[#fffbeb]"
+         @if(request()->routeIs('admin.maliyet-teklif.*')) aria-current="page" @endif>
+        <i class="ti ti-calculator text-[13px]"></i> Maliyet & Teklif
       </a>
       @endif
       @endauth
@@ -318,12 +327,20 @@
            class="flex items-center gap-2 text-sm font-medium px-3 py-2.5 rounded-md hover:bg-[#f5f3ff] transition-colors text-[#6d28d9]">
           <i class="ti ti-topology-star-3 text-base"></i> Soy Ağacı
         </a>
+        <a href="{{ route('admin.maliyet-teklif.index') }}" @click="menuOpen=false"
+           class="flex items-center gap-2 text-sm font-medium px-3 py-2.5 rounded-md hover:bg-[#f5f3ff] transition-colors text-[#6d28d9]">
+          <i class="ti ti-calculator text-base"></i> Yaklaşık Maliyet & Teklif
+        </a>
       </div>
       @elseif(auth()->user()->isTeknik())
       <div class="mt-2 pt-2 border-t border-[#E2E8F0]">
         <a href="{{ route('katalog.index') }}" @click="menuOpen=false"
            class="flex items-center gap-2 text-sm font-medium px-3 py-2.5 rounded-md hover:bg-[#fffbeb] transition-colors text-[#d97706]">
           <i class="ti ti-book-2 text-base"></i> Katalog Oluşturucu
+        </a>
+        <a href="{{ route('admin.maliyet-teklif.index') }}" @click="menuOpen=false"
+           class="flex items-center gap-2 text-sm font-medium px-3 py-2.5 rounded-md hover:bg-[#fffbeb] transition-colors text-[#d97706]">
+          <i class="ti ti-calculator text-base"></i> Yaklaşık Maliyet & Teklif
         </a>
       </div>
       @endif
