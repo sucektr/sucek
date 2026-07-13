@@ -11,7 +11,7 @@ class Urun extends Model
 
     protected $table = 'urunler';
     protected $fillable = [
-        'ad','slug','aciklama','fiyat','eski_fiyat','kdv_orani','kdv_dahil','kategori','alt_kategori',
+        'ad','slug','marka','aciklama','fiyat','eski_fiyat','kdv_orani','kdv_dahil','kategori','alt_kategori',
         'gorsel','gorseller','dosyalar','ozellikler','stok_kodu','stok','aktif','one_cikan',
         'kargo_bedeli','kargo_kim_oder',
     ];

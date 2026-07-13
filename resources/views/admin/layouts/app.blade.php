@@ -94,6 +94,9 @@
     <a href="{{ route('admin.urun-import.index') }}" class="nav-link {{ request()->routeIs('admin.urun-import.*') ? 'active' : '' }}">
       <i class="ti ti-file-import"></i> Toplu Ürün İçe Aktar
     </a>
+    <a href="{{ route('admin.erp-import.index') }}" class="nav-link {{ request()->routeIs('admin.erp-import.*') ? 'active' : '' }}">
+      <i class="ti ti-building-factory-2"></i> ERP Stok Aktarma
+    </a>
     <a href="{{ route('admin.odeme.index') }}" class="nav-link {{ request()->routeIs('admin.odeme.*') ? 'active' : '' }}">
       <i class="ti ti-credit-card"></i> Ödeme
     </a>
