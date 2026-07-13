@@ -51,6 +51,26 @@ class ErpImportController extends Controller
         return back()->with('harita_kaydedildi', true);
     }
 
+    public function haritaUygula()
+    {
+        $harita = $this->haritaYukle();
+        if (empty($harita)) {
+            return back()->with('harita_uygula_sonuc', ['tip' => 'warning', 'mesaj' => 'Önce eşleştirme kaydedin.']);
+        }
+
+        $guncellenen = 0;
+        foreach ($harita as $erpKat => $magazaKat) {
+            $guncellenen += Urun::whereNotNull('stok_kodu')
+                ->where('kategori', $erpKat)
+                ->update(['kategori' => $magazaKat]);
+        }
+
+        return back()->with('harita_uygula_sonuc', [
+            'tip'   => 'success',
+            'mesaj' => "{$guncellenen} ürünün kategorisi güncellendi.",
+        ]);
+    }
+
     public function yukle(Request $request)
     {
         $request->validate([

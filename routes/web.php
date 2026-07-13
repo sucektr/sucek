@@ -257,6 +257,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('erp-import', [Admin\ErpImportController::class, 'index'])->name('erp-import.index');
         Route::post('erp-import/yukle', [Admin\ErpImportController::class, 'yukle'])->name('erp-import.yukle');
         Route::post('erp-import/harita', [Admin\ErpImportController::class, 'haritaKaydet'])->name('erp-import.harita');
+        Route::post('erp-import/harita-uygula', [Admin\ErpImportController::class, 'haritaUygula'])->name('erp-import.harita-uygula');
 
         Route::get('odeme', [Admin\OdemeController::class, 'index'])->name('odeme.index');
         Route::post('odeme/ayarlar', [Admin\OdemeController::class, 'ayarlarKaydet'])->name('odeme.ayarlar');

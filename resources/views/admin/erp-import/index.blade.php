@@ -88,6 +88,24 @@
         <i class="ti ti-device-floppy text-sm mr-1.5"></i> Eşleştirmeyi Kaydet
       </button>
     </form>
+
+    {{-- Mevcut ürünlere uygula --}}
+    @if(session('harita_uygula_sonuc'))
+    @php $sonuc = session('harita_uygula_sonuc'); @endphp
+    <div class="mt-3 flex items-center gap-2 p-3 rounded-[8px] text-[12px]
+      {{ $sonuc['tip'] === 'success' ? 'bg-green-50 border border-green-200 text-green-700' : 'bg-yellow-50 border border-yellow-200 text-yellow-700' }}">
+      <i class="ti ti-{{ $sonuc['tip'] === 'success' ? 'circle-check' : 'alert-triangle' }} text-sm shrink-0"></i>
+      {{ $sonuc['mesaj'] }}
+    </div>
+    @endif
+
+    <form action="{{ route('admin.erp-import.harita-uygula') }}" method="POST" class="mt-3">
+      @csrf
+      <button type="submit"
+              class="w-full border border-[#0F172A] text-[#0F172A] text-[11px] font-semibold tracking-[1.5px] uppercase py-2.5 rounded-[10px] hover:bg-[#F8FAFC] transition-colors">
+        <i class="ti ti-refresh text-sm mr-1.5"></i> Mevcut Ürünlere de Uygula
+      </button>
+    </form>
   </div>
   @endif
 
