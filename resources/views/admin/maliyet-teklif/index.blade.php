@@ -289,7 +289,7 @@ table.pozres button{padding:3px 10px; font-size:12px;}
 // Dosya büyük olduğundan (binlerce kalem) sayfaya gömülmek yerine tarayıcıda önbelleğe alınacak
 // şekilde ayrı indiriliyor; "Poz Listesi Güncelle" ile yüklenen özel liste her zaman localStorage'da kalır.
 let POZLIB = [];
-fetch('{{ asset('assets/poz-kutuphanesi-2026-05.json') }}')
+fetch('{{ route('admin.maliyet-teklif.poz-kutuphanesi', [], false) }}')
   .then(r => r.ok ? r.json() : [])
   .then(data => { POZLIB = Array.isArray(data) ? data : []; })
   .catch(() => { POZLIB = []; });

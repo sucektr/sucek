@@ -291,5 +291,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Yaklaşık Maliyet & Teklif — admin + izinli premium üyeler erişebilir
     Route::middleware(['auth', 'premium:maliyet-teklif'])->group(function () {
         Route::get('maliyet-teklif', [Admin\MaliyetTeklifController::class, 'index'])->name('maliyet-teklif.index');
+        Route::get('maliyet-teklif/poz-kutuphanesi.json', [Admin\MaliyetTeklifController::class, 'pozKutuphanesi'])->name('maliyet-teklif.poz-kutuphanesi');
     });
 });

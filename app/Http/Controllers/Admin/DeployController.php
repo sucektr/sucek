@@ -22,7 +22,6 @@ class DeployController extends Controller
         foreach ([
             'git remote' => "cd \"{$kok}\" && git remote set-url origin https://github.com/sucektr/sucek.git 2>&1",
             'git pull'   => "cd \"{$kok}\" && git pull origin main 2>&1",
-            'assets kontrol (gecici teshis)' => "cd \"{$kok}\" && { ls -la public/assets/ 2>&1; echo '---git log---'; git log -1 --format='%H %ci' -- public/assets/poz-kutuphanesi-2026-05.json 2>&1; echo '---symlink kontrol---'; readlink -f public/assets 2>&1; readlink -f public 2>&1; } || true",
         ] as $ad => $komut) {
             $cikti = [];
             $kod   = 0;
