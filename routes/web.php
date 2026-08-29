@@ -294,3 +294,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('maliyet-teklif/poz-kutuphanesi.json', [Admin\MaliyetTeklifController::class, 'pozKutuphanesi'])->name('maliyet-teklif.poz-kutuphanesi');
     });
 });
+
+// Sunucuda bazı statik dosyalar (ör. robots.txt, .json) web sunucusu tarafından
+// dogrudan servis edilmiyor ve Laravel'e dusuyor. Baska hicbir route eslesmezse,
+// public/ altinda gercekten var olan bir dosya mi diye bak, varsa onu servis et.
+Route::fallback(function () {
+    $path = public_path(request()->path());
+
+    if (is_file($path) && str_starts_with(realpath($path), realpath(public_path()))) {
+        return response()->file($path);
+    }
+
+    abort(404);
+});
