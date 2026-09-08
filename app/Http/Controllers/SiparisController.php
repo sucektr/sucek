@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SiparisBildirimMail;
 use App\Mail\SiparisOnayMail;
 use App\Models\Siparis;
 use App\Models\SiparisKalemi;
@@ -11,6 +12,9 @@ use Illuminate\Http\Request;
 
 class SiparisController extends Controller
 {
+    private const BILDIRIM_EMAIL   = 'info@sucek.com.tr';
+    private const BILDIRIM_TELEFON = '05442948402';
+
     public function checkout()
     {
         $sepet = session('sepet', []);
@@ -121,6 +125,13 @@ class SiparisController extends Controller
 
         $siparis->load('kalemler');
         app(MailService::class)->gonder($siparis->email, new SiparisOnayMail($siparis), 'siparis_olusturuldu');
+
+        // Sipariş sahibine (SUÇEK) otomatik bildirim
+        app(SmsService::class)->gonder(
+            self::BILDIRIM_TELEFON,
+            "Yeni sipariş: #{$siparis->referans} - {$siparis->ad_soyad} - " . number_format((float) $siparis->toplam, 2, ',', '.') . ' TL'
+        );
+        app(MailService::class)->gonder(self::BILDIRIM_EMAIL, new SiparisBildirimMail($siparis, 'olusturuldu'), 'siparis_bildirim_olusturuldu');
 
         if ($request->odeme_yontemi === 'kredi_karti') {
             return redirect()->route('siparis.odeme.goster', $siparis->referans);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SiparisBildirimMail;
 use App\Mail\SiparisDurumMail;
 use App\Models\Siparis;
 use App\Services\MailService;
@@ -12,6 +13,10 @@ use Illuminate\Support\Facades\Log;
 
 class OdemeController extends Controller
 {
+    private const BILDIRIM_EMAIL   = 'info@sucek.com.tr';
+    private const BILDIRIM_TELEFON = '05442948402';
+
+
     public function goster(string $referans)
     {
         $siparis = Siparis::with('kalemler')
@@ -102,6 +107,13 @@ class OdemeController extends Controller
                 if ($siparis->email) {
                     app(MailService::class)->gonder($siparis->email, new SiparisDurumMail($siparis), 'siparis_durum');
                 }
+
+                // Sipariş sahibine (SUÇEK) otomatik bildirim
+                app(SmsService::class)->gonder(
+                    self::BILDIRIM_TELEFON,
+                    "Ödeme alındı: #{$siparis->referans} - {$siparis->ad_soyad} - " . number_format((float) $siparis->toplam, 2, ',', '.') . ' TL'
+                );
+                app(MailService::class)->gonder(self::BILDIRIM_EMAIL, new SiparisBildirimMail($siparis, 'odeme_alindi'), 'siparis_bildirim_odeme_alindi');
             }
         }
 
