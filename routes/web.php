@@ -64,9 +64,6 @@ Route::get('/onlinerandevu',   fn() => redirect('/iletisim', 301));
 // Ana Sayfa
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Test — hero onerisi (linklenmemis, gecici)
-Route::get('/test/hero-8panel', fn() => view('test.hero-8panel'))->name('test.hero8');
-
 // İletişim
 Route::get('/iletisim', [IletisimController::class, 'index'])->name('iletisim.index');
 Route::post('/iletisim', [IletisimController::class, 'gonder'])->name('iletisim.gonder');

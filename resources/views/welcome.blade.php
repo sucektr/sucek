@@ -25,339 +25,90 @@
 </div>
 @endif
 
-{{-- ─── Hero Accordion ─────────────────────────────────────────────────── --}}
+{{-- ─── Hero Accordion (8 panel, 2×4) ─────────────────────────────────── --}}
 
-{{-- Mobile: 2×2 basit grid (md altı) --}}
+@php
+$heroPaneller = [
+  [
+    'id' => 'mimarlik', 'kicker' => 'PROJELENDİRME', 'title' => 'Mimarlık',
+    'image' => icerik_gorsel('anasayfa','mimarlik_gorsel','https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=800&q=80'),
+    'href' => route('mimarlik.index'),
+    'subLinks' => [
+      ['icon' => 'ti-file-certificate', 'label' => 'Ruhsat Takibi', 'href' => route('mimarlik.ruhsat')],
+      ['icon' => 'ti-building-arch',    'label' => 'Projelerimiz',  'href' => route('projeler.index')],
+    ],
+  ],
+  [
+    'id' => 'insaat', 'kicker' => 'UYGULAMA', 'title' => 'İnşaat',
+    'image' => icerik_gorsel('anasayfa','insaat_gorsel','https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80'),
+    'href' => route('insaat.index'),
+    'subLinks' => [
+      ['icon' => 'ti-calculator',      'label' => 'Maliyet Hesaplama', 'href' => route('insaat.hesaplama')],
+      ['icon' => 'ti-ruler-measure',   'label' => 'Emsal Hesaplama',   'href' => route('insaat.emsal')],
+    ],
+  ],
+  [
+    'id' => 'icmimari', 'kicker' => 'TASARIM', 'title' => 'İç Mimari',
+    'image' => icerik_gorsel('anasayfa','icmimari_gorsel','https://images.unsplash.com/photo-1615529162924-f8605388461d?w=800&q=80'),
+    'href' => route('mimarlik.icmimari'),
+    'subLinks' => [],
+  ],
+  [
+    'id' => 'celikkonteyner', 'kicker' => 'İNŞAAT ÇÖZÜMLERİ', 'title' => 'Hafif Çelik & Konteyner',
+    'image' => icerik_gorsel('hafif-celik-konteyner','hero_gorsel','https://images.unsplash.com/photo-1541976590-713941681591?w=800&q=80'),
+    'href' => route('hafif-celik-konteyner.index'),
+    'subLinks' => [],
+  ],
+  [
+    'id' => 'magazainsaat', 'kicker' => 'ALIŞVERİŞ', 'title' => 'İnşaat Malzemeleri',
+    'image' => icerik_gorsel('anasayfa','magaza_insaat_gorsel','https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80'),
+    'href' => route('magaza.index', ['kategori' => 'insaat']),
+    'subLinks' => [],
+  ],
+  [
+    'id' => 'magazaspor', 'kicker' => 'ALIŞVERİŞ', 'title' => 'Spor Malzemeleri',
+    'image' => icerik_gorsel('anasayfa','magaza_spor_gorsel','https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&q=80'),
+    'href' => route('magaza.index', ['kategori' => 'spor']),
+    'subLinks' => [],
+  ],
+  [
+    'id' => 'koleksiyon', 'kicker' => 'KOLEKSİYON', 'title' => 'Koleksiyon',
+    'image' => icerik_gorsel('anasayfa','koleksiyon_gorsel','https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=800&q=80'),
+    'href' => route('koleksiyon.index'),
+    'subLinks' => [
+      ['icon' => 'ti-clock', 'label' => 'Saat',        'href' => route('koleksiyon.index', ['kategori' => 'saat'])],
+      ['icon' => 'ti-coin',  'label' => 'Nümizmatik',  'href' => route('koleksiyon.index', ['kategori' => 'numizmatik'])],
+    ],
+  ],
+  [
+    'id' => 'celikag', 'kicker' => 'GÜVENLİK', 'title' => 'Çelik Güvenlik Ağı',
+    'image' => icerik_gorsel('celik-guvenlik-agi','hero_gorsel','/images/mesh/hizmet-4.webp'),
+    'href' => route('celik-guvenlik-agi.index'),
+    'subLinks' => [],
+  ],
+];
+@endphp
+
+{{-- Mobile: 2 sütunlu grid --}}
 <section class="grid grid-cols-2 gap-2 p-2 bg-[#F8FAFC] md:hidden" aria-label="Hizmet alanları">
-
-  <div class="group relative rounded-xl overflow-hidden min-h-[200px] cursor-pointer">
-    <div class="absolute inset-0 transition-transform duration-700 group-hover:scale-105" style="background-image:url('{{ icerik_gorsel('anasayfa','mimarlik_gorsel','https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=800&q=80') }}'); background-size:cover; background-position:center;"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-[rgba(15,23,42,0.92)] via-[rgba(15,23,42,0.30)] to-transparent"></div>
-    <a href="{{ route('mimarlik.index') }}" class="absolute inset-0 z-10 flex flex-col justify-end p-4" aria-label="Mimarlık">
-      <p class="text-[10px] font-semibold tracking-widest uppercase text-[#CC2200] mb-1">PROJELENDİRME</p>
-      <h2 class="text-[18px] font-bold text-white tracking-tight leading-tight">Mimarlık</h2>
-    </a>
-  </div>
-
-  <div class="group relative rounded-xl overflow-hidden min-h-[200px] cursor-pointer">
-    <div class="absolute inset-0 transition-transform duration-700 group-hover:scale-105" style="background-image:url('{{ icerik_gorsel('anasayfa','insaat_gorsel','https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80') }}'); background-size:cover; background-position:center;"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-[rgba(15,23,42,0.92)] via-[rgba(15,23,42,0.30)] to-transparent"></div>
-    <a href="{{ route('insaat.index') }}" class="absolute inset-0 z-10 flex flex-col justify-end p-4" aria-label="İnşaat">
-      <p class="text-[10px] font-semibold tracking-widest uppercase text-[#CC2200] mb-1">UYGULAMA</p>
-      <h2 class="text-[18px] font-bold text-white tracking-tight leading-tight">İnşaat</h2>
-    </a>
-  </div>
-
-  <div class="group relative rounded-xl overflow-hidden min-h-[200px] cursor-pointer">
-    <div class="absolute inset-0 transition-transform duration-700 group-hover:scale-105" style="background-image:url('{{ icerik_gorsel('anasayfa','magaza_gorsel','https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=800&q=80') }}'); background-size:cover; background-position:center;"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-[rgba(15,23,42,0.92)] via-[rgba(15,23,42,0.30)] to-transparent"></div>
-    <a href="{{ route('magaza.index') }}" class="absolute inset-0 z-10 flex flex-col justify-end p-4" aria-label="Mağaza">
-      <p class="text-[10px] font-semibold tracking-widest uppercase text-[#CC2200] mb-1">ALIŞVERİŞ</p>
-      <h2 class="text-[18px] font-bold text-white tracking-tight leading-tight">Mağaza</h2>
-    </a>
-  </div>
-
-  <div class="group relative rounded-xl overflow-hidden min-h-[200px] cursor-pointer">
-    <div class="absolute inset-0 transition-transform duration-700 group-hover:scale-105" style="background-image:url('{{ icerik_gorsel('anasayfa','koleksiyon_gorsel','https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=800&q=80') }}'); background-size:cover; background-position:center;"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-[rgba(15,23,42,0.92)] via-[rgba(15,23,42,0.30)] to-transparent"></div>
-    <a href="{{ route('koleksiyon.index') }}" class="absolute inset-0 z-10 flex flex-col justify-end p-4" aria-label="Koleksiyon">
-      <p class="text-[10px] font-semibold tracking-widest uppercase text-[#CC2200] mb-1">KOLEKSİYON</p>
-      <h2 class="text-[18px] font-bold text-white tracking-tight leading-tight">Antika</h2>
-    </a>
-  </div>
-
+  @foreach($heroPaneller as $p)
+    <x-hero-panel-mobile :kicker="$p['kicker']" :title="$p['title']" :image="$p['image']" :href="$p['href']" />
+  @endforeach
 </section>
 
-{{-- Desktop: Yatay Expanding Accordion (md+) --}}
-<section class="hidden md:flex overflow-hidden gap-2 p-2 bg-[#F8FAFC]"
-         style="height:520px;"
-         x-data="{ aktif: null }"
-         aria-label="Hizmet alanları">
-
-  {{-- ── MİMARLIK ── --}}
-  <div class="relative overflow-hidden rounded-xl min-w-0 cursor-pointer transition-all duration-500 ease-in-out"
-       :style="{ flex: aktif === 'mimarlik' ? '2.8' : aktif !== null ? '0.6' : '1' }"
-       @mouseenter="aktif = 'mimarlik'"
-       @mouseleave="aktif = null">
-
-    {{-- Arka plan --}}
-    <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700"
-         :class="aktif === 'mimarlik' ? 'scale-110' : 'scale-100'"
-         style="background-image:url('{{ icerik_gorsel('anasayfa','mimarlik_gorsel','https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=800&q=80') }}');"></div>
-    {{-- Gradient --}}
-    <div class="absolute inset-0 bg-gradient-to-t from-[rgba(15,23,42,0.95)] via-[rgba(15,23,42,0.35)] to-transparent"></div>
-    {{-- Yan karartma (diğer kartlar hover'da) --}}
-    <div class="absolute inset-0 bg-[rgba(15,23,42,0.40)] transition-opacity duration-500"
-         :class="aktif !== null && aktif !== 'mimarlik' ? 'opacity-100' : 'opacity-0'"></div>
-
-    {{-- Varsayılan durum: alt başlık --}}
-    <div class="absolute bottom-0 left-0 right-0 p-5 z-10 transition-all duration-300 pointer-events-none"
-         :class="aktif !== null ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'">
-      <p class="text-[10px] font-semibold tracking-widest uppercase text-[#CC2200] mb-1.5">PROJELENDİRME</p>
-      <h2 class="text-[22px] font-bold text-white tracking-tight">Mimarlık</h2>
-    </div>
-
-    {{-- Daraltılmış durum: dikey etiket --}}
-    <div class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none transition-all duration-300"
-         :class="aktif !== null && aktif !== 'mimarlik' ? 'opacity-100' : 'opacity-0'">
-      <span class="text-white/60 text-[11px] font-semibold tracking-[0.2em] uppercase select-none"
-            style="writing-mode:vertical-rl; transform:rotate(180deg);">Mimarlık</span>
-    </div>
-
-    {{-- Aktif durum: ana içerik linki --}}
-    <a href="{{ route('mimarlik.index') }}"
-       class="absolute left-0 right-0 top-0 z-10 flex flex-col justify-end p-6 transition-all duration-300"
-       style="bottom:52px;"
-       :class="aktif === 'mimarlik' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5 pointer-events-none'"
-       aria-label="Mimarlık hizmetleri">
-      <p class="text-[11px] font-semibold tracking-widest uppercase text-[#CC2200] mb-2">PROJELENDİRME</p>
-      <h2 class="text-[30px] font-bold text-white tracking-tight leading-tight">Mimarlık</h2>
-    </a>
-
-    {{-- Alt bar (aktifken yukarı kayar) --}}
-    <div class="absolute bottom-0 left-0 right-0 flex bg-[rgba(15,23,42,0.92)] z-20 transition-all duration-500"
-         style="height:52px;"
-         :class="aktif === 'mimarlik' ? 'translate-y-0' : 'translate-y-full'">
-      <a href="{{ route('mimarlik.ruhsat') }}"
-         class="flex-1 flex items-center gap-1.5 px-4 text-[12px] font-medium text-white/60 hover:bg-white/5 hover:text-white transition-colors overflow-hidden">
-        <i class="ti ti-file-certificate text-sm shrink-0"></i><span class="truncate">Ruhsat Takibi</span>
-      </a>
-      <span class="w-px bg-white/10 shrink-0"></span>
-      <a href="{{ route('mimarlik.icmimari') }}"
-         class="flex-1 flex items-center gap-1.5 px-4 text-[12px] font-medium text-white/60 hover:bg-white/5 hover:text-white transition-colors overflow-hidden">
-        <i class="ti ti-sofa text-sm shrink-0"></i><span class="truncate">İç Mimari</span>
-      </a>
-    </div>
-
-    {{-- Tıklama alanı (daraltılmış/varsayılan hâlde) --}}
-    <a href="{{ route('mimarlik.index') }}"
-       class="absolute inset-0 z-[5] transition-opacity duration-300"
-       :class="aktif === 'mimarlik' ? 'opacity-0 pointer-events-none' : 'opacity-100'"
-       aria-hidden="true" tabindex="-1"></a>
+{{-- Desktop: Yatay Expanding Accordion, 2 sıra × 4 (md+) --}}
+<section class="hidden md:block p-2 bg-[#F8FAFC]" x-data="{ aktif: null }" aria-label="Hizmet alanları">
+  <div class="flex overflow-hidden gap-2 mb-2" style="height:396px;">
+    @foreach(array_slice($heroPaneller, 0, 4) as $p)
+      <x-hero-panel :id="$p['id']" :kicker="$p['kicker']" :title="$p['title']" :image="$p['image']" :href="$p['href']" :sub-links="$p['subLinks']" />
+    @endforeach
   </div>
-
-  {{-- ── İNŞAAT ── --}}
-  <div class="relative overflow-hidden rounded-xl min-w-0 cursor-pointer transition-all duration-500 ease-in-out"
-       :style="{ flex: aktif === 'insaat' ? '2.8' : aktif !== null ? '0.6' : '1' }"
-       @mouseenter="aktif = 'insaat'"
-       @mouseleave="aktif = null">
-
-    <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700"
-         :class="aktif === 'insaat' ? 'scale-110' : 'scale-100'"
-         style="background-image:url('{{ icerik_gorsel('anasayfa','insaat_gorsel','https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80') }}');"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-[rgba(15,23,42,0.95)] via-[rgba(15,23,42,0.35)] to-transparent"></div>
-    <div class="absolute inset-0 bg-[rgba(15,23,42,0.40)] transition-opacity duration-500"
-         :class="aktif !== null && aktif !== 'insaat' ? 'opacity-100' : 'opacity-0'"></div>
-
-    <div class="absolute bottom-0 left-0 right-0 p-5 z-10 transition-all duration-300 pointer-events-none"
-         :class="aktif !== null ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'">
-      <p class="text-[10px] font-semibold tracking-widest uppercase text-[#CC2200] mb-1.5">UYGULAMA</p>
-      <h2 class="text-[22px] font-bold text-white tracking-tight">İnşaat</h2>
-    </div>
-
-    <div class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none transition-all duration-300"
-         :class="aktif !== null && aktif !== 'insaat' ? 'opacity-100' : 'opacity-0'">
-      <span class="text-white/60 text-[11px] font-semibold tracking-[0.2em] uppercase select-none"
-            style="writing-mode:vertical-rl; transform:rotate(180deg);">İnşaat</span>
-    </div>
-
-    <a href="{{ route('insaat.index') }}"
-       class="absolute left-0 right-0 top-0 z-10 flex flex-col justify-end p-6 transition-all duration-300"
-       style="bottom:52px;"
-       :class="aktif === 'insaat' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5 pointer-events-none'"
-       aria-label="İnşaat hizmetleri">
-      <p class="text-[11px] font-semibold tracking-widest uppercase text-[#CC2200] mb-2">UYGULAMA</p>
-      <h2 class="text-[30px] font-bold text-white tracking-tight leading-tight">İnşaat</h2>
-    </a>
-
-    <div class="absolute bottom-0 left-0 right-0 flex bg-[rgba(15,23,42,0.92)] z-20 transition-all duration-500"
-         style="height:52px;"
-         :class="aktif === 'insaat' ? 'translate-y-0' : 'translate-y-full'">
-      <a href="{{ route('insaat.hesaplama') }}"
-         class="flex-1 flex items-center gap-1.5 px-4 text-[12px] font-medium text-white/60 hover:bg-white/5 hover:text-white transition-colors overflow-hidden">
-        <i class="ti ti-calculator text-sm shrink-0"></i><span class="truncate">Maliyet Hesaplama</span>
-      </a>
-      <span class="w-px bg-white/10 shrink-0"></span>
-      <a href="{{ route('insaat.emsal') }}"
-         class="flex-1 flex items-center gap-1.5 px-4 text-[12px] font-medium text-white/60 hover:bg-white/5 hover:text-white transition-colors overflow-hidden">
-        <i class="ti ti-ruler-measure text-sm shrink-0"></i><span class="truncate">Emsal Hesaplama</span>
-      </a>
-    </div>
-
-    <a href="{{ route('insaat.index') }}"
-       class="absolute inset-0 z-[5] transition-opacity duration-300"
-       :class="aktif === 'insaat' ? 'opacity-0 pointer-events-none' : 'opacity-100'"
-       aria-hidden="true" tabindex="-1"></a>
+  <div class="flex overflow-hidden gap-2" style="height:396px;">
+    @foreach(array_slice($heroPaneller, 4, 4) as $p)
+      <x-hero-panel :id="$p['id']" :kicker="$p['kicker']" :title="$p['title']" :image="$p['image']" :href="$p['href']" :sub-links="$p['subLinks']" />
+    @endforeach
   </div>
-
-  {{-- ── MAĞAZA ── --}}
-  <div class="relative overflow-hidden rounded-xl min-w-0 cursor-pointer transition-all duration-500 ease-in-out"
-       :style="{ flex: aktif === 'magaza' ? '2.8' : aktif !== null ? '0.6' : '1' }"
-       @mouseenter="aktif = 'magaza'"
-       @mouseleave="aktif = null">
-
-    <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700"
-         :class="aktif === 'magaza' ? 'scale-110' : 'scale-100'"
-         style="background-image:url('{{ icerik_gorsel('anasayfa','magaza_gorsel','https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=800&q=80') }}');"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-[rgba(15,23,42,0.95)] via-[rgba(15,23,42,0.35)] to-transparent"></div>
-    <div class="absolute inset-0 bg-[rgba(15,23,42,0.40)] transition-opacity duration-500"
-         :class="aktif !== null && aktif !== 'magaza' ? 'opacity-100' : 'opacity-0'"></div>
-
-    <div class="absolute bottom-0 left-0 right-0 p-5 z-10 transition-all duration-300 pointer-events-none"
-         :class="aktif !== null ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'">
-      <p class="text-[10px] font-semibold tracking-widest uppercase text-[#CC2200] mb-1.5">ALIŞVERİŞ</p>
-      <h2 class="text-[22px] font-bold text-white tracking-tight">Mağaza</h2>
-    </div>
-
-    <div class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none transition-all duration-300"
-         :class="aktif !== null && aktif !== 'magaza' ? 'opacity-100' : 'opacity-0'">
-      <span class="text-white/60 text-[11px] font-semibold tracking-[0.2em] uppercase select-none"
-            style="writing-mode:vertical-rl; transform:rotate(180deg);">Mağaza</span>
-    </div>
-
-    <a href="{{ route('magaza.index') }}"
-       class="absolute left-0 right-0 top-0 z-10 flex flex-col justify-end p-6 transition-all duration-300"
-       style="bottom:52px;"
-       :class="aktif === 'magaza' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5 pointer-events-none'"
-       aria-label="Mağaza">
-      <p class="text-[11px] font-semibold tracking-widest uppercase text-[#CC2200] mb-2">ALIŞVERİŞ</p>
-      <h2 class="text-[30px] font-bold text-white tracking-tight leading-tight">Mağaza</h2>
-    </a>
-
-    <div class="absolute bottom-0 left-0 right-0 flex bg-[rgba(15,23,42,0.92)] z-20 transition-all duration-500"
-         style="height:52px;"
-         :class="aktif === 'magaza' ? 'translate-y-0' : 'translate-y-full'">
-      <a href="{{ route('magaza.index', ['kategori' => 'spor']) }}"
-         class="flex-1 flex items-center gap-1.5 px-4 text-[12px] font-medium text-white/60 hover:bg-white/5 hover:text-white transition-colors overflow-hidden">
-        <i class="ti ti-ball-football text-sm shrink-0"></i><span class="truncate">Spor</span>
-      </a>
-      <span class="w-px bg-white/10 shrink-0"></span>
-      <a href="{{ route('magaza.index', ['kategori' => 'insaat']) }}"
-         class="flex-1 flex items-center gap-1.5 px-4 text-[12px] font-medium text-white/60 hover:bg-white/5 hover:text-white transition-colors overflow-hidden">
-        <i class="ti ti-building text-sm shrink-0"></i><span class="truncate">İnşaat</span>
-      </a>
-    </div>
-
-    <a href="{{ route('magaza.index') }}"
-       class="absolute inset-0 z-[5] transition-opacity duration-300"
-       :class="aktif === 'magaza' ? 'opacity-0 pointer-events-none' : 'opacity-100'"
-       aria-hidden="true" tabindex="-1"></a>
-  </div>
-
-  {{-- ── KOLEKSİYON ── --}}
-  <div class="relative overflow-hidden rounded-xl min-w-0 cursor-pointer transition-all duration-500 ease-in-out"
-       :style="{ flex: aktif === 'koleksiyon' ? '2.8' : aktif !== null ? '0.6' : '1' }"
-       @mouseenter="aktif = 'koleksiyon'"
-       @mouseleave="aktif = null">
-
-    <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700"
-         :class="aktif === 'koleksiyon' ? 'scale-110' : 'scale-100'"
-         style="background-image:url('{{ icerik_gorsel('anasayfa','koleksiyon_gorsel','https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=800&q=80') }}');"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-[rgba(15,23,42,0.95)] via-[rgba(15,23,42,0.35)] to-transparent"></div>
-    <div class="absolute inset-0 bg-[rgba(15,23,42,0.40)] transition-opacity duration-500"
-         :class="aktif !== null && aktif !== 'koleksiyon' ? 'opacity-100' : 'opacity-0'"></div>
-
-    <div class="absolute bottom-0 left-0 right-0 p-5 z-10 transition-all duration-300 pointer-events-none"
-         :class="aktif !== null ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'">
-      <p class="text-[10px] font-semibold tracking-widest uppercase text-[#CC2200] mb-1.5">KOLEKSİYON</p>
-      <h2 class="text-[22px] font-bold text-white tracking-tight">Antika</h2>
-    </div>
-
-    <div class="absolute inset-0 flex items-center justify-center z-10 pointer-events-none transition-all duration-300"
-         :class="aktif !== null && aktif !== 'koleksiyon' ? 'opacity-100' : 'opacity-0'">
-      <span class="text-white/60 text-[11px] font-semibold tracking-[0.2em] uppercase select-none"
-            style="writing-mode:vertical-rl; transform:rotate(180deg);">Koleksiyon</span>
-    </div>
-
-    <a href="{{ route('koleksiyon.index') }}"
-       class="absolute left-0 right-0 top-0 z-10 flex flex-col justify-end p-6 transition-all duration-300"
-       style="bottom:52px;"
-       :class="aktif === 'koleksiyon' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5 pointer-events-none'"
-       aria-label="Koleksiyon">
-      <p class="text-[11px] font-semibold tracking-widest uppercase text-[#CC2200] mb-2">KOLEKSİYON</p>
-      <h2 class="text-[30px] font-bold text-white tracking-tight leading-tight">Antika</h2>
-    </a>
-
-    <div class="absolute bottom-0 left-0 right-0 flex bg-[rgba(15,23,42,0.92)] z-20 transition-all duration-500"
-         style="height:52px;"
-         :class="aktif === 'koleksiyon' ? 'translate-y-0' : 'translate-y-full'">
-      <a href="{{ route('koleksiyon.index', ['kategori' => 'saat']) }}"
-         class="flex-1 flex items-center gap-1.5 px-4 text-[12px] font-medium text-white/60 hover:bg-white/5 hover:text-white transition-colors overflow-hidden">
-        <i class="ti ti-clock text-sm shrink-0"></i><span class="truncate">Saat</span>
-      </a>
-      <span class="w-px bg-white/10 shrink-0"></span>
-      <a href="{{ route('koleksiyon.index', ['kategori' => 'numizmatik']) }}"
-         class="flex-1 flex items-center gap-1.5 px-4 text-[12px] font-medium text-white/60 hover:bg-white/5 hover:text-white transition-colors overflow-hidden">
-        <i class="ti ti-coin text-sm shrink-0"></i><span class="truncate">Nümizmatik</span>
-      </a>
-    </div>
-
-    <a href="{{ route('koleksiyon.index') }}"
-       class="absolute inset-0 z-[5] transition-opacity duration-300"
-       :class="aktif === 'koleksiyon' ? 'opacity-0 pointer-events-none' : 'opacity-100'"
-       aria-hidden="true" tabindex="-1"></a>
-  </div>
-
 </section>
-
-{{-- ─── Çelik Güvenlik Ağı Promo Bandı ────────────────────────────────── --}}
-{{-- ─── MESH Çelik Ağ Promo ─────────────────────────────────────────────── --}}
-<div class="px-2 pt-2 bg-[#F8FAFC]">
-  <div class="relative rounded-xl overflow-hidden bg-white border border-[#E2E8F0]" style="min-height:200px;">
-
-    {{-- Sağ: arka plan görseli (md+) --}}
-    @php $meshBandGorsel = icerik_gorsel('celik-guvenlik-agi','anasayfa_band_gorsel','/images/mesh/hizmet-3.webp'); @endphp
-    <div class="absolute right-0 top-0 bottom-0 w-1/2 hidden md:block"
-         style="background-image:url('{{ $meshBandGorsel }}');background-size:cover;background-position:center;">
-      <div class="absolute inset-0" style="background:linear-gradient(to right,rgba(255,255,255,.9),rgba(255,255,255,.2),transparent)"></div>
-    </div>
-
-    {{-- Mobil arka plan --}}
-    <div class="absolute inset-0 md:hidden"
-         style="background-image:url('{{ $meshBandGorsel }}');background-size:cover;background-position:center;opacity:.08;"></div>
-
-    {{-- Kırmızı üst şerit --}}
-    <div class="absolute top-0 left-0 right-0 h-[3px] bg-[#CC2200]"></div>
-
-    {{-- İçerik --}}
-    <div class="relative px-6 lg:px-10 py-7 lg:py-9 flex flex-col justify-between h-full" style="min-height:200px;">
-
-      {{-- Üst: logo + rozet --}}
-      <div class="flex items-center gap-3 mb-4">
-        <img src="{{ icerik_gorsel('celik-guvenlik-agi','logo','/images/mesh/logo-color.png') }}" alt="MESH Çelik Ağ" class="h-7 lg:h-8 w-auto">
-        <div class="w-px h-5 bg-[#E2E8F0]"></div>
-        <span class="inline-flex items-center gap-1.5 bg-[#FEF2F0] border border-[#FECDC7] text-[#CC2200] text-[10px] font-bold tracking-[0.1em] uppercase px-2.5 py-1 rounded-full">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#CC2200]"></span> Yetkili Bayii
-        </span>
-      </div>
-
-      {{-- Başlık --}}
-      <div class="mb-5 max-w-sm">
-        <h2 class="text-[20px] lg:text-[24px] font-bold text-[#0F172A] leading-snug tracking-tight mb-2">
-          Çelik Güvenlik Ağı<br>
-          <span class="text-[#CC2200]">çözümleri sunuyoruz</span>
-        </h2>
-        <p class="text-[13px] text-[#64748B] leading-relaxed">
-          İnşaat, balkon, teras ve endüstriyel alanlara özel.<br class="hidden lg:block">
-          Özel ölçü · TSE sertifikalı · Teknik destek dahil
-        </p>
-      </div>
-
-      {{-- CTA --}}
-      <div class="flex items-center gap-3">
-        <a href="{{ route('celik-guvenlik-agi.index') }}"
-           class="inline-flex items-center gap-2 bg-[#CC2200] hover:bg-[#a31b00] text-white text-[12px] font-semibold tracking-wide px-5 py-2.5 rounded-[8px] transition-colors">
-          Detaylı İncele <i class="ti ti-arrow-right text-xs"></i>
-        </a>
-        <a href="{{ route('iletisim.index') }}"
-           class="inline-flex items-center gap-2 border border-[#E2E8F0] hover:border-[#CC2200] text-[#64748B] hover:text-[#CC2200] text-[12px] font-semibold px-5 py-2.5 rounded-[8px] transition-colors">
-          Teklif Al
-        </a>
-      </div>
-
-    </div>
-  </div>
-</div>
 
 {{-- ─── Öne Çıkan & İndirimli Ürünler ─────────────────────────────────── --}}
 @if(isset($slider_urunler) && $slider_urunler->count() > 0)
