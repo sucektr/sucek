@@ -27,6 +27,7 @@ use App\Http\Controllers\SifremiUnuttumController;
 use App\Http\Controllers\ProjeController;
 use App\Http\Controllers\MerchantFeedController;
 use App\Http\Controllers\CelikGuvenlikAgiController;
+use App\Http\Controllers\HafifCelikKonteynerController;
 
 // Storage / uploads dosyalarını symlink olmadan sun (fallback; Apache direkt okuyabiliyorsa bu çalışmaz zaten)
 Route::get('/storage/{path}', function (string $path) {
@@ -62,6 +63,9 @@ Route::get('/onlinerandevu',   fn() => redirect('/iletisim', 301));
 
 // Ana Sayfa
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Test — hero onerisi (linklenmemis, gecici)
+Route::get('/test/hero-8panel', fn() => view('test.hero-8panel'))->name('test.hero8');
 
 // İletişim
 Route::get('/iletisim', [IletisimController::class, 'index'])->name('iletisim.index');
@@ -123,6 +127,9 @@ Route::prefix('sepet')->name('sepet.')->group(function () {
 
 // Çelik Güvenlik Ağı (bayilik)
 Route::get('/celik-guvenlik-agi', [CelikGuvenlikAgiController::class, 'index'])->name('celik-guvenlik-agi.index');
+
+// Hafif Çelik ve Konteyner
+Route::get('/hafif-celik-konteyner', [HafifCelikKonteynerController::class, 'index'])->name('hafif-celik-konteyner.index');
 
 // Projeler
 Route::get('/projeler', [ProjeController::class, 'index'])->name('projeler.index');
