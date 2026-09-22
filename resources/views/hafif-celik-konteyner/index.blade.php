@@ -26,38 +26,38 @@
          class="inline-flex items-center justify-center gap-2 bg-[#CC2200] hover:bg-[#a31b00] text-white text-[13px] font-semibold tracking-wide px-6 py-3 rounded-[10px] transition-colors">
         <i class="ti ti-phone text-sm"></i> Teklif Al
       </a>
-      @if($urunler->count() > 0)
-      <a href="#urunler"
+      @if($projeler->count() > 0)
+      <a href="#projeler"
          class="inline-flex items-center justify-center gap-2 bg-white/8 hover:bg-white/12 border border-white/15 text-white text-[13px] font-semibold px-6 py-3 rounded-[10px] transition-colors">
-        <i class="ti ti-layout-grid text-sm"></i> Ürünleri İncele
+        <i class="ti ti-layout-grid text-sm"></i> Projeleri İncele
       </a>
       @endif
     </div>
   </div>
 </section>
 
-{{-- ─── Ürün Listesi ────────────────────────────────────────────────────────── --}}
-<section id="urunler" class="bg-white border-b border-[#E2E8F0]">
+{{-- ─── Proje Galerisi ────────────────────────────────────────────────────────── --}}
+<section id="projeler" class="bg-white border-b border-[#E2E8F0]">
   <div class="max-w-[1280px] mx-auto px-4 lg:px-6 py-12 lg:py-16">
 
     <div class="flex items-end justify-between mb-8">
       <div>
-        <p class="text-[10px] font-semibold tracking-widest uppercase text-[#CC2200] mb-2">ÜRÜN KATALOĞU</p>
-        <h2 class="text-[22px] lg:text-[28px] font-bold text-[#0F172A] tracking-tight">Hafif Çelik ve Konteyner Ürünleri</h2>
+        <p class="text-[10px] font-semibold tracking-widest uppercase text-[#CC2200] mb-2">PROJE GALERİSİ</p>
+        <h2 class="text-[22px] lg:text-[28px] font-bold text-[#0F172A] tracking-tight">Hafif Çelik ve Konteyner Projeleri</h2>
       </div>
-      @if($urunler->count() > 0)
-      <span class="text-[13px] text-[#94A3B8]">{{ $urunler->count() }} ürün</span>
+      @if($projeler->count() > 0)
+      <span class="text-[13px] text-[#94A3B8]">{{ $projeler->count() }} proje</span>
       @endif
     </div>
 
-    @if($urunler->count() > 0)
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-      @foreach($urunler as $urun)
-      <a href="{{ route('magaza.urun', $urun->slug) }}"
+    @if($projeler->count() > 0)
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      @foreach($projeler as $proje)
+      <a href="{{ route('projeler.show', $proje->slug) }}"
          class="group bg-white border border-[#E2E8F0] rounded-xl overflow-hidden hover:shadow-[0_8px_24px_rgba(15,23,42,0.10)] hover:-translate-y-0.5 transition-all duration-200">
-        <div class="aspect-square bg-[#F8FAFC] relative overflow-hidden">
-          @if($urun->gorsel)
-          <img src="{{ asset('storage/'.$urun->gorsel) }}" alt="{{ $urun->ad }}"
+        <div class="aspect-[4/3] bg-[#F8FAFC] relative overflow-hidden">
+          @if($proje->kapak_gorsel)
+          <img src="{{ asset('storage/'.$proje->kapak_gorsel) }}" alt="{{ $proje->baslik }}"
                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                loading="lazy">
           @else
@@ -65,11 +65,24 @@
             <i class="ti ti-building-warehouse text-[#C0C0C0] text-4xl"></i>
           </div>
           @endif
+          @if($proje->one_cikan)
+          <div class="absolute top-3 left-3">
+            <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-[#0F172A]/80 backdrop-blur-sm text-white text-[10px] font-semibold rounded-full">
+              <i class="ti ti-star-filled text-[#FCD34D] text-[9px]"></i> Öne Çıkan
+            </span>
+          </div>
+          @endif
         </div>
-        <div class="p-4">
-          <h3 class="text-[13px] font-semibold text-[#0F172A] leading-snug mb-2 line-clamp-2">{{ $urun->ad }}</h3>
-          @if($urun->fiyat)
-          <span class="text-[15px] font-bold text-[#CC2200]">{{ number_format($urun->fiyat, 0, ',', '.') }} ₺</span>
+        <div class="p-5">
+          @if($proje->yil)
+          <span class="text-[11px] text-[#94A3B8]">{{ $proje->yil }}</span>
+          @endif
+          <h3 class="text-[15px] font-semibold text-[#0F172A] leading-snug mb-2 line-clamp-2">{{ $proje->baslik }}</h3>
+          @if($proje->konum)
+          <div class="flex items-center gap-1.5 text-[12px] text-[#94A3B8]">
+            <i class="ti ti-map-pin text-xs"></i>
+            <span>{{ $proje->konum }}</span>
+          </div>
           @endif
         </div>
       </a>
@@ -80,8 +93,8 @@
       <div class="w-16 h-16 rounded-2xl bg-white border border-[#E2E8F0] shadow-sm flex items-center justify-center mx-auto mb-4">
         <i class="ti ti-building-warehouse text-[#CC2200] text-2xl"></i>
       </div>
-      <h3 class="text-[16px] font-bold text-[#0F172A] mb-2">Ürünler Yakında</h3>
-      <p class="text-[13px] text-[#64748B] max-w-sm mx-auto mb-6">Hafif çelik ve konteyner ürün kataloğumuz hazırlanmaktadır. Fiyat ve bilgi almak için bizimle iletişime geçin.</p>
+      <h3 class="text-[16px] font-bold text-[#0F172A] mb-2">Projeler Yakında</h3>
+      <p class="text-[13px] text-[#64748B] max-w-sm mx-auto mb-6">Hafif çelik ve konteyner proje galerimiz hazırlanmaktadır. Bilgi almak için bizimle iletişime geçin.</p>
       <a href="{{ route('iletisim.index') }}"
          class="inline-flex items-center gap-2 bg-[#CC2200] hover:bg-[#a31b00] text-white text-[12px] font-semibold px-5 py-2.5 rounded-[8px] transition-colors">
         <i class="ti ti-phone text-sm"></i> İletişime Geç

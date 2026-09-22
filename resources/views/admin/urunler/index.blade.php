@@ -23,7 +23,7 @@
   <select name="kategori"
           class="px-3 py-2.5 border border-[#E2E8F0] rounded-[8px] text-[13px] focus:outline-none focus:border-[#CC2200] focus:ring-2 focus:ring-[rgba(204,34,0,0.08)] transition-colors bg-white">
     <option value="">Tüm Kategoriler</option>
-    @foreach(['spor' => 'Spor', 'insaat' => 'İnşaat', 'diger' => 'Diğer', 'celik-guvenlik-agi' => 'Çelik Güvenlik Ağı', 'hafif-celik-konteyner' => 'Hafif Çelik ve Konteyner'] as $val => $lbl)
+    @foreach(['spor' => 'Spor', 'insaat' => 'İnşaat', 'diger' => 'Diğer', 'celik-guvenlik-agi' => 'Çelik Güvenlik Ağı'] as $val => $lbl)
       <option value="{{ $val }}" {{ request('kategori') === $val ? 'selected' : '' }}>{{ $lbl }}</option>
     @endforeach
   </select>

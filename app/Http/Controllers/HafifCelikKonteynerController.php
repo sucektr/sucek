@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Urun;
+use App\Models\Proje;
 
 class HafifCelikKonteynerController extends Controller
 {
     public function index()
     {
-        $urunler = Urun::where('aktif', true)
+        $projeler = Proje::where('aktif', true)
             ->where('kategori', 'hafif-celik-konteyner')
-            ->orderByDesc('one_cikan')
-            ->orderByDesc('id')
+            ->orderBy('sira')
+            ->orderByDesc('yil')
             ->get();
 
-        return view('hafif-celik-konteyner.index', compact('urunler'));
+        return view('hafif-celik-konteyner.index', compact('projeler'));
     }
 }

@@ -48,6 +48,7 @@
         $katLabel = match($kat) {
           'mimarlik' => 'Mimarlık',
           'insaat'   => 'İnşaat',
+          'hafif-celik-konteyner' => 'Hafif Çelik ve Konteyner',
           'diger'    => 'Diğer Projeler',
           default    => ucfirst($kat),
         };
@@ -68,6 +69,7 @@
         $katLabel = match($proje->kategori) {
           'mimarlik' => 'Mimarlık',
           'insaat'   => 'İnşaat',
+          'hafif-celik-konteyner' => 'Hafif Çelik ve Konteyner',
           'diger'    => 'Diğer Projeler',
           default    => ucfirst($proje->kategori ?? ''),
         };
