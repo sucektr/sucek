@@ -572,7 +572,7 @@ function katalogBuilder() {
         <div style="display:flex;flex-wrap:wrap;gap:5px;">
           <button class="kb-pill" :class="seciliKategori===''?'active':''"          @click="seciliKategori=''">Tümü</button>
           <button class="kb-pill" :class="seciliKategori==='Kişisel'?'active':''"   @click="seciliKategori='Kişisel'">Kişisel</button>
-          @foreach(['spor','dekorasyon','insaat','diger'] as $kat)
+          @foreach(['spor','insaat','diger'] as $kat)
           <button class="kb-pill" :class="seciliKategori==='{{ $kat }}'?'active':''" @click="seciliKategori='{{ $kat }}'">{{ Str::ucfirst($kat) }}</button>
           @endforeach
         </div>

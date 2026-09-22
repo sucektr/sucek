@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Mağaza — SUÇEK')
-@section('meta-description', 'SUÇEK Mağaza: Spor malzemeleri, dekorasyon ve inşaat malzemeleri.')
+@section('meta-description', 'SUÇEK Mağaza: Spor malzemeleri ve inşaat malzemeleri.')
 
 @section('banner')
   @include('components.banner', ['mesaj' => icerik('magaza','banner_metni','Seçili ürünlerde %30 indirim ve ücretsiz kargo fırsatını kaçırma!')])
@@ -32,7 +32,7 @@
 
   {{-- Kategori pill'leri --}}
   <div class="flex flex-wrap gap-2 mb-5" role="group" aria-label="Kategori filtresi">
-    @foreach(['' => 'Tümü', 'spor' => 'Spor', 'dekorasyon' => 'Dekorasyon', 'insaat' => 'İnşaat', 'diger' => 'Diğer'] as $val => $lbl)
+    @foreach(['' => 'Tümü', 'spor' => 'Spor', 'insaat' => 'İnşaat', 'diger' => 'Diğer'] as $val => $lbl)
     @php
       $href = route('magaza.index', array_filter(['q' => $aktifQ, 'kategori' => $val, 'siralama' => $aktifSira !== 'yeni' ? $aktifSira : null]));
     @endphp
@@ -149,7 +149,6 @@
   @php
   $kategoriler = [
     ['key' => 'spor',       'baslik' => 'Spor Malzemeleri', 'aciklama' => 'Fitness, outdoor ve takım sporları ekipmanları', 'ikon' => 'ti-ball-football', 'urunler' => $spor ?? collect()],
-    ['key' => 'dekorasyon', 'baslik' => 'Dekorasyon',        'aciklama' => 'Ev ve ofis dekorasyon ürünleri',                 'ikon' => 'ti-lamp',          'urunler' => $dekorasyon ?? collect()],
     ['key' => 'insaat',     'baslik' => 'İnşaat Malzemeleri','aciklama' => 'Yapı ve tesisat malzemeleri',                    'ikon' => 'ti-hammer',        'urunler' => $insaat ?? collect()],
     ['key' => 'diger',      'baslik' => 'Diğer',             'aciklama' => 'Çeşitli ürünler',                                'ikon' => 'ti-package',       'urunler' => $diger ?? collect()],
   ];
@@ -228,7 +227,7 @@
   @endif
   @endforeach
 
-  @if(($spor ?? collect())->count() === 0 && ($dekorasyon ?? collect())->count() === 0 && ($insaat ?? collect())->count() === 0 && ($diger ?? collect())->count() === 0)
+  @if(($spor ?? collect())->count() === 0 && ($insaat ?? collect())->count() === 0 && ($diger ?? collect())->count() === 0)
   <div class="section flex flex-col items-center justify-center py-20 text-center">
     <div class="w-16 h-16 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-center mb-4">
       <i class="ti ti-package-off text-2xl text-[#94A3B8]" aria-hidden="true"></i>

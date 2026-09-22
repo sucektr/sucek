@@ -13,7 +13,7 @@ class ErpImportController extends Controller
     // ERP Excel sütun indeksleri (0 tabanlı)
     // A=0 Marka | B=1 Stok Kodu | C=2 Açıklama | D=3 Alt Stok | E=4 Renk | F=5 ANAGRUP | G=6 Miktar
 
-    const MAGAZA_KATEGORILER = ['spor', 'dekorasyon', 'insaat', 'diger'];
+    const MAGAZA_KATEGORILER = ['spor', 'insaat', 'diger'];
     const HARITA_DOSYA = 'erp_kategori_haritasi.json';
 
     public function index()

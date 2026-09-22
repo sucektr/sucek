@@ -204,7 +204,7 @@
           ['ti-building', 'Mimari Tasarım & Ruhsat'],
           ['ti-home-2', 'Anahtar Teslim İnşaat'],
           ['ti-diamond', 'Antika & Koleksiyon'],
-          ['ti-shopping-bag', 'Spor & Dekorasyon Mağazası'],
+          ['ti-shopping-bag', 'Spor & İnşaat Mağazası'],
         ] as [$icon, $label])
         <div class="flex items-center gap-3 py-2.5 border-b border-[rgba(0,0,0,0.05)]">
           <i class="ti {{ $icon }} text-[#B8962E] text-base w-5 shrink-0"></i>

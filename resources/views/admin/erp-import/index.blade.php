@@ -76,7 +76,7 @@
           <select name="harita[{{ $erpKat }}]"
                   class="text-[12px] border border-[#E2E8F0] rounded-[6px] px-2 py-1.5 bg-white text-[#0F172A] focus:outline-none focus:border-[#CC2200] w-36 shrink-0">
             <option value="">— eşleştirilmemiş —</option>
-            @foreach(['spor','dekorasyon','insaat','diger'] as $mkat)
+            @foreach(['spor','insaat','diger'] as $mkat)
             <option value="{{ $mkat }}" @selected($secili === $mkat)>{{ ucfirst($mkat) }}</option>
             @endforeach
           </select>

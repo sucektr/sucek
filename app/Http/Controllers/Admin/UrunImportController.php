@@ -105,7 +105,7 @@ class UrunImportController extends Controller
             ['ID', 'Boş bırakın → yeni ürün. Mevcut ürün ID\'si yazın → güncelleme.', '42'],
             ['Ürün Adı *', 'Zorunlu. Ürünün tam adı.', 'Kayak Sopası Seti'],
             ['Slug', 'Boş bırakın, otomatik oluşturulur. URL\'de görünür.', 'kayak-sopasi-seti'],
-            ['Kategori *', 'Zorunlu. spor / insaat / dekorasyon / diger', 'spor'],
+            ['Kategori *', 'Zorunlu. spor / insaat / diger', 'spor'],
             ['Alt Kategori', 'İsteğe bağlı alt kategori.', 'fitness'],
             ['Stok Kodu', 'Opsiyonel barkod/SKU.', 'STK-001'],
             ['Fiyat (TL) *', 'Zorunlu. KDV dahil müşteri fiyatı.', '299.90'],

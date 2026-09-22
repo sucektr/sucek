@@ -474,7 +474,7 @@ function katalogBuilder() {
         <input x-model="aramaMetni" type="text" placeholder="Ürün ara…" class="kb-input" style="margin-bottom:8px;">
         <div style="display:flex;flex-wrap:wrap;gap:5px;">
           <button class="kb-pill" :class="seciliKategori===''?'active':''" @click="seciliKategori=''">Tümü</button>
-          @foreach(['spor','dekorasyon','insaat','diger'] as $kat)
+          @foreach(['spor','insaat','diger'] as $kat)
           <button class="kb-pill" :class="seciliKategori==='{{ $kat }}'?'active':''" @click="seciliKategori='{{ $kat }}'">{{ Str::ucfirst($kat) }}</button>
           @endforeach
         </div>

@@ -112,7 +112,6 @@
              style="display:none;">
           <div class="bg-white border border-[#E2E8F0] rounded-xl shadow-[0_8px_32px_rgba(15,23,42,0.12)] py-1.5" role="menu">
             <a href="{{ route('magaza.index', ['kategori' => 'spor']) }}" class="block px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">Spor Malzemeleri</a>
-            <a href="{{ route('magaza.index', ['kategori' => 'dekorasyon']) }}" class="block px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">Dekorasyon</a>
             <a href="{{ route('magaza.index', ['kategori' => 'insaat']) }}" class="block px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">İnşaat Malzemeleri</a>
           </div>
         </div>

@@ -46,14 +46,13 @@ class MagazaController extends Controller
         }
 
         $spor       = Urun::where('aktif', true)->where('kategori', 'spor')->take(8)->get();
-        $dekorasyon = Urun::where('aktif', true)->where('kategori', 'dekorasyon')->take(8)->get();
         $insaat     = Urun::where('aktif', true)->where('kategori', 'insaat')->take(8)->get();
         $diger      = Urun::where('aktif', true)->where('kategori', 'diger')->take(8)->get();
 
         $ozellikFiltreler   = [];
         $ozellikSecenekleri = [];
 
-        return view('magaza.index', compact('spor', 'dekorasyon', 'insaat', 'diger', 'q', 'kategori', 'siralama', 'aramaAktif', 'ozellikFiltreler', 'ozellikSecenekleri'));
+        return view('magaza.index', compact('spor', 'insaat', 'diger', 'q', 'kategori', 'siralama', 'aramaAktif', 'ozellikFiltreler', 'ozellikSecenekleri'));
     }
 
     private function ozellikSecenekleri(?string $kategori, string $q): array
