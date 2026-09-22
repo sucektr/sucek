@@ -79,14 +79,18 @@ $panelData = [
   @endforeach
 </section>
 
-{{-- Desktop: Yatay Expanding Accordion (md+) --}}
-<section class="hidden md:flex overflow-hidden gap-2 p-2 bg-[#F8FAFC]"
-         style="height:520px;"
-         x-data="{ aktif: null }"
-         aria-label="Hizmet alanları">
-  @foreach($panelData as $p)
-    <x-hero-panel :id="$p['id']" :kicker="$p['kicker']" :title="$p['title']" :image="$p['image']" :href="$p['href']" :sub-links="$p['subLinks']" />
-  @endforeach
+{{-- Desktop: Yatay Expanding Accordion, 2 sıra × 4 (md+) --}}
+<section class="hidden md:block p-2 bg-[#F8FAFC]" x-data="{ aktif: null }" aria-label="Hizmet alanları">
+  <div class="flex overflow-hidden gap-2 mb-2" style="height:396px;">
+    @foreach(array_slice($panelData, 0, 4) as $p)
+      <x-hero-panel :id="$p['id']" :kicker="$p['kicker']" :title="$p['title']" :image="$p['image']" :href="$p['href']" :sub-links="$p['subLinks']" />
+    @endforeach
+  </div>
+  <div class="flex overflow-hidden gap-2" style="height:396px;">
+    @foreach(array_slice($panelData, 4, 4) as $p)
+      <x-hero-panel :id="$p['id']" :kicker="$p['kicker']" :title="$p['title']" :image="$p['image']" :href="$p['href']" :sub-links="$p['subLinks']" />
+    @endforeach
+  </div>
 </section>
 
 @endsection
