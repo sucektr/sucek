@@ -53,6 +53,15 @@ if (!$_seoAciklama) {
 
   @vite(['resources/css/app.css', 'resources/js/app.js'])
   @stack('styles')
+
+  {{-- Google tag (gtag.js) --}}
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1PMH22KC83"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1PMH22KC83');
+  </script>
 </head>
 <body
   x-data="{
