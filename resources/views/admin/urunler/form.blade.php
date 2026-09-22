@@ -65,7 +65,7 @@
               <label class="block text-[11px] font-medium text-[#64748B] uppercase tracking-[.06em] mb-1.5">Kategori <span class="text-[#CC2200]">*</span></label>
               <select name="kategori" required class="w-full px-4 py-2.5 border border-[#E2E8F0] rounded-[8px] text-[14px] focus:outline-none focus:border-[#CC2200] focus:ring-2 focus:ring-[rgba(204,34,0,0.08)] transition-colors bg-white">
                 <option value="">Seçin</option>
-                @foreach(['spor' => 'Spor', 'insaat' => 'İnşaat', 'diger' => 'Diğer'] as $val => $label)
+                @foreach(['spor' => 'Spor', 'insaat' => 'İnşaat', 'diger' => 'Diğer', 'celik-guvenlik-agi' => 'Çelik Güvenlik Ağı', 'hafif-celik-konteyner' => 'Hafif Çelik ve Konteyner'] as $val => $label)
                   <option value="{{ $val }}" {{ old('kategori', $urun->kategori) === $val ? 'selected' : '' }}>{{ $label }}</option>
                 @endforeach
               </select>
