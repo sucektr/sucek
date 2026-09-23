@@ -72,7 +72,7 @@ $heroPaneller = [
     'subLinks' => [],
   ],
   [
-    'id' => 'koleksiyon', 'kicker' => 'KOLEKSİYON', 'title' => 'Koleksiyon',
+    'id' => 'koleksiyon', 'kicker' => 'ALIŞVERİŞ', 'title' => 'Koleksiyon',
     'image' => icerik_gorsel('anasayfa','koleksiyon_gorsel','https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=800&q=80'),
     'href' => route('koleksiyon.index'),
     'subLinks' => [
