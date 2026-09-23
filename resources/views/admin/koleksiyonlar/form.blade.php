@@ -27,14 +27,18 @@
         <div class="space-y-4">
           <div>
             <label class="block text-[11px] font-medium text-[#64748B] uppercase tracking-[.06em] mb-1.5">Ad <span class="text-[#CC2200]">*</span></label>
-            <input type="text" name="ad" value="{{ old('ad', $koleksiyon->ad) }}" required
+            <input type="text" name="ad" id="slug-kaynak" value="{{ old('ad', $koleksiyon->ad) }}" required
                    class="w-full px-4 py-2.5 border border-[#E2E8F0] rounded-[8px] text-[14px] focus:outline-none focus:border-[#CC2200] focus:ring-2 focus:ring-[rgba(204,34,0,0.08)] transition-colors">
             @error('ad')<p class="text-[11px] text-[#CC2200] mt-1">{{ $message }}</p>@enderror
           </div>
           <div>
-            <label class="block text-[11px] font-medium text-[#64748B] uppercase tracking-[.06em] mb-1.5">Slug <span class="text-[#CC2200]">*</span></label>
-            <input type="text" name="slug" value="{{ old('slug', $koleksiyon->slug) }}" required
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="block text-[11px] font-medium text-[#64748B] uppercase tracking-[.06em]">Slug <span class="text-[#CC2200]">*</span></label>
+              <span id="slug-mod-badge" class="text-[10px] px-2 py-0.5 rounded-full bg-green-50 text-green-600 border border-green-200">Otomatik</span>
+            </div>
+            <input type="text" name="slug" id="slug-hedef" value="{{ old('slug', $koleksiyon->slug) }}" required
                    class="w-full px-4 py-2.5 border border-[#E2E8F0] rounded-[8px] text-[14px] focus:outline-none focus:border-[#CC2200] focus:ring-2 focus:ring-[rgba(204,34,0,0.08)] transition-colors font-mono">
+            <p class="text-[11px] text-[#94A3B8] mt-1">Addan otomatik oluşturulur, istediğinizde düzenleyebilirsiniz.</p>
             @error('slug')<p class="text-[11px] text-[#CC2200] mt-1">{{ $message }}</p>@enderror
           </div>
           <div class="grid grid-cols-2 gap-4">
@@ -194,5 +198,48 @@
   </div>
 </form>
 @endsection
+
+@push('scripts')
+<script>
+(function () {
+  var kaynak = document.getElementById('slug-kaynak');
+  var hedef  = document.getElementById('slug-hedef');
+  var badge  = document.getElementById('slug-mod-badge');
+  var otomatik = hedef.value === '';
+
+  function slugify(str) {
+    var map = {'ğ':'g','ü':'u','ş':'s','ı':'i','ö':'o','ç':'c','Ğ':'g','Ü':'u','Ş':'s','İ':'i','Ö':'o','Ç':'c'};
+    return str.replace(/[ğüşıöçĞÜŞİÖÇ]/g, function(m){ return map[m]; })
+              .toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim()
+              .replace(/\s+/g, '-').replace(/-+/g, '-');
+  }
+
+  function setBadge(auto) {
+    if (auto) {
+      badge.textContent = 'Otomatik';
+      badge.className = 'text-[10px] px-2 py-0.5 rounded-full bg-green-50 text-green-600 border border-green-200';
+    } else {
+      badge.textContent = 'Manuel';
+      badge.className = 'text-[10px] px-2 py-0.5 rounded-full bg-[#F8FAFC] text-[#64748B] border border-[#E2E8F0]';
+    }
+  }
+
+  setBadge(otomatik);
+
+  kaynak.addEventListener('input', function () {
+    if (otomatik) hedef.value = slugify(this.value);
+  });
+
+  hedef.addEventListener('input', function () {
+    otomatik = this.value === '';
+    setBadge(otomatik);
+  });
+
+  hedef.addEventListener('blur', function () {
+    if (this.value) this.value = slugify(this.value);
+  });
+})();
+</script>
+@endpush
 
 
