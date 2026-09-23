@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Hafif Çelik ve Konteyner | SUÇEK')
-@section('meta-description', 'SUÇEK hafif çelik yapı ve konteyner çözümleri.')
+@section('title', ceviri('Hafif Çelik ve Konteyner') . ' | SUÇEK')
+@section('meta-description', ceviri('SUÇEK hafif çelik yapı ve konteyner çözümleri.'))
 
 @section('content')
 
@@ -13,9 +13,9 @@
   <div class="absolute top-0 left-0 right-0 h-[3px] bg-[#CC2200]"></div>
 
   <div class="relative max-w-[1280px] mx-auto px-4 lg:px-6 py-16 lg:py-24">
-    <p class="text-[11px] font-semibold tracking-[0.14em] uppercase text-[#CC2200] mb-4">SUÇEK İNŞAAT</p>
+    <p class="text-[11px] font-semibold tracking-[0.14em] uppercase text-[#CC2200] mb-4">{{ ceviri('SUÇEK İNŞAAT') }}</p>
     <h1 class="text-[36px] lg:text-[54px] font-bold text-white leading-tight tracking-tight mb-4 max-w-2xl">
-      Hafif Çelik<br><span class="text-[#CC2200]">ve Konteyner</span>
+      {{ ceviri('Hafif Çelik') }}<br><span class="text-[#CC2200]">{{ ceviri('ve Konteyner') }}</span>
     </h1>
     <p class="text-[15px] lg:text-[17px] text-[#94A3B8] leading-relaxed max-w-xl mb-8">
       {{ icerik('hafif-celik-konteyner', 'hero_metin', 'Hafif çelik yapı sistemleri ve konteyner çözümleri için bizimle iletişime geçin.') }}
@@ -24,12 +24,12 @@
     <div class="flex flex-col sm:flex-row gap-3">
       <a href="{{ route('iletisim.index') }}"
          class="inline-flex items-center justify-center gap-2 bg-[#CC2200] hover:bg-[#a31b00] text-white text-[13px] font-semibold tracking-wide px-6 py-3 rounded-[10px] transition-colors">
-        <i class="ti ti-phone text-sm"></i> Teklif Al
+        <i class="ti ti-phone text-sm"></i> {{ ceviri('Teklif Al') }}
       </a>
       @if($projeler->count() > 0)
       <a href="#projeler"
          class="inline-flex items-center justify-center gap-2 bg-white/8 hover:bg-white/12 border border-white/15 text-white text-[13px] font-semibold px-6 py-3 rounded-[10px] transition-colors">
-        <i class="ti ti-layout-grid text-sm"></i> Projeleri İncele
+        <i class="ti ti-layout-grid text-sm"></i> {{ ceviri('Projeleri İncele') }}
       </a>
       @endif
     </div>
@@ -42,11 +42,11 @@
 
     <div class="flex items-end justify-between mb-8">
       <div>
-        <p class="text-[10px] font-semibold tracking-widest uppercase text-[#CC2200] mb-2">PROJE GALERİSİ</p>
-        <h2 class="text-[22px] lg:text-[28px] font-bold text-[#0F172A] tracking-tight">Hafif Çelik ve Konteyner Projeleri</h2>
+        <p class="text-[10px] font-semibold tracking-widest uppercase text-[#CC2200] mb-2">{{ ceviri('PROJE GALERİSİ') }}</p>
+        <h2 class="text-[22px] lg:text-[28px] font-bold text-[#0F172A] tracking-tight">{{ ceviri('Hafif Çelik ve Konteyner Projeleri') }}</h2>
       </div>
       @if($projeler->count() > 0)
-      <span class="text-[13px] text-[#94A3B8]">{{ $projeler->count() }} proje</span>
+      <span class="text-[13px] text-[#94A3B8]">{{ $projeler->count() }} {{ ceviri('proje') }}</span>
       @endif
     </div>
 
@@ -68,7 +68,7 @@
           @if($proje->one_cikan)
           <div class="absolute top-3 left-3">
             <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-[#0F172A]/80 backdrop-blur-sm text-white text-[10px] font-semibold rounded-full">
-              <i class="ti ti-star-filled text-[#FCD34D] text-[9px]"></i> Öne Çıkan
+              <i class="ti ti-star-filled text-[#FCD34D] text-[9px]"></i> {{ ceviri('Öne Çıkan') }}
             </span>
           </div>
           @endif
@@ -93,11 +93,11 @@
       <div class="w-16 h-16 rounded-2xl bg-white border border-[#E2E8F0] shadow-sm flex items-center justify-center mx-auto mb-4">
         <i class="ti ti-building-warehouse text-[#CC2200] text-2xl"></i>
       </div>
-      <h3 class="text-[16px] font-bold text-[#0F172A] mb-2">Projeler Yakında</h3>
-      <p class="text-[13px] text-[#64748B] max-w-sm mx-auto mb-6">Hafif çelik ve konteyner proje galerimiz hazırlanmaktadır. Bilgi almak için bizimle iletişime geçin.</p>
+      <h3 class="text-[16px] font-bold text-[#0F172A] mb-2">{{ ceviri('Projeler Yakında') }}</h3>
+      <p class="text-[13px] text-[#64748B] max-w-sm mx-auto mb-6">{{ ceviri('Hafif çelik ve konteyner proje galerimiz hazırlanmaktadır. Bilgi almak için bizimle iletişime geçin.') }}</p>
       <a href="{{ route('iletisim.index') }}"
          class="inline-flex items-center gap-2 bg-[#CC2200] hover:bg-[#a31b00] text-white text-[12px] font-semibold px-5 py-2.5 rounded-[8px] transition-colors">
-        <i class="ti ti-phone text-sm"></i> İletişime Geç
+        <i class="ti ti-phone text-sm"></i> {{ ceviri('İletişime Geç') }}
       </a>
     </div>
     @endif
@@ -109,17 +109,17 @@
 <section class="bg-[#0F172A]">
   <div class="max-w-[1280px] mx-auto px-4 lg:px-6 py-10 lg:py-14 flex flex-col lg:flex-row items-center justify-between gap-6">
     <div>
-      <h2 class="text-[18px] lg:text-[22px] font-bold text-white mb-1">Projeniz için teklif alın</h2>
-      <p class="text-[13px] text-[#64748B]">Alanınızı ve ihtiyacınızı belirtin, size en uygun çözümü sunalım.</p>
+      <h2 class="text-[18px] lg:text-[22px] font-bold text-white mb-1">{{ ceviri('Projeniz için teklif alın') }}</h2>
+      <p class="text-[13px] text-[#64748B]">{{ ceviri('Alanınızı ve ihtiyacınızı belirtin, size en uygun çözümü sunalım.') }}</p>
     </div>
     <div class="flex flex-col sm:flex-row gap-3 shrink-0">
       <a href="{{ route('iletisim.index') }}"
          class="inline-flex items-center justify-center gap-2 bg-[#CC2200] hover:bg-[#a31b00] text-white text-[13px] font-semibold px-6 py-3 rounded-[10px] transition-colors">
-        <i class="ti ti-mail text-sm"></i> Teklif Formu
+        <i class="ti ti-mail text-sm"></i> {{ ceviri('Teklif Formu') }}
       </a>
       <a href="tel:{{ icerik('site','telefon','') }}"
          class="inline-flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-[13px] font-semibold px-6 py-3 rounded-[10px] transition-colors">
-        <i class="ti ti-phone text-sm"></i> Hemen Ara
+        <i class="ti ti-phone text-sm"></i> {{ ceviri('Hemen Ara') }}
       </a>
     </div>
   </div>

@@ -10,29 +10,29 @@ class SayfaController extends Controller
     {
         return [
             'kisisel-verilerin-korunmasi' => [
-                'baslik'      => 'Kişisel Verilerin Korunması',
+                'baslik'      => ceviri('Kişisel Verilerin Korunması'),
                 'alan'        => 'kvkk',
-                'breadcrumb'  => 'Kişisel Verilerin Korunması',
+                'breadcrumb'  => ceviri('Kişisel Verilerin Korunması'),
             ],
             'gizlilik-politikasi' => [
-                'baslik'      => 'Gizlilik Politikası',
+                'baslik'      => ceviri('Gizlilik Politikası'),
                 'alan'        => 'gizlilik',
-                'breadcrumb'  => 'Gizlilik Politikası',
+                'breadcrumb'  => ceviri('Gizlilik Politikası'),
             ],
             'sss' => [
-                'baslik'      => 'Sıkça Sorulan Sorular',
+                'baslik'      => ceviri('Sıkça Sorulan Sorular'),
                 'alan'        => 'sss',
-                'breadcrumb'  => 'SSS',
+                'breadcrumb'  => ceviri('SSS'),
             ],
             'mesafeli-satis-sozlesmesi' => [
-                'baslik'      => 'Mesafeli Satış Sözleşmesi',
+                'baslik'      => ceviri('Mesafeli Satış Sözleşmesi'),
                 'alan'        => 'mesafeli',
-                'breadcrumb'  => 'Mesafeli Satış Sözleşmesi',
+                'breadcrumb'  => ceviri('Mesafeli Satış Sözleşmesi'),
             ],
             'iade-degisim' => [
-                'baslik'      => 'İade & Değişim',
+                'baslik'      => ceviri('İade & Değişim'),
                 'alan'        => 'iade',
-                'breadcrumb'  => 'İade & Değişim',
+                'breadcrumb'  => ceviri('İade & Değişim'),
             ],
         ];
     }

@@ -37,7 +37,7 @@
 {{-- Breadcrumb --}}
 <div class="px-6 py-4 border-b border-[rgba(0,0,0,0.06)]">
   <div class="max-w-4xl mx-auto flex items-center gap-2 text-[12px] text-[#A0A0A0]">
-    <a href="{{ route('haberler.index') }}" class="hover:text-[#141414] transition-colors">Haberler</a>
+    <a href="{{ route('haberler.index') }}" class="hover:text-[#141414] transition-colors">{{ ceviri('Haberler') }}</a>
     <i class="ti ti-chevron-right text-[10px]"></i>
     @if($haber->kategori)
     <a href="{{ route('haberler.index', ['kategori' => $haber->kategori]) }}"
@@ -88,7 +88,7 @@
     <div class="mt-12 pt-8 border-t border-[rgba(0,0,0,0.08)]">
       <a href="{{ route('haberler.index') }}"
          class="inline-flex items-center gap-2 text-[12px] font-semibold tracking-[2px] uppercase text-[#5A5A5A] hover:text-[#141414] transition-colors">
-        <i class="ti ti-arrow-left text-sm"></i> Tüm Haberler
+        <i class="ti ti-arrow-left text-sm"></i> {{ ceviri('Tüm Haberler') }}
       </a>
     </div>
 
@@ -99,7 +99,7 @@
 @if($diger->isNotEmpty())
 <section class="py-12 px-6 bg-[#FAF7F2] border-t border-[rgba(0,0,0,0.06)]">
   <div class="max-w-6xl mx-auto">
-    <h2 class="font-display text-[22px] font-semibold text-[#141414] mb-6">Diğer Haberler</h2>
+    <h2 class="font-display text-[22px] font-semibold text-[#141414] mb-6">{{ ceviri('Diğer Haberler') }}</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
       @foreach($diger as $d)
       <a href="{{ route('haberler.show', $d->slug) }}"

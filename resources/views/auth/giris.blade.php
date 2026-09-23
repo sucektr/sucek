@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Giriş Yap — SUÇEK')
+@section('title', ceviri('Giriş Yap') . ' — SUÇEK')
 
 @section('content')
 <div class="min-h-[calc(100vh-80px)] grid grid-cols-1 lg:grid-cols-5">
@@ -14,19 +14,19 @@
 
     <div class="relative z-10">
       <a href="{{ route('home') }}" class="font-display text-[30px] font-semibold tracking-[8px] text-white leading-none">SUÇEK</a>
-      <p class="text-[10px] tracking-[3px] uppercase text-[rgba(255,255,255,0.30)] mt-1">Mimarlık · İnşaat · Koleksiyon</p>
+      <p class="text-[10px] tracking-[3px] uppercase text-[rgba(255,255,255,0.30)] mt-1">{{ ceviri('Mimarlık · İnşaat · Koleksiyon') }}</p>
     </div>
 
     <div class="relative z-10 space-y-8">
       <div>
-        <p class="font-serif-sc text-[28px] text-white leading-[1.3]">Koleksiyonunuza özel <em>ayrıcalıklı</em> erişim.</p>
+        <p class="font-serif-sc text-[28px] text-white leading-[1.3]">{!! ceviri('Koleksiyonunuza özel <em>ayrıcalıklı</em> erişim.') !!}</p>
         <p class="text-[13px] text-[rgba(255,255,255,0.45)] mt-3 leading-relaxed">
-          Teklif geçmişinizi takip edin, koleksiyondaki nadide eserlere teklif verin.
+          {{ ceviri('Teklif geçmişinizi takip edin, koleksiyondaki nadide eserlere teklif verin.') }}
         </p>
       </div>
 
       <ul class="space-y-3">
-        @foreach(['Teklif geçmişinize anında erişin', 'Yeni eserlerde öncelikli bildirim', 'Güvenli ödeme ve iletişim'] as $madde)
+        @foreach([ceviri('Teklif geçmişinize anında erişin'), ceviri('Yeni eserlerde öncelikli bildirim'), ceviri('Güvenli ödeme ve iletişim')] as $madde)
         <li class="flex items-center gap-3 text-[12px] text-[rgba(255,255,255,0.55)]">
           <span class="w-5 h-5 rounded-full bg-[rgba(184,150,46,0.20)] border border-[rgba(184,150,46,0.40)] flex items-center justify-center shrink-0">
             <i class="ti ti-check text-[10px] text-[#B8962E]"></i>
@@ -38,7 +38,7 @@
     </div>
 
     <div class="relative z-10">
-      <p class="text-[10px] text-[rgba(255,255,255,0.20)] tracking-[1px]">&copy; {{ date('Y') }} SUÇEK. Tüm hakları saklıdır.</p>
+      <p class="text-[10px] text-[rgba(255,255,255,0.20)] tracking-[1px]">&copy; {{ date('Y') }} SUÇEK. {{ ceviri('Tüm hakları saklıdır.') }}</p>
     </div>
   </div>
 
@@ -52,8 +52,8 @@
       </div>
 
       <div class="mb-8">
-        <h1 class="font-display text-[28px] font-semibold text-[#0F0F0F]">Giriş Yapın</h1>
-        <p class="text-[13px] text-[#A8A8A8] mt-1">Hesabınıza erişmek için bilgilerinizi girin.</p>
+        <h1 class="font-display text-[28px] font-semibold text-[#0F0F0F]">{{ ceviri('Giriş Yapın') }}</h1>
+        <p class="text-[13px] text-[#A8A8A8] mt-1">{{ ceviri('Hesabınıza erişmek için bilgilerinizi girin.') }}</p>
       </div>
 
       @if($errors->any())
@@ -78,7 +78,7 @@
         @endif
 
         <div>
-          <label for="email" class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.08em] mb-2">E-posta Adresi</label>
+          <label for="email" class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.08em] mb-2">{{ ceviri('E-posta Adresi') }}</label>
           <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email"
                  class="w-full px-4 py-3.5 border border-[rgba(0,0,0,0.12)] rounded-[10px] text-[14px] bg-white focus:outline-none focus:border-[#0F0F0F] focus:ring-1 focus:ring-[#0F0F0F] transition-colors min-h-[48px] @error('email') border-[#CC2200] @enderror"
                  placeholder="ornek@email.com">
@@ -86,8 +86,8 @@
 
         <div>
           <div class="flex items-center justify-between mb-2">
-            <label for="password" class="text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.08em]">Şifre</label>
-            <a href="{{ route('sifremi-unuttum') }}" class="text-[11px] text-[#A8A8A8] hover:text-[#0F0F0F] transition-colors">Şifremi Unuttum</a>
+            <label for="password" class="text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.08em]">{{ ceviri('Şifre') }}</label>
+            <a href="{{ route('sifremi-unuttum') }}" class="text-[11px] text-[#A8A8A8] hover:text-[#0F0F0F] transition-colors">{{ ceviri('Şifremi Unuttum') }}</a>
           </div>
           <div class="relative">
             <input id="password" :type="showPass ? 'text' : 'password'" name="password" required autocomplete="current-password"
@@ -95,7 +95,7 @@
                    placeholder="••••••••">
             <button type="button" @click="showPass = !showPass"
                     class="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#A8A8A8] hover:text-[#0F0F0F] transition-colors p-1"
-                    :aria-label="showPass ? 'Şifreyi gizle' : 'Şifreyi göster'">
+                    :aria-label="showPass ? '{{ ceviri('Şifreyi gizle') }}' : '{{ ceviri('Şifreyi göster') }}'">
               <i :class="showPass ? 'ti ti-eye-off' : 'ti ti-eye'" class="text-[16px]"></i>
             </button>
           </div>
@@ -104,20 +104,20 @@
         <div class="flex items-center justify-between">
           <label class="flex items-center gap-2.5 cursor-pointer">
             <input type="checkbox" name="hatirla" class="w-4 h-4 accent-[#0F0F0F]">
-            <span class="text-[13px] text-[#5A5A5A]">Beni hatırla</span>
+            <span class="text-[13px] text-[#5A5A5A]">{{ ceviri('Beni hatırla') }}</span>
           </label>
         </div>
 
         <button type="submit"
                 class="w-full bg-[#0F0F0F] text-white text-[12px] font-semibold tracking-[2px] uppercase py-4 rounded-[10px] hover:bg-[#2a2a2a] active:scale-[0.98] transition-all duration-200 min-h-[52px]">
-          Giriş Yap
+          {{ ceviri('Giriş Yap') }}
         </button>
       </form>
 
       <div class="mt-8 pt-6 border-t border-[rgba(0,0,0,0.07)] text-center">
         <p class="text-[13px] text-[#A8A8A8]">
-          Hesabınız yok mu?
-          <a href="{{ route('uye-ol') }}" class="text-[#0F0F0F] font-semibold hover:underline ml-1">Üye Olun →</a>
+          {{ ceviri('Hesabınız yok mu?') }}
+          <a href="{{ route('uye-ol') }}" class="text-[#0F0F0F] font-semibold hover:underline ml-1">{{ ceviri('Üye Olun') }} →</a>
         </p>
       </div>
 

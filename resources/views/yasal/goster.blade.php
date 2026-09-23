@@ -10,14 +10,14 @@
   <div class="absolute inset-0 opacity-[0.05]"
        style="background-image:repeating-linear-gradient(45deg,#fff 0,#fff 1px,transparent 0,transparent 50%);background-size:20px 20px;"></div>
   <div class="relative z-10 px-9 lg:px-14 py-10 w-full">
-    <nav class="flex items-center gap-2 mb-3" aria-label="Breadcrumb">
-      <a href="{{ route('home') }}" class="text-[9px] font-medium tracking-[2px] uppercase text-[rgba(255,255,255,0.35)] hover:text-white transition-colors">Ana Sayfa</a>
+    <nav class="flex items-center gap-2 mb-3" aria-label="{{ ceviri('Breadcrumb') }}">
+      <a href="{{ route('home') }}" class="text-[9px] font-medium tracking-[2px] uppercase text-[rgba(255,255,255,0.35)] hover:text-white transition-colors">{{ ceviri('Ana Sayfa') }}</a>
       <span class="text-[rgba(255,255,255,0.20)] text-xs">›</span>
       <span class="text-[9px] font-medium tracking-[2px] uppercase text-[rgba(255,255,255,0.50)]">{{ $tanim['breadcrumb'] }}</span>
     </nav>
     <h1 class="font-display text-[32px] lg:text-[44px] font-semibold text-white leading-[1.1]">{{ $tanim['baslik'] }}</h1>
     @if($guncellenme)
-    <p class="text-[11px] text-[rgba(255,255,255,0.35)] mt-2">Son güncelleme: {{ $guncellenme }}</p>
+    <p class="text-[11px] text-[rgba(255,255,255,0.35)] mt-2">{{ ceviri('Son güncelleme:') }} {{ $guncellenme }}</p>
     @endif
   </div>
 </section>
@@ -32,8 +32,8 @@
     @else
       <div class="flex flex-col items-center justify-center py-20 text-center">
         <i class="ti ti-file-description text-5xl text-[#D0D0D0] mb-4" aria-hidden="true"></i>
-        <p class="text-[14px] font-medium text-[#5A5A5A]">İçerik henüz hazırlanıyor</p>
-        <p class="text-[12px] text-[#A8A8A8] mt-1">Admin panelinden bu sayfanın içeriğini ekleyebilirsiniz.</p>
+        <p class="text-[14px] font-medium text-[#5A5A5A]">{{ ceviri('İçerik henüz hazırlanıyor') }}</p>
+        <p class="text-[12px] text-[#A8A8A8] mt-1">{{ ceviri('Admin panelinden bu sayfanın içeriğini ekleyebilirsiniz.') }}</p>
       </div>
     @endif
   </div>
@@ -41,14 +41,14 @@
 
 {{-- Diğer Yasal Sayfalar --}}
 <section class="section border-t border-[rgba(0,0,0,0.06)]">
-  <p class="text-[9px] font-medium tracking-[2px] uppercase text-[#A8A8A8] mb-4">DİĞER YASAL SAYFALAR</p>
+  <p class="text-[9px] font-medium tracking-[2px] uppercase text-[#A8A8A8] mb-4">{{ ceviri('DİĞER YASAL SAYFALAR') }}</p>
   <div class="flex flex-wrap gap-2">
     @foreach([
-      ['kisisel-verilerin-korunmasi', 'Kişisel Verilerin Korunması'],
-      ['gizlilik-politikasi',         'Gizlilik Politikası'],
-      ['sss',                         'SSS'],
-      ['mesafeli-satis-sozlesmesi',   'Mesafeli Satış Sözleşmesi'],
-      ['iade-degisim',                'İade & Değişim'],
+      ['kisisel-verilerin-korunmasi', ceviri('Kişisel Verilerin Korunması')],
+      ['gizlilik-politikasi',         ceviri('Gizlilik Politikası')],
+      ['sss',                         ceviri('SSS')],
+      ['mesafeli-satis-sozlesmesi',   ceviri('Mesafeli Satış Sözleşmesi')],
+      ['iade-degisim',                ceviri('İade & Değişim')],
     ] as [$slug, $label])
     @if($slug !== request()->route('sayfa'))
     <a href="{{ route('yasal', $slug) }}"

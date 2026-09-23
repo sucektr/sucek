@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Ruhsat Süreci — SUÇEK Mimarlık')
-@section('meta-description', 'İmar ve inşaat ruhsatlarının başvuru, takip ve sonuçlandırma süreçleri hakkında bilgi alın.')
+@section('title', ceviri('Ruhsat Süreci') . ' — SUÇEK Mimarlık')
+@section('meta-description', ceviri('İmar ve inşaat ruhsatlarının başvuru, takip ve sonuçlandırma süreçleri hakkında bilgi alın.'))
 
 @section('banner')
   @include('components.banner', ['mesaj' => icerik('ruhsat','banner_metni','Ruhsat süreciniz için ücretsiz ön görüşme alın!')])
@@ -10,15 +10,15 @@
 @section('content')
 
 {{-- ─── Hero ──────────────────────────────────────────────────────────── --}}
-<section class="relative overflow-hidden min-h-[320px] flex items-end" aria-label="Ruhsat Süreci hero">
+<section class="relative overflow-hidden min-h-[320px] flex items-end" aria-label="{{ ceviri('Ruhsat Süreci hero') }}">
   <div class="absolute inset-0"
        style="background-image:url('{{ icerik_gorsel('ruhsat','hero_gorsel','https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1280&q=80') }}'); background-size:cover; background-position:center;"></div>
   <div class="absolute inset-0 bg-gradient-to-r from-[rgba(15,15,15,0.90)] via-[rgba(15,15,15,0.55)] to-transparent"></div>
   <div class="relative z-10 px-9 lg:px-14 py-14 w-full">
-    <nav class="flex items-center gap-2 mb-4" aria-label="Breadcrumb">
-      <a href="{{ route('mimarlik.index') }}" class="text-[9px] font-medium tracking-[2px] uppercase text-[rgba(255,255,255,0.40)] hover:text-white transition-colors">Mimarlık</a>
+    <nav class="flex items-center gap-2 mb-4" aria-label="{{ ceviri('Breadcrumb') }}">
+      <a href="{{ route('mimarlik.index') }}" class="text-[9px] font-medium tracking-[2px] uppercase text-[rgba(255,255,255,0.40)] hover:text-white transition-colors">{{ ceviri('Mimarlık') }}</a>
       <span class="text-[rgba(255,255,255,0.20)] text-xs">›</span>
-      <span class="text-[9px] font-medium tracking-[2px] uppercase text-[rgba(255,255,255,0.55)]">Ruhsat Süreci</span>
+      <span class="text-[9px] font-medium tracking-[2px] uppercase text-[rgba(255,255,255,0.55)]">{{ ceviri('Ruhsat Süreci') }}</span>
     </nav>
     <h1 class="font-display text-[40px] lg:text-[54px] font-semibold text-white leading-[1.05] mb-4">
       {{ icerik('ruhsat','hero_baslik','Ruhsat Süreci') }}
@@ -43,12 +43,12 @@
 <section class="section {{ icerik('ruhsat','icerik','') ? 'border-t border-[rgba(0,0,0,0.06)]' : '' }}" aria-labelledby="ruhsat-projeler-baslik">
   <div class="flex items-end justify-between mb-6">
     <div>
-      <p class="text-[9px] font-medium tracking-[3px] uppercase text-[#A8A8A8] mb-1.5">REFERANS PROJELER</p>
-      <h2 id="ruhsat-projeler-baslik" class="font-serif-sc text-[28px] font-bold text-[#0F0F0F]">Tamamlanan Projeler</h2>
+      <p class="text-[9px] font-medium tracking-[3px] uppercase text-[#A8A8A8] mb-1.5">{{ ceviri('REFERANS PROJELER') }}</p>
+      <h2 id="ruhsat-projeler-baslik" class="font-serif-sc text-[28px] font-bold text-[#0F0F0F]">{{ ceviri('Tamamlanan Projeler') }}</h2>
     </div>
     <a href="{{ route('mimarlik.index') }}"
        class="hidden sm:flex items-center gap-1.5 text-[10px] font-medium tracking-[1.5px] uppercase text-[#5A5A5A] hover:text-[#0F0F0F] transition-colors">
-      Tümünü Gör <i class="ti ti-arrow-right text-sm" aria-hidden="true"></i>
+      {{ ceviri('Tümünü Gör') }} <i class="ti ti-arrow-right text-sm" aria-hidden="true"></i>
     </a>
   </div>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
@@ -73,17 +73,17 @@
 <section class="section">
   <div class="bg-[#141414] rounded-[16px] px-10 lg:px-16 py-12 flex flex-col lg:flex-row items-center justify-between gap-6">
     <div>
-      <h2 class="font-display text-[28px] lg:text-[34px] font-semibold text-white mb-2">Ruhsat Sürecinizi Başlatalım</h2>
-      <p class="text-[13px] text-[rgba(255,255,255,0.50)]">Ücretsiz ön görüşme için bugün bize ulaşın.</p>
+      <h2 class="font-display text-[28px] lg:text-[34px] font-semibold text-white mb-2">{{ ceviri('Ruhsat Sürecinizi Başlatalım') }}</h2>
+      <p class="text-[13px] text-[rgba(255,255,255,0.50)]">{{ ceviri('Ücretsiz ön görüşme için bugün bize ulaşın.') }}</p>
     </div>
     <div class="flex flex-col sm:flex-row gap-3 shrink-0">
       <a href="{{ route('iletisim.index') }}"
          class="btn btn-outline-inv text-[10px] tracking-[1.5px] px-7 py-3 min-h-[44px] justify-center">
-        <i class="ti ti-mail text-sm" aria-hidden="true"></i> İletişime Geç
+        <i class="ti ti-mail text-sm" aria-hidden="true"></i> {{ ceviri('İletişime Geç') }}
       </a>
       <a href="tel:{{ preg_replace('/[^+\d]/', '', icerik('site','telefon','+905442948402')) }}"
          class="btn bg-white text-[#0F0F0F] text-[10px] tracking-[1.5px] px-7 py-3 min-h-[44px] justify-center hover:bg-[#F0F0F0] transition-colors rounded-[8px]">
-        <i class="ti ti-phone text-sm" aria-hidden="true"></i> Hemen Ara
+        <i class="ti ti-phone text-sm" aria-hidden="true"></i> {{ ceviri('Hemen Ara') }}
       </a>
     </div>
   </div>

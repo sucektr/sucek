@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Mimarlık — SUÇEK')
-@section('meta-description', 'SUÇEK Mimarlık hizmetleri: Ruhsat takibi, iç mimari tasarım ve proje yönetimi.')
+@section('title', ceviri('Mimarlık') . ' — SUÇEK')
+@section('meta-description', ceviri('SUÇEK Mimarlık hizmetleri: Ruhsat takibi, iç mimari tasarım ve proje yönetimi.'))
 
 @section('banner')
   @include('components.banner', ['mesaj' => icerik('mimarlik','banner_metni','Ücretsiz ön görüşme için hemen randevu alın!')])
@@ -10,14 +10,14 @@
 @section('content')
 
 {{-- ─── Hero ──────────────────────────────────────────────────────────── --}}
-<section class="relative overflow-hidden min-h-[380px] flex" aria-label="Mimarlık hero">
+<section class="relative overflow-hidden min-h-[380px] flex" aria-label="{{ ceviri('Mimarlık hero') }}">
   <div class="absolute inset-0"
        style="background-image:url('{{ icerik_gorsel('mimarlik','hero_gorsel','https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1280&q=80') }}'); background-size:cover; background-position:center;"></div>
   <div class="absolute inset-0 bg-gradient-to-r from-[rgba(15,23,42,0.90)] via-[rgba(15,23,42,0.60)] to-transparent"></div>
 
   <div class="relative z-10 flex flex-col lg:flex-row items-end lg:items-center gap-8 px-6 lg:px-12 py-16 lg:py-20 w-full">
     <div class="flex-1">
-      <p class="text-[11px] font-semibold tracking-widest uppercase text-[#CC2200] mb-3">MİMARLIK HİZMETLERİ</p>
+      <p class="text-[11px] font-semibold tracking-widest uppercase text-[#CC2200] mb-3">{{ ceviri('MİMARLIK HİZMETLERİ') }}</p>
       <h1 class="text-[36px] lg:text-[52px] font-bold text-white leading-tight tracking-tight mb-5">
         {{ icerik('mimarlik','hero_baslik','Vizyonunuzu Gerçeğe Taşıyoruz') }}
       </h1>
@@ -28,11 +28,11 @@
     <div class="flex flex-col sm:flex-row lg:flex-col gap-2.5 shrink-0">
       <a href="#hizmetler"
          class="btn btn-dark text-sm px-6 py-3 min-h-[44px] justify-center">
-        <i class="ti ti-arrow-down text-sm" aria-hidden="true"></i> Hizmetleri İncele
+        <i class="ti ti-arrow-down text-sm" aria-hidden="true"></i> {{ ceviri('Hizmetleri İncele') }}
       </a>
       <a href="#iletisim-cta"
          class="btn btn-outline-inv text-sm px-6 py-3 min-h-[44px] justify-center">
-        <i class="ti ti-calendar text-sm" aria-hidden="true"></i> Randevu Al
+        <i class="ti ti-calendar text-sm" aria-hidden="true"></i> {{ ceviri('Randevu Al') }}
       </a>
     </div>
   </div>
@@ -41,8 +41,8 @@
 {{-- ─── Hizmetler ─────────────────────────────────────────────────────── --}}
 <section class="section" id="hizmetler" aria-labelledby="hizmetler-baslik">
   <div class="mb-7">
-    <p class="section-label mb-2">NE YAPIYORUZ</p>
-    <h2 id="hizmetler-baslik" class="text-[26px] font-bold text-[#0F172A] tracking-tight">Mimarlık Hizmetleri</h2>
+    <p class="section-label mb-2">{{ ceviri('NE YAPIYORUZ') }}</p>
+    <h2 id="hizmetler-baslik" class="text-[26px] font-bold text-[#0F172A] tracking-tight">{{ ceviri('Mimarlık Hizmetleri') }}</h2>
   </div>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
     @php
@@ -70,8 +70,8 @@
 {{-- ─── Süreç Adımları ────────────────────────────────────────────────── --}}
 <section class="section bg-[#F8FAFC]" aria-labelledby="surec-baslik">
   <div class="mb-8">
-    <p class="section-label mb-2">NASIL ÇALIŞIYORUZ</p>
-    <h2 id="surec-baslik" class="text-[26px] font-bold text-[#0F172A] tracking-tight">Çalışma Sürecimiz</h2>
+    <p class="section-label mb-2">{{ ceviri('NASIL ÇALIŞIYORUZ') }}</p>
+    <h2 id="surec-baslik" class="text-[26px] font-bold text-[#0F172A] tracking-tight">{{ ceviri('Çalışma Sürecimiz') }}</h2>
   </div>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
     @php
@@ -100,12 +100,12 @@
 <section class="section" id="ruhsat-projeler" aria-labelledby="ruhsat-portfolio-baslik">
   <div class="flex items-end justify-between mb-7">
     <div>
-      <p class="section-label mb-2">RUHSAT SÜRECİ</p>
-      <h2 id="ruhsat-portfolio-baslik" class="text-[26px] font-bold text-[#0F172A] tracking-tight">Ruhsat Projeleri</h2>
+      <p class="section-label mb-2">{{ ceviri('RUHSAT SÜRECİ') }}</p>
+      <h2 id="ruhsat-portfolio-baslik" class="text-[26px] font-bold text-[#0F172A] tracking-tight">{{ ceviri('Ruhsat Projeleri') }}</h2>
     </div>
     <a href="{{ route('mimarlik.ruhsat') }}"
        class="hidden sm:flex items-center gap-1.5 text-sm font-medium text-[#64748B] hover:text-[#CC2200] transition-colors">
-      Tümünü Gör <i class="ti ti-arrow-right text-sm" aria-hidden="true"></i>
+      {{ ceviri('Tümünü Gör') }} <i class="ti ti-arrow-right text-sm" aria-hidden="true"></i>
     </a>
   </div>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -131,12 +131,12 @@
 <section class="section" id="ic-mimari-projeler" aria-labelledby="icmimari-portfolio-baslik">
   <div class="flex items-end justify-between mb-7">
     <div>
-      <p class="section-label mb-2">İÇ MİMARİ</p>
-      <h2 id="icmimari-portfolio-baslik" class="text-[26px] font-bold text-[#0F172A] tracking-tight">İç Mimari Projeleri</h2>
+      <p class="section-label mb-2">{{ ceviri('İÇ MİMARİ') }}</p>
+      <h2 id="icmimari-portfolio-baslik" class="text-[26px] font-bold text-[#0F172A] tracking-tight">{{ ceviri('İç Mimari Projeleri') }}</h2>
     </div>
     <a href="{{ route('mimarlik.icmimari') }}"
        class="hidden sm:flex items-center gap-1.5 text-sm font-medium text-[#64748B] hover:text-[#CC2200] transition-colors">
-      Tümünü Gör <i class="ti ti-arrow-right text-sm" aria-hidden="true"></i>
+      {{ ceviri('Tümünü Gör') }} <i class="ti ti-arrow-right text-sm" aria-hidden="true"></i>
     </a>
   </div>
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -161,8 +161,8 @@
 <section class="section bg-[#F8FAFC]" aria-labelledby="sss-baslik">
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
     <div>
-      <p class="section-label mb-2">SIKÇA SORULANLAR</p>
-      <h2 id="sss-baslik" class="text-[26px] font-bold text-[#0F172A] tracking-tight">Aklınızdaki Sorular</h2>
+      <p class="section-label mb-2">{{ ceviri('SIKÇA SORULANLAR') }}</p>
+      <h2 id="sss-baslik" class="text-[26px] font-bold text-[#0F172A] tracking-tight">{{ ceviri('Aklınızdaki Sorular') }}</h2>
     </div>
     <div class="lg:col-span-2 space-y-0" x-data="{ acik: null }">
       @php
@@ -213,7 +213,7 @@ for ($i = 1; $i <= 8; $i++) {
 @if(count($kurumlar) > 0)
 <section class="section" aria-labelledby="kurumlar-baslik">
   <div class="mb-8 text-center">
-    <p class="section-label mb-2 justify-center">REFERANSLAR</p>
+    <p class="section-label mb-2 justify-center">{{ ceviri('REFERANSLAR') }}</p>
     <h2 id="kurumlar-baslik" class="text-[22px] font-bold text-[#0F172A] tracking-tight">
       {{ icerik('mimarlik','referanslar_baslik','Çalıştığımız Kurumlar') }}
     </h2>
@@ -242,18 +242,18 @@ for ($i = 1; $i <= 8; $i++) {
 <section class="section" id="iletisim-cta">
   <div class="bg-[#0F172A] rounded-2xl px-8 lg:px-14 py-12 flex flex-col lg:flex-row items-center justify-between gap-6">
     <div>
-      <p class="text-[11px] font-semibold tracking-widest uppercase text-[#CC2200] mb-3">HAREKETE GEÇ</p>
+      <p class="text-[11px] font-semibold tracking-widest uppercase text-[#CC2200] mb-3">{{ ceviri('HAREKETE GEÇ') }}</p>
       <h2 class="text-[24px] lg:text-[32px] font-bold text-white tracking-tight mb-2">{{ icerik('mimarlik','cta_baslik','Projenizi Konuşalım') }}</h2>
       <p class="text-[13px] text-[rgba(255,255,255,0.45)]">{{ icerik('mimarlik','cta_metin','Ücretsiz ön görüşme için bugün bize ulaşın.') }}</p>
     </div>
     <div class="flex flex-col sm:flex-row gap-3 shrink-0">
       <a href="{{ route('home') }}#iletisim"
          class="btn btn-outline-inv text-sm px-7 py-3 min-h-[44px] justify-center">
-        <i class="ti ti-mail text-sm" aria-hidden="true"></i> Mesaj Gönder
+        <i class="ti ti-mail text-sm" aria-hidden="true"></i> {{ ceviri('Mesaj Gönder') }}
       </a>
       <a href="tel:+90XXXXXXXXXX"
          class="btn bg-[#CC2200] text-white text-sm font-semibold px-7 py-3 min-h-[44px] justify-center rounded-lg hover:bg-[#a31b00] transition-colors">
-        <i class="ti ti-phone text-sm" aria-hidden="true"></i> Hemen Ara
+        <i class="ti ti-phone text-sm" aria-hidden="true"></i> {{ ceviri('Hemen Ara') }}
       </a>
     </div>
   </div>

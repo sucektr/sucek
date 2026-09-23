@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Üye Ol — SUÇEK')
+@section('title', ceviri('Üye Ol') . ' — SUÇEK')
 
 @section('content')
 <div class="min-h-[calc(100vh-80px)] grid grid-cols-1 lg:grid-cols-5">
@@ -12,22 +12,22 @@
 
     <div class="relative z-10">
       <a href="{{ route('home') }}" class="font-display text-[30px] font-semibold tracking-[8px] text-white leading-none">SUÇEK</a>
-      <p class="text-[10px] tracking-[3px] uppercase text-[rgba(255,255,255,0.30)] mt-1">Mimarlık · İnşaat · Koleksiyon</p>
+      <p class="text-[10px] tracking-[3px] uppercase text-[rgba(255,255,255,0.30)] mt-1">{{ ceviri('Mimarlık · İnşaat · Koleksiyon') }}</p>
     </div>
 
     <div class="relative z-10 space-y-8">
       <div>
-        <p class="font-serif-sc text-[28px] text-white leading-[1.3]">Nadir eserlere <em>özel erişim</em> için üye olun.</p>
+        <p class="font-serif-sc text-[28px] text-white leading-[1.3]">{!! ceviri('Nadir eserlere <em>özel erişim</em> için üye olun.') !!}</p>
         <p class="text-[13px] text-[rgba(255,255,255,0.45)] mt-3 leading-relaxed">
-          Koleksiyon ürünlerimize teklif verin, süreçleri takip edin.
+          {{ ceviri('Koleksiyon ürünlerimize teklif verin, süreçleri takip edin.') }}
         </p>
       </div>
 
       <div class="space-y-5">
         @foreach([
-          ['ti-tag', 'Teklif Ver', 'Koleksiyon eserlerine doğrudan teklif gönderin'],
-          ['ti-history', 'Geçmiş', 'Tüm tekliflerinizi ve durumlarını görün'],
-          ['ti-shield-check', 'Güvenli', 'Verileriniz şifreli olarak korunur'],
+          ['ti-tag', ceviri('Teklif Ver'), ceviri('Koleksiyon eserlerine doğrudan teklif gönderin')],
+          ['ti-history', ceviri('Geçmiş'), ceviri('Tüm tekliflerinizi ve durumlarını görün')],
+          ['ti-shield-check', ceviri('Güvenli'), ceviri('Verileriniz şifreli olarak korunur')],
         ] as [$ikon, $baslik, $aciklama])
         <div class="flex items-start gap-4">
           <div class="w-9 h-9 rounded-[8px] bg-[rgba(184,150,46,0.15)] border border-[rgba(184,150,46,0.30)] flex items-center justify-center shrink-0 mt-0.5">
@@ -43,7 +43,7 @@
     </div>
 
     <div class="relative z-10">
-      <p class="text-[10px] text-[rgba(255,255,255,0.20)] tracking-[1px]">&copy; {{ date('Y') }} SUÇEK. Tüm hakları saklıdır.</p>
+      <p class="text-[10px] text-[rgba(255,255,255,0.20)] tracking-[1px]">&copy; {{ date('Y') }} SUÇEK. {{ ceviri('Tüm hakları saklıdır.') }}</p>
     </div>
   </div>
 
@@ -56,8 +56,8 @@
       </div>
 
       <div class="mb-8">
-        <h1 class="font-display text-[28px] font-semibold text-[#0F0F0F]">Üye Olun</h1>
-        <p class="text-[13px] text-[#A8A8A8] mt-1">Birkaç adımda hesabınızı oluşturun.</p>
+        <h1 class="font-display text-[28px] font-semibold text-[#0F0F0F]">{{ ceviri('Üye Olun') }}</h1>
+        <p class="text-[13px] text-[#A8A8A8] mt-1">{{ ceviri('Birkaç adımda hesabınızı oluşturun.') }}</p>
       </div>
 
       @if($errors->any())
@@ -74,25 +74,25 @@
         @csrf
 
         <div>
-          <label for="name" class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.08em] mb-2">Ad Soyad</label>
+          <label for="name" class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.08em] mb-2">{{ ceviri('Ad Soyad') }}</label>
           <input id="name" type="text" name="name" value="{{ old('name') }}" required autocomplete="name"
                  class="w-full px-4 py-3.5 border border-[rgba(0,0,0,0.12)] rounded-[10px] text-[14px] bg-white focus:outline-none focus:border-[#0F0F0F] focus:ring-1 focus:ring-[#0F0F0F] transition-colors min-h-[48px] @error('name') border-[#CC2200] @enderror"
-                 placeholder="Adınız Soyadınız">
+                 placeholder="{{ ceviri('Adınız Soyadınız') }}">
         </div>
 
         <div>
-          <label for="email" class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.08em] mb-2">E-posta Adresi</label>
+          <label for="email" class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.08em] mb-2">{{ ceviri('E-posta Adresi') }}</label>
           <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email"
                  class="w-full px-4 py-3.5 border border-[rgba(0,0,0,0.12)] rounded-[10px] text-[14px] bg-white focus:outline-none focus:border-[#0F0F0F] focus:ring-1 focus:ring-[#0F0F0F] transition-colors min-h-[48px] @error('email') border-[#CC2200] @enderror"
                  placeholder="ornek@email.com">
         </div>
 
         <div>
-          <label for="password" class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.08em] mb-2">Şifre</label>
+          <label for="password" class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.08em] mb-2">{{ ceviri('Şifre') }}</label>
           <div class="relative">
             <input id="password" :type="showPass ? 'text' : 'password'" name="password" required autocomplete="new-password" minlength="8"
                    class="w-full px-4 py-3.5 pr-12 border border-[rgba(0,0,0,0.12)] rounded-[10px] text-[14px] bg-white focus:outline-none focus:border-[#0F0F0F] focus:ring-1 focus:ring-[#0F0F0F] transition-colors min-h-[48px]"
-                   placeholder="En az 8 karakter">
+                   placeholder="{{ ceviri('En az 8 karakter') }}">
             <button type="button" @click="showPass = !showPass"
                     class="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#A8A8A8] hover:text-[#0F0F0F] transition-colors p-1">
               <i :class="showPass ? 'ti ti-eye-off' : 'ti ti-eye'" class="text-[16px]"></i>
@@ -101,11 +101,11 @@
         </div>
 
         <div>
-          <label for="password_confirmation" class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.08em] mb-2">Şifre Tekrar</label>
+          <label for="password_confirmation" class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.08em] mb-2">{{ ceviri('Şifre Tekrar') }}</label>
           <div class="relative">
             <input id="password_confirmation" :type="showPass2 ? 'text' : 'password'" name="password_confirmation" required autocomplete="new-password"
                    class="w-full px-4 py-3.5 pr-12 border border-[rgba(0,0,0,0.12)] rounded-[10px] text-[14px] bg-white focus:outline-none focus:border-[#0F0F0F] focus:ring-1 focus:ring-[#0F0F0F] transition-colors min-h-[48px]"
-                   placeholder="Şifrenizi tekrar girin">
+                   placeholder="{{ ceviri('Şifrenizi tekrar girin') }}">
             <button type="button" @click="showPass2 = !showPass2"
                     class="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#A8A8A8] hover:text-[#0F0F0F] transition-colors p-1">
               <i :class="showPass2 ? 'ti ti-eye-off' : 'ti ti-eye'" class="text-[16px]"></i>
@@ -124,7 +124,7 @@
           <input type="checkbox" name="iletisim_izni" value="1" {{ old('iletisim_izni') ? 'checked' : '' }}
                  class="mt-0.5 w-4 h-4 shrink-0 rounded border-[rgba(0,0,0,0.25)] text-[#0F0F0F] focus:ring-[#0F0F0F] cursor-pointer">
           <span class="text-[13px] text-[#5A5A5A] leading-relaxed group-hover:text-[#0F0F0F] transition-colors">
-            İletişim bilgilerime e-ileti ve SMS gönderilmesine izin veriyorum.
+            {{ ceviri('İletişim bilgilerime e-ileti ve SMS gönderilmesine izin veriyorum.') }}
           </span>
         </label>
 
@@ -133,10 +133,10 @@
           <input type="checkbox" name="kvkk" value="1" {{ old('kvkk') ? 'checked' : '' }}
                  class="mt-0.5 w-4 h-4 shrink-0 rounded border-[rgba(0,0,0,0.25)] text-[#0F0F0F] focus:ring-[#0F0F0F] cursor-pointer @error('kvkk') border-[#CC2200] @enderror">
           <span class="text-[13px] text-[#5A5A5A] leading-relaxed group-hover:text-[#0F0F0F] transition-colors">
-            Kişisel verilerimin işlenmesine ait
+            {{ ceviri('Kişisel verilerimin işlenmesine ait') }}
             <a href="{{ route('yasal', 'kisisel-verilerin-korunmasi') }}" target="_blank"
-               class="text-[#0F0F0F] font-semibold underline hover:text-[#CC2200] transition-colors">KVKK Aydınlatma Metnini</a>
-            okudum ve onaylıyorum. <span class="text-[#CC2200]">*</span>
+               class="text-[#0F0F0F] font-semibold underline hover:text-[#CC2200] transition-colors">{{ ceviri('KVKK Aydınlatma Metnini') }}</a>
+            {{ ceviri('okudum ve onaylıyorum.') }} <span class="text-[#CC2200]">*</span>
           </span>
         </label>
         @error('kvkk')
@@ -145,18 +145,18 @@
 
         <button type="submit"
                 class="w-full bg-[#0F0F0F] text-white text-[12px] font-semibold tracking-[2px] uppercase py-4 rounded-[10px] hover:bg-[#2a2a2a] active:scale-[0.98] transition-all duration-200 min-h-[52px]">
-          Hesap Oluştur
+          {{ ceviri('Hesap Oluştur') }}
         </button>
 
         <p class="text-[11px] text-[#A8A8A8] text-center leading-relaxed">
-          Bu site Google reCAPTCHA ile korunmaktadır.
+          {{ ceviri('Bu site Google reCAPTCHA ile korunmaktadır.') }}
         </p>
       </form>
 
       <div class="mt-8 pt-6 border-t border-[rgba(0,0,0,0.07)] text-center">
         <p class="text-[13px] text-[#A8A8A8]">
-          Zaten hesabınız var mı?
-          <a href="{{ route('giris') }}" class="text-[#0F0F0F] font-semibold hover:underline ml-1">Giriş Yapın →</a>
+          {{ ceviri('Zaten hesabınız var mı?') }}
+          <a href="{{ route('giris') }}" class="text-[#0F0F0F] font-semibold hover:underline ml-1">{{ ceviri('Giriş Yapın') }} →</a>
         </p>
       </div>
 

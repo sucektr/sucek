@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'İletişim — SUÇEK')
-@section('meta-description', 'SUÇEK ile iletişime geçin. Mimarlık, inşaat ve koleksiyon hizmetlerimiz hakkında bilgi alın.')
+@section('title', ceviri('İletişim') . ' — SUÇEK')
+@section('meta-description', ceviri('SUÇEK ile iletişime geçin. Mimarlık, inşaat ve koleksiyon hizmetlerimiz hakkında bilgi alın.'))
 
 @push('styles')
 @endpush
@@ -9,12 +9,12 @@
 @section('content')
 
 {{-- Hero --}}
-<section class="relative overflow-hidden min-h-[220px] flex items-end" aria-label="İletişim hero">
+<section class="relative overflow-hidden min-h-[220px] flex items-end" aria-label="{{ ceviri('İletişim hero') }}">
   <div class="absolute inset-0 bg-[#141414]"></div>
   <div class="absolute inset-0 opacity-[0.06]"
        style="background-image: repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 50%); background-size: 20px 20px;"></div>
   <div class="relative z-10 px-9 lg:px-14 py-12 w-full">
-    <p class="text-[9px] font-medium tracking-[3px] uppercase text-[rgba(255,255,255,0.40)] mb-2">İLETİŞİM</p>
+    <p class="text-[9px] font-medium tracking-[3px] uppercase text-[rgba(255,255,255,0.40)] mb-2">{{ ceviri('İLETİŞİM') }}</p>
     <h1 class="font-display text-[36px] lg:text-[48px] font-semibold text-white leading-[1.1]">
       {{ icerik('iletisim','hero_baslik','Bize Ulaşın') }}
     </h1>
@@ -33,7 +33,7 @@
 @endif
 
 {{-- Bilgi Kartları + Harita --}}
-<section class="section" aria-label="İletişim bilgileri">
+<section class="section" aria-label="{{ ceviri('İletişim bilgileri') }}">
   <div class="grid lg:grid-cols-5 gap-8">
 
     {{-- Sol: Bilgi Kartları --}}
@@ -44,7 +44,7 @@
           <i class="ti ti-map-pin text-[#0F0F0F] text-lg"></i>
         </div>
         <div>
-          <p class="text-[9px] font-medium tracking-[2px] uppercase text-[#A8A8A8] mb-1">ADRES</p>
+          <p class="text-[9px] font-medium tracking-[2px] uppercase text-[#A8A8A8] mb-1">{{ ceviri('ADRES') }}</p>
           <p class="text-[14px] font-medium text-[#0F0F0F] leading-snug">{{ icerik('site','adres','Kazım Karabekir Mah. Misaki-i Milli Cad. No: 6/A Etimesgut, Ankara') }}</p>
         </div>
       </div>
@@ -54,7 +54,7 @@
           <i class="ti ti-phone text-[#0F0F0F] text-lg"></i>
         </div>
         <div>
-          <p class="text-[9px] font-medium tracking-[2px] uppercase text-[#A8A8A8] mb-1">TELEFON</p>
+          <p class="text-[9px] font-medium tracking-[2px] uppercase text-[#A8A8A8] mb-1">{{ ceviri('TELEFON') }}</p>
           <a href="tel:{{ preg_replace('/[^+\d]/', '', icerik('site','telefon','+905442948402')) }}"
              class="text-[14px] font-medium text-[#0F0F0F] hover:text-[#CC2200] transition-colors">
             {{ icerik('site','telefon','+90 (544) 294 84 02') }}
@@ -67,7 +67,7 @@
           <i class="ti ti-mail text-[#0F0F0F] text-lg"></i>
         </div>
         <div>
-          <p class="text-[9px] font-medium tracking-[2px] uppercase text-[#A8A8A8] mb-1">E-POSTA</p>
+          <p class="text-[9px] font-medium tracking-[2px] uppercase text-[#A8A8A8] mb-1">{{ ceviri('E-POSTA') }}</p>
           <a href="mailto:{{ icerik('site','email','info@sucek.com.tr') }}"
              class="text-[14px] font-medium text-[#0F0F0F] hover:text-[#CC2200] transition-colors">
             {{ icerik('site','email','info@sucek.com.tr') }}
@@ -80,7 +80,7 @@
           <i class="ti ti-clock text-[#0F0F0F] text-lg"></i>
         </div>
         <div>
-          <p class="text-[9px] font-medium tracking-[2px] uppercase text-[#A8A8A8] mb-1">ÇALIŞMA SAATLERİ</p>
+          <p class="text-[9px] font-medium tracking-[2px] uppercase text-[#A8A8A8] mb-1">{{ ceviri('ÇALIŞMA SAATLERİ') }}</p>
           <p class="text-[13px] font-medium text-[#0F0F0F]">{{ icerik('site','calisma_hafta','Pzt–Cum 09:00–18:00') }}</p>
           <p class="text-[12px] text-[#A8A8A8] mt-0.5">{{ icerik('site','calisma_cumartesi','Cts 10:00–15:00') }}</p>
           <p class="text-[12px] text-[#A8A8A8] mt-0.5">{{ icerik('site','calisma_pazar','Pazar: Kapalı') }}</p>
@@ -106,10 +106,10 @@
 </section>
 
 {{-- İletişim Formu --}}
-<section class="section border-t border-[rgba(0,0,0,0.06)]" aria-label="Mesaj formu">
+<section class="section border-t border-[rgba(0,0,0,0.06)]" aria-label="{{ ceviri('Mesaj formu') }}">
 
   <div class="mb-8">
-    <p class="text-[9px] font-medium tracking-[3px] uppercase text-[#A8A8A8] mb-1.5">MESAJ GÖNDERIN</p>
+    <p class="text-[9px] font-medium tracking-[3px] uppercase text-[#A8A8A8] mb-1.5">{{ ceviri('MESAJ GÖNDERIN') }}</p>
     <h2 class="font-display text-[28px] lg:text-[36px] font-semibold text-[#0F0F0F]">
       {{ icerik('iletisim','form_baslik','Nasıl Yardımcı Olabiliriz?') }}
     </h2>
@@ -125,16 +125,16 @@
 
         <div class="grid sm:grid-cols-2 gap-4">
           <div>
-            <label for="ad" class="form-label">Ad Soyad <span class="text-[#CC2200]">*</span></label>
+            <label for="ad" class="form-label">{{ ceviri('Ad Soyad') }} <span class="text-[#CC2200]">*</span></label>
             <input id="ad" name="ad" type="text" required
                    value="{{ old('ad') }}"
-                   placeholder="Adınız Soyadınız"
+                   placeholder="{{ ceviri('Adınız Soyadınız') }}"
                    class="form-input @error('ad') border-[#CC2200] @enderror"
                    autocomplete="name">
             @error('ad')<p class="text-[11px] text-[#CC2200] mt-1.5">{{ $message }}</p>@enderror
           </div>
           <div>
-            <label for="email" class="form-label">E-posta <span class="text-[#CC2200]">*</span></label>
+            <label for="email" class="form-label">{{ ceviri('E-posta') }} <span class="text-[#CC2200]">*</span></label>
             <input id="email" name="email" type="email" required
                    value="{{ old('email') }}"
                    placeholder="ornek@email.com"
@@ -146,7 +146,7 @@
 
         <div class="grid sm:grid-cols-2 gap-4">
           <div>
-            <label for="telefon" class="form-label">Telefon</label>
+            <label for="telefon" class="form-label">{{ ceviri('Telefon') }}</label>
             <input id="telefon" name="telefon" type="tel"
                    value="{{ old('telefon') }}"
                    placeholder="+90 (___) ___ __ __"
@@ -154,18 +154,18 @@
                    autocomplete="tel">
           </div>
           <div>
-            <label for="konu" class="form-label">Konu</label>
+            <label for="konu" class="form-label">{{ ceviri('Konu') }}</label>
             <input id="konu" name="konu" type="text"
                    value="{{ old('konu') }}"
-                   placeholder="Mimarlık, İnşaat, Koleksiyon..."
+                   placeholder="{{ ceviri('Mimarlık, İnşaat, Koleksiyon...') }}"
                    class="form-input">
           </div>
         </div>
 
         <div>
-          <label for="mesaj" class="form-label">Mesajınız <span class="text-[#CC2200]">*</span></label>
+          <label for="mesaj" class="form-label">{{ ceviri('Mesajınız') }} <span class="text-[#CC2200]">*</span></label>
           <textarea id="mesaj" name="mesaj" rows="6" required
-                    placeholder="Projeniz veya talebiniz hakkında bilgi verin..."
+                    placeholder="{{ ceviri('Projeniz veya talebiniz hakkında bilgi verin...') }}"
                     class="form-input resize-none @error('mesaj') border-[#CC2200] @enderror">{{ old('mesaj') }}</textarea>
           @error('mesaj')<p class="text-[11px] text-[#CC2200] mt-1.5">{{ $message }}</p>@enderror
         </div>
@@ -179,10 +179,10 @@
         <button type="submit"
                 class="w-full flex items-center justify-center gap-2 bg-[#141414] text-white text-[11px] font-semibold tracking-[1.5px] uppercase py-4 rounded-[10px] hover:bg-[#2a2a2a] active:scale-[0.98] transition-all duration-200 min-h-[52px]">
           <i class="ti ti-send text-sm" aria-hidden="true"></i>
-          Mesajı Gönder
+          {{ ceviri('Mesajı Gönder') }}
         </button>
 
-        <p class="text-[11px] text-[#A8A8A8] text-center">Genellikle 1 iş günü içinde dönüş yapıyoruz.</p>
+        <p class="text-[11px] text-[#A8A8A8] text-center">{{ ceviri('Genellikle 1 iş günü içinde dönüş yapıyoruz.') }}</p>
       </form>
     </div>
 
@@ -199,12 +199,12 @@
       </div>
 
       <div class="space-y-3">
-        <p class="text-[9px] font-medium tracking-[2px] uppercase text-[#A8A8A8]">HİZMET ALANLARI</p>
+        <p class="text-[9px] font-medium tracking-[2px] uppercase text-[#A8A8A8]">{{ ceviri('HİZMET ALANLARI') }}</p>
         @foreach([
-          ['ti-building', 'Mimari Tasarım & Ruhsat'],
-          ['ti-home-2', 'Anahtar Teslim İnşaat'],
-          ['ti-diamond', 'Antika & Koleksiyon'],
-          ['ti-shopping-bag', 'Spor & İnşaat Mağazası'],
+          ['ti-building', ceviri('Mimari Tasarım & Ruhsat')],
+          ['ti-home-2', ceviri('Anahtar Teslim İnşaat')],
+          ['ti-diamond', ceviri('Antika & Koleksiyon')],
+          ['ti-shopping-bag', ceviri('Spor & İnşaat Mağazası')],
         ] as [$icon, $label])
         <div class="flex items-center gap-3 py-2.5 border-b border-[rgba(0,0,0,0.05)]">
           <i class="ti {{ $icon }} text-[#B8962E] text-base w-5 shrink-0"></i>
@@ -214,7 +214,7 @@
       </div>
 
       <div class="bg-[#141414] rounded-[14px] p-6">
-        <p class="text-[9px] font-medium tracking-[2px] uppercase text-[rgba(255,255,255,0.40)] mb-2">SOSYAL MEDYA</p>
+        <p class="text-[9px] font-medium tracking-[2px] uppercase text-[rgba(255,255,255,0.40)] mb-2">{{ ceviri('SOSYAL MEDYA') }}</p>
         @php
           $sosyalIletisim = [
             'Instagram' => ['ikon' => 'ti-brand-instagram', 'url' => icerik('site','sosyal_instagram','https://www.instagram.com/sucektr/')],
@@ -289,7 +289,7 @@
                '<p style="font-weight:700;font-size:13px;margin:0 0 4px">{{ $sirketAdi }}</p>' +
                '<p style="font-size:12px;color:#5A5A5A;margin:0">{{ $adres }}</p>' +
                '<a href="https://www.google.com/maps/dir/?api=1&destination={{ urlencode($adres) }}" ' +
-               'target="_blank" style="display:inline-block;margin-top:8px;font-size:11px;font-weight:600;color:#CC2200;text-decoration:none;">Yol Tarifi Al →</a>' +
+               'target="_blank" style="display:inline-block;margin-top:8px;font-size:11px;font-weight:600;color:#CC2200;text-decoration:none;">{{ ceviri('Yol Tarifi Al') }} →</a>' +
                '</div>',
     });
 

@@ -51,12 +51,12 @@ class Siparis extends Model
     public function durumEtiketi(): string
     {
         return match($this->durum) {
-            'bekliyor'      => 'Ödeme Bekleniyor',
-            'odeme_alindi'  => 'Ödeme Alındı',
-            'hazirlaniyor'  => 'Hazırlanıyor',
-            'kargolandi'    => 'Kargolandı',
-            'teslim_edildi' => 'Teslim Edildi',
-            'iptal'         => 'İptal Edildi',
+            'bekliyor'      => ceviri('Ödeme Bekleniyor'),
+            'odeme_alindi'  => ceviri('Ödeme Alındı'),
+            'hazirlaniyor'  => ceviri('Hazırlanıyor'),
+            'kargolandi'    => ceviri('Kargolandı'),
+            'teslim_edildi' => ceviri('Teslim Edildi'),
+            'iptal'         => ceviri('İptal Edildi'),
             default         => ucfirst($this->durum),
         };
     }

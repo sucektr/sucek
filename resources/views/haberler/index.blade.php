@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Haberler')
+@section('title', ceviri('Haberler'))
 
 @section('content')
 
@@ -7,8 +7,8 @@
 <section class="pt-16 pb-10 px-6 border-b border-[rgba(0,0,0,0.07)]">
   <div class="max-w-6xl mx-auto">
     <p class="text-[11px] font-semibold tracking-[3px] uppercase text-[#A07850] mb-3">Premium</p>
-    <h1 class="font-display text-[38px] md:text-[52px] font-semibold text-[#141414] tracking-[1px] leading-tight">Haberler</h1>
-    <p class="text-[14px] text-[#6B6B6B] mt-3 max-w-xl">SUÇEK topluluğuna özel güncel haberler ve duyurular.</p>
+    <h1 class="font-display text-[38px] md:text-[52px] font-semibold text-[#141414] tracking-[1px] leading-tight">{{ ceviri('Haberler') }}</h1>
+    <p class="text-[14px] text-[#6B6B6B] mt-3 max-w-xl">{{ ceviri('SUÇEK topluluğuna özel güncel haberler ve duyurular.') }}</p>
 
     {{-- Kategoriler --}}
     @if($kategoriler->isNotEmpty())
@@ -16,7 +16,7 @@
       <a href="{{ route('haberler.index') }}"
          class="px-3 py-1.5 text-[11px] font-semibold tracking-[1px] uppercase border transition-colors {{ !request('kategori') ? 'bg-[#141414] text-white border-[#141414]' : 'bg-white text-[#5A5A5A] border-[rgba(0,0,0,0.15)] hover:border-[#141414]' }}"
          style="border-radius:4px;">
-        Tümü
+        {{ ceviri('Tümü') }}
       </a>
       @foreach($kategoriler as $kat)
       <a href="{{ route('haberler.index', ['kategori' => $kat]) }}"
@@ -37,7 +37,7 @@
     @if($haberler->isEmpty())
     <div class="text-center py-20">
       <i class="ti ti-news text-5xl text-[#D0D0D0] mb-4 block"></i>
-      <p class="text-[14px] text-[#A0A0A0]">Henüz haber yayınlanmadı.</p>
+      <p class="text-[14px] text-[#A0A0A0]">{{ ceviri('Henüz haber yayınlanmadı.') }}</p>
     </div>
     @else
 
@@ -75,7 +75,7 @@
           <div class="flex items-center justify-between mt-4 pt-4 border-t border-[rgba(0,0,0,0.06)]">
             <span class="text-[11px] text-[#A0A0A0]">{{ $haber->created_at->format('d.m.Y') }}</span>
             <span class="text-[11px] font-semibold text-[#A07850] flex items-center gap-1">
-              Oku <i class="ti ti-arrow-right text-xs"></i>
+              {{ ceviri('Oku') }} <i class="ti ti-arrow-right text-xs"></i>
             </span>
           </div>
         </div>

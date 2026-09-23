@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Ödeme Başarısız — SUÇEK')
+@section('title', ceviri('Ödeme Başarısız') . ' — SUÇEK')
 
 @section('content')
 <div class="section max-w-lg mx-auto text-center py-10">
@@ -9,25 +9,25 @@
     <i class="ti ti-x text-4xl text-red-500"></i>
   </div>
 
-  <h1 class="font-serif-sc text-[28px] font-bold text-[#0F0F0F] mb-2">Ödeme Başarısız</h1>
+  <h1 class="font-serif-sc text-[28px] font-bold text-[#0F0F0F] mb-2">{{ ceviri('Ödeme Başarısız') }}</h1>
 
   <div class="inline-block bg-[#F8F8F8] border border-[rgba(0,0,0,0.08)] rounded-[8px] px-5 py-3 mb-4">
-    <p class="text-[10px] text-[#A8A8A8] uppercase tracking-[1.5px] mb-0.5">Sipariş Numaranız</p>
+    <p class="text-[10px] text-[#A8A8A8] uppercase tracking-[1.5px] mb-0.5">{{ ceviri('Sipariş Numaranız') }}</p>
     <p class="text-[17px] font-bold text-[#0F0F0F]">#{{ $siparis->referans }}</p>
   </div>
 
   <p class="text-[13px] text-[#5A5A5A] leading-relaxed mb-8 max-w-sm mx-auto">
-    Ödeme işlemi tamamlanamadı. Kart bilgilerinizi kontrol ederek tekrar deneyebilir ya da farklı bir kart kullanabilirsiniz.
+    {{ ceviri('Ödeme işlemi tamamlanamadı. Kart bilgilerinizi kontrol ederek tekrar deneyebilir ya da farklı bir kart kullanabilirsiniz.') }}
   </p>
 
   <div class="flex flex-col sm:flex-row gap-3 justify-center">
     <a href="{{ route('siparis.odeme.goster', $siparis->referans) }}"
        class="inline-flex items-center justify-center gap-2 bg-[#0F0F0F] text-white text-[11px] font-semibold tracking-[1.5px] uppercase py-3 px-7 rounded-[10px] hover:bg-[#2a2a2a] transition-colors">
-      <i class="ti ti-credit-card text-sm"></i>Tekrar Dene
+      <i class="ti ti-credit-card text-sm"></i>{{ ceviri('Tekrar Dene') }}
     </a>
     <a href="{{ route('magaza.index') }}"
        class="inline-flex items-center justify-center gap-2 border border-[rgba(0,0,0,0.15)] text-[#5A5A5A] text-[11px] font-medium tracking-[1.5px] uppercase py-3 px-7 rounded-[10px] hover:bg-[#F0F0F0] hover:text-[#0F0F0F] transition-colors">
-      <i class="ti ti-shopping-bag text-sm"></i>Mağazaya Dön
+      <i class="ti ti-shopping-bag text-sm"></i>{{ ceviri('Mağazaya Dön') }}
     </a>
   </div>
 

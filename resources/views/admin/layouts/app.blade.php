@@ -56,6 +56,13 @@
     <a href="{{ route('admin.icerik.index') }}" class="nav-link {{ request()->routeIs('admin.icerik.*') ? 'active' : '' }}">
       <i class="ti ti-layout-2"></i> Sayfa İçerikleri
     </a>
+    <a href="{{ route('admin.ceviriler.index') }}" class="nav-link {{ request()->routeIs('admin.ceviriler.*') ? 'active' : '' }}">
+      <i class="ti ti-language"></i> Çeviriler
+      @php $bekleyenCeviri = \App\Models\Ceviri::where('en_metin', '')->orWhereNull('en_metin')->count(); @endphp
+      @if($bekleyenCeviri > 0)
+        <span class="badge-red">{{ $bekleyenCeviri }}</span>
+      @endif
+    </a>
 
     <div class="nav-section mt-2">Premium</div>
     <a href="{{ route('admin.haberler.index') }}" class="nav-link {{ request()->routeIs('admin.haberler.*') ? 'active' : '' }}">

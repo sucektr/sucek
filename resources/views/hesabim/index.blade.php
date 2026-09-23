@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Hesabım — SUÇEK')
+@section('title', ceviri('Hesabım') . ' — SUÇEK')
 
 @section('content')
 @php
@@ -26,12 +26,12 @@
     <div class="flex-1">
       <h1 class="font-display text-[24px] lg:text-[28px] font-semibold text-white leading-tight">{{ $user->name }}</h1>
       <p class="text-[12px] text-[rgba(255,255,255,0.45)] mt-0.5">{{ $user->email }}</p>
-      <p class="text-[10px] text-[rgba(255,255,255,0.25)] mt-1 tracking-[1px]">ÜYE TARİHİ: {{ $user->created_at->format('d F Y') }}</p>
+      <p class="text-[10px] text-[rgba(255,255,255,0.25)] mt-1 tracking-[1px]">{{ ceviri('ÜYE TARİHİ:') }} {{ $user->created_at->format('d F Y') }}</p>
     </div>
     <form action="{{ route('cikis') }}" method="POST" class="shrink-0">
       @csrf
       <button type="submit" class="flex items-center gap-2 text-[10px] font-medium tracking-[1.5px] uppercase text-[rgba(255,255,255,0.45)] hover:text-white border border-[rgba(255,255,255,0.12)] hover:border-[rgba(255,255,255,0.35)] px-4 py-2.5 rounded-[8px] transition-all min-h-[40px]">
-        <i class="ti ti-logout text-sm"></i> Çıkış Yap
+        <i class="ti ti-logout text-sm"></i> {{ ceviri('Çıkış Yap') }}
       </button>
     </form>
   </div>
@@ -44,7 +44,7 @@
       </div>
       <div>
         <p class="text-[17px] font-semibold text-white leading-none">{{ $siparisler->total() }}</p>
-        <p class="text-[10px] text-[rgba(255,255,255,0.35)] uppercase tracking-[1px] mt-0.5">Sipariş</p>
+        <p class="text-[10px] text-[rgba(255,255,255,0.35)] uppercase tracking-[1px] mt-0.5">{{ ceviri('Sipariş') }}</p>
       </div>
     </div>
     <div class="flex items-center gap-3">
@@ -53,7 +53,7 @@
       </div>
       <div>
         <p class="text-[17px] font-semibold text-white leading-none">{{ $toplamTeklif }}</p>
-        <p class="text-[10px] text-[rgba(255,255,255,0.35)] uppercase tracking-[1px] mt-0.5">Teklif</p>
+        <p class="text-[10px] text-[rgba(255,255,255,0.35)] uppercase tracking-[1px] mt-0.5">{{ ceviri('Teklif') }}</p>
       </div>
     </div>
     <div class="flex items-center gap-3">
@@ -62,7 +62,7 @@
       </div>
       <div>
         <p class="text-[17px] font-semibold text-white leading-none">{{ $bekleyenTeklif }}</p>
-        <p class="text-[10px] text-[rgba(255,255,255,0.35)] uppercase tracking-[1px] mt-0.5">Beklemede</p>
+        <p class="text-[10px] text-[rgba(255,255,255,0.35)] uppercase tracking-[1px] mt-0.5">{{ ceviri('Beklemede') }}</p>
       </div>
     </div>
     <div class="flex items-center gap-3">
@@ -71,7 +71,7 @@
       </div>
       <div>
         <p class="text-[17px] font-semibold text-white leading-none">{{ $kabulTeklif }}</p>
-        <p class="text-[10px] text-[rgba(255,255,255,0.35)] uppercase tracking-[1px] mt-0.5">Kabul</p>
+        <p class="text-[10px] text-[rgba(255,255,255,0.35)] uppercase tracking-[1px] mt-0.5">{{ ceviri('Kabul') }}</p>
       </div>
     </div>
   </div>
@@ -81,9 +81,9 @@
 @if($user->isSucek())
 @php
   $uyelikRenk = match($user->rol) {
-    'teknik'   => ['bg' => '#fffbeb', 'sinir' => '#fde68a', 'renk' => '#d97706', 'koyu' => '#92400e', 'ikon_bg' => '#fef3c7', 'ikon' => 'ti-tool',  'etiket' => 'Teknik Üye'],
-    'sucek'    => ['bg' => '#faf5ff', 'sinir' => '#ddd6fe', 'renk' => '#7c3aed', 'koyu' => '#4c1d95', 'ikon_bg' => '#ede9fe', 'ikon' => 'ti-crown', 'etiket' => 'Suçek Üye'],
-    default    => ['bg' => '#eff6ff', 'sinir' => '#bfdbfe', 'renk' => '#2563eb', 'koyu' => '#1e3a8a', 'ikon_bg' => '#dbeafe', 'ikon' => 'ti-star',  'etiket' => 'Standart Üye'],
+    'teknik'   => ['bg' => '#fffbeb', 'sinir' => '#fde68a', 'renk' => '#d97706', 'koyu' => '#92400e', 'ikon_bg' => '#fef3c7', 'ikon' => 'ti-tool',  'etiket' => ceviri('Teknik Üye')],
+    'sucek'    => ['bg' => '#faf5ff', 'sinir' => '#ddd6fe', 'renk' => '#7c3aed', 'koyu' => '#4c1d95', 'ikon_bg' => '#ede9fe', 'ikon' => 'ti-crown', 'etiket' => ceviri('Suçek Üye')],
+    default    => ['bg' => '#eff6ff', 'sinir' => '#bfdbfe', 'renk' => '#2563eb', 'koyu' => '#1e3a8a', 'ikon_bg' => '#dbeafe', 'ikon' => 'ti-star',  'etiket' => ceviri('Standart Üye')],
   };
 @endphp
 <section class="px-9 lg:px-14 py-5 border-b border-[rgba(0,0,0,0.07)]"
@@ -94,7 +94,7 @@
       <i class="ti {{ $uyelikRenk['ikon'] }} text-[12px] text-white"></i>
     </div>
     <p class="text-[11px] font-bold tracking-[2px] uppercase"
-       style="color:{{ $uyelikRenk['koyu'] }};">{{ $uyelikRenk['etiket'] }} — Özel İçerikler</p>
+       style="color:{{ $uyelikRenk['koyu'] }};">{{ $uyelikRenk['etiket'] }} — {{ ceviri('Özel İçerikler') }}</p>
   </div>
   <div class="flex flex-wrap gap-3">
     <a href="{{ route('haberler.index') }}"
@@ -106,8 +106,8 @@
       </div>
       <div>
         <p class="text-[12px] font-semibold text-[#141414] transition-colors"
-           style="hover:color:{{ $uyelikRenk['renk'] }};">Haberler</p>
-        <p class="text-[10px] text-[#A0A0A0]">Güncel duyurular</p>
+           style="hover:color:{{ $uyelikRenk['renk'] }};">{{ ceviri('Haberler') }}</p>
+        <p class="text-[10px] text-[#A0A0A0]">{{ ceviri('Güncel duyurular') }}</p>
       </div>
       <i class="ti ti-arrow-right text-sm text-[#C0C0C0] ml-2"></i>
     </a>
@@ -119,8 +119,8 @@
         <i class="ti ti-topology-star-3 text-[14px]" style="color:{{ $uyelikRenk['renk'] }};"></i>
       </div>
       <div>
-        <p class="text-[12px] font-semibold text-[#141414]">Soy Ağacı</p>
-        <p class="text-[10px] text-[#A0A0A0]">Aile ağacını görüntüle</p>
+        <p class="text-[12px] font-semibold text-[#141414]">{{ ceviri('Soy Ağacı') }}</p>
+        <p class="text-[10px] text-[#A0A0A0]">{{ ceviri('Aile ağacını görüntüle') }}</p>
       </div>
       <i class="ti ti-arrow-right text-sm text-[#C0C0C0] ml-2"></i>
     </a>
@@ -149,10 +149,10 @@
   {{-- Tab bar --}}
   <div class="flex overflow-x-auto gap-0.5 border-b border-[rgba(0,0,0,0.08)] mb-8 -mx-1 px-1 scrollbar-hide">
     @foreach([
-      ['siparisler', 'ti-shopping-bag', 'Siparişlerim'],
-      ['teklifler',  'ti-tag',          'Tekliflerim'],
-      ['adresler',   'ti-map-pin',      'Adres & Fatura'],
-      ['profil',     'ti-user',         'Profil'],
+      ['siparisler', 'ti-shopping-bag', ceviri('Siparişlerim')],
+      ['teklifler',  'ti-tag',          ceviri('Tekliflerim')],
+      ['adresler',   'ti-map-pin',      ceviri('Adres & Fatura')],
+      ['profil',     'ti-user',         ceviri('Profil')],
     ] as [$id, $ikon, $etiket])
     <button @click="sekme='{{ $id }}'"
             :class="sekme==='{{ $id }}'
@@ -174,7 +174,7 @@
               : 'text-[#A8A8A8] hover:text-[#5A5A5A]'"
             class="flex items-center gap-1.5 px-4 py-3 text-[11px] font-semibold tracking-[.08em] uppercase whitespace-nowrap transition-colors -mb-px shrink-0">
       <i class="ti ti-package text-sm"></i>
-      Ürünlerim
+      {{ ceviri('Ürünlerim') }}
     </button>
     @endif
   </div>
@@ -217,7 +217,7 @@
         {{-- Üst satır: referans + durum --}}
         <div class="flex items-start justify-between gap-4 mb-4">
           <div>
-            <p class="text-[9px] font-medium tracking-[2px] uppercase text-[#A0A0A0] mb-0.5">Sipariş No</p>
+            <p class="text-[9px] font-medium tracking-[2px] uppercase text-[#A0A0A0] mb-0.5">{{ ceviri('Sipariş No') }}</p>
             <p class="font-mono text-[13px] font-semibold text-[#0F0F0F] tracking-wide">{{ $siparis->referans }}</p>
             <p class="text-[11px] text-[#A0A0A0] mt-0.5">{{ $siparis->created_at->format('d.m.Y') }}</p>
           </div>
@@ -239,7 +239,7 @@
           <div class="flex-1 min-w-0">
             <p class="text-[13px] font-medium text-[#0F0F0F] truncate">{{ $ilkKalem?->urun_adi ?? '—' }}</p>
             @if($kalemSayisi > 1)
-            <p class="text-[11px] text-[#A0A0A0] mt-0.5">+{{ $kalemSayisi - 1 }} ürün daha</p>
+            <p class="text-[11px] text-[#A0A0A0] mt-0.5">+{{ $kalemSayisi - 1 }} {{ ceviri('ürün daha') }}</p>
             @endif
           </div>
         </div>
@@ -247,12 +247,12 @@
         {{-- Alt satır: toplam + detay butonu --}}
         <div class="flex items-center justify-between pt-3 border-t border-[rgba(0,0,0,0.06)]">
           <div>
-            <p class="text-[10px] text-[#A0A0A0] uppercase tracking-[1px]">Toplam</p>
+            <p class="text-[10px] text-[#A0A0A0] uppercase tracking-[1px]">{{ ceviri('Toplam') }}</p>
             <p class="text-[17px] font-bold text-[#0F0F0F] leading-tight">{{ number_format($siparis->toplam, 2, ',', '.') }} ₺</p>
           </div>
           <a href="{{ route('siparis.onay', $siparis->referans) }}"
              class="flex items-center gap-1.5 text-[11px] font-semibold tracking-[1px] uppercase border border-[rgba(0,0,0,0.12)] px-4 py-2.5 rounded-[8px] text-[#5A5A5A] hover:text-[#0F0F0F] hover:border-[rgba(0,0,0,0.30)] hover:bg-[#FAFAFA] transition-colors min-h-[40px]">
-            Detay <i class="ti ti-arrow-right text-xs"></i>
+            {{ ceviri('Detay') }} <i class="ti ti-arrow-right text-xs"></i>
           </a>
         </div>
 
@@ -268,18 +268,18 @@
       <div class="w-20 h-20 rounded-full bg-[#F0F0F0] flex items-center justify-center mb-5">
         <i class="ti ti-shopping-bag text-4xl text-[#D0D0D0]"></i>
       </div>
-      <h2 class="font-display text-[22px] font-semibold text-[#0F0F0F] mb-2">Henüz sipariş vermediniz</h2>
+      <h2 class="font-display text-[22px] font-semibold text-[#0F0F0F] mb-2">{{ ceviri('Henüz sipariş vermediniz') }}</h2>
       <p class="text-[13px] text-[#A8A8A8] leading-relaxed mb-6">
-        Mağaza ve koleksiyon ürünlerini keşfederek alışverişe başlayabilirsiniz.
+        {{ ceviri('Mağaza ve koleksiyon ürünlerini keşfederek alışverişe başlayabilirsiniz.') }}
       </p>
       <div class="flex flex-col sm:flex-row gap-3">
         <a href="{{ route('magaza.index') }}"
            class="flex items-center justify-center gap-2 bg-[#0F0F0F] text-white text-[11px] font-semibold tracking-[1.5px] uppercase px-6 py-3 rounded-[8px] hover:bg-[#2a2a2a] transition-colors min-h-[44px]">
-          <i class="ti ti-shopping-bag text-sm"></i> Mağazaya Git
+          <i class="ti ti-shopping-bag text-sm"></i> {{ ceviri('Mağazaya Git') }}
         </a>
         <a href="{{ route('koleksiyon.index') }}"
            class="flex items-center justify-center gap-2 border border-[rgba(0,0,0,0.15)] text-[#5A5A5A] text-[11px] font-semibold tracking-[1.5px] uppercase px-6 py-3 rounded-[8px] hover:bg-[#F0F0F0] transition-colors min-h-[44px]">
-          <i class="ti ti-diamond text-sm"></i> Koleksiyon
+          <i class="ti ti-diamond text-sm"></i> {{ ceviri('Koleksiyon') }}
         </a>
       </div>
     </div>
@@ -295,9 +295,9 @@
       @foreach($teklifler as $teklif)
       @php
         $stiller = [
-          'beklemede' => ['bg'=>'bg-[#FEF3C7]','text'=>'text-[#D97706]','ikon'=>'ti-clock','label'=>'Beklemede'],
-          'kabul'     => ['bg'=>'bg-[#E6F4EC]','text'=>'text-[#1A5C3A]','ikon'=>'ti-circle-check','label'=>'Kabul Edildi'],
-          'red'       => ['bg'=>'bg-[#FEE2E2]','text'=>'text-[#991B1B]','ikon'=>'ti-circle-x','label'=>'Reddedildi'],
+          'beklemede' => ['bg'=>'bg-[#FEF3C7]','text'=>'text-[#D97706]','ikon'=>'ti-clock','label'=>ceviri('Beklemede')],
+          'kabul'     => ['bg'=>'bg-[#E6F4EC]','text'=>'text-[#1A5C3A]','ikon'=>'ti-circle-check','label'=>ceviri('Kabul Edildi')],
+          'red'       => ['bg'=>'bg-[#FEE2E2]','text'=>'text-[#991B1B]','ikon'=>'ti-circle-x','label'=>ceviri('Reddedildi')],
         ][$teklif->durum];
       @endphp
       <div class="bg-white border border-[rgba(0,0,0,0.07)] rounded-[14px] p-5 flex flex-col sm:flex-row sm:items-center gap-4 hover:shadow-[0_4px_16px_rgba(0,0,0,0.07)] transition-shadow">
@@ -339,10 +339,10 @@
       <div class="w-16 h-16 rounded-full bg-[#F0F0F0] flex items-center justify-center mb-4">
         <i class="ti ti-tag text-3xl text-[#D0D0D0]"></i>
       </div>
-      <p class="text-[15px] font-medium text-[#5A5A5A] mb-1">Henüz teklif vermediniz</p>
-      <p class="text-[13px] text-[#A8A8A8] mb-5">Koleksiyon ürünlerine göz atarak teklif verebilirsiniz.</p>
+      <p class="text-[15px] font-medium text-[#5A5A5A] mb-1">{{ ceviri('Henüz teklif vermediniz') }}</p>
+      <p class="text-[13px] text-[#A8A8A8] mb-5">{{ ceviri('Koleksiyon ürünlerine göz atarak teklif verebilirsiniz.') }}</p>
       <a href="{{ route('koleksiyon.index') }}" class="flex items-center gap-2 bg-[#0F0F0F] text-white text-[11px] font-semibold tracking-[1.5px] uppercase px-6 py-3 rounded-[8px] hover:bg-[#2a2a2a] transition-colors min-h-[44px]">
-        <i class="ti ti-diamond text-sm"></i> Koleksiyona Göz At
+        <i class="ti ti-diamond text-sm"></i> {{ ceviri('Koleksiyona Göz At') }}
       </a>
     </div>
     @endif
@@ -361,11 +361,11 @@
             <i class="ti ti-truck text-[14px] text-[#5A5A5A]"></i>
           </div>
           <div>
-            <h2 class="text-[13px] font-semibold text-[#0F0F0F]">Kargo Adresi</h2>
-            <p class="text-[11px] text-[#A8A8A8]">Teslimat adresi</p>
+            <h2 class="text-[13px] font-semibold text-[#0F0F0F]">{{ ceviri('Kargo Adresi') }}</h2>
+            <p class="text-[11px] text-[#A8A8A8]">{{ ceviri('Teslimat adresi') }}</p>
           </div>
           @if($kargoAdresi)
-          <span class="ml-auto text-[9px] font-semibold tracking-[1px] uppercase text-[#1A5C3A] bg-[#E6F4EC] px-2 py-0.5 rounded-full">Kayıtlı</span>
+          <span class="ml-auto text-[9px] font-semibold tracking-[1px] uppercase text-[#1A5C3A] bg-[#E6F4EC] px-2 py-0.5 rounded-full">{{ ceviri('Kayıtlı') }}</span>
           @endif
         </div>
         <div class="p-6">
@@ -373,36 +373,36 @@
             @csrf
             <div class="grid grid-cols-2 gap-3">
               <div class="col-span-2">
-                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">Ad Soyad <span class="text-[#CC2200]">*</span></label>
+                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">{{ ceviri('Ad Soyad') }} <span class="text-[#CC2200]">*</span></label>
                 <input type="text" name="ad_soyad" value="{{ old('ad_soyad', $kargoAdresi?->ad_soyad) }}" required
                        class="w-full px-3.5 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[13px] focus:outline-none focus:border-[#0F0F0F] transition-colors">
               </div>
               <div>
-                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">Telefon</label>
+                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">{{ ceviri('Telefon') }}</label>
                 <input type="tel" name="telefon" value="{{ old('telefon', $kargoAdresi?->telefon) }}"
                        class="w-full px-3.5 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[13px] focus:outline-none focus:border-[#0F0F0F] transition-colors"
                        placeholder="+90 5xx xxx xx xx">
               </div>
               <div>
-                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">Posta Kodu</label>
+                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">{{ ceviri('Posta Kodu') }}</label>
                 <input type="text" name="posta_kodu" value="{{ old('posta_kodu', $kargoAdresi?->posta_kodu) }}"
                        class="w-full px-3.5 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[13px] focus:outline-none focus:border-[#0F0F0F] transition-colors font-mono"
                        placeholder="06000">
               </div>
               <div class="col-span-2">
-                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">Adres <span class="text-[#CC2200]">*</span></label>
+                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">{{ ceviri('Adres') }} <span class="text-[#CC2200]">*</span></label>
                 <textarea name="adres_satiri" rows="2" required
                           class="w-full px-3.5 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[13px] focus:outline-none focus:border-[#0F0F0F] transition-colors resize-none"
-                          placeholder="Mahalle, sokak, kapı no, daire">{{ old('adres_satiri', $kargoAdresi?->adres_satiri) }}</textarea>
+                          placeholder="{{ ceviri('Mahalle, sokak, kapı no, daire') }}">{{ old('adres_satiri', $kargoAdresi?->adres_satiri) }}</textarea>
               </div>
               <div>
-                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">İl <span class="text-[#CC2200]">*</span></label>
+                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">{{ ceviri('İl') }} <span class="text-[#CC2200]">*</span></label>
                 <input type="text" name="sehir" value="{{ old('sehir', $kargoAdresi?->sehir) }}" required
                        class="w-full px-3.5 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[13px] focus:outline-none focus:border-[#0F0F0F] transition-colors"
                        placeholder="Ankara">
               </div>
               <div>
-                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">İlçe</label>
+                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">{{ ceviri('İlçe') }}</label>
                 <input type="text" name="ilce" value="{{ old('ilce', $kargoAdresi?->ilce) }}"
                        class="w-full px-3.5 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[13px] focus:outline-none focus:border-[#0F0F0F] transition-colors"
                        placeholder="Çankaya">
@@ -411,7 +411,7 @@
             <button type="submit"
                     class="w-full bg-[#0F0F0F] text-white text-[11px] font-semibold tracking-[1.5px] uppercase py-3 rounded-[8px] hover:bg-[#2a2a2a] transition-colors min-h-[44px]">
               <i class="ti ti-device-floppy text-sm mr-1"></i>
-              {{ $kargoAdresi ? 'Güncelle' : 'Kaydet' }}
+              {{ $kargoAdresi ? ceviri('Güncelle') : ceviri('Kaydet') }}
             </button>
           </form>
         </div>
@@ -424,11 +424,11 @@
             <i class="ti ti-file-invoice text-[14px] text-[#5A5A5A]"></i>
           </div>
           <div>
-            <h2 class="text-[13px] font-semibold text-[#0F0F0F]">Fatura Bilgileri</h2>
-            <p class="text-[11px] text-[#A8A8A8]">Fatura adresi ve şirket bilgileri</p>
+            <h2 class="text-[13px] font-semibold text-[#0F0F0F]">{{ ceviri('Fatura Bilgileri') }}</h2>
+            <p class="text-[11px] text-[#A8A8A8]">{{ ceviri('Fatura adresi ve şirket bilgileri') }}</p>
           </div>
           @if($faturaAdresi)
-          <span class="ml-auto text-[9px] font-semibold tracking-[1px] uppercase text-[#1A5C3A] bg-[#E6F4EC] px-2 py-0.5 rounded-full">Kayıtlı</span>
+          <span class="ml-auto text-[9px] font-semibold tracking-[1px] uppercase text-[#1A5C3A] bg-[#E6F4EC] px-2 py-0.5 rounded-full">{{ ceviri('Kayıtlı') }}</span>
           @endif
         </div>
         <div class="p-6">
@@ -436,37 +436,37 @@
             @csrf
             {{-- Fatura tipi --}}
             <div x-data="{ tip: '{{ $faturaAdresi?->sirket_adi ? 'kurumsal' : 'bireysel' }}' }">
-              <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-2">Fatura Tipi</label>
+              <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-2">{{ ceviri('Fatura Tipi') }}</label>
               <div class="flex gap-2 mb-4">
                 <button type="button" @click="tip='bireysel'"
                         :class="tip==='bireysel' ? 'bg-[#0F0F0F] text-white border-transparent' : 'bg-white text-[#5A5A5A] border-[rgba(0,0,0,0.12)] hover:border-[rgba(0,0,0,0.25)]'"
                         class="flex-1 text-[11px] font-medium tracking-[.08em] uppercase py-2 rounded-[7px] border transition-all">
-                  Bireysel
+                  {{ ceviri('Bireysel') }}
                 </button>
                 <button type="button" @click="tip='kurumsal'"
                         :class="tip==='kurumsal' ? 'bg-[#0F0F0F] text-white border-transparent' : 'bg-white text-[#5A5A5A] border-[rgba(0,0,0,0.12)] hover:border-[rgba(0,0,0,0.25)]'"
                         class="flex-1 text-[11px] font-medium tracking-[.08em] uppercase py-2 rounded-[7px] border transition-all">
-                  Kurumsal
+                  {{ ceviri('Kurumsal') }}
                 </button>
               </div>
 
               {{-- Kurumsal alanlar --}}
               <div x-show="tip==='kurumsal'" class="space-y-3 mb-3">
                 <div>
-                  <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">Şirket Adı</label>
+                  <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">{{ ceviri('Şirket Adı') }}</label>
                   <input type="text" name="sirket_adi" value="{{ old('sirket_adi', $faturaAdresi?->sirket_adi) }}"
                          class="w-full px-3.5 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[13px] focus:outline-none focus:border-[#0F0F0F] transition-colors"
                          placeholder="SUÇEK A.Ş.">
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                   <div>
-                    <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">Vergi Dairesi</label>
+                    <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">{{ ceviri('Vergi Dairesi') }}</label>
                     <input type="text" name="vergi_dairesi" value="{{ old('vergi_dairesi', $faturaAdresi?->vergi_dairesi) }}"
                            class="w-full px-3.5 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[13px] focus:outline-none focus:border-[#0F0F0F] transition-colors"
                            placeholder="Çankaya VD">
                   </div>
                   <div>
-                    <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">Vergi No</label>
+                    <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">{{ ceviri('Vergi No') }}</label>
                     <input type="text" name="vergi_no" value="{{ old('vergi_no', $faturaAdresi?->vergi_no) }}"
                            class="w-full px-3.5 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[13px] focus:outline-none focus:border-[#0F0F0F] transition-colors font-mono"
                            placeholder="1234567890">
@@ -477,28 +477,28 @@
 
             <div class="grid grid-cols-2 gap-3">
               <div class="col-span-2">
-                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">Ad Soyad <span class="text-[#CC2200]">*</span></label>
+                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">{{ ceviri('Ad Soyad') }} <span class="text-[#CC2200]">*</span></label>
                 <input type="text" name="ad_soyad" value="{{ old('ad_soyad', $faturaAdresi?->ad_soyad) }}" required
                        class="w-full px-3.5 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[13px] focus:outline-none focus:border-[#0F0F0F] transition-colors">
               </div>
               <div class="col-span-2">
-                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">Adres <span class="text-[#CC2200]">*</span></label>
+                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">{{ ceviri('Adres') }} <span class="text-[#CC2200]">*</span></label>
                 <textarea name="adres_satiri" rows="2" required
                           class="w-full px-3.5 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[13px] focus:outline-none focus:border-[#0F0F0F] transition-colors resize-none"
-                          placeholder="Mahalle, sokak, kapı no, daire">{{ old('adres_satiri', $faturaAdresi?->adres_satiri) }}</textarea>
+                          placeholder="{{ ceviri('Mahalle, sokak, kapı no, daire') }}">{{ old('adres_satiri', $faturaAdresi?->adres_satiri) }}</textarea>
               </div>
               <div>
-                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">İl <span class="text-[#CC2200]">*</span></label>
+                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">{{ ceviri('İl') }} <span class="text-[#CC2200]">*</span></label>
                 <input type="text" name="sehir" value="{{ old('sehir', $faturaAdresi?->sehir) }}" required
                        class="w-full px-3.5 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[13px] focus:outline-none focus:border-[#0F0F0F] transition-colors">
               </div>
               <div>
-                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">İlçe</label>
+                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">{{ ceviri('İlçe') }}</label>
                 <input type="text" name="ilce" value="{{ old('ilce', $faturaAdresi?->ilce) }}"
                        class="w-full px-3.5 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[13px] focus:outline-none focus:border-[#0F0F0F] transition-colors">
               </div>
               <div>
-                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">Posta Kodu</label>
+                <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">{{ ceviri('Posta Kodu') }}</label>
                 <input type="text" name="posta_kodu" value="{{ old('posta_kodu', $faturaAdresi?->posta_kodu) }}"
                        class="w-full px-3.5 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[13px] focus:outline-none focus:border-[#0F0F0F] transition-colors font-mono">
               </div>
@@ -506,7 +506,7 @@
             <button type="submit"
                     class="w-full bg-[#0F0F0F] text-white text-[11px] font-semibold tracking-[1.5px] uppercase py-3 rounded-[8px] hover:bg-[#2a2a2a] transition-colors min-h-[44px]">
               <i class="ti ti-device-floppy text-sm mr-1"></i>
-              {{ $faturaAdresi ? 'Güncelle' : 'Kaydet' }}
+              {{ $faturaAdresi ? ceviri('Güncelle') : ceviri('Kaydet') }}
             </button>
           </form>
         </div>
@@ -527,54 +527,54 @@
           <div class="w-8 h-8 rounded-[7px] bg-[#F0F0F0] flex items-center justify-center">
             <i class="ti ti-user-edit text-[14px] text-[#B8962E]"></i>
           </div>
-          <h2 class="text-[13px] font-semibold text-[#0F0F0F]">Kişisel Bilgiler</h2>
+          <h2 class="text-[13px] font-semibold text-[#0F0F0F]">{{ ceviri('Kişisel Bilgiler') }}</h2>
         </div>
         <div class="p-6">
           <form action="{{ route('hesabim.profil') }}" method="POST" class="space-y-4">
             @csrf @method('PATCH')
             <div>
-              <label for="p-name" class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">Ad Soyad</label>
+              <label for="p-name" class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">{{ ceviri('Ad Soyad') }}</label>
               <input id="p-name" type="text" name="name" value="{{ old('name', $user->name) }}" required
                      class="w-full px-3.5 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[14px] focus:outline-none focus:border-[#0F0F0F] transition-colors">
             </div>
             <div>
-              <label for="p-email" class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">E-posta</label>
+              <label for="p-email" class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">{{ ceviri('E-posta') }}</label>
               <input id="p-email" type="email" name="email" value="{{ old('email', $user->email) }}" required
                      class="w-full px-3.5 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[14px] focus:outline-none focus:border-[#0F0F0F] transition-colors">
             </div>
             <div>
-              <label for="p-tel" class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">Telefon</label>
+              <label for="p-tel" class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">{{ ceviri('Telefon') }}</label>
               <input id="p-tel" type="tel" name="telefon" value="{{ old('telefon', $user->telefon) }}"
                      placeholder="+90 5xx xxx xx xx"
                      class="w-full px-3.5 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[14px] focus:outline-none focus:border-[#0F0F0F] transition-colors">
             </div>
             <div>
-              <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">Doğum Tarihi</label>
+              <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">{{ ceviri('Doğum Tarihi') }}</label>
               <div class="grid grid-cols-3 gap-2">
                 <select name="dogum_gun" class="px-3 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[13px] focus:outline-none focus:border-[#0F0F0F] bg-white text-[#0F0F0F]">
-                  <option value="">Gün</option>
+                  <option value="">{{ ceviri('Gün') }}</option>
                   @for($g = 1; $g <= 31; $g++)
                   <option value="{{ $g }}" {{ old('dogum_gun', $user->dogum_gun) == $g ? 'selected' : '' }}>{{ $g }}</option>
                   @endfor
                 </select>
                 <select name="dogum_ay" class="px-3 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[13px] focus:outline-none focus:border-[#0F0F0F] bg-white text-[#0F0F0F]">
-                  <option value="">Ay</option>
+                  <option value="">{{ ceviri('Ay') }}</option>
                   @foreach(['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'] as $i => $ay)
-                  <option value="{{ $i+1 }}" {{ old('dogum_ay', $user->dogum_ay) == $i+1 ? 'selected' : '' }}>{{ $ay }}</option>
+                  <option value="{{ $i+1 }}" {{ old('dogum_ay', $user->dogum_ay) == $i+1 ? 'selected' : '' }}>{{ ceviri($ay) }}</option>
                   @endforeach
                 </select>
                 <input type="number" name="dogum_yil" value="{{ old('dogum_yil', $user->dogum_yil) }}"
-                       placeholder="Yıl" min="1900" max="{{ date('Y') }}"
+                       placeholder="{{ ceviri('Yıl') }}" min="1900" max="{{ date('Y') }}"
                        class="px-3 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[13px] focus:outline-none focus:border-[#0F0F0F] transition-colors bg-white text-[#0F0F0F]">
               </div>
             </div>
             <label class="flex items-center gap-3 cursor-pointer py-1">
               <input type="checkbox" name="sms_izni" value="1" {{ old('sms_izni', $user->sms_izni) ? 'checked' : '' }}
                      class="w-4 h-4 rounded border-[rgba(0,0,0,0.20)] accent-[#0F0F0F] cursor-pointer">
-              <span class="text-[12px] text-[#5A5A5A]">SMS bildirimi almak istiyorum</span>
+              <span class="text-[12px] text-[#5A5A5A]">{{ ceviri('SMS bildirimi almak istiyorum') }}</span>
             </label>
             <button type="submit" class="w-full bg-[#0F0F0F] text-white text-[11px] font-semibold tracking-[1.5px] uppercase py-3 rounded-[8px] hover:bg-[#2a2a2a] transition-colors min-h-[44px]">
-              Bilgileri Güncelle
+              {{ ceviri('Bilgileri Güncelle') }}
             </button>
           </form>
         </div>
@@ -586,15 +586,15 @@
           <div class="w-8 h-8 rounded-[7px] bg-[#F0F0F0] flex items-center justify-center">
             <i class="ti ti-lock text-[14px] text-[#B8962E]"></i>
           </div>
-          <h2 class="text-[13px] font-semibold text-[#0F0F0F]">Şifre Değiştir</h2>
+          <h2 class="text-[13px] font-semibold text-[#0F0F0F]">{{ ceviri('Şifre Değiştir') }}</h2>
         </div>
         <div class="p-6">
           <form action="{{ route('hesabim.sifre') }}" method="POST" class="space-y-4">
             @csrf @method('PATCH')
             @foreach([
-              ['s1','mevcut_sifre','Mevcut Şifre','current-password'],
-              ['s2','yeni_sifre','Yeni Şifre','new-password'],
-              ['s3','yeni_sifre_confirmation','Yeni Şifre Tekrar','new-password'],
+              ['s1','mevcut_sifre',ceviri('Mevcut Şifre'),'current-password'],
+              ['s2','yeni_sifre',ceviri('Yeni Şifre'),'new-password'],
+              ['s3','yeni_sifre_confirmation',ceviri('Yeni Şifre Tekrar'),'new-password'],
             ] as [$sv,$nm,$lbl,$ac])
             <div>
               <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">{{ $lbl }}</label>
@@ -611,7 +611,7 @@
             </div>
             @endforeach
             <button type="submit" class="w-full bg-[#0F0F0F] text-white text-[11px] font-semibold tracking-[1.5px] uppercase py-3 rounded-[8px] hover:bg-[#2a2a2a] transition-colors min-h-[44px]">
-              Şifreyi Değiştir
+              {{ ceviri('Şifreyi Değiştir') }}
             </button>
           </form>
         </div>
@@ -635,8 +635,8 @@
     {{-- Başlık --}}
     <div class="flex items-center justify-between mb-6">
       <div>
-        <p class="text-[10px] text-[#A8A8A8] uppercase tracking-[1.5px] mb-0.5">Teknik Üye</p>
-        <h2 class="text-[20px] font-semibold text-[#0F0F0F]">Ürünlerim</h2>
+        <p class="text-[10px] text-[#A8A8A8] uppercase tracking-[1.5px] mb-0.5">{{ ceviri('Teknik Üye') }}</p>
+        <h2 class="text-[20px] font-semibold text-[#0F0F0F]">{{ ceviri('Ürünlerim') }}</h2>
       </div>
       <div class="flex items-center gap-2">
         <a href="{{ route('katalog.index') }}"
@@ -645,7 +645,7 @@
         </a>
         <button @click="yeniAc()"
                 class="flex items-center gap-1.5 px-4 py-2.5 bg-[#B8962E] text-[#0F0F0F] text-[11px] font-semibold tracking-[.1em] uppercase rounded-[8px] hover:bg-[#c8a84b] transition-colors min-h-[36px] cursor-pointer">
-          <i class="ti ti-plus text-sm"></i> Ürün Ekle
+          <i class="ti ti-plus text-sm"></i> {{ ceviri('Ürün Ekle') }}
         </button>
       </div>
     </div>
@@ -656,11 +656,11 @@
       <div class="w-16 h-16 rounded-full bg-[#F0F0F0] flex items-center justify-center mb-4">
         <i class="ti ti-box-off text-3xl text-[#D0D0D0]"></i>
       </div>
-      <p class="text-[15px] font-medium text-[#5A5A5A] mb-1">Henüz ürün eklemediniz</p>
-      <p class="text-[13px] text-[#A8A8A8] mb-5">Ürün ekleyerek kataloglarınızda kullanabilirsiniz.</p>
+      <p class="text-[15px] font-medium text-[#5A5A5A] mb-1">{{ ceviri('Henüz ürün eklemediniz') }}</p>
+      <p class="text-[13px] text-[#A8A8A8] mb-5">{{ ceviri('Ürün ekleyerek kataloglarınızda kullanabilirsiniz.') }}</p>
       <button @click="yeniAc()"
               class="flex items-center gap-2 bg-[#B8962E] text-[#0F0F0F] text-[11px] font-semibold tracking-[1.5px] uppercase px-6 py-3 rounded-[8px] hover:bg-[#c8a84b] transition-colors cursor-pointer">
-        <i class="ti ti-plus text-sm"></i> İlk Ürünü Ekle
+        <i class="ti ti-plus text-sm"></i> {{ ceviri('İlk Ürünü Ekle') }}
       </button>
     </div>
 
@@ -699,7 +699,7 @@
 
         <div class="px-6 py-4 border-b border-[rgba(0,0,0,0.08)] flex items-center justify-between">
           <span class="text-[15px] font-semibold text-[#0F0F0F]"
-                x-text="duzenlenenId ? 'Ürünü Düzenle' : 'Yeni Ürün Ekle'"></span>
+                x-text="duzenlenenId ? '{{ ceviri('Ürünü Düzenle') }}' : '{{ ceviri('Yeni Ürün Ekle') }}'"></span>
           <button @click="modalKapat()"
                   class="w-8 h-8 flex items-center justify-center text-[#A8A8A8] hover:text-[#0F0F0F] cursor-pointer transition-colors">
             <i class="ti ti-x text-lg"></i>
@@ -708,17 +708,17 @@
 
         <div class="p-6 space-y-4">
           <div>
-            <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">Ürün Adı <span class="text-[#CC2200]">*</span></label>
+            <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">{{ ceviri('Ürün Adı') }} <span class="text-[#CC2200]">*</span></label>
             <input x-model="form.ad" type="text"
                    class="w-full px-3.5 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[13px] focus:outline-none focus:border-[#B8962E] transition-colors"
-                   placeholder="Ürün adını girin…">
+                   placeholder="{{ ceviri('Ürün adını girin…') }}">
             <p x-show="hatalar.ad" x-text="hatalar.ad" class="text-[11px] text-[#dc2626] mt-1"></p>
           </div>
 
           <div>
             <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">
-              Görseller
-              <span class="text-[#C0C0C0] font-normal normal-case tracking-normal ml-1">en fazla 15</span>
+              {{ ceviri('Görseller') }}
+              <span class="text-[#C0C0C0] font-normal normal-case tracking-normal ml-1">{{ ceviri('en fazla 15') }}</span>
             </label>
             {{-- Mevcut görseller --}}
             <div class="flex flex-wrap gap-2 mb-2" x-show="gorseller.length > 0">
@@ -731,7 +731,7 @@
                   </button>
                   <div x-show="idx === 0"
                        class="absolute bottom-0 left-0 right-0 text-center bg-[rgba(184,150,46,0.85)] text-[#0F0F0F]"
-                       style="font-size:7px;font-weight:700;padding:1px 0;letter-spacing:.05em;">ANA</div>
+                       style="font-size:7px;font-weight:700;padding:1px 0;letter-spacing:.05em;">{{ ceviri('ANA') }}</div>
                 </div>
               </template>
             </div>
@@ -744,14 +744,14 @@
                  :class="dragUzerinde ? 'border-[#B8962E] bg-[#FEFBF0]' : 'border-[rgba(0,0,0,0.15)] bg-[#FAFAFA] hover:border-[#B8962E]'"
                  class="w-full py-5 border-2 border-dashed rounded-[8px] flex flex-col items-center justify-center cursor-pointer transition-colors">
               <i class="ti ti-upload text-2xl text-[#C0C0C0] mb-1 pointer-events-none"></i>
-              <span class="text-[12px] text-[#B0B0B0] pointer-events-none">Tıklayın, sürükleyin veya Ctrl+V</span>
-              <span x-show="gorseller.length === 0" class="text-[10px] text-[#C0C0C0] mt-0.5 pointer-events-none">İlk görsel katalogda ana görsel olur</span>
+              <span class="text-[12px] text-[#B0B0B0] pointer-events-none">{{ ceviri('Tıklayın, sürükleyin veya Ctrl+V') }}</span>
+              <span x-show="gorseller.length === 0" class="text-[10px] text-[#C0C0C0] mt-0.5 pointer-events-none">{{ ceviri('İlk görsel katalogda ana görsel olur') }}</span>
             </div>
             <input type="file" accept="image/*" multiple x-ref="hGorselInput" @change="gorselSecCoklu($event)" style="display:none;">
           </div>
 
           <div>
-            <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">Açıklama / Teknik Özellikler</label>
+            <label class="block text-[11px] font-semibold text-[#5A5A5A] uppercase tracking-[.07em] mb-1.5">{{ ceviri('Açıklama / Teknik Özellikler') }}</label>
             <div id="h-quill-editor" style="background:white;"></div>
           </div>
         </div>
@@ -759,11 +759,11 @@
         <div class="px-6 py-4 border-t border-[rgba(0,0,0,0.08)] flex gap-3 justify-end">
           <button @click="modalKapat()"
                   class="px-4 py-2.5 text-[11px] font-medium text-[#5A5A5A] border border-[rgba(0,0,0,0.15)] rounded-[7px] hover:bg-[#F5F5F5] cursor-pointer transition-colors">
-            İptal
+            {{ ceviri('İptal') }}
           </button>
           <button @click="kaydet()" :disabled="kaydediliyor"
                   class="px-5 py-2.5 bg-[#B8962E] text-[#0F0F0F] text-[11px] font-semibold tracking-[.1em] uppercase rounded-[7px] hover:bg-[#c8a84b] disabled:opacity-50 cursor-pointer transition-colors">
-            <span x-text="kaydediliyor ? 'Kaydediliyor…' : (duzenlenenId ? 'Güncelle' : 'Kaydet')"></span>
+            <span x-text="kaydediliyor ? '{{ ceviri('Kaydediliyor…') }}' : (duzenlenenId ? '{{ ceviri('Güncelle') }}' : '{{ ceviri('Kaydet') }}')"></span>
           </button>
         </div>
 
@@ -815,7 +815,7 @@ function urunlerimHesabim() {
             if (!window._hQuill) {
                 window._hQuill = new Quill('#h-quill-editor', {
                     theme: 'snow',
-                    placeholder: 'Teknik özellikler, açıklama…',
+                    placeholder: '{{ ceviri('Teknik özellikler, açıklama…') }}',
                     modules: {
                         toolbar: [
                             ['bold', 'italic', 'underline'],
@@ -902,7 +902,7 @@ function urunlerimHesabim() {
             var self = this;
             self.hatalar = {};
             if (!self.form.ad.trim()) {
-                self.hatalar.ad = 'Ürün adı zorunludur.';
+                self.hatalar.ad = '{{ ceviri('Ürün adı zorunludur.') }}';
                 return;
             }
             self.kaydediliyor = true;
@@ -919,8 +919,8 @@ function urunlerimHesabim() {
                         var ur = await fetch('{{ route("katalog.urunlerim.gorsel.yukle") }}', { method: 'POST', body: ufd });
                         var ud = await ur.json();
                         if (ud.path) yeniYollar.push(ud.path);
-                        else { alert('Görsel yüklenemedi.'); self.kaydediliyor = false; return; }
-                    } catch(e) { alert('Görsel yüklenirken hata oluştu.'); self.kaydediliyor = false; return; }
+                        else { alert('{{ ceviri('Görsel yüklenemedi.') }}'); self.kaydediliyor = false; return; }
+                    } catch(e) { alert('{{ ceviri('Görsel yüklenirken hata oluştu.') }}'); self.kaydediliyor = false; return; }
                 }
             }
 
@@ -949,12 +949,12 @@ function urunlerimHesabim() {
                         self.modalKapat();
                     }
                 })
-                .catch(function() { alert('Kaydetme sırasında bir hata oluştu.'); })
+                .catch(function() { alert('{{ ceviri('Kaydetme sırasında bir hata oluştu.') }}'); })
                 .finally(function() { self.kaydediliyor = false; });
         },
 
         sil: function(id) {
-            if (!confirm('Bu ürünü silmek istediğinizden emin misiniz?')) return;
+            if (!confirm('{{ ceviri('Bu ürünü silmek istediğinizden emin misiniz?') }}')) return;
             var self = this;
             fetch('{{ route("katalog.urunlerim.destroy", ":id") }}'.replace(':id', id), {
                 method: 'DELETE',

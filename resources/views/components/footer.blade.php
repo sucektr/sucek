@@ -36,31 +36,31 @@
 
       {{-- Hizmetler --}}
       <div>
-        <div class="text-[11px] font-semibold tracking-wider uppercase text-[rgba(255,255,255,0.30)] mb-5">Hizmetler</div>
+        <div class="text-[11px] font-semibold tracking-wider uppercase text-[rgba(255,255,255,0.30)] mb-5">{{ ceviri('Hizmetler') }}</div>
         <ul class="space-y-3">
-          <li><a href="{{ route('mimarlik.index') }}" class="text-[13px] text-[rgba(255,255,255,0.50)] hover:text-white transition-colors">Mimarlık</a></li>
-          <li><a href="{{ route('mimarlik.index') }}" class="text-[13px] text-[rgba(255,255,255,0.50)] hover:text-white transition-colors">İç Mimari</a></li>
-          <li><a href="{{ route('mimarlik.belgeler') }}" class="text-[13px] text-[rgba(255,255,255,0.50)] hover:text-white transition-colors">Ruhsat Takibi</a></li>
-          <li><a href="{{ route('insaat.index') }}" class="text-[13px] text-[rgba(255,255,255,0.50)] hover:text-white transition-colors">İnşaat</a></li>
-          <li><a href="{{ route('insaat.hesaplama') }}" class="text-[13px] text-[rgba(255,255,255,0.50)] hover:text-white transition-colors">Maliyet Hesaplama</a></li>
+          <li><a href="{{ route('mimarlik.index') }}" class="text-[13px] text-[rgba(255,255,255,0.50)] hover:text-white transition-colors">{{ ceviri('Mimarlık') }}</a></li>
+          <li><a href="{{ route('mimarlik.index') }}" class="text-[13px] text-[rgba(255,255,255,0.50)] hover:text-white transition-colors">{{ ceviri('İç Mimari') }}</a></li>
+          <li><a href="{{ route('mimarlik.belgeler') }}" class="text-[13px] text-[rgba(255,255,255,0.50)] hover:text-white transition-colors">{{ ceviri('Ruhsat Takibi') }}</a></li>
+          <li><a href="{{ route('insaat.index') }}" class="text-[13px] text-[rgba(255,255,255,0.50)] hover:text-white transition-colors">{{ ceviri('İnşaat') }}</a></li>
+          <li><a href="{{ route('insaat.hesaplama') }}" class="text-[13px] text-[rgba(255,255,255,0.50)] hover:text-white transition-colors">{{ ceviri('Maliyet Hesaplama') }}</a></li>
         </ul>
       </div>
 
       {{-- Yasal --}}
       <div>
-        <div class="text-[11px] font-semibold tracking-wider uppercase text-[rgba(255,255,255,0.30)] mb-5">Yasal</div>
+        <div class="text-[11px] font-semibold tracking-wider uppercase text-[rgba(255,255,255,0.30)] mb-5">{{ ceviri('Yasal') }}</div>
         <ul class="space-y-3">
-          <li><a href="{{ route('yasal', 'kisisel-verilerin-korunmasi') }}" class="text-[13px] text-[rgba(255,255,255,0.50)] hover:text-white transition-colors">Kişisel Verilerin Korunması</a></li>
-          <li><a href="{{ route('yasal', 'gizlilik-politikasi') }}" class="text-[13px] text-[rgba(255,255,255,0.50)] hover:text-white transition-colors">Gizlilik Politikası</a></li>
-          <li><a href="{{ route('yasal', 'sss') }}" class="text-[13px] text-[rgba(255,255,255,0.50)] hover:text-white transition-colors">SSS</a></li>
-          <li><a href="{{ route('yasal', 'mesafeli-satis-sozlesmesi') }}" class="text-[13px] text-[rgba(255,255,255,0.50)] hover:text-white transition-colors">Mesafeli Satış Sözleşmesi</a></li>
-          <li><a href="{{ route('yasal', 'iade-degisim') }}" class="text-[13px] text-[rgba(255,255,255,0.50)] hover:text-white transition-colors">İade & Değişim</a></li>
+          <li><a href="{{ route('yasal', 'kisisel-verilerin-korunmasi') }}" class="text-[13px] text-[rgba(255,255,255,0.50)] hover:text-white transition-colors">{{ ceviri('Kişisel Verilerin Korunması') }}</a></li>
+          <li><a href="{{ route('yasal', 'gizlilik-politikasi') }}" class="text-[13px] text-[rgba(255,255,255,0.50)] hover:text-white transition-colors">{{ ceviri('Gizlilik Politikası') }}</a></li>
+          <li><a href="{{ route('yasal', 'sss') }}" class="text-[13px] text-[rgba(255,255,255,0.50)] hover:text-white transition-colors">{{ ceviri('SSS') }}</a></li>
+          <li><a href="{{ route('yasal', 'mesafeli-satis-sozlesmesi') }}" class="text-[13px] text-[rgba(255,255,255,0.50)] hover:text-white transition-colors">{{ ceviri('Mesafeli Satış Sözleşmesi') }}</a></li>
+          <li><a href="{{ route('yasal', 'iade-degisim') }}" class="text-[13px] text-[rgba(255,255,255,0.50)] hover:text-white transition-colors">{{ ceviri('İade & Değişim') }}</a></li>
         </ul>
       </div>
 
       {{-- İletişim --}}
       <div>
-        <div class="text-[11px] font-semibold tracking-wider uppercase text-[rgba(255,255,255,0.30)] mb-5">İletişim</div>
+        <div class="text-[11px] font-semibold tracking-wider uppercase text-[rgba(255,255,255,0.30)] mb-5">{{ ceviri('İletişim') }}</div>
         <ul class="space-y-3.5">
           <li class="flex items-start gap-2.5">
             <i class="ti ti-map-pin text-sm text-[rgba(255,255,255,0.30)] mt-0.5 shrink-0"></i>
@@ -94,7 +94,7 @@
     {{-- Alt Bar --}}
     <div class="flex flex-col sm:flex-row items-center justify-between gap-3 py-5">
       <p class="text-[12px] text-[rgba(255,255,255,0.20)]">
-        &copy; {{ date('Y') }} SUÇEK. Tüm hakları saklıdır.
+        &copy; {{ date('Y') }} SUÇEK. {{ ceviri('Tüm hakları saklıdır.') }}
       </p>
       <div class="flex items-center gap-5">
         {{-- ETBİS Rozeti --}}

@@ -59,6 +59,44 @@ if (!function_exists('kargoUcreti')) {
     }
 }
 
+if (!function_exists('ceviri')) {
+    /**
+     * Blade'e sabit yazılmış Türkçe metinleri İngilizce'ye çevirir.
+     * Bilinmeyen bir metin gelirse veritabanına otomatik kaydedilir (en_metin boş) —
+     * admin panelin Çeviriler ekranında görünür hale gelir. Çeviri girilmemişse
+     * Türkçe metin döner (site hiçbir zaman bozulmaz).
+     */
+    function ceviri(string $tr): string
+    {
+        static $cache = null;
+        if ($cache === null) {
+            $cache = [];
+            try {
+                foreach (\App\Models\Ceviri::all() as $row) {
+                    $cache[$row->tr_metin] = $row->en_metin;
+                }
+            } catch (\Exception $e) {
+                // DB henüz hazır değil (migration öncesi vb.)
+            }
+        }
+
+        if (!array_key_exists($tr, $cache)) {
+            try {
+                \App\Models\Ceviri::firstOrCreate(['tr_metin' => $tr]);
+            } catch (\Exception $e) {
+                // DB henüz hazır değil
+            }
+            $cache[$tr] = null;
+        }
+
+        if (app()->getLocale() === 'en' && !empty($cache[$tr])) {
+            return $cache[$tr];
+        }
+
+        return $tr;
+    }
+}
+
 if (!function_exists('icerik_gorsel')) {
     function icerik_gorsel(string $sayfa, string $alan, string $varsayilan = ''): string
     {

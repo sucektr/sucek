@@ -7,9 +7,9 @@
 
 @php
   $katLabel = match($proje->kategori) {
-    'mimarlik' => 'Mimarlık',
-    'insaat'   => 'İnşaat',
-    'diger'    => 'Diğer Projeler',
+    'mimarlik' => ceviri('Mimarlık'),
+    'insaat'   => ceviri('İnşaat'),
+    'diger'    => ceviri('Diğer Projeler'),
     default    => ucfirst($proje->kategori ?? ''),
   };
 @endphp
@@ -17,10 +17,10 @@
 {{-- ─── Breadcrumb ─────────────────────────────────────────────────────── --}}
 <div class="border-b border-[#E2E8F0] bg-[#FAFAFA]">
   <div class="section py-3">
-    <nav class="flex items-center gap-2 text-[12px] text-[#94A3B8]" aria-label="Breadcrumb">
-      <a href="{{ route('home') }}" class="hover:text-[#0F172A] transition-colors">Ana Sayfa</a>
+    <nav class="flex items-center gap-2 text-[12px] text-[#94A3B8]" aria-label="{{ ceviri('Breadcrumb') }}">
+      <a href="{{ route('home') }}" class="hover:text-[#0F172A] transition-colors">{{ ceviri('Ana Sayfa') }}</a>
       <i class="ti ti-chevron-right text-[10px]"></i>
-      <a href="{{ route('projeler.index') }}" class="hover:text-[#0F172A] transition-colors">Projeler</a>
+      <a href="{{ route('projeler.index') }}" class="hover:text-[#0F172A] transition-colors">{{ ceviri('Projeler') }}</a>
       <i class="ti ti-chevron-right text-[10px]"></i>
       <span class="text-[#0F172A] font-medium truncate max-w-[200px]">{{ $proje->baslik }}</span>
     </nav>
@@ -74,7 +74,7 @@
       @endphp
       @if($videoEmbed || $proje->video)
       <div>
-        <h2 class="text-[16px] font-semibold text-[#0F172A] tracking-tight mb-4">Video</h2>
+        <h2 class="text-[16px] font-semibold text-[#0F172A] tracking-tight mb-4">{{ ceviri('Video') }}</h2>
         @if($videoEmbed)
         <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-[#0F172A] shadow-md">
           <iframe src="{{ $videoEmbed }}"
@@ -111,7 +111,7 @@
            @keydown.arrow-right.window="lightbox !== null ? lightbox = (lightbox + 1) % toplam : sonraki()">
 
         <div class="flex items-center justify-between mb-4">
-          <h2 class="text-[16px] font-semibold text-[#0F172A] tracking-tight">Proje Görselleri</h2>
+          <h2 class="text-[16px] font-semibold text-[#0F172A] tracking-tight">{{ ceviri('Proje Görselleri') }}</h2>
           <span class="text-[12px] text-[#94A3B8]" x-text="(aktif + 1) + ' / {{ $toplamGorsel }}'"></span>
         </div>
 
@@ -141,13 +141,13 @@
           {{-- Sol ok --}}
           <button @click.stop="onceki()"
                   class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/80 hover:bg-white rounded-full flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer z-10"
-                  aria-label="Önceki görsel">
+                  aria-label="{{ ceviri('Önceki görsel') }}">
             <i class="ti ti-chevron-left text-[#0F172A] text-lg"></i>
           </button>
           {{-- Sağ ok --}}
           <button @click.stop="sonraki()"
                   class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/80 hover:bg-white rounded-full flex items-center justify-center shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer z-10"
-                  aria-label="Sonraki görsel">
+                  aria-label="{{ ceviri('Sonraki görsel') }}">
             <i class="ti ti-chevron-right text-[#0F172A] text-lg"></i>
           </button>
           @endif
@@ -160,7 +160,7 @@
           <button @click="aktif = {{ $i }}"
                   class="shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 cursor-pointer"
                   :class="aktif === {{ $i }} ? 'border-[#CC2200] opacity-100' : 'border-transparent opacity-50 hover:opacity-80'"
-                  aria-label="Görsel {{ $i + 1 }}">
+                  aria-label="{{ ceviri('Görsel') }} {{ $i + 1 }}">
             <img src="{{ asset('storage/' . $gorsel) }}"
                  alt="{{ $proje->baslik }} önizleme {{ $i + 1 }}"
                  loading="lazy"
@@ -180,17 +180,17 @@
              style="display:none;">
           <button @click="lightbox = null"
                   class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer z-10"
-                  aria-label="Kapat">
+                  aria-label="{{ ceviri('Kapat') }}">
             <i class="ti ti-x text-xl"></i>
           </button>
           <button @click="lightbox = (lightbox - 1 + toplam) % toplam"
                   class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer z-10"
-                  aria-label="Önceki">
+                  aria-label="{{ ceviri('Önceki') }}">
             <i class="ti ti-chevron-left text-xl"></i>
           </button>
           <button @click="lightbox = (lightbox + 1) % toplam"
                   class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer z-10"
-                  aria-label="Sonraki">
+                  aria-label="{{ ceviri('Sonraki') }}">
             <i class="ti ti-chevron-right text-xl"></i>
           </button>
           <div class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/50 text-[12px]"
@@ -213,7 +213,7 @@
     <aside class="space-y-4">
 
       <div class="bg-white rounded-xl border border-[#E2E8F0] p-6 sticky top-24">
-        <h3 class="text-[11px] font-semibold tracking-[2px] uppercase text-[#94A3B8] mb-5">Proje Bilgileri</h3>
+        <h3 class="text-[11px] font-semibold tracking-[2px] uppercase text-[#94A3B8] mb-5">{{ ceviri('Proje Bilgileri') }}</h3>
 
         <dl class="space-y-4">
           @if($proje->kategori)
@@ -222,7 +222,7 @@
               <i class="ti ti-category text-[#64748B] text-sm"></i>
             </div>
             <div>
-              <dt class="text-[10px] font-medium text-[#94A3B8] uppercase tracking-[1px] mb-0.5">Kategori</dt>
+              <dt class="text-[10px] font-medium text-[#94A3B8] uppercase tracking-[1px] mb-0.5">{{ ceviri('Kategori') }}</dt>
               <dd class="text-[13px] font-medium text-[#0F172A]">{{ $katLabel }}</dd>
             </div>
           </div>
@@ -234,7 +234,7 @@
               <i class="ti ti-tag text-[#64748B] text-sm"></i>
             </div>
             <div>
-              <dt class="text-[10px] font-medium text-[#94A3B8] uppercase tracking-[1px] mb-0.5">Alt Kategori</dt>
+              <dt class="text-[10px] font-medium text-[#94A3B8] uppercase tracking-[1px] mb-0.5">{{ ceviri('Alt Kategori') }}</dt>
               <dd class="text-[13px] font-medium text-[#0F172A]">{{ $proje->alt_kategori }}</dd>
             </div>
           </div>
@@ -246,7 +246,7 @@
               <i class="ti ti-map-pin text-[#64748B] text-sm"></i>
             </div>
             <div>
-              <dt class="text-[10px] font-medium text-[#94A3B8] uppercase tracking-[1px] mb-0.5">Konum</dt>
+              <dt class="text-[10px] font-medium text-[#94A3B8] uppercase tracking-[1px] mb-0.5">{{ ceviri('Konum') }}</dt>
               <dd class="text-[13px] font-medium text-[#0F172A]">{{ $proje->konum }}</dd>
             </div>
           </div>
@@ -258,7 +258,7 @@
               <i class="ti ti-calendar text-[#64748B] text-sm"></i>
             </div>
             <div>
-              <dt class="text-[10px] font-medium text-[#94A3B8] uppercase tracking-[1px] mb-0.5">Yıl</dt>
+              <dt class="text-[10px] font-medium text-[#94A3B8] uppercase tracking-[1px] mb-0.5">{{ ceviri('Yıl') }}</dt>
               <dd class="text-[13px] font-medium text-[#0F172A]">{{ $proje->yil }}</dd>
             </div>
           </div>
@@ -269,7 +269,7 @@
         <div class="mt-6 pt-5 border-t border-[#E2E8F0]">
           <a href="{{ route('iletisim.index') }}"
              class="flex items-center justify-center gap-2 w-full px-4 py-3 bg-[#0F172A] text-white text-[11px] font-semibold tracking-[1.5px] uppercase rounded-[10px] hover:bg-[#2a2a2a] transition-colors min-h-[44px] cursor-pointer">
-            <i class="ti ti-mail text-sm"></i> Benzer Proje Talep Et
+            <i class="ti ti-mail text-sm"></i> {{ ceviri('Benzer Proje Talep Et') }}
           </a>
         </div>
       </div>
@@ -284,11 +284,11 @@
   <div class="flex items-end justify-between mb-7">
     <div>
       <p class="section-label mb-2">{{ strtoupper($katLabel) }}</p>
-      <h2 id="diger-projeler" class="text-[22px] font-bold text-[#0F172A] tracking-tight">Diğer Projeler</h2>
+      <h2 id="diger-projeler" class="text-[22px] font-bold text-[#0F172A] tracking-tight">{{ ceviri('Diğer Projeler') }}</h2>
     </div>
     <a href="{{ route('projeler.index') }}"
        class="hidden sm:flex items-center gap-1.5 text-sm font-medium text-[#64748B] hover:text-[#CC2200] transition-colors">
-      Tümünü Gör <i class="ti ti-arrow-right text-sm"></i>
+      {{ ceviri('Tümünü Gör') }} <i class="ti ti-arrow-right text-sm"></i>
     </a>
   </div>
 

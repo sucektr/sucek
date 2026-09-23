@@ -220,6 +220,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('icerik/{sayfa}', [Admin\IcerikController::class, 'sayfa'])->name('icerik.sayfa');
         Route::post('icerik/{sayfa}', [Admin\IcerikController::class, 'guncelle'])->name('icerik.guncelle');
 
+        Route::get('ceviriler', [Admin\CeviriController::class, 'index'])->name('ceviriler.index');
+        Route::patch('ceviriler/{ceviri}', [Admin\CeviriController::class, 'guncelle'])->name('ceviriler.guncelle');
+
         Route::get('siparisler', [AdminSiparisController::class, 'index'])->name('siparisler.index');
         Route::get('siparisler/{siparis}', [AdminSiparisController::class, 'show'])->name('siparisler.show');
         Route::patch('siparisler/{siparis}/durum', [AdminSiparisController::class, 'durumGuncelle'])->name('siparisler.durum');

@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', $urun->ad . ' — SUÇEK Mağaza')
+@section('title', $urun->ad . ' — ' . ceviri('SUÇEK Mağaza'))
 
 @section('content')
 
 {{-- ─── Breadcrumb ─────────────────────────────────────────────────────── --}}
-<nav class="px-[9px] pt-5 pb-3" aria-label="İz izi">
+<nav class="px-[9px] pt-5 pb-3" aria-label="{{ ceviri('İz izi') }}">
   <ol class="flex items-center gap-1.5 text-[11px] text-[#A8A8A8]" role="list">
-    <li><a href="{{ route('home') }}" class="hover:text-[#0F0F0F] transition-colors">Anasayfa</a></li>
+    <li><a href="{{ route('home') }}" class="hover:text-[#0F0F0F] transition-colors">{{ ceviri('Anasayfa') }}</a></li>
     <li aria-hidden="true"><i class="ti ti-chevron-right text-[10px]"></i></li>
-    <li><a href="{{ route('magaza.index') }}" class="hover:text-[#0F0F0F] transition-colors">Mağaza</a></li>
+    <li><a href="{{ route('magaza.index') }}" class="hover:text-[#0F0F0F] transition-colors">{{ ceviri('Mağaza') }}</a></li>
     <li aria-hidden="true"><i class="ti ti-chevron-right text-[10px]"></i></li>
     <li class="text-[#0F0F0F] font-medium" aria-current="page">{{ $urun->ad }}</li>
   </ol>
@@ -88,7 +88,7 @@ if ($hasVaryant) {
     onceki() { this.gorselIndex = (this.gorselIndex - 1 + this.gorselSayisi) % this.gorselSayisi; },
     sonraki() { this.gorselIndex = (this.gorselIndex + 1) % this.gorselSayisi; }
   }"
-  aria-label="Ürün detayı">
+  aria-label="{{ ceviri('Ürün detayı') }}">
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
 
     {{-- Görseller --}}
@@ -104,12 +104,12 @@ if ($hasVaryant) {
           <div>
             <button @click="onceki()"
                     class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white border border-[rgba(0,0,0,0.10)] rounded-full flex items-center justify-center hover:bg-[#F0F0F0] transition-colors shadow-sm z-10"
-                    aria-label="Önceki görsel">
+                    aria-label="{{ ceviri('Önceki görsel') }}">
               <i class="ti ti-chevron-left text-sm" aria-hidden="true"></i>
             </button>
             <button @click="sonraki()"
                     class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white border border-[rgba(0,0,0,0.10)] rounded-full flex items-center justify-center hover:bg-[#F0F0F0] transition-colors shadow-sm z-10"
-                    aria-label="Sonraki görsel">
+                    aria-label="{{ ceviri('Sonraki görsel') }}">
               <i class="ti ti-chevron-right text-sm" aria-hidden="true"></i>
             </button>
             <div class="absolute bottom-3 right-3 bg-[rgba(0,0,0,0.50)] text-white text-[10px] font-medium px-2.5 py-1 rounded-full"
@@ -130,23 +130,23 @@ if ($hasVaryant) {
         <div class="absolute top-4 right-4">
           @if($hasVaryant)
           <template x-if="!secimTamMi">
-            <span class="text-[10px] font-medium bg-[#F5F5F5] text-[#A8A8A8] px-2.5 py-1 rounded-[6px] border">Seçenek Seçin</span>
+            <span class="text-[10px] font-medium bg-[#F5F5F5] text-[#A8A8A8] px-2.5 py-1 rounded-[6px] border">{{ ceviri('Seçenek Seçin') }}</span>
           </template>
           <template x-if="secimTamMi && aktifStok > 0">
             <span class="flex items-center gap-1 bg-green-50 border border-green-200 text-green-700 text-[10px] font-medium px-2.5 py-1 rounded-[6px]">
-              <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span> Stokta
+              <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span> {{ ceviri('Stokta') }}
             </span>
           </template>
           <template x-if="secimTamMi && aktifStok <= 0">
-            <span class="text-[10px] font-medium bg-[#F5F5F5] text-[#A8A8A8] px-2.5 py-1 rounded-[6px] border">Stok Yok</span>
+            <span class="text-[10px] font-medium bg-[#F5F5F5] text-[#A8A8A8] px-2.5 py-1 rounded-[6px] border">{{ ceviri('Stok Yok') }}</span>
           </template>
           @else
           @if($urun->stok > 0)
           <span class="flex items-center gap-1 bg-green-50 border border-green-200 text-green-700 text-[10px] font-medium px-2.5 py-1 rounded-[6px]">
-            <span class="w-1.5 h-1.5 bg-green-500 rounded-full" aria-hidden="true"></span> Stokta
+            <span class="w-1.5 h-1.5 bg-green-500 rounded-full" aria-hidden="true"></span> {{ ceviri('Stokta') }}
           </span>
           @else
-          <span class="text-[10px] font-medium bg-[#F5F5F5] text-[#A8A8A8] px-2.5 py-1 rounded-[6px] border">Stok Yok</span>
+          <span class="text-[10px] font-medium bg-[#F5F5F5] text-[#A8A8A8] px-2.5 py-1 rounded-[6px] border">{{ ceviri('Stok Yok') }}</span>
           @endif
           @endif
         </div>
@@ -159,7 +159,7 @@ if ($hasVaryant) {
         <button @click="gorselIndex = {{ $i }}"
                 class="shrink-0 w-16 h-16 rounded-[8px] overflow-hidden border-2 transition-all duration-200"
                 :class="gorselIndex === {{ $i }} ? 'border-[#141414] shadow-sm' : 'border-transparent opacity-70 hover:opacity-100 hover:border-[rgba(0,0,0,0.20)]'"
-                aria-label="Görsel {{ $i + 1 }}">
+                aria-label="{{ ceviri('Görsel') }} {{ $i + 1 }}">
           <img src="{{ $gorselUrl }}" alt="" class="w-full h-full object-cover" loading="lazy">
         </button>
         @endforeach
@@ -170,10 +170,17 @@ if ($hasVaryant) {
     {{-- Bilgi --}}
     <div class="flex flex-col gap-5">
       <div>
-        <p class="text-[10px] font-medium tracking-[2px] uppercase text-[#A8A8A8] mb-1">{{ ucfirst($urun->kategori) }}</p>
+        @php
+          $katLabel = match($urun->kategori) {
+            'spor' => ceviri('Spor'), 'insaat' => ceviri('İnşaat'), 'diger' => ceviri('Diğer'),
+            'celik-guvenlik-agi' => ceviri('Çelik Güvenlik Ağı'),
+            default => ucfirst($urun->kategori),
+          };
+        @endphp
+        <p class="text-[10px] font-medium tracking-[2px] uppercase text-[#A8A8A8] mb-1">{{ $katLabel }}</p>
         <h1 class="font-display text-[32px] lg:text-[38px] font-semibold text-[#0F0F0F] leading-[1.1] mb-2">{{ $urun->ad }}</h1>
         @if($urun->stok_kodu)
-        <p class="text-[11px] text-[#A8A8A8]">Ürün Kodu: {{ $urun->stok_kodu }}</p>
+        <p class="text-[11px] text-[#A8A8A8]">{{ ceviri('Ürün Kodu:') }} {{ $urun->stok_kodu }}</p>
         @endif
       </div>
 
@@ -194,7 +201,7 @@ if ($hasVaryant) {
           <span class="font-display text-[20px] text-[#A8A8A8] line-through">{{ number_format($karsilastirmaFiyat, 2, ',', '.') }} ₺</span>
         </div>
         <span class="inline-flex items-center gap-1 text-[10px] font-bold tracking-[1px] uppercase px-2.5 py-1 rounded-[6px]" style="background:#f5f3ff;color:#7c3aed;">
-          <i class="ti ti-crown text-[10px]"></i> Premium — %15 İndirim
+          <i class="ti ti-crown text-[10px]"></i> {{ ceviri('Premium — %15 İndirim') }}
         </span>
         @else
         <div class="flex items-baseline gap-3">
@@ -234,17 +241,17 @@ if ($hasVaryant) {
 
       {{-- Adet --}}
       <div>
-        <label class="form-label text-[10px]">Adet</label>
+        <label class="form-label text-[10px]">{{ ceviri('Adet') }}</label>
         <div class="flex items-center gap-0">
           <button @click="adet = Math.max(1, adet - 1)"
                   class="w-11 h-11 flex items-center justify-center border border-[rgba(0,0,0,0.15)] rounded-l-[8px] hover:bg-[#F0F0F0] transition-colors"
-                  aria-label="Azalt">
+                  aria-label="{{ ceviri('Azalt') }}">
             <i class="ti ti-minus text-sm" aria-hidden="true"></i>
           </button>
           <span class="w-12 h-11 flex items-center justify-center border-t border-b border-[rgba(0,0,0,0.15)] text-[14px] font-medium" x-text="adet" aria-live="polite"></span>
           <button @click="adet = Math.min(aktifStok, adet + 1)"
                   class="w-11 h-11 flex items-center justify-center border border-[rgba(0,0,0,0.15)] rounded-r-[8px] hover:bg-[#F0F0F0] transition-colors"
-                  aria-label="Artır">
+                  aria-label="{{ ceviri('Artır') }}">
             <i class="ti ti-plus text-sm" aria-hidden="true"></i>
           </button>
         </div>
@@ -254,7 +261,7 @@ if ($hasVaryant) {
       <div class="flex flex-col sm:flex-row gap-2.5">
         <button
           @click="
-            if (hasVaryant && !secimTamMi) { alert('Lütfen tüm seçenekleri seçin.'); return; }
+            if (hasVaryant && !secimTamMi) { alert('{{ ceviri('Lütfen tüm seçenekleri seçin.') }}'); return; }
             if (aktifStok <= 0) return;
             fetch('{{ route('sepet.ekle') }}', {
               method: 'POST',
@@ -265,7 +272,7 @@ if ($hasVaryant) {
                 adet: adet,
                 varyant_id: hasVaryant && secilenVaryant ? secilenVaryant.id : null
               })
-            }).then(r=>r.json()).then(d=>{ $root.sepetAdet=d.adet; $root.bildirimiGoster('{{ $urun->ad }} sepete eklendi!'); })
+            }).then(r=>r.json()).then(d=>{ $root.sepetAdet=d.adet; $root.bildirimiGoster('{{ $urun->ad }} {{ ceviri('sepete eklendi!') }}'); })
           "
           :disabled="aktifStok <= 0 || (hasVaryant && !secimTamMi)"
           :class="(aktifStok <= 0 || (hasVaryant && !secimTamMi))
@@ -273,13 +280,13 @@ if ($hasVaryant) {
             : 'bg-[#141414] hover:bg-[#2a2a2a] active:scale-[0.98] cursor-pointer'"
           class="flex-1 flex items-center justify-center gap-2 text-white text-[11px] font-semibold tracking-[1.5px] uppercase py-4 rounded-[10px] transition-all duration-200 min-h-[52px]">
           <i class="ti ti-shopping-cart text-sm" aria-hidden="true"></i>
-          <span x-text="hasVaryant && !secimTamMi ? 'Seçenek Seçin' : (aktifStok <= 0 ? 'Stok Yok' : 'Sepete Ekle')">
-            {{ $hasVaryant ? 'Seçenek Seçin' : ($urun->stok > 0 ? 'Sepete Ekle' : 'Stok Yok') }}
+          <span x-text="hasVaryant && !secimTamMi ? '{{ ceviri('Seçenek Seçin') }}' : (aktifStok <= 0 ? '{{ ceviri('Stok Yok') }}' : '{{ ceviri('Sepete Ekle') }}')">
+            {{ $hasVaryant ? ceviri('Seçenek Seçin') : ($urun->stok > 0 ? ceviri('Sepete Ekle') : ceviri('Stok Yok')) }}
           </span>
         </button>
         <a href="{{ route('home') }}#iletisim"
            class="flex items-center justify-center gap-2 border border-[rgba(0,0,0,0.15)] text-[#5A5A5A] text-[11px] font-medium tracking-[1.5px] uppercase py-4 px-5 rounded-[10px] hover:bg-[#F0F0F0] hover:text-[#0F0F0F] transition-all duration-200 min-h-[52px]">
-          <i class="ti ti-message text-sm" aria-hidden="true"></i> Soru Sor
+          <i class="ti ti-message text-sm" aria-hidden="true"></i> {{ ceviri('Soru Sor') }}
         </a>
       </div>
 
@@ -287,7 +294,7 @@ if ($hasVaryant) {
       @if($urun->ozellikler && count($urun->ozellikler) > 0)
       <div class="border border-[rgba(0,0,0,0.08)] rounded-[12px] overflow-hidden">
         <div class="px-5 py-3.5 border-b border-[rgba(0,0,0,0.08)] bg-[#F9F9F9]">
-          <span class="text-[11px] font-semibold tracking-[1.5px] uppercase text-[#5A5A5A]">Ürün Özellikleri</span>
+          <span class="text-[11px] font-semibold tracking-[1.5px] uppercase text-[#5A5A5A]">{{ ceviri('Ürün Özellikleri') }}</span>
         </div>
         <dl>
           @foreach($urun->ozellikler as $oz)
@@ -313,7 +320,7 @@ if ($hasVaryant) {
       <div class="border border-[rgba(0,0,0,0.08)] rounded-[12px] overflow-hidden">
         <div class="px-5 py-3.5 border-b border-[rgba(0,0,0,0.08)] bg-[#F9F9F9] flex items-center gap-2">
           <i class="ti ti-paperclip text-[#5A5A5A] text-sm"></i>
-          <span class="text-[11px] font-semibold tracking-[1.5px] uppercase text-[#5A5A5A]">İndirilebilir Öğeler</span>
+          <span class="text-[11px] font-semibold tracking-[1.5px] uppercase text-[#5A5A5A]">{{ ceviri('İndirilebilir Öğeler') }}</span>
         </div>
         <ul class="divide-y divide-[rgba(0,0,0,0.05)]">
           @foreach($urun->dosyalar as $d)
@@ -353,7 +360,7 @@ if ($hasVaryant) {
 {{-- ─── İlgili Ürünler ────────────────────────────────────────────────── --}}
 @if($ilgiliUrunler->count() > 0)
 <section class="section" aria-labelledby="ilgili-baslik">
-  <h2 id="ilgili-baslik" class="font-serif-sc text-[22px] font-bold text-[#0F0F0F] mb-5">Benzer Ürünler</h2>
+  <h2 id="ilgili-baslik" class="font-serif-sc text-[22px] font-bold text-[#0F0F0F] mb-5">{{ ceviri('Benzer Ürünler') }}</h2>
   <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5">
     @foreach($ilgiliUrunler as $u)
     <a href="{{ route('magaza.urun', $u->slug) }}" class="group bg-white border border-[rgba(0,0,0,0.07)] rounded-[12px] overflow-hidden hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)] transition-all duration-200">

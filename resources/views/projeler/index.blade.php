@@ -1,21 +1,21 @@
 @extends('layouts.app')
 
-@section('title', 'Projelerimiz — SUÇEK')
-@section('meta-description', 'SUÇEK mimarlık ve inşaat projeleri: tamamlanan projelerimizi inceleyin.')
+@section('title', ceviri('Projelerimiz') . ' — SUÇEK')
+@section('meta-description', ceviri('SUÇEK mimarlık ve inşaat projeleri: tamamlanan projelerimizi inceleyin.'))
 
 @section('content')
 
 {{-- ─── Hero ──────────────────────────────────────────────────────────── --}}
-<section class="relative overflow-hidden min-h-[300px] flex" aria-label="Projeler hero">
+<section class="relative overflow-hidden min-h-[300px] flex" aria-label="{{ ceviri('Projeler hero') }}">
   <div class="absolute inset-0 bg-[#0F172A]"></div>
   <div class="absolute inset-0 opacity-[0.04]"
        style="background-image:repeating-linear-gradient(45deg,#fff 0,#fff 1px,transparent 0,transparent 50%);background-size:24px 24px;"></div>
   <div class="absolute top-0 left-0 w-1 h-full bg-[#CC2200]"></div>
   <div class="relative z-10 flex flex-col justify-end px-6 lg:px-12 py-14 w-full">
-    <p class="text-[11px] font-semibold tracking-widest uppercase text-[#CC2200] mb-3">PORTFÖLYOMİZ</p>
-    <h1 class="text-[36px] lg:text-[52px] font-bold text-white leading-tight tracking-tight mb-4">Projelerimiz</h1>
+    <p class="text-[11px] font-semibold tracking-widest uppercase text-[#CC2200] mb-3">{{ ceviri('PORTFÖLYOMİZ') }}</p>
+    <h1 class="text-[36px] lg:text-[52px] font-bold text-white leading-tight tracking-tight mb-4">{{ ceviri('Projelerimiz') }}</h1>
     <p class="text-[14px] text-[rgba(255,255,255,0.50)] leading-relaxed max-w-[480px]">
-      Tamamladığımız mimarlık ve inşaat projelerini inceleyin.
+      {{ ceviri('Tamamladığımız mimarlık ve inşaat projelerini inceleyin.') }}
     </p>
   </div>
 </section>
@@ -26,7 +26,7 @@
   @if($projeler->isEmpty())
   <div class="text-center py-20">
     <i class="ti ti-building-arch text-5xl text-[#D0D0D0] block mb-4"></i>
-    <p class="text-[14px] text-[#94A3B8]">Henüz proje eklenmemiş.</p>
+    <p class="text-[14px] text-[#94A3B8]">{{ ceviri('Henüz proje eklenmemiş.') }}</p>
   </div>
   @else
 
@@ -40,16 +40,16 @@
       <button @click="aktif = 'tumu'"
               :class="aktif === 'tumu' ? 'bg-[#0F172A] text-white border-[#0F172A]' : 'bg-white text-[#64748B] border-[#E2E8F0] hover:border-[#0F172A] hover:text-[#0F172A]'"
               class="px-4 py-2 rounded-[8px] border text-[12px] font-semibold tracking-[0.5px] transition-all duration-150 cursor-pointer">
-        Tümü <span class="ml-1 opacity-60">({{ $projeler->count() }})</span>
+        {{ ceviri('Tümü') }} <span class="ml-1 opacity-60">({{ $projeler->count() }})</span>
       </button>
 
       @foreach($kategoriler as $kat)
       @php
         $katLabel = match($kat) {
-          'mimarlik' => 'Mimarlık',
-          'insaat'   => 'İnşaat',
-          'hafif-celik-konteyner' => 'Hafif Çelik ve Konteyner',
-          'diger'    => 'Diğer Projeler',
+          'mimarlik' => ceviri('Mimarlık'),
+          'insaat'   => ceviri('İnşaat'),
+          'hafif-celik-konteyner' => ceviri('Hafif Çelik ve Konteyner'),
+          'diger'    => ceviri('Diğer Projeler'),
           default    => ucfirst($kat),
         };
       @endphp
@@ -67,10 +67,10 @@
       @foreach($projeler as $proje)
       @php
         $katLabel = match($proje->kategori) {
-          'mimarlik' => 'Mimarlık',
-          'insaat'   => 'İnşaat',
-          'hafif-celik-konteyner' => 'Hafif Çelik ve Konteyner',
-          'diger'    => 'Diğer Projeler',
+          'mimarlik' => ceviri('Mimarlık'),
+          'insaat'   => ceviri('İnşaat'),
+          'hafif-celik-konteyner' => ceviri('Hafif Çelik ve Konteyner'),
+          'diger'    => ceviri('Diğer Projeler'),
           default    => ucfirst($proje->kategori ?? ''),
         };
       @endphp
@@ -98,7 +98,7 @@
             @if($proje->one_cikan)
             <div class="absolute top-3 left-3">
               <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-[#0F172A]/80 backdrop-blur-sm text-white text-[10px] font-semibold rounded-full">
-                <i class="ti ti-star-filled text-[#FCD34D] text-[9px]"></i> Öne Çıkan
+                <i class="ti ti-star-filled text-[#FCD34D] text-[9px]"></i> {{ ceviri('Öne Çıkan') }}
               </span>
             </div>
             @endif
@@ -138,13 +138,13 @@
 <section class="section">
   <div class="bg-[#0F172A] rounded-2xl px-8 lg:px-14 py-12 flex flex-col lg:flex-row items-center justify-between gap-6">
     <div>
-      <p class="text-[11px] font-semibold tracking-widest uppercase text-[#CC2200] mb-3">BİRLİKTE ÇALIŞALIM</p>
-      <h2 class="text-[24px] lg:text-[32px] font-bold text-white tracking-tight mb-2">Projenizi Konuşalım</h2>
-      <p class="text-[13px] text-[rgba(255,255,255,0.45)]">Yeni projeniz için ücretsiz ön görüşme talep edin.</p>
+      <p class="text-[11px] font-semibold tracking-widest uppercase text-[#CC2200] mb-3">{{ ceviri('BİRLİKTE ÇALIŞALIM') }}</p>
+      <h2 class="text-[24px] lg:text-[32px] font-bold text-white tracking-tight mb-2">{{ ceviri('Projenizi Konuşalım') }}</h2>
+      <p class="text-[13px] text-[rgba(255,255,255,0.45)]">{{ ceviri('Yeni projeniz için ücretsiz ön görüşme talep edin.') }}</p>
     </div>
     <a href="{{ route('iletisim.index') }}"
        class="flex items-center justify-center gap-2 px-7 py-3 rounded-lg border border-white/20 text-white text-[12px] font-semibold tracking-[1px] uppercase hover:bg-white/10 transition-colors min-h-[44px]">
-      <i class="ti ti-mail text-sm"></i> İletişime Geç
+      <i class="ti ti-mail text-sm"></i> {{ ceviri('İletişime Geç') }}
     </a>
   </div>
 </section>

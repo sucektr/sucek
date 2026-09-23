@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Mağaza — SUÇEK')
-@section('meta-description', 'SUÇEK Mağaza: Spor malzemeleri ve inşaat malzemeleri.')
+@section('title', ceviri('Mağaza — SUÇEK'))
+@section('meta-description', ceviri('SUÇEK Mağaza: Spor malzemeleri ve inşaat malzemeleri.'))
 
 @section('banner')
   @include('components.banner', ['mesaj' => icerik('magaza','banner_metni','Seçili ürünlerde %30 indirim ve ücretsiz kargo fırsatını kaçırma!')])
@@ -10,12 +10,12 @@
 @section('content')
 
 {{-- ─── Hero ──────────────────────────────────────────────────────────── --}}
-<section class="relative overflow-hidden min-h-[280px] flex items-end" aria-label="Mağaza hero">
+<section class="relative overflow-hidden min-h-[280px] flex items-end" aria-label="{{ ceviri('Mağaza hero') }}">
   <div class="absolute inset-0"
        style="background-image:url('{{ icerik_gorsel('magaza','hero_gorsel','https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=1280&q=80') }}'); background-size:cover; background-position:center;"></div>
   <div class="absolute inset-0 bg-gradient-to-t from-[rgba(15,23,42,0.92)] via-[rgba(15,23,42,0.40)] to-transparent"></div>
   <div class="relative z-10 px-6 lg:px-12 py-12 w-full">
-    <p class="text-[11px] font-semibold tracking-widest uppercase text-[#CC2200] mb-2">MAĞAZA</p>
+    <p class="text-[11px] font-semibold tracking-widest uppercase text-[#CC2200] mb-2">{{ ceviri('MAĞAZA') }}</p>
     <h1 class="text-[36px] lg:text-[52px] font-bold text-white leading-tight tracking-tight">
       {{ icerik('magaza','hero_baslik','Kaliteli Ürünler, Uygun Fiyatlar') }}
     </h1>
@@ -23,7 +23,7 @@
 </section>
 
 {{-- ─── Arama & Filtre Çubuğu ──────────────────────────────────────────── --}}
-<section class="section pb-0" aria-label="Filtreler">
+<section class="section pb-0" aria-label="{{ ceviri('Filtreler') }}">
   @php
     $aktifKat  = $kategori ?? '';
     $aktifQ    = $q ?? '';
@@ -31,8 +31,8 @@
   @endphp
 
   {{-- Kategori pill'leri --}}
-  <div class="flex flex-wrap gap-2 mb-5" role="group" aria-label="Kategori filtresi">
-    @foreach(['' => 'Tümü', 'spor' => 'Spor', 'insaat' => 'İnşaat', 'diger' => 'Diğer'] as $val => $lbl)
+  <div class="flex flex-wrap gap-2 mb-5" role="group" aria-label="{{ ceviri('Kategori filtresi') }}">
+    @foreach(['' => ceviri('Tümü'), 'spor' => ceviri('Spor'), 'insaat' => ceviri('İnşaat'), 'diger' => ceviri('Diğer')] as $val => $lbl)
     @php
       $href = route('magaza.index', array_filter(['q' => $aktifQ, 'kategori' => $val, 'siralama' => $aktifSira !== 'yeni' ? $aktifSira : null]));
     @endphp
@@ -56,21 +56,21 @@
     <div class="relative flex-1 min-w-[220px]">
       <i class="ti ti-search absolute left-3.5 top-1/2 -translate-y-1/2 text-[#94A3B8] text-[15px] pointer-events-none"></i>
       <input type="text" name="q" value="{{ $aktifQ }}"
-             placeholder="Ürün ara..."
+             placeholder="{{ ceviri('Ürün ara...') }}"
              class="w-full pl-10 pr-4 py-2.5 border border-[#E2E8F0] rounded-lg text-[14px] text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:border-[#CC2200] focus:ring-2 focus:ring-[rgba(204,34,0,0.08)] transition-all bg-white min-h-[40px]">
     </div>
 
     <select name="siralama" onchange="this.form.submit()"
             class="px-3 py-2.5 border border-[#E2E8F0] rounded-lg text-[14px] text-[#0F172A] focus:outline-none focus:border-[#CC2200] transition-colors bg-white min-h-[40px]">
-      <option value="yeni"         {{ $aktifSira === 'yeni'         ? 'selected' : '' }}>En Yeni</option>
-      <option value="fiyat_artan"  {{ $aktifSira === 'fiyat_artan'  ? 'selected' : '' }}>Fiyat: Düşükten Yükseğe</option>
-      <option value="fiyat_azalan" {{ $aktifSira === 'fiyat_azalan' ? 'selected' : '' }}>Fiyat: Yüksekten Düşüğe</option>
+      <option value="yeni"         {{ $aktifSira === 'yeni'         ? 'selected' : '' }}>{{ ceviri('En Yeni') }}</option>
+      <option value="fiyat_artan"  {{ $aktifSira === 'fiyat_artan'  ? 'selected' : '' }}>{{ ceviri('Fiyat: Düşükten Yükseğe') }}</option>
+      <option value="fiyat_azalan" {{ $aktifSira === 'fiyat_azalan' ? 'selected' : '' }}>{{ ceviri('Fiyat: Yüksekten Düşüğe') }}</option>
     </select>
 
     @if($aktifQ !== '' || $aktifKat !== '')
     <a href="{{ route('magaza.index') }}"
        class="text-[13px] text-[#94A3B8] hover:text-[#0F172A] transition-colors whitespace-nowrap min-h-[40px] flex items-center px-1">
-      Temizle ×
+      {{ ceviri('Temizle') }} ×
     </a>
     @endif
   </form>
@@ -80,7 +80,7 @@
 @if($aramaAktif ?? false)
 
   {{-- Özellik filtreleri + ürün grid --}}
-  <section class="section" aria-label="Arama sonuçları">
+  <section class="section" aria-label="{{ ceviri('Arama sonuçları') }}">
     <div class="flex gap-6 items-start">
 
       {{-- Özellik filtre sidebar --}}
@@ -111,7 +111,7 @@
         @if(!empty($ozellikFiltreler))
         <a href="{{ route('magaza.index', request()->except('oz')) }}"
            class="text-[11px] text-[#94A3B8] hover:text-[#CC2200] transition-colors">
-          × Filtreleri temizle
+          × {{ ceviri('Filtreleri temizle') }}
         </a>
         @endif
       </aside>
@@ -120,7 +120,7 @@
       {{-- Ürün grid --}}
       <div class="flex-1 min-w-0">
         @if(isset($urunler) && $urunler->count() > 0)
-          <p class="text-[13px] text-[#94A3B8] mb-5">{{ $urunler->total() }} ürün bulundu</p>
+          <p class="text-[13px] text-[#94A3B8] mb-5">{{ $urunler->total() }} {{ ceviri('ürün bulundu') }}</p>
           <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4" role="list">
             @foreach($urunler as $urun)
               @include('magaza._urun_karti', compact('urun'))
@@ -134,9 +134,9 @@
             <div class="w-16 h-16 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-center mb-4">
               <i class="ti ti-search-off text-2xl text-[#94A3B8]" aria-hidden="true"></i>
             </div>
-            <p class="text-[15px] font-semibold text-[#0F172A]">Sonuç bulunamadı</p>
-            <p class="text-[13px] text-[#64748B] mt-1">Farklı bir arama terimi veya kategori deneyin.</p>
-            <a href="{{ route('magaza.index') }}" class="mt-4 text-[13px] text-[#CC2200] hover:underline">Filtreyi temizle</a>
+            <p class="text-[15px] font-semibold text-[#0F172A]">{{ ceviri('Sonuç bulunamadı') }}</p>
+            <p class="text-[13px] text-[#64748B] mt-1">{{ ceviri('Farklı bir arama terimi veya kategori deneyin.') }}</p>
+            <a href="{{ route('magaza.index') }}" class="mt-4 text-[13px] text-[#CC2200] hover:underline">{{ ceviri('Filtreyi temizle') }}</a>
           </div>
         @endif
       </div>{{-- /ürün grid --}}
@@ -148,9 +148,9 @@
   {{-- Kategori şeritleri - normal görünüm --}}
   @php
   $kategoriler = [
-    ['key' => 'spor',       'baslik' => 'Spor Malzemeleri', 'aciklama' => 'Fitness, outdoor ve takım sporları ekipmanları', 'ikon' => 'ti-ball-football', 'urunler' => $spor ?? collect()],
-    ['key' => 'insaat',     'baslik' => 'İnşaat Malzemeleri','aciklama' => 'Yapı ve tesisat malzemeleri',                    'ikon' => 'ti-hammer',        'urunler' => $insaat ?? collect()],
-    ['key' => 'diger',      'baslik' => 'Diğer',             'aciklama' => 'Çeşitli ürünler',                                'ikon' => 'ti-package',       'urunler' => $diger ?? collect()],
+    ['key' => 'spor',       'baslik' => ceviri('Spor Malzemeleri'), 'aciklama' => ceviri('Fitness, outdoor ve takım sporları ekipmanları'), 'ikon' => 'ti-ball-football', 'urunler' => $spor ?? collect()],
+    ['key' => 'insaat',     'baslik' => ceviri('İnşaat Malzemeleri'),'aciklama' => ceviri('Yapı ve tesisat malzemeleri'),                    'ikon' => 'ti-hammer',        'urunler' => $insaat ?? collect()],
+    ['key' => 'diger',      'baslik' => ceviri('Diğer'),             'aciklama' => ceviri('Çeşitli ürünler'),                                'ikon' => 'ti-package',       'urunler' => $diger ?? collect()],
   ];
   @endphp
 
@@ -169,8 +169,8 @@
       </div>
       <a href="{{ route('magaza.index') }}?kategori={{ $kat['key'] }}"
          class="hidden sm:flex items-center gap-1.5 text-[13px] font-medium text-[#64748B] hover:text-[#CC2200] transition-colors min-h-[44px]"
-         aria-label="{{ $kat['baslik'] }} tümünü gör">
-        Tümünü Gör <i class="ti ti-arrow-right text-sm" aria-hidden="true"></i>
+         aria-label="{{ $kat['baslik'] }} {{ ceviri('tümünü gör') }}">
+        {{ ceviri('Tümünü Gör') }} <i class="ti ti-arrow-right text-sm" aria-hidden="true"></i>
       </a>
     </div>
 
@@ -212,11 +212,11 @@
                   method: 'POST',
                   headers: {'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},
                   body: JSON.stringify({urun_id:{{ $urun->id }}, urun_tipi:'urun', adet:1})
-                }).then(r=>r.json()).then(d=>{ $root.sepetAdet=d.adet; $root.bildirimiGoster('{{ $urun->ad }} sepete eklendi'); })
+                }).then(r=>r.json()).then(d=>{ $root.sepetAdet=d.adet; $root.bildirimiGoster('{{ $urun->ad }} {{ ceviri('sepete eklendi') }}'); })
               "
               class="w-full flex items-center justify-center gap-1.5 text-[13px] font-medium text-white bg-[#0F172A] py-2.5 rounded-lg hover:bg-[#1e293b] active:scale-95 transition-all duration-200 min-h-[40px]"
-              aria-label="{{ $urun->ad }} sepete ekle">
-              <i class="ti ti-shopping-cart text-sm" aria-hidden="true"></i> Sepete Ekle
+              aria-label="{{ $urun->ad }} {{ ceviri('sepete ekle') }}">
+              <i class="ti ti-shopping-cart text-sm" aria-hidden="true"></i> {{ ceviri('Sepete Ekle') }}
             </button>
           </div>
         </article>
@@ -232,8 +232,8 @@
     <div class="w-16 h-16 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-center mb-4">
       <i class="ti ti-package-off text-2xl text-[#94A3B8]" aria-hidden="true"></i>
     </div>
-    <p class="text-[15px] font-semibold text-[#0F172A]">Mağaza henüz hazırlanıyor</p>
-    <p class="text-[13px] text-[#64748B] mt-1">Yakında ürünlerimiz burada olacak.</p>
+    <p class="text-[15px] font-semibold text-[#0F172A]">{{ ceviri('Mağaza henüz hazırlanıyor') }}</p>
+    <p class="text-[13px] text-[#64748B] mt-1">{{ ceviri('Yakında ürünlerimiz burada olacak.') }}</p>
   </div>
   @endif
 

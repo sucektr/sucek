@@ -6,8 +6,8 @@
 </style>
 @endpush
 
-@section('title', 'SUÇEK — Ana Sayfa')
-@section('meta-description', 'SUÇEK — Mimarlık, İnşaat, Antika Koleksiyon ve Mağaza hizmetleri.')
+@section('title', ceviri('SUÇEK — Ana Sayfa'))
+@section('meta-description', ceviri('SUÇEK — Mimarlık, İnşaat, Antika Koleksiyon ve Mağaza hizmetleri.'))
 
 @section('banner')
   @include('components.banner', [
@@ -30,59 +30,59 @@
 @php
 $heroPaneller = [
   [
-    'id' => 'mimarlik', 'kicker' => 'PROJELENDİRME', 'title' => 'Mimarlık',
+    'id' => 'mimarlik', 'kicker' => ceviri('PROJELENDİRME'), 'title' => ceviri('Mimarlık'),
     'image' => icerik_gorsel('anasayfa','mimarlik_gorsel','https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=800&q=80'),
     'href' => route('mimarlik.index'),
     'subLinks' => [
-      ['icon' => 'ti-file-certificate', 'label' => 'Ruhsat Takibi', 'href' => route('mimarlik.ruhsat')],
-      ['icon' => 'ti-building-arch',    'label' => 'Projelerimiz',  'href' => route('projeler.index')],
+      ['icon' => 'ti-file-certificate', 'label' => ceviri('Ruhsat Takibi'), 'href' => route('mimarlik.ruhsat')],
+      ['icon' => 'ti-building-arch',    'label' => ceviri('Projelerimiz'),  'href' => route('projeler.index')],
     ],
   ],
   [
-    'id' => 'insaat', 'kicker' => 'UYGULAMA', 'title' => 'İnşaat',
+    'id' => 'insaat', 'kicker' => ceviri('UYGULAMA'), 'title' => ceviri('İnşaat'),
     'image' => icerik_gorsel('anasayfa','insaat_gorsel','https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80'),
     'href' => route('insaat.index'),
     'subLinks' => [
-      ['icon' => 'ti-calculator',      'label' => 'Maliyet Hesaplama', 'href' => route('insaat.hesaplama')],
-      ['icon' => 'ti-ruler-measure',   'label' => 'Emsal Hesaplama',   'href' => route('insaat.emsal')],
+      ['icon' => 'ti-calculator',      'label' => ceviri('Maliyet Hesaplama'), 'href' => route('insaat.hesaplama')],
+      ['icon' => 'ti-ruler-measure',   'label' => ceviri('Emsal Hesaplama'),   'href' => route('insaat.emsal')],
     ],
   ],
   [
-    'id' => 'icmimari', 'kicker' => 'TASARIM', 'title' => 'İç Mimari',
+    'id' => 'icmimari', 'kicker' => ceviri('TASARIM'), 'title' => ceviri('İç Mimari'),
     'image' => icerik_gorsel('anasayfa','icmimari_gorsel','https://images.unsplash.com/photo-1615529162924-f8605388461d?w=800&q=80'),
     'href' => route('mimarlik.icmimari'),
     'subLinks' => [],
   ],
   [
-    'id' => 'celikkonteyner', 'kicker' => 'İNŞAAT ÇÖZÜMLERİ', 'title' => 'Hafif Çelik & Konteyner',
+    'id' => 'celikkonteyner', 'kicker' => ceviri('İNŞAAT ÇÖZÜMLERİ'), 'title' => ceviri('Hafif Çelik & Konteyner'),
     'image' => icerik_gorsel('anasayfa','hafifcelik_gorsel','https://images.unsplash.com/photo-1541976590-713941681591?w=800&q=80'),
     'href' => route('hafif-celik-konteyner.index'),
     'subLinks' => [],
   ],
   [
-    'id' => 'magazainsaat', 'kicker' => 'ALIŞVERİŞ', 'title' => 'İnşaat Malzemeleri',
+    'id' => 'magazainsaat', 'kicker' => ceviri('ALIŞVERİŞ'), 'title' => ceviri('İnşaat Malzemeleri'),
     'image' => icerik_gorsel('anasayfa','magaza_insaat_gorsel','https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80'),
     'href' => route('magaza.index', ['kategori' => 'insaat']),
     'subLinks' => [],
   ],
   [
-    'id' => 'magazaspor', 'kicker' => 'ALIŞVERİŞ', 'title' => 'Spor Malzemeleri',
+    'id' => 'magazaspor', 'kicker' => ceviri('ALIŞVERİŞ'), 'title' => ceviri('Spor Malzemeleri'),
     'image' => icerik_gorsel('anasayfa','magaza_spor_gorsel','https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&q=80'),
     'href' => route('magaza.index', ['kategori' => 'spor']),
     'subLinks' => [],
   ],
   [
-    'id' => 'koleksiyon', 'kicker' => 'ALIŞVERİŞ', 'title' => 'Koleksiyon',
+    'id' => 'koleksiyon', 'kicker' => ceviri('ALIŞVERİŞ'), 'title' => ceviri('Koleksiyon'),
     'image' => icerik_gorsel('anasayfa','koleksiyon_gorsel','https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=800&q=80'),
     'href' => route('koleksiyon.index'),
     'subLinks' => [
-      ['icon' => 'ti-clock',   'label' => 'Saat',       'href' => route('koleksiyon.index', ['kategori' => 'saat'])],
-      ['icon' => 'ti-coin',    'label' => 'Nümizmatik', 'href' => route('koleksiyon.index', ['kategori' => 'numizmatik'])],
-      ['icon' => 'ti-diamond', 'label' => 'Antika',     'href' => route('koleksiyon.index', ['kategori' => 'antika'])],
+      ['icon' => 'ti-clock',   'label' => ceviri('Saat'),       'href' => route('koleksiyon.index', ['kategori' => 'saat'])],
+      ['icon' => 'ti-coin',    'label' => ceviri('Nümizmatik'), 'href' => route('koleksiyon.index', ['kategori' => 'numizmatik'])],
+      ['icon' => 'ti-diamond', 'label' => ceviri('Antika'),     'href' => route('koleksiyon.index', ['kategori' => 'antika'])],
     ],
   ],
   [
-    'id' => 'celikag', 'kicker' => 'GÜVENLİK', 'title' => 'Çelik Güvenlik Ağı',
+    'id' => 'celikag', 'kicker' => ceviri('GÜVENLİK'), 'title' => ceviri('Çelik Güvenlik Ağı'),
     'image' => icerik_gorsel('anasayfa','celikag_gorsel','/images/mesh/hizmet-4.webp'),
     'href' => route('celik-guvenlik-agi.index'),
     'subLinks' => [],
@@ -91,14 +91,14 @@ $heroPaneller = [
 @endphp
 
 {{-- Mobile: 2 sütunlu grid --}}
-<section class="grid grid-cols-2 gap-2 p-2 bg-[#F8FAFC] md:hidden" aria-label="Hizmet alanları">
+<section class="grid grid-cols-2 gap-2 p-2 bg-[#F8FAFC] md:hidden" aria-label="{{ ceviri('Hizmet alanları') }}">
   @foreach($heroPaneller as $p)
     <x-hero-panel-mobile :kicker="$p['kicker']" :title="$p['title']" :image="$p['image']" :href="$p['href']" />
   @endforeach
 </section>
 
 {{-- Desktop: Yatay Expanding Accordion, 2 sıra × 4 (md+) --}}
-<section class="hidden md:block p-2 bg-[#F8FAFC]" x-data="{ aktif: null }" aria-label="Hizmet alanları">
+<section class="hidden md:block p-2 bg-[#F8FAFC]" x-data="{ aktif: null }" aria-label="{{ ceviri('Hizmet alanları') }}">
   <div class="flex overflow-hidden gap-2 mb-2" style="height:396px;">
     @foreach(array_slice($heroPaneller, 0, 4) as $p)
       <x-hero-panel :id="$p['id']" :kicker="$p['kicker']" :title="$p['title']" :image="$p['image']" :href="$p['href']" :sub-links="$p['subLinks']" />
@@ -115,23 +115,23 @@ $heroPaneller = [
 @if(isset($slider_urunler) && $slider_urunler->count() > 0)
 <div style="padding:30px 1.25rem 0;background:#F8FAFC;">
 <section style="height:192px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;"
-         aria-label="Öne çıkan ürünler"
+         aria-label="{{ ceviri('Öne çıkan ürünler') }}"
          x-data="{ kaydır(yön) { this.$refs.track.scrollBy({ left: yön * 170, behavior: 'smooth' }); } }">
 
   {{-- Başlık --}}
   <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 14px 6px;flex-shrink:0;">
     <div style="display:flex;align-items:center;gap:7px;">
       <div style="width:2px;height:13px;background:#CC2200;border-radius:1px;flex-shrink:0;"></div>
-      <span style="font-size:11px;font-weight:700;color:#0F172A;letter-spacing:.02em;">Öne Çıkan Ürünler</span>
+      <span style="font-size:11px;font-weight:700;color:#0F172A;letter-spacing:.02em;">{{ ceviri('Öne Çıkan Ürünler') }}</span>
     </div>
     <div style="display:flex;align-items:center;gap:5px;">
-      <button @click="kaydır(-1)" aria-label="Önceki"
+      <button @click="kaydır(-1)" aria-label="{{ ceviri('Önceki') }}"
               style="width:22px;height:22px;border-radius:50%;background:white;border:1px solid #E2E8F0;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#94A3B8;"
               onmouseover="this.style.borderColor='#CC2200';this.style.color='#CC2200'"
               onmouseout="this.style.borderColor='#E2E8F0';this.style.color='#94A3B8'">
         <i class="ti ti-chevron-left" style="font-size:11px;"></i>
       </button>
-      <button @click="kaydır(1)" aria-label="Sonraki"
+      <button @click="kaydır(1)" aria-label="{{ ceviri('Sonraki') }}"
               style="width:22px;height:22px;border-radius:50%;background:white;border:1px solid #E2E8F0;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#94A3B8;"
               onmouseover="this.style.borderColor='#CC2200';this.style.color='#CC2200'"
               onmouseout="this.style.borderColor='#E2E8F0';this.style.color='#94A3B8'">
@@ -140,7 +140,7 @@ $heroPaneller = [
       <a href="{{ route('magaza.index') }}"
          style="font-size:10px;color:#94A3B8;margin-left:2px;text-decoration:none;"
          onmouseover="this.style.color='#CC2200'" onmouseout="this.style.color='#94A3B8'">
-        Tümü →
+        {{ ceviri('Tümü') }} →
       </a>
     </div>
   </div>
@@ -185,11 +185,11 @@ $heroPaneller = [
 
 {{-- ─── Instagram Feed ──────────────────────────────────────────────────── --}}
 @if(isset($instagramPosts) && count($instagramPosts) > 0)
-<section class="section" aria-label="Instagram gönderileri">
+<section class="section" aria-label="{{ ceviri('Instagram gönderileri') }}">
   <div class="flex items-center justify-between mb-6">
     <div>
       <p class="section-label mb-2">INSTAGRAM</p>
-      <h2 class="text-[22px] font-bold text-[#0F172A] tracking-tight">Son Gönderiler</h2>
+      <h2 class="text-[22px] font-bold text-[#0F172A] tracking-tight">{{ ceviri('Son Gönderiler') }}</h2>
     </div>
     <a href="https://www.instagram.com/sucektr/" target="_blank" rel="noopener"
        class="flex items-center gap-1.5 text-[13px] font-medium text-[#64748B] hover:text-[#CC2200] transition-colors duration-200 min-h-[44px] px-1">
@@ -201,7 +201,7 @@ $heroPaneller = [
     @foreach($instagramPosts as $post)
     <a href="{{ $post['permalink'] }}" target="_blank" rel="noopener"
        class="group relative aspect-square rounded-xl overflow-hidden bg-[#F8FAFC] border border-[#E2E8F0] cursor-pointer"
-       aria-label="Instagram gönderisini görüntüle">
+       aria-label="{{ ceviri('Instagram gönderisini görüntüle') }}">
       <img src="{{ $post['media_url'] ?? $post['thumbnail_url'] ?? '' }}"
            alt="{{ \Illuminate\Support\Str::limit($post['caption'] ?? 'Instagram', 60) }}"
            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
@@ -220,7 +220,7 @@ $heroPaneller = [
   <div class="rounded-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-5 border border-[#E2E8F0] shadow-sm">
     <div class="lg:col-span-3 bg-[#F8FAFC] p-8 lg:p-12 flex flex-col justify-between">
       <div>
-        <p class="section-label mb-3">YAKLAŞIMIMIZ</p>
+        <p class="section-label mb-3">{{ ceviri('YAKLAŞIMIMIZ') }}</p>
         <h2 id="yaklasim-baslik" class="text-[26px] lg:text-[32px] font-bold text-[#0F172A] leading-tight tracking-tight mb-5">
           {{ icerik('anasayfa','yaklasim_baslik','Kalite, Güven ve Estetik') }}
         </h2>
@@ -233,8 +233,8 @@ $heroPaneller = [
           <i class="ti ti-building-community text-white text-base"></i>
         </div>
         <div>
-          <span class="text-sm font-semibold text-[#0F172A]">SUÇEK EKİBİ</span>
-          <span class="text-xs text-[#94A3B8] block mt-0.5 tracking-wider uppercase">Kurucu & Yönetim</span>
+          <span class="text-sm font-semibold text-[#0F172A]">{{ ceviri('SUÇEK EKİBİ') }}</span>
+          <span class="text-xs text-[#94A3B8] block mt-0.5 tracking-wider uppercase">{{ ceviri('Kurucu & Yönetim') }}</span>
         </div>
       </div>
     </div>
@@ -247,8 +247,8 @@ $heroPaneller = [
 {{-- ─── Referanslar ───────────────────────────────────────────────────── --}}
 <section class="section" aria-labelledby="ref-baslik">
   <div class="mb-7">
-    <p class="section-label mb-2">REFERANSLAR</p>
-    <h2 id="ref-baslik" class="text-[26px] font-bold text-[#0F172A] tracking-tight">Müşterilerimiz Ne Diyor?</h2>
+    <p class="section-label mb-2">{{ ceviri('REFERANSLAR') }}</p>
+    <h2 id="ref-baslik" class="text-[26px] font-bold text-[#0F172A] tracking-tight">{{ ceviri('Müşterilerimiz Ne Diyor?') }}</h2>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
     @php

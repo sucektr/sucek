@@ -20,7 +20,14 @@
         $isPremium = auth()->check() && auth()->user()->isPremium();
         $premiumFiyat = $isPremium ? $urun->premiumFiyat() : null;
       @endphp
-      <p class="text-[10px] text-[#A8A8A8] uppercase tracking-[1px] mb-1">{{ ucfirst($urun->kategori) }}</p>
+      @php
+        $katLabel = match($urun->kategori) {
+          'spor' => ceviri('Spor'), 'insaat' => ceviri('İnşaat'), 'diger' => ceviri('Diğer'),
+          'celik-guvenlik-agi' => ceviri('Çelik Güvenlik Ağı'),
+          default => ucfirst($urun->kategori),
+        };
+      @endphp
+      <p class="text-[10px] text-[#A8A8A8] uppercase tracking-[1px] mb-1">{{ $katLabel }}</p>
       <h3 class="font-display text-[15px] font-semibold text-[#0F0F0F] mb-2 line-clamp-2 leading-snug">{{ $urun->ad }}</h3>
       @if($premiumFiyat)
       <div class="flex items-baseline gap-2 flex-wrap">
@@ -47,11 +54,11 @@
           method: 'POST',
           headers: {'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},
           body: JSON.stringify({urun_id:{{ $urun->id }}, urun_tipi:'urun', adet:1})
-        }).then(r=>r.json()).then(d=>{ $root.sepetAdet=d.adet; $root.bildirimiGoster('{{ $urun->ad }} sepete eklendi'); })
+        }).then(r=>r.json()).then(d=>{ $root.sepetAdet=d.adet; $root.bildirimiGoster('{{ $urun->ad }} {{ ceviri('sepete eklendi') }}'); })
       "
       class="w-full flex items-center justify-center gap-1.5 text-[10px] font-medium tracking-[1.5px] uppercase text-white bg-[#141414] py-2.5 rounded-[8px] hover:bg-[#2a2a2a] active:scale-95 transition-all duration-200 min-h-[40px]"
-      aria-label="{{ $urun->ad }} sepete ekle">
-      <i class="ti ti-shopping-cart text-sm" aria-hidden="true"></i> Sepete Ekle
+      aria-label="{{ $urun->ad }} {{ ceviri('sepete ekle') }}">
+      <i class="ti ti-shopping-cart text-sm" aria-hidden="true"></i> {{ ceviri('Sepete Ekle') }}
     </button>
   </div>
 </article>

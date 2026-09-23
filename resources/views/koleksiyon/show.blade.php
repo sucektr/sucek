@@ -5,11 +5,11 @@
 @section('content')
 
 {{-- Breadcrumb --}}
-<nav class="px-[9px] pt-5 pb-3" aria-label="İz izi">
+<nav class="px-[9px] pt-5 pb-3" aria-label="{{ ceviri('İz izi') }}">
   <ol class="flex items-center gap-1.5 text-[11px] text-[#A8A8A8]" role="list">
-    <li><a href="{{ route('home') }}" class="hover:text-[#0F0F0F] transition-colors">Anasayfa</a></li>
+    <li><a href="{{ route('home') }}" class="hover:text-[#0F0F0F] transition-colors">{{ ceviri('Anasayfa') }}</a></li>
     <li aria-hidden="true"><i class="ti ti-chevron-right text-[10px]"></i></li>
-    <li><a href="{{ route('koleksiyon.index') }}" class="hover:text-[#0F0F0F] transition-colors">Koleksiyon</a></li>
+    <li><a href="{{ route('koleksiyon.index') }}" class="hover:text-[#0F0F0F] transition-colors">{{ ceviri('Koleksiyon') }}</a></li>
     <li aria-hidden="true"><i class="ti ti-chevron-right text-[10px]"></i></li>
     <li class="text-[#0F0F0F] font-medium" aria-current="page">{{ $urun->ad }}</li>
   </ol>
@@ -22,11 +22,15 @@
   ));
   $tumGorseller = array_values($tumGorseller);
   $teklifVar    = !$urun->fiyat && $urun->durum === 'satista';
+  $showKatLabel = match($urun->kategori) {
+    'saat' => ceviri('Saatler'), 'numizmatik' => ceviri('Nümizmatik'), 'antika' => ceviri('Antika'),
+    default => ucfirst($urun->kategori),
+  };
 @endphp
 
 <section class="px-[9px] pb-10"
          x-data="{ aktifIndex: 0, teklifAcik: {{ session('teklif_basari') ? 'false' : 'false' }} }"
-         aria-label="Koleksiyon ürün detayı">
+         aria-label="{{ ceviri('Koleksiyon ürün detayı') }}">
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
 
     {{-- ─── Görsel Slider ──────────────────────────────────────────── --}}
@@ -48,11 +52,13 @@
           {{-- Önceki/sonraki butonları --}}
           @if(count($tumGorseller) > 1)
           <button @click="aktifIndex = (aktifIndex - 1 + {{ count($tumGorseller) }}) % {{ count($tumGorseller) }}"
-                  class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center shadow-md hover:bg-white transition-colors">
+                  class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center shadow-md hover:bg-white transition-colors"
+                  aria-label="{{ ceviri('Önceki görsel') }}">
             <i class="ti ti-chevron-left text-[#0F0F0F] text-sm"></i>
           </button>
           <button @click="aktifIndex = (aktifIndex + 1) % {{ count($tumGorseller) }}"
-                  class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center shadow-md hover:bg-white transition-colors">
+                  class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center shadow-md hover:bg-white transition-colors"
+                  aria-label="{{ ceviri('Sonraki görsel') }}">
             <i class="ti ti-chevron-right text-[#0F0F0F] text-sm"></i>
           </button>
           {{-- Sayaç --}}
@@ -66,7 +72,7 @@
 
         @if($urun->durum === 'satildi')
         <div class="absolute inset-0 bg-[rgba(0,0,0,0.50)] flex items-center justify-center rounded-[16px]">
-          <span class="text-[14px] font-bold tracking-[3px] uppercase text-white bg-[rgba(0,0,0,0.70)] px-6 py-3 rounded-[8px]">Satıldı</span>
+          <span class="text-[14px] font-bold tracking-[3px] uppercase text-white bg-[rgba(0,0,0,0.70)] px-6 py-3 rounded-[8px]">{{ ceviri('Satıldı') }}</span>
         </div>
         @endif
       </div>
@@ -78,7 +84,7 @@
         <button @click="aktifIndex = {{ $i }}"
                 class="shrink-0 w-16 h-16 rounded-[8px] overflow-hidden border-2 transition-colors"
                 :class="aktifIndex === {{ $i }} ? 'border-[#0F0F0F]' : 'border-transparent hover:border-[rgba(0,0,0,0.20)]'">
-          <img src="{{ asset('storage/'.$g) }}" alt="Görsel {{ $i+1 }}" class="w-full h-full object-cover">
+          <img src="{{ asset('storage/'.$g) }}" alt="{{ ceviri('Görsel') }} {{ $i+1 }}" class="w-full h-full object-cover">
         </button>
         @endforeach
       </div>
@@ -89,11 +95,11 @@
     <div class="flex flex-col gap-5">
       <div>
         <p class="text-[10px] font-medium tracking-[2px] uppercase text-[#A8A8A8] mb-1">
-          {{ ucfirst($urun->kategori) }}{{ $urun->ulke ? ' · '.$urun->ulke : '' }}
+          {{ $showKatLabel }}{{ $urun->ulke ? ' · '.$urun->ulke : '' }}
         </p>
         <h1 class="font-display text-[32px] lg:text-[38px] font-semibold text-[#0F0F0F] leading-[1.1] mb-2">{{ $urun->ad }}</h1>
         @if($urun->stok_kodu)
-        <p class="text-[11px] text-[#A8A8A8]">Ref: {{ $urun->stok_kodu }}</p>
+        <p class="text-[11px] text-[#A8A8A8]">{{ ceviri('Ref:') }} {{ $urun->stok_kodu }}</p>
         @endif
       </div>
 
@@ -109,18 +115,18 @@
             <span class="font-display text-[20px] text-[#A8A8A8] line-through">{{ number_format($urun->fiyat, 0, ',', '.') }} ₺</span>
           </div>
           <span class="inline-flex items-center gap-1 text-[10px] font-bold tracking-[1px] uppercase px-2.5 py-1 rounded-[6px]" style="background:#f5f3ff;color:#7c3aed;">
-            <i class="ti ti-crown text-[10px]"></i> Premium — %15 İndirim
+            <i class="ti ti-crown text-[10px]"></i> {{ ceviri('Premium — %15 İndirim') }}
           </span>
         @elseif($urun->fiyat)
           <span class="font-display text-[36px] font-semibold text-[#0F0F0F]">{{ number_format($urun->fiyat, 0, ',', '.') }} ₺</span>
         @elseif($urun->durum === 'satista')
-          <span class="text-[15px] font-medium text-[#5A5A5A]">Fiyat belirtilmemiş</span>
-          <p class="text-[12px] text-[#A8A8A8] mt-0.5">Üye olup teklif gönderebilirsiniz.</p>
+          <span class="text-[15px] font-medium text-[#5A5A5A]">{{ ceviri('Fiyat belirtilmemiş') }}</span>
+          <p class="text-[12px] text-[#A8A8A8] mt-0.5">{{ ceviri('Üye olup teklif gönderebilirsiniz.') }}</p>
         @else
-          <span class="text-[14px] text-[#5A5A5A] tracking-[1px]">Fiyat için iletişime geçin</span>
+          <span class="text-[14px] text-[#5A5A5A] tracking-[1px]">{{ ceviri('Fiyat için iletişime geçin') }}</span>
         @endif
         @if($urun->durum === 'rezerve')
-        <span class="ml-3 text-[10px] font-bold tracking-[1.5px] uppercase bg-[#B8962E] text-white px-3 py-1 rounded-[6px]">Rezerve</span>
+        <span class="ml-3 text-[10px] font-bold tracking-[1.5px] uppercase bg-[#B8962E] text-white px-3 py-1 rounded-[6px]">{{ ceviri('Rezerve') }}</span>
         @endif
       </div>
 
@@ -133,7 +139,7 @@
       @if($urun->ozellikler && count($urun->ozellikler) > 0)
       <div class="border border-[rgba(0,0,0,0.08)] rounded-[12px] overflow-hidden">
         <div class="px-5 py-3.5 bg-[#F9F9F9] border-b border-[rgba(0,0,0,0.08)]">
-          <span class="text-[11px] font-semibold tracking-[1.5px] uppercase text-[#5A5A5A]">Ürün Özellikleri</span>
+          <span class="text-[11px] font-semibold tracking-[1.5px] uppercase text-[#5A5A5A]">{{ ceviri('Ürün Özellikleri') }}</span>
         </div>
         <dl>
           @foreach($urun->ozellikler as $label => $deger)
@@ -151,7 +157,7 @@
       <div class="border border-[rgba(0,0,0,0.08)] rounded-[12px] overflow-hidden">
         <div class="px-5 py-3.5 border-b border-[rgba(0,0,0,0.08)] bg-[#F9F9F9] flex items-center gap-2">
           <i class="ti ti-paperclip text-[#5A5A5A] text-sm"></i>
-          <span class="text-[11px] font-semibold tracking-[1.5px] uppercase text-[#5A5A5A]">İndirilebilir Öğeler</span>
+          <span class="text-[11px] font-semibold tracking-[1.5px] uppercase text-[#5A5A5A]">{{ ceviri('İndirilebilir Öğeler') }}</span>
         </div>
         <ul class="divide-y divide-[rgba(0,0,0,0.05)]">
           @foreach($urun->dosyalar as $d)
@@ -195,10 +201,10 @@
               method: 'POST',
               headers: {'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},
               body: JSON.stringify({urun_id:{{ $urun->id }}, urun_tipi:'koleksiyon', adet:1})
-            }).then(r=>r.json()).then(d=>{ $root.sepetAdet=d.adet; $root.bildirimiGoster('{{ $urun->ad }} sepete eklendi!'); })
+            }).then(r=>r.json()).then(d=>{ $root.sepetAdet=d.adet; $root.bildirimiGoster('{{ $urun->ad }} {{ ceviri('sepete eklendi!') }}'); })
           "
           class="flex items-center justify-center gap-2 bg-[#141414] text-white text-[11px] font-semibold tracking-[1.5px] uppercase py-4 rounded-[10px] hover:bg-[#2a2a2a] active:scale-[0.98] transition-all duration-200 min-h-[52px]">
-          <i class="ti ti-shopping-cart text-sm" aria-hidden="true"></i> Sepete Ekle
+          <i class="ti ti-shopping-cart text-sm" aria-hidden="true"></i> {{ ceviri('Sepete Ekle') }}
         </button>
         @endif
 
@@ -207,7 +213,7 @@
         <button @click="teklifAcik = !teklifAcik"
                 class="flex items-center justify-center gap-2 bg-[#B8962E] text-white text-[11px] font-semibold tracking-[1.5px] uppercase py-4 rounded-[10px] hover:bg-[#9a7a24] active:scale-[0.98] transition-all duration-200 min-h-[52px]">
           <i class="ti ti-tag text-sm" aria-hidden="true"></i>
-          <span x-text="teklifAcik ? 'Formu Kapat' : 'Teklif Ver'"></span>
+          <span x-text="teklifAcik ? '{{ ceviri('Formu Kapat') }}' : '{{ ceviri('Teklif Ver') }}'"></span>
         </button>
 
         {{-- Teklif Formu --}}
@@ -225,7 +231,7 @@
           @elseif(auth()->check())
           {{-- Giriş yapmış: form göster --}}
           <p class="text-[12px] font-medium text-[#0F0F0F] mb-3">
-            <span class="text-[#A8A8A8]">Teklif veren:</span> {{ auth()->user()->name }}
+            <span class="text-[#A8A8A8]">{{ ceviri('Teklif veren:') }}</span> {{ auth()->user()->name }}
           </p>
           @if($errors->has('miktar'))
           <p class="text-[11px] text-[#CC2200] mb-2">{{ $errors->first('miktar') }}</p>
@@ -233,7 +239,7 @@
           <form action="{{ route('koleksiyon.teklif', $urun->slug) }}" method="POST" class="space-y-3">
             @csrf
             <div>
-              <label class="block text-[11px] font-medium text-[#6B6B6B] uppercase tracking-[.06em] mb-1.5">Teklif Tutarı (₺) <span class="text-[#CC2200]">*</span></label>
+              <label class="block text-[11px] font-medium text-[#6B6B6B] uppercase tracking-[.06em] mb-1.5">{{ ceviri('Teklif Tutarı (₺)') }} <span class="text-[#CC2200]">*</span></label>
               <div class="relative">
                 <input type="number" name="miktar" min="1" step="1" required
                        value="{{ old('miktar') }}"
@@ -243,29 +249,29 @@
               </div>
             </div>
             <div>
-              <label class="block text-[11px] font-medium text-[#6B6B6B] uppercase tracking-[.06em] mb-1.5">Mesaj (opsiyonel)</label>
+              <label class="block text-[11px] font-medium text-[#6B6B6B] uppercase tracking-[.06em] mb-1.5">{{ ceviri('Mesaj (opsiyonel)') }}</label>
               <textarea name="mesaj" rows="3" maxlength="500"
                         class="w-full px-4 py-2.5 border border-[rgba(0,0,0,0.12)] rounded-[8px] text-[13px] focus:outline-none focus:border-[#0F0F0F] transition-colors resize-none"
-                        placeholder="Teklifiniz hakkında not ekleyebilirsiniz...">{{ old('mesaj') }}</textarea>
+                        placeholder="{{ ceviri('Teklifiniz hakkında not ekleyebilirsiniz...') }}">{{ old('mesaj') }}</textarea>
             </div>
             <button type="submit"
                     class="w-full flex items-center justify-center gap-2 bg-[#0F0F0F] text-white text-[11px] font-semibold tracking-[1.5px] uppercase py-3 rounded-[10px] hover:bg-[#2a2a2a] transition-colors min-h-[44px]">
-              <i class="ti ti-send text-sm"></i> Teklifi Gönder
+              <i class="ti ti-send text-sm"></i> {{ ceviri('Teklifi Gönder') }}
             </button>
           </form>
           @else
           {{-- Giriş yapmamış: yönlendirme --}}
           <p class="text-[13px] text-[#5A5A5A] mb-4 leading-relaxed">
-            Teklif vermek için hesabınıza giriş yapmanız veya üye olmanız gerekiyor.
+            {{ ceviri('Teklif vermek için hesabınıza giriş yapmanız veya üye olmanız gerekiyor.') }}
           </p>
           <div class="flex gap-2">
             <a href="{{ route('giris') }}?redirect={{ urlencode(request()->url()) }}"
                class="flex-1 flex items-center justify-center gap-1.5 bg-[#0F0F0F] text-white text-[11px] font-semibold tracking-[1.5px] uppercase py-3 rounded-[8px] hover:bg-[#2a2a2a] transition-colors min-h-[44px]">
-              <i class="ti ti-login text-sm"></i> Giriş Yap
+              <i class="ti ti-login text-sm"></i> {{ ceviri('Giriş Yap') }}
             </a>
             <a href="{{ route('uye-ol') }}"
                class="flex-1 flex items-center justify-center gap-1.5 border border-[rgba(0,0,0,0.15)] text-[#0F0F0F] text-[11px] font-semibold tracking-[1.5px] uppercase py-3 rounded-[8px] hover:bg-[#F0F0F0] transition-colors min-h-[44px]">
-              <i class="ti ti-user-plus text-sm"></i> Üye Ol
+              <i class="ti ti-user-plus text-sm"></i> {{ ceviri('Üye Ol') }}
             </a>
           </div>
           @endif
@@ -274,7 +280,7 @@
 
         <a href="{{ route('iletisim.index') }}"
            class="flex items-center justify-center gap-2 border border-[rgba(0,0,0,0.15)] text-[#5A5A5A] text-[11px] font-medium tracking-[1.5px] uppercase py-3.5 rounded-[10px] hover:bg-[#F0F0F0] transition-all duration-200 min-h-[44px]">
-          <i class="ti ti-message text-sm" aria-hidden="true"></i> Bilgi Al
+          <i class="ti ti-message text-sm" aria-hidden="true"></i> {{ ceviri('Bilgi Al') }}
         </a>
       </div>
 

@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Güvenli Ödeme — SUÇEK')
+@section('title', ceviri('Güvenli Ödeme') . ' — SUÇEK')
 
 @section('content')
 <div class="section max-w-2xl mx-auto">
 
   <div class="mb-6 text-center">
-    <p class="text-[9px] font-medium tracking-[3px] uppercase text-[#A8A8A8] mb-1.5">ÖDEME</p>
-    <h1 class="font-serif-sc text-[26px] font-bold text-[#0F0F0F]">Güvenli Ödeme</h1>
-    <p class="text-[11px] text-[#A8A8A8] mt-1">Sipariş: <span class="font-medium text-[#5A5A5A]">#{{ $siparis->referans }}</span></p>
+    <p class="text-[9px] font-medium tracking-[3px] uppercase text-[#A8A8A8] mb-1.5">{{ ceviri('ÖDEME') }}</p>
+    <h1 class="font-serif-sc text-[26px] font-bold text-[#0F0F0F]">{{ ceviri('Güvenli Ödeme') }}</h1>
+    <p class="text-[11px] text-[#A8A8A8] mt-1">{{ ceviri('Sipariş:') }} <span class="font-medium text-[#5A5A5A]">#{{ $siparis->referans }}</span></p>
   </div>
 
   @if(session('hata'))
@@ -22,7 +22,7 @@
     <div class="px-5 py-4 border-b border-[rgba(0,0,0,0.06)] flex items-center justify-between bg-[#FAFAFA]">
       <div class="flex items-center gap-2">
         <i class="ti ti-lock text-[#1A5C3A] text-sm"></i>
-        <span class="text-[11px] font-semibold text-[#0F0F0F] tracking-[0.5px]">SSL Güvenli Ödeme</span>
+        <span class="text-[11px] font-semibold text-[#0F0F0F] tracking-[0.5px]">{{ ceviri('SSL Güvenli Ödeme') }}</span>
       </div>
       <span class="font-display text-[15px] font-bold text-[#0F0F0F]">
         {{ number_format($siparis->toplam, 2, ',', '.') }} ₺
@@ -38,11 +38,11 @@
   </div>
 
   <div class="mt-4 flex items-center justify-center gap-3 text-[11px] text-[#A8A8A8]">
-    <span>Ödeme altyapısı:</span>
+    <span>{{ ceviri('Ödeme altyapısı:') }}</span>
     <span class="font-semibold text-[#5A5A5A]">PayTR</span>
     <span>·</span>
     <i class="ti ti-shield-check text-xs"></i>
-    <span>256-bit SSL şifreli bağlantı</span>
+    <span>{{ ceviri('256-bit SSL şifreli bağlantı') }}</span>
   </div>
 
 </div>
