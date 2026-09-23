@@ -271,10 +271,22 @@
         <i class="ti ti-file-certificate text-xs mr-1.5"></i>Belgeler
       </a>
       <a href="{{ route('insaat.index') }}" class="text-sm font-medium text-[#64748B] px-3 py-2.5 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">İnşaat</a>
+      <a href="{{ route('insaat.hesaplama') }}" @click="menuOpen=false" class="text-sm text-[#94A3B8] px-3 py-2 pl-7 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">
+        <i class="ti ti-calculator text-xs mr-1.5"></i>Maliyet Hesaplama
+      </a>
       <a href="{{ route('insaat.emsal') }}" class="text-sm text-[#94A3B8] px-3 py-2 pl-7 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">
         <i class="ti ti-ruler-measure text-xs mr-1.5"></i>Emsal Hesaplama
       </a>
       <a href="{{ route('magaza.index') }}" class="text-sm font-medium text-[#64748B] px-3 py-2.5 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">Mağaza</a>
+      <a href="{{ route('magaza.index', ['kategori' => 'spor']) }}" @click="menuOpen=false" class="text-sm text-[#94A3B8] px-3 py-2 pl-7 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">
+        <i class="ti ti-ball-football text-xs mr-1.5"></i>Spor Malzemeleri
+      </a>
+      <a href="{{ route('magaza.index', ['kategori' => 'insaat']) }}" @click="menuOpen=false" class="text-sm text-[#94A3B8] px-3 py-2 pl-7 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">
+        <i class="ti ti-building text-xs mr-1.5"></i>İnşaat Malzemeleri
+      </a>
+      <a href="{{ route('koleksiyon.index') }}" @click="menuOpen=false" class="text-sm text-[#94A3B8] px-3 py-2 pl-7 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">
+        <i class="ti ti-diamond text-xs mr-1.5"></i>Koleksiyon
+      </a>
       <a href="{{ route('celik-guvenlik-agi.index') }}" @click="menuOpen=false" class="text-sm font-medium text-[#64748B] px-3 py-2.5 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">
         <i class="ti ti-shield text-xs mr-1.5"></i>Güvenlik Ağı
       </a>
