@@ -1,0 +1,1394 @@
+[
+    {
+        "tr": "Ana navigasyon",
+        "en": "Main navigation"
+    },
+    {
+        "tr": "SUÇEK Ana Sayfa",
+        "en": "SUÇEK Home"
+    },
+    {
+        "tr": "Anasayfa",
+        "en": "Home"
+    },
+    {
+        "tr": "Mimarlık",
+        "en": "Architecture"
+    },
+    {
+        "tr": "Ruhsat Süreci",
+        "en": "Permit Process"
+    },
+    {
+        "tr": "İç Mimari",
+        "en": "Interior Design"
+    },
+    {
+        "tr": "Projelerimiz",
+        "en": "Our Projects"
+    },
+    {
+        "tr": "Belgeler",
+        "en": "Documents"
+    },
+    {
+        "tr": "İnşaat",
+        "en": "Construction"
+    },
+    {
+        "tr": "Maliyet Hesaplama",
+        "en": "Cost Calculation"
+    },
+    {
+        "tr": "Emsal Hesaplama",
+        "en": "Floor Area Ratio Calculation"
+    },
+    {
+        "tr": "Mağaza",
+        "en": "Store"
+    },
+    {
+        "tr": "Spor Malzemeleri",
+        "en": "Sports Equipment"
+    },
+    {
+        "tr": "İnşaat Malzemeleri",
+        "en": "Construction Materials"
+    },
+    {
+        "tr": "Koleksiyon",
+        "en": "Collection"
+    },
+    {
+        "tr": "Güvenlik Ağı",
+        "en": "Safety Net"
+    },
+    {
+        "tr": "İletişim",
+        "en": "Contact"
+    },
+    {
+        "tr": "Sepet",
+        "en": "Cart"
+    },
+    {
+        "tr": "Sepetteki ürün sayısı",
+        "en": "Number of items in cart"
+    },
+    {
+        "tr": "Giriş Yap",
+        "en": "Log In"
+    },
+    {
+        "tr": "Üye Ol",
+        "en": "Sign Up"
+    },
+    {
+        "tr": "Menüyü aç\/kapat",
+        "en": "Toggle menu"
+    },
+    {
+        "tr": "Sepetim",
+        "en": "My Cart"
+    },
+    {
+        "tr": "SUÇEK — Ana Sayfa",
+        "en": "SUÇEK — Home"
+    },
+    {
+        "tr": "SUÇEK — Mimarlık, İnşaat, Antika Koleksiyon ve Mağaza hizmetleri.",
+        "en": "SUÇEK — Architecture, Construction, Antique Collection and Store services."
+    },
+    {
+        "tr": "PROJELENDİRME",
+        "en": "DESIGN & PLANNING"
+    },
+    {
+        "tr": "Ruhsat Takibi",
+        "en": "Permit Follow-up"
+    },
+    {
+        "tr": "UYGULAMA",
+        "en": "IMPLEMENTATION"
+    },
+    {
+        "tr": "TASARIM",
+        "en": "DESIGN"
+    },
+    {
+        "tr": "İNŞAAT ÇÖZÜMLERİ",
+        "en": "CONSTRUCTION SOLUTIONS"
+    },
+    {
+        "tr": "Hafif Çelik & Konteyner",
+        "en": "Light Steel & Container"
+    },
+    {
+        "tr": "ALIŞVERİŞ",
+        "en": "SHOPPING"
+    },
+    {
+        "tr": "Saat",
+        "en": "Watch"
+    },
+    {
+        "tr": "Nümizmatik",
+        "en": "Numismatics"
+    },
+    {
+        "tr": "Antika",
+        "en": "Antiques"
+    },
+    {
+        "tr": "GÜVENLİK",
+        "en": "SAFETY"
+    },
+    {
+        "tr": "Çelik Güvenlik Ağı",
+        "en": "Steel Safety Net"
+    },
+    {
+        "tr": "Hizmet alanları",
+        "en": "Service areas"
+    },
+    {
+        "tr": "Öne çıkan ürünler",
+        "en": "Featured products"
+    },
+    {
+        "tr": "Önceki",
+        "en": "Previous"
+    },
+    {
+        "tr": "Sonraki",
+        "en": "Next"
+    },
+    {
+        "tr": "Tümü",
+        "en": "All"
+    },
+    {
+        "tr": "YAKLAŞIMIMIZ",
+        "en": "OUR APPROACH"
+    },
+    {
+        "tr": "SUÇEK EKİBİ",
+        "en": "SUÇEK TEAM"
+    },
+    {
+        "tr": "Kurucu & Yönetim",
+        "en": "Founder & Management"
+    },
+    {
+        "tr": "REFERANSLAR",
+        "en": "REFERENCES"
+    },
+    {
+        "tr": "Müşterilerimiz Ne Diyor?",
+        "en": "What Our Customers Say?"
+    },
+    {
+        "tr": "Hizmetler",
+        "en": "Services"
+    },
+    {
+        "tr": "Yasal",
+        "en": "Legal"
+    },
+    {
+        "tr": "Kişisel Verilerin Korunması",
+        "en": "Personal Data Protection"
+    },
+    {
+        "tr": "Gizlilik Politikası",
+        "en": "Privacy Policy"
+    },
+    {
+        "tr": "SSS",
+        "en": "FAQ"
+    },
+    {
+        "tr": "Mesafeli Satış Sözleşmesi",
+        "en": "Distance Sales Agreement"
+    },
+    {
+        "tr": "İade & Değişim",
+        "en": "Return & Exchange"
+    },
+    {
+        "tr": "Tüm hakları saklıdır.",
+        "en": "All rights reserved."
+    },
+    {
+        "tr": "Mağaza — SUÇEK",
+        "en": "Store — SUÇEK"
+    },
+    {
+        "tr": "SUÇEK Mağaza: Spor malzemeleri ve inşaat malzemeleri.",
+        "en": "SUÇEK Store: Sports equipment and construction materials."
+    },
+    {
+        "tr": "Mağaza hero",
+        "en": "Store hero"
+    },
+    {
+        "tr": "Filtreler",
+        "en": "Filters"
+    },
+    {
+        "tr": "Kategori filtresi",
+        "en": "Category filter"
+    },
+    {
+        "tr": "Spor",
+        "en": "Sports"
+    },
+    {
+        "tr": "Diğer",
+        "en": "Other"
+    },
+    {
+        "tr": "Ürün ara...",
+        "en": "Search products..."
+    },
+    {
+        "tr": "En Yeni",
+        "en": "Newest"
+    },
+    {
+        "tr": "Fiyat: Düşükten Yükseğe",
+        "en": "Price: Low to High"
+    },
+    {
+        "tr": "Fiyat: Yüksekten Düşüğe",
+        "en": "Price: High to Low"
+    },
+    {
+        "tr": "Fitness, outdoor ve takım sporları ekipmanları",
+        "en": "Fitness, outdoor and team sports equipment"
+    },
+    {
+        "tr": "Yapı ve tesisat malzemeleri",
+        "en": "Building and plumbing materials"
+    },
+    {
+        "tr": "Çeşitli ürünler",
+        "en": "Miscellaneous products"
+    },
+    {
+        "tr": "tümünü gör",
+        "en": "view all"
+    },
+    {
+        "tr": "sepete eklendi",
+        "en": "added to cart"
+    },
+    {
+        "tr": "sepete ekle",
+        "en": "add to cart"
+    },
+    {
+        "tr": "Temizle",
+        "en": "Clear"
+    },
+    {
+        "tr": "Arama sonuçları",
+        "en": "Search results"
+    },
+    {
+        "tr": "ürün bulundu",
+        "en": "products found"
+    },
+    {
+        "tr": "Sonuç bulunamadı",
+        "en": "No results found"
+    },
+    {
+        "tr": "Farklı bir arama terimi veya kategori deneyin.",
+        "en": "Try a different search term or category."
+    },
+    {
+        "tr": "Filtreyi temizle",
+        "en": "Clear filter"
+    },
+    {
+        "tr": "SUÇEK Mağaza",
+        "en": "SUÇEK Store"
+    },
+    {
+        "tr": "İz izi",
+        "en": "Breadcrumb"
+    },
+    {
+        "tr": "Ürün detayı",
+        "en": "Product detail"
+    },
+    {
+        "tr": "Önceki görsel",
+        "en": "Previous image"
+    },
+    {
+        "tr": "Sonraki görsel",
+        "en": "Next image"
+    },
+    {
+        "tr": "Stokta",
+        "en": "In Stock"
+    },
+    {
+        "tr": "Görsel",
+        "en": "Image"
+    },
+    {
+        "tr": "Ürün Kodu:",
+        "en": "Product Code:"
+    },
+    {
+        "tr": "Adet",
+        "en": "Quantity"
+    },
+    {
+        "tr": "Azalt",
+        "en": "Decrease"
+    },
+    {
+        "tr": "Artır",
+        "en": "Increase"
+    },
+    {
+        "tr": "Lütfen tüm seçenekleri seçin.",
+        "en": "Please select all options."
+    },
+    {
+        "tr": "sepete eklendi!",
+        "en": "added to cart!"
+    },
+    {
+        "tr": "Seçenek Seçin",
+        "en": "Select Option"
+    },
+    {
+        "tr": "Stok Yok",
+        "en": "Out of Stock"
+    },
+    {
+        "tr": "Soru Sor",
+        "en": "Ask a Question"
+    },
+    {
+        "tr": "Benzer Ürünler",
+        "en": "Similar Products"
+    },
+    {
+        "tr": "SUÇEK Koleksiyon: Antika saatler, nümizmatik ve antika eserler.",
+        "en": "SUÇEK Collection: Antique watches, numismatics and antique items."
+    },
+    {
+        "tr": "Koleksiyon hero",
+        "en": "Collection hero"
+    },
+    {
+        "tr": "Koleksiyon ürünleri",
+        "en": "Collection products"
+    },
+    {
+        "tr": "Saatler",
+        "en": "Watches"
+    },
+    {
+        "tr": "detayları",
+        "en": "details"
+    },
+    {
+        "tr": "Detay",
+        "en": "Detail"
+    },
+    {
+        "tr": "Fiyat Sorunuz",
+        "en": "Ask for Price"
+    },
+    {
+        "tr": "Rezerve",
+        "en": "Reserved"
+    },
+    {
+        "tr": "Satıldı",
+        "en": "Sold"
+    },
+    {
+        "tr": "Koleksiyon ürün detayı",
+        "en": "Collection product detail"
+    },
+    {
+        "tr": "Bilgi Al",
+        "en": "Get Information"
+    },
+    {
+        "tr": "Alışveriş sepeti",
+        "en": "Shopping cart"
+    },
+    {
+        "tr": "Sepetiniz boş",
+        "en": "Your cart is empty"
+    },
+    {
+        "tr": "Ürünlerimizi keşfetmek için mağazamıza göz atın.",
+        "en": "Browse our store to discover our products."
+    },
+    {
+        "tr": "Mağazaya Git",
+        "en": "Go to Store"
+    },
+    {
+        "tr": "SUÇEK Mimarlık hizmetleri: Ruhsat takibi, iç mimari tasarım ve proje yönetimi.",
+        "en": "SUÇEK Architecture services: Permit follow-up, interior design and project management."
+    },
+    {
+        "tr": "Mimarlık hero",
+        "en": "Architecture hero"
+    },
+    {
+        "tr": "MİMARLIK HİZMETLERİ",
+        "en": "ARCHITECTURE SERVICES"
+    },
+    {
+        "tr": "Hizmetleri İncele",
+        "en": "View Services"
+    },
+    {
+        "tr": "Randevu Al",
+        "en": "Book an Appointment"
+    },
+    {
+        "tr": "NE YAPIYORUZ",
+        "en": "WHAT WE DO"
+    },
+    {
+        "tr": "Mimarlık Hizmetleri",
+        "en": "Architecture Services"
+    },
+    {
+        "tr": "NASIL ÇALIŞIYORUZ",
+        "en": "HOW WE WORK"
+    },
+    {
+        "tr": "Çalışma Sürecimiz",
+        "en": "Our Working Process"
+    },
+    {
+        "tr": "Ruhsat Projeleri",
+        "en": "Permit Projects"
+    },
+    {
+        "tr": "İç Mimari Projeleri",
+        "en": "Interior Design Projects"
+    },
+    {
+        "tr": "SIKÇA SORULANLAR",
+        "en": "FREQUENTLY ASKED"
+    },
+    {
+        "tr": "Aklınızdaki Sorular",
+        "en": "Questions On Your Mind"
+    },
+    {
+        "tr": "HAREKETE GEÇ",
+        "en": "TAKE ACTION"
+    },
+    {
+        "tr": "Mesaj Gönder",
+        "en": "Send Message"
+    },
+    {
+        "tr": "Hemen Ara",
+        "en": "Call Now"
+    },
+    {
+        "tr": "Yaşam alanlarınızı işlevsel ve estetik bir bütünlük içinde yeniden tasarlıyoruz.",
+        "en": "We redesign your living spaces with functional and aesthetic integrity."
+    },
+    {
+        "tr": "İç Mimari hero",
+        "en": "Interior Design hero"
+    },
+    {
+        "tr": "Breadcrumb",
+        "en": "Breadcrumb"
+    },
+    {
+        "tr": "REFERANS PROJELER",
+        "en": "REFERENCE PROJECTS"
+    },
+    {
+        "tr": "Tamamlanan Projeler",
+        "en": "Completed Projects"
+    },
+    {
+        "tr": "Projenizi Birlikte Tasarlayalım",
+        "en": "Let's Design Your Project Together"
+    },
+    {
+        "tr": "Ücretsiz ön görüşme için bugün bize ulaşın.",
+        "en": "Contact us today for a free consultation."
+    },
+    {
+        "tr": "İletişime Geç",
+        "en": "Get in Touch"
+    },
+    {
+        "tr": "İmar ve inşaat ruhsatlarının başvuru, takip ve sonuçlandırma süreçleri hakkında bilgi alın.",
+        "en": "Learn about the application, follow-up and finalization processes of zoning and construction permits."
+    },
+    {
+        "tr": "Ruhsat Süreci hero",
+        "en": "Permit Process hero"
+    },
+    {
+        "tr": "Ruhsat Sürecinizi Başlatalım",
+        "en": "Let's Start Your Permit Process"
+    },
+    {
+        "tr": "Belgeler hero",
+        "en": "Documents hero"
+    },
+    {
+        "tr": "MİMARLIK · BELGELER",
+        "en": "ARCHITECTURE · DOCUMENTS"
+    },
+    {
+        "tr": "Belgeler & Formlar",
+        "en": "Documents & Forms"
+    },
+    {
+        "tr": "Ruhsat başvuruları, teknik şartnameler ve resmi formları buradan indirebilirsiniz.",
+        "en": "You can download permit applications, technical specifications and official forms here."
+    },
+    {
+        "tr": "Belge listesi",
+        "en": "Document list"
+    },
+    {
+        "tr": "indir",
+        "en": "download"
+    },
+    {
+        "tr": "İhtiyacınız olan belge burada yok mu?",
+        "en": "Can't find the document you need?"
+    },
+    {
+        "tr": "Bize ulaşın, size özel belgeler hazırlayalım.",
+        "en": "Contact us and we'll prepare custom documents for you."
+    },
+    {
+        "tr": "SUÇEK İnşaat hizmetleri: Anahtar teslim projeler, dekorasyon ve inşaat yönetimi.",
+        "en": "SUÇEK Construction services: Turnkey projects, decoration and construction management."
+    },
+    {
+        "tr": "İnşaat hero",
+        "en": "Construction hero"
+    },
+    {
+        "tr": "İNŞAAT HİZMETLERİ",
+        "en": "CONSTRUCTION SERVICES"
+    },
+    {
+        "tr": "Maliyet Hesapla",
+        "en": "Calculate Cost"
+    },
+    {
+        "tr": "Teklif Al",
+        "en": "Get a Quote"
+    },
+    {
+        "tr": "HİZMET PAKETLERİ",
+        "en": "SERVICE PACKAGES"
+    },
+    {
+        "tr": "İnşaat Hizmetlerimiz",
+        "en": "Our Construction Services"
+    },
+    {
+        "tr": "Popüler",
+        "en": "Popular"
+    },
+    {
+        "tr": "SON ÇALIŞMALAR",
+        "en": "RECENT WORKS"
+    },
+    {
+        "tr": "Hesaplama Aracı",
+        "en": "Calculation Tool"
+    },
+    {
+        "tr": "Emsal Hesapla",
+        "en": "Calculate Floor Area Ratio"
+    },
+    {
+        "tr": "SUÇEK ile iletişime geçin. Mimarlık, inşaat ve koleksiyon hizmetlerimiz hakkında bilgi alın.",
+        "en": "Get in touch with SUÇEK. Learn about our architecture, construction and collection services."
+    },
+    {
+        "tr": "İletişim hero",
+        "en": "Contact hero"
+    },
+    {
+        "tr": "İletişim bilgileri",
+        "en": "Contact information"
+    },
+    {
+        "tr": "ADRES",
+        "en": "ADDRESS"
+    },
+    {
+        "tr": "TELEFON",
+        "en": "PHONE"
+    },
+    {
+        "tr": "E-POSTA",
+        "en": "EMAIL"
+    },
+    {
+        "tr": "ÇALIŞMA SAATLERİ",
+        "en": "WORKING HOURS"
+    },
+    {
+        "tr": "Mesaj formu",
+        "en": "Message form"
+    },
+    {
+        "tr": "MESAJ GÖNDERIN",
+        "en": "SEND A MESSAGE"
+    },
+    {
+        "tr": "Ad Soyad",
+        "en": "Full Name"
+    },
+    {
+        "tr": "Adınız Soyadınız",
+        "en": "Your Full Name"
+    },
+    {
+        "tr": "Konu",
+        "en": "Subject"
+    },
+    {
+        "tr": "Mimarlık, İnşaat, Koleksiyon...",
+        "en": "Architecture, Construction, Collection..."
+    },
+    {
+        "tr": "Mesajınız",
+        "en": "Your Message"
+    },
+    {
+        "tr": "Projeniz veya talebiniz hakkında bilgi verin...",
+        "en": "Tell us about your project or request..."
+    },
+    {
+        "tr": "Mesajı Gönder",
+        "en": "Send Message"
+    },
+    {
+        "tr": "Genellikle 1 iş günü içinde dönüş yapıyoruz.",
+        "en": "We usually respond within 1 business day."
+    },
+    {
+        "tr": "HİZMET ALANLARI",
+        "en": "SERVICE AREAS"
+    },
+    {
+        "tr": "Mimari Tasarım & Ruhsat",
+        "en": "Architectural Design & Permits"
+    },
+    {
+        "tr": "Anahtar Teslim İnşaat",
+        "en": "Turnkey Construction"
+    },
+    {
+        "tr": "Antika & Koleksiyon",
+        "en": "Antiques & Collection"
+    },
+    {
+        "tr": "Spor & İnşaat Mağazası",
+        "en": "Sports & Construction Store"
+    },
+    {
+        "tr": "SOSYAL MEDYA",
+        "en": "SOCIAL MEDIA"
+    },
+    {
+        "tr": "Yol Tarifi Al",
+        "en": "Get Directions"
+    },
+    {
+        "tr": "Yetkili Bayii",
+        "en": "Authorized Dealer"
+    },
+    {
+        "tr": "SUÇEK, MESH Çelik Ağ yetkili bayii olarak inşaat güvenliğinden balkon korumaya kadar her ihtiyaca özel çelik güvenlik ağı çözümleri sunmaktadır.",
+        "en": "As an authorized dealer of MESH Steel Net, SUÇEK offers tailored steel safety net solutions for every need, from construction safety to balcony protection."
+    },
+    {
+        "tr": "Çelik",
+        "en": "Steel"
+    },
+    {
+        "tr": "Yıllık Tecrübe",
+        "en": "Years of Experience"
+    },
+    {
+        "tr": "Tamamlanan Proje",
+        "en": "Completed Projects"
+    },
+    {
+        "tr": "Sertifikalı Üretim",
+        "en": "Certified Production"
+    },
+    {
+        "tr": "UYGULAMA ALANLARI",
+        "en": "APPLICATION AREAS"
+    },
+    {
+        "tr": "Nerelerde Kullanılır?",
+        "en": "Where Is It Used?"
+    },
+    {
+        "tr": "İnşaat Güvenliği",
+        "en": "Construction Safety"
+    },
+    {
+        "tr": "Balkon & Teras",
+        "en": "Balcony & Terrace"
+    },
+    {
+        "tr": "Endüstriyel Alan",
+        "en": "Industrial Area"
+    },
+    {
+        "tr": "Yüksek Güvenlik",
+        "en": "High Safety"
+    },
+    {
+        "tr": "EN ISO 1263 standartları",
+        "en": "EN ISO 1263 standards"
+    },
+    {
+        "tr": "Özel Ölçü",
+        "en": "Custom Size"
+    },
+    {
+        "tr": "Her projeye uygun boyut",
+        "en": "Sized to fit every project"
+    },
+    {
+        "tr": "Sertifikalı Ürün",
+        "en": "Certified Product"
+    },
+    {
+        "tr": "TSE belgeli üretim",
+        "en": "TSE-certified production"
+    },
+    {
+        "tr": "Teknik Destek",
+        "en": "Technical Support"
+    },
+    {
+        "tr": "Montaj & uygulama rehberliği",
+        "en": "Installation & application guidance"
+    },
+    {
+        "tr": "Referans Proje",
+        "en": "Reference Project"
+    },
+    {
+        "tr": "ÜRÜN KATALOĞU",
+        "en": "PRODUCT CATALOG"
+    },
+    {
+        "tr": "Güvenlik Ağı Ürünleri",
+        "en": "Safety Net Products"
+    },
+    {
+        "tr": "Ürünler Yakında",
+        "en": "Products Coming Soon"
+    },
+    {
+        "tr": "Çelik güvenlik ağı ürün kataloğumuz hazırlanmaktadır. Fiyat ve bilgi almak için bizimle iletişime geçin.",
+        "en": "Our steel safety net product catalog is being prepared. Contact us for pricing and information."
+    },
+    {
+        "tr": "Projeniz için teklif alın",
+        "en": "Get a quote for your project"
+    },
+    {
+        "tr": "Alanınızı ve ihtiyacınızı belirtin, size en uygun çözümü sunalım.",
+        "en": "Tell us about your area and needs, and we'll offer you the best solution."
+    },
+    {
+        "tr": "Teklif Formu",
+        "en": "Quote Form"
+    },
+    {
+        "tr": "Hafif Çelik ve Konteyner",
+        "en": "Light Steel and Container"
+    },
+    {
+        "tr": "SUÇEK hafif çelik yapı ve konteyner çözümleri.",
+        "en": "SUÇEK light steel structure and container solutions."
+    },
+    {
+        "tr": "SUÇEK İNŞAAT",
+        "en": "SUÇEK CONSTRUCTION"
+    },
+    {
+        "tr": "Hafif Çelik",
+        "en": "Light Steel"
+    },
+    {
+        "tr": "ve Konteyner",
+        "en": "and Container"
+    },
+    {
+        "tr": "PROJE GALERİSİ",
+        "en": "PROJECT GALLERY"
+    },
+    {
+        "tr": "Hafif Çelik ve Konteyner Projeleri",
+        "en": "Light Steel and Container Projects"
+    },
+    {
+        "tr": "Projeler Yakında",
+        "en": "Projects Coming Soon"
+    },
+    {
+        "tr": "Hafif çelik ve konteyner proje galerimiz hazırlanmaktadır. Bilgi almak için bizimle iletişime geçin.",
+        "en": "Our light steel and container project gallery is being prepared. Contact us for information."
+    },
+    {
+        "tr": "SUÇEK mimarlık ve inşaat projeleri: tamamlanan projelerimizi inceleyin.",
+        "en": "SUÇEK architecture and construction projects: browse our completed projects."
+    },
+    {
+        "tr": "Projeler hero",
+        "en": "Projects hero"
+    },
+    {
+        "tr": "PORTFÖLYOMİZ",
+        "en": "OUR PORTFOLIO"
+    },
+    {
+        "tr": "Tamamladığımız mimarlık ve inşaat projelerini inceleyin.",
+        "en": "Browse the architecture and construction projects we have completed."
+    },
+    {
+        "tr": "Öne Çıkan",
+        "en": "Featured"
+    },
+    {
+        "tr": "BİRLİKTE ÇALIŞALIM",
+        "en": "LET'S WORK TOGETHER"
+    },
+    {
+        "tr": "Projenizi Konuşalım",
+        "en": "Let's Discuss Your Project"
+    },
+    {
+        "tr": "Yeni projeniz için ücretsiz ön görüşme talep edin.",
+        "en": "Request a free consultation for your new project."
+    },
+    {
+        "tr": "Ana Sayfa",
+        "en": "Home"
+    },
+    {
+        "tr": "Projeler",
+        "en": "Projects"
+    },
+    {
+        "tr": "Proje Bilgileri",
+        "en": "Project Information"
+    },
+    {
+        "tr": "Kategori",
+        "en": "Category"
+    },
+    {
+        "tr": "Alt Kategori",
+        "en": "Subcategory"
+    },
+    {
+        "tr": "Konum",
+        "en": "Location"
+    },
+    {
+        "tr": "Yıl",
+        "en": "Year"
+    },
+    {
+        "tr": "Benzer Proje Talep Et",
+        "en": "Request a Similar Project"
+    },
+    {
+        "tr": "Diğer Projeler",
+        "en": "Other Projects"
+    },
+    {
+        "tr": "Mimarlık · İnşaat · Koleksiyon",
+        "en": "Architecture · Construction · Collection"
+    },
+    {
+        "tr": "Koleksiyonunuza özel <em>ayrıcalıklı<\/em> erişim.",
+        "en": "<em>Exclusive<\/em> access to your collection."
+    },
+    {
+        "tr": "Teklif geçmişinizi takip edin, koleksiyondaki nadide eserlere teklif verin.",
+        "en": "Track your offer history and bid on rare items in the collection."
+    },
+    {
+        "tr": "Teklif geçmişinize anında erişin",
+        "en": "Instant access to your offer history"
+    },
+    {
+        "tr": "Yeni eserlerde öncelikli bildirim",
+        "en": "Priority notification for new items"
+    },
+    {
+        "tr": "Güvenli ödeme ve iletişim",
+        "en": "Secure payment and communication"
+    },
+    {
+        "tr": "Giriş Yapın",
+        "en": "Log In"
+    },
+    {
+        "tr": "Hesabınıza erişmek için bilgilerinizi girin.",
+        "en": "Enter your details to access your account."
+    },
+    {
+        "tr": "E-posta Adresi",
+        "en": "Email Address"
+    },
+    {
+        "tr": "Şifre",
+        "en": "Password"
+    },
+    {
+        "tr": "Şifremi Unuttum",
+        "en": "Forgot Password"
+    },
+    {
+        "tr": "Şifreyi gizle",
+        "en": "Hide password"
+    },
+    {
+        "tr": "Şifreyi göster",
+        "en": "Show password"
+    },
+    {
+        "tr": "Beni hatırla",
+        "en": "Remember me"
+    },
+    {
+        "tr": "Hesabınız yok mu?",
+        "en": "Don't have an account?"
+    },
+    {
+        "tr": "Üye Olun",
+        "en": "Sign Up"
+    },
+    {
+        "tr": "Nadir eserlere <em>özel erişim<\/em> için üye olun.",
+        "en": "Sign up for <em>exclusive access<\/em> to rare items."
+    },
+    {
+        "tr": "Koleksiyon ürünlerimize teklif verin, süreçleri takip edin.",
+        "en": "Bid on our collection items and track the process."
+    },
+    {
+        "tr": "Teklif Ver",
+        "en": "Make an Offer"
+    },
+    {
+        "tr": "Koleksiyon eserlerine doğrudan teklif gönderin",
+        "en": "Send offers directly on collection items"
+    },
+    {
+        "tr": "Geçmiş",
+        "en": "History"
+    },
+    {
+        "tr": "Tüm tekliflerinizi ve durumlarını görün",
+        "en": "View all your offers and their statuses"
+    },
+    {
+        "tr": "Güvenli",
+        "en": "Secure"
+    },
+    {
+        "tr": "Verileriniz şifreli olarak korunur",
+        "en": "Your data is protected with encryption"
+    },
+    {
+        "tr": "Birkaç adımda hesabınızı oluşturun.",
+        "en": "Create your account in a few steps."
+    },
+    {
+        "tr": "En az 8 karakter",
+        "en": "At least 8 characters"
+    },
+    {
+        "tr": "Şifre Tekrar",
+        "en": "Confirm Password"
+    },
+    {
+        "tr": "Şifrenizi tekrar girin",
+        "en": "Re-enter your password"
+    },
+    {
+        "tr": "İletişim bilgilerime e-ileti ve SMS gönderilmesine izin veriyorum.",
+        "en": "I consent to receiving email and SMS communications."
+    },
+    {
+        "tr": "Kişisel verilerimin işlenmesine ait",
+        "en": "Regarding the processing of my personal data, I have read and accept the"
+    },
+    {
+        "tr": "KVKK Aydınlatma Metnini",
+        "en": "Personal Data Protection Notice"
+    },
+    {
+        "tr": "okudum ve onaylıyorum.",
+        "en": "and approve."
+    },
+    {
+        "tr": "Hesap Oluştur",
+        "en": "Create Account"
+    },
+    {
+        "tr": "Bu site Google reCAPTCHA ile korunmaktadır.",
+        "en": "This site is protected by Google reCAPTCHA."
+    },
+    {
+        "tr": "Zaten hesabınız var mı?",
+        "en": "Already have an account?"
+    },
+    {
+        "tr": "Şifrenizi <em>güvenle<\/em> sıfırlayın.",
+        "en": "Reset your password <em>securely<\/em>."
+    },
+    {
+        "tr": "E-posta adresinize sıfırlama bağlantısı göndereceğiz. Birkaç dakika içinde yeni şifrenizi belirleyebilirsiniz.",
+        "en": "We'll send a reset link to your email address. You can set your new password within a few minutes."
+    },
+    {
+        "tr": "Kayıtlı e-posta adresinizi girin, sıfırlama bağlantısı gönderelim.",
+        "en": "Enter your registered email address and we'll send you a reset link."
+    },
+    {
+        "tr": "Sıfırlama Bağlantısı Gönder",
+        "en": "Send Reset Link"
+    },
+    {
+        "tr": "Şifrenizi hatırladınız mı?",
+        "en": "Remembered your password?"
+    },
+    {
+        "tr": "Yeni Şifre Belirle",
+        "en": "Set New Password"
+    },
+    {
+        "tr": "Yeni şifrenizi <em>belirleyin.<\/em>",
+        "en": "<em>Set<\/em> your new password."
+    },
+    {
+        "tr": "Güçlü bir şifre seçin. En az 8 karakter uzunluğunda olmalıdır.",
+        "en": "Choose a strong password. It must be at least 8 characters long."
+    },
+    {
+        "tr": "Hesabınız için yeni bir şifre oluşturun.",
+        "en": "Create a new password for your account."
+    },
+    {
+        "tr": "Yeni Şifre",
+        "en": "New Password"
+    },
+    {
+        "tr": "Şifremi Sıfırla",
+        "en": "Reset My Password"
+    },
+    {
+        "tr": "Tekrar sıfırlama bağlantısı iste",
+        "en": "Request another reset link"
+    },
+    {
+        "tr": "Sıkça Sorulan Sorular",
+        "en": "Frequently Asked Questions"
+    },
+    {
+        "tr": "Son güncelleme:",
+        "en": "Last updated:"
+    },
+    {
+        "tr": "DİĞER YASAL SAYFALAR",
+        "en": "OTHER LEGAL PAGES"
+    },
+    {
+        "tr": "Hesabım",
+        "en": "My Account"
+    },
+    {
+        "tr": "ÜYE TARİHİ:",
+        "en": "MEMBER SINCE:"
+    },
+    {
+        "tr": "Çıkış Yap",
+        "en": "Log Out"
+    },
+    {
+        "tr": "Sipariş",
+        "en": "Order"
+    },
+    {
+        "tr": "Teklif",
+        "en": "Offer"
+    },
+    {
+        "tr": "Beklemede",
+        "en": "Pending"
+    },
+    {
+        "tr": "Kabul",
+        "en": "Accepted"
+    },
+    {
+        "tr": "Siparişlerim",
+        "en": "My Orders"
+    },
+    {
+        "tr": "Tekliflerim",
+        "en": "My Offers"
+    },
+    {
+        "tr": "Adres & Fatura",
+        "en": "Address & Billing"
+    },
+    {
+        "tr": "Profil",
+        "en": "Profile"
+    },
+    {
+        "tr": "Henüz sipariş vermediniz",
+        "en": "You haven't placed an order yet"
+    },
+    {
+        "tr": "Mağaza ve koleksiyon ürünlerini keşfederek alışverişe başlayabilirsiniz.",
+        "en": "Start shopping by exploring our store and collection products."
+    },
+    {
+        "tr": "Henüz teklif vermediniz",
+        "en": "You haven't made an offer yet"
+    },
+    {
+        "tr": "Koleksiyon ürünlerine göz atarak teklif verebilirsiniz.",
+        "en": "You can browse the collection items and make an offer."
+    },
+    {
+        "tr": "Koleksiyona Göz At",
+        "en": "Browse Collection"
+    },
+    {
+        "tr": "Kargo Adresi",
+        "en": "Shipping Address"
+    },
+    {
+        "tr": "Teslimat adresi",
+        "en": "Delivery address"
+    },
+    {
+        "tr": "Posta Kodu",
+        "en": "Postal Code"
+    },
+    {
+        "tr": "Mahalle, sokak, kapı no, daire",
+        "en": "Neighborhood, street, door no, apartment"
+    },
+    {
+        "tr": "İl",
+        "en": "Province"
+    },
+    {
+        "tr": "İlçe",
+        "en": "District"
+    },
+    {
+        "tr": "Kaydet",
+        "en": "Save"
+    },
+    {
+        "tr": "Fatura Bilgileri",
+        "en": "Billing Information"
+    },
+    {
+        "tr": "Fatura adresi ve şirket bilgileri",
+        "en": "Billing address and company information"
+    },
+    {
+        "tr": "Fatura Tipi",
+        "en": "Invoice Type"
+    },
+    {
+        "tr": "Bireysel",
+        "en": "Individual"
+    },
+    {
+        "tr": "Kurumsal",
+        "en": "Corporate"
+    },
+    {
+        "tr": "Şirket Adı",
+        "en": "Company Name"
+    },
+    {
+        "tr": "Vergi Dairesi",
+        "en": "Tax Office"
+    },
+    {
+        "tr": "Vergi No",
+        "en": "Tax Number"
+    },
+    {
+        "tr": "Kişisel Bilgiler",
+        "en": "Personal Information"
+    },
+    {
+        "tr": "Doğum Tarihi",
+        "en": "Date of Birth"
+    },
+    {
+        "tr": "Gün",
+        "en": "Day"
+    },
+    {
+        "tr": "Ay",
+        "en": "Month"
+    },
+    {
+        "tr": "Ocak",
+        "en": "January"
+    },
+    {
+        "tr": "Şubat",
+        "en": "February"
+    },
+    {
+        "tr": "Mart",
+        "en": "March"
+    },
+    {
+        "tr": "Nisan",
+        "en": "April"
+    },
+    {
+        "tr": "Mayıs",
+        "en": "May"
+    },
+    {
+        "tr": "Haziran",
+        "en": "June"
+    },
+    {
+        "tr": "Temmuz",
+        "en": "July"
+    },
+    {
+        "tr": "Ağustos",
+        "en": "August"
+    },
+    {
+        "tr": "Eylül",
+        "en": "September"
+    },
+    {
+        "tr": "Ekim",
+        "en": "October"
+    },
+    {
+        "tr": "Kasım",
+        "en": "November"
+    },
+    {
+        "tr": "Aralık",
+        "en": "December"
+    },
+    {
+        "tr": "SMS bildirimi almak istiyorum",
+        "en": "I want to receive SMS notifications"
+    },
+    {
+        "tr": "Bilgileri Güncelle",
+        "en": "Update Information"
+    },
+    {
+        "tr": "Şifre Değiştir",
+        "en": "Change Password"
+    },
+    {
+        "tr": "Mevcut Şifre",
+        "en": "Current Password"
+    },
+    {
+        "tr": "Yeni Şifre Tekrar",
+        "en": "Confirm New Password"
+    },
+    {
+        "tr": "Şifreyi Değiştir",
+        "en": "Change Password"
+    },
+    {
+        "tr": "Haberler",
+        "en": "News"
+    },
+    {
+        "tr": "SUÇEK topluluğuna özel güncel haberler ve duyurular.",
+        "en": "Current news and announcements exclusive to the SUÇEK community."
+    },
+    {
+        "tr": "Oku",
+        "en": "Read"
+    },
+    {
+        "tr": "Premium",
+        "en": "Premium"
+    },
+    {
+        "tr": "Soy Ağacı",
+        "en": "Family Tree"
+    },
+    {
+        "tr": "Yaklaşık Maliyet & Teklif",
+        "en": "Estimated Cost & Quote"
+    },
+    {
+        "tr": "Suçek Üye",
+        "en": "Suçek Member"
+    },
+    {
+        "tr": "Özel İçerikler",
+        "en": "Exclusive Content"
+    },
+    {
+        "tr": "Güncel duyurular",
+        "en": "Current announcements"
+    },
+    {
+        "tr": "Aile ağacını görüntüle",
+        "en": "View family tree"
+    },
+    {
+        "tr": "Tüm Haberler",
+        "en": "All News"
+    },
+    {
+        "tr": "Diğer Haberler",
+        "en": "Other News"
+    }
+]
