@@ -113,6 +113,7 @@
           <div class="bg-white border border-[#E2E8F0] rounded-xl shadow-[0_8px_32px_rgba(15,23,42,0.12)] py-1.5" role="menu">
             <a href="{{ route('magaza.index', ['kategori' => 'spor']) }}" class="block px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">Spor Malzemeleri</a>
             <a href="{{ route('magaza.index', ['kategori' => 'insaat']) }}" class="block px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">İnşaat Malzemeleri</a>
+            <a href="{{ route('koleksiyon.index', ['kategori' => 'antika']) }}" class="block px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">Antika</a>
           </div>
         </div>
       </div>
@@ -139,7 +140,6 @@
           <div class="bg-white border border-[#E2E8F0] rounded-xl shadow-[0_8px_32px_rgba(15,23,42,0.12)] py-1.5" role="menu">
             <a href="{{ route('koleksiyon.index', ['kategori' => 'saat']) }}" class="block px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">Saat</a>
             <a href="{{ route('koleksiyon.index', ['kategori' => 'numizmatik']) }}" class="block px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">Nümizmatik</a>
-            <a href="{{ route('koleksiyon.index', ['kategori' => 'antika']) }}" class="block px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">Antika</a>
           </div>
         </div>
       </div>
