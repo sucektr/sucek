@@ -46,23 +46,45 @@
     @endforeach
   </div>
 
-  {{-- Ülke Filtresi (sadece Nümizmatik) --}}
+  {{-- Ülke Filtresi (sadece Nümizmatik) — aranabilir açılır liste --}}
   @if($kategori === 'numizmatik' && $ulkeler->count() > 0)
-  <div class="flex flex-wrap items-center gap-2 mb-7" role="group" aria-label="Ülke filtresi">
-    <span class="text-[11px] font-medium text-[#94A3B8] uppercase tracking-wide mr-1">Ülke:</span>
-    <a href="{{ route('koleksiyon.index', ['kategori' => 'numizmatik']) }}"
-       class="px-3 py-1 text-[12px] font-medium rounded-full border transition-all duration-200
-              {{ !$ulke ? 'bg-[#0F172A] text-white border-transparent' : 'bg-white text-[#64748B] border-[#E2E8F0] hover:border-[#CBD5E1] hover:text-[#0F172A]' }}">
-      Tümü
-    </a>
-    @foreach($ulkeler as $u)
-    <a href="{{ route('koleksiyon.index', ['kategori' => 'numizmatik', 'ulke' => $u]) }}"
-       class="px-3 py-1 text-[12px] font-medium rounded-full border transition-all duration-200
-              {{ $ulke === $u ? 'bg-[#0F172A] text-white border-transparent' : 'bg-white text-[#64748B] border-[#E2E8F0] hover:border-[#CBD5E1] hover:text-[#0F172A]' }}"
-       aria-current="{{ $ulke === $u ? 'true' : 'false' }}">
-      {{ $u }}
-    </a>
-    @endforeach
+  <div class="relative max-w-xs mb-7"
+       x-data="{
+         open: false,
+         q: '',
+         ulkeler: @js($ulkeler),
+         secili: @js($ulke),
+         get filtered() {
+           return this.q === '' ? this.ulkeler : this.ulkeler.filter(u => u.toLowerCase().includes(this.q.toLowerCase()));
+         },
+         git(u) {
+           window.location = '{{ route('koleksiyon.index', ['kategori' => 'numizmatik']) }}' + (u ? '?ulke=' + encodeURIComponent(u) : '');
+         }
+       }"
+       @click.outside="open = false">
+    <label class="block text-[11px] font-medium text-[#94A3B8] uppercase tracking-wide mb-1.5">Ülke</label>
+    <div class="relative">
+      <input type="text" x-model="q" @focus="open = true"
+             placeholder="{{ $ulke ?: 'Tüm ülkeler' }}"
+             class="w-full pl-4 pr-9 py-2.5 text-[13px] border border-[#E2E8F0] rounded-lg focus:outline-none focus:border-[#CC2200] focus:ring-2 focus:ring-[rgba(204,34,0,0.08)] transition-colors"
+             aria-label="Ülke ara">
+      <i class="ti ti-search text-[14px] text-[#94A3B8] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" aria-hidden="true"></i>
+      <div x-show="open" x-transition style="display:none;"
+           class="absolute z-20 mt-1.5 w-full max-h-64 overflow-y-auto bg-white border border-[#E2E8F0] rounded-lg shadow-[0_8px_24px_rgba(15,23,42,0.10)] py-1">
+        <button type="button" @click="git(''); open = false"
+                class="w-full text-left px-4 py-2 text-[13px] hover:bg-[#F8FAFC] transition-colors"
+                :class="!secili ? 'text-[#CC2200] font-semibold' : 'text-[#64748B]'">
+          Tüm ülkeler
+        </button>
+        <template x-for="u in filtered" :key="u">
+          <button type="button" @click="git(u); open = false"
+                  class="w-full text-left px-4 py-2 text-[13px] hover:bg-[#F8FAFC] transition-colors"
+                  :class="u === secili ? 'text-[#CC2200] font-semibold' : 'text-[#64748B]'"
+                  x-text="u"></button>
+        </template>
+        <p x-show="filtered.length === 0" style="display:none;" class="px-4 py-2 text-[12px] text-[#94A3B8]">Eşleşen ülke yok</p>
+      </div>
+    </div>
   </div>
   @endif
 
