@@ -55,7 +55,7 @@ $heroPaneller = [
   ],
   [
     'id' => 'celikkonteyner', 'kicker' => 'İNŞAAT ÇÖZÜMLERİ', 'title' => 'Hafif Çelik & Konteyner',
-    'image' => icerik_gorsel('hafif-celik-konteyner','hero_gorsel','https://images.unsplash.com/photo-1541976590-713941681591?w=800&q=80'),
+    'image' => icerik_gorsel('anasayfa','hafifcelik_gorsel','https://images.unsplash.com/photo-1541976590-713941681591?w=800&q=80'),
     'href' => route('hafif-celik-konteyner.index'),
     'subLinks' => [],
   ],
@@ -83,7 +83,7 @@ $heroPaneller = [
   ],
   [
     'id' => 'celikag', 'kicker' => 'GÜVENLİK', 'title' => 'Çelik Güvenlik Ağı',
-    'image' => icerik_gorsel('celik-guvenlik-agi','hero_gorsel','/images/mesh/hizmet-4.webp'),
+    'image' => icerik_gorsel('anasayfa','celikag_gorsel','/images/mesh/hizmet-4.webp'),
     'href' => route('celik-guvenlik-agi.index'),
     'subLinks' => [],
   ],
