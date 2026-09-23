@@ -76,8 +76,9 @@ $heroPaneller = [
     'image' => icerik_gorsel('anasayfa','koleksiyon_gorsel','https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=800&q=80'),
     'href' => route('koleksiyon.index'),
     'subLinks' => [
-      ['icon' => 'ti-clock', 'label' => 'Saat',        'href' => route('koleksiyon.index', ['kategori' => 'saat'])],
-      ['icon' => 'ti-coin',  'label' => 'Nümizmatik',  'href' => route('koleksiyon.index', ['kategori' => 'numizmatik'])],
+      ['icon' => 'ti-clock',   'label' => 'Saat',       'href' => route('koleksiyon.index', ['kategori' => 'saat'])],
+      ['icon' => 'ti-coin',    'label' => 'Nümizmatik', 'href' => route('koleksiyon.index', ['kategori' => 'numizmatik'])],
+      ['icon' => 'ti-diamond', 'label' => 'Antika',     'href' => route('koleksiyon.index', ['kategori' => 'antika'])],
     ],
   ],
   [
