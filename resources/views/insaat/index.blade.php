@@ -108,4 +108,17 @@
   </div>
 </section>
 
+<section class="section pt-0">
+  <div class="bg-[#141414] rounded-[16px] px-6 lg:px-16 py-10 lg:py-12 flex flex-col lg:flex-row items-center justify-between gap-6 text-center lg:text-left">
+    <div>
+      <h2 class="font-display text-[28px] lg:text-[34px] font-semibold text-white mb-2">{{ icerik('insaat','emsal_cta_baslik','Arsanızın Emsal Hakkını Hesaplayın') }}</h2>
+      <p class="text-[13px] text-[rgba(255,255,255,0.50)]">{{ icerik('insaat','emsal_cta_metin','İmar durumuna göre inşaat alanı hakkınızı anında öğrenin.') }}</p>
+    </div>
+    <a href="{{ route('insaat.emsal') }}"
+       class="btn bg-white text-[#0F0F0F] text-[10px] tracking-[1.5px] px-8 py-3.5 min-h-[44px] justify-center hover:bg-[#F0F0F0] transition-colors rounded-[8px] shrink-0">
+      <i class="ti ti-ruler-measure text-sm mr-1" aria-hidden="true"></i> Emsal Hesapla
+    </a>
+  </div>
+</section>
+
 @endsection
