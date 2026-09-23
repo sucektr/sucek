@@ -41,7 +41,7 @@ class IcerikController extends Controller
             'anasayfa' => [
                 'baslik'   => 'Ana Sayfa',
                 'ikon'     => 'ti-home',
-                'aciklama' => 'Banner, hero kart görselleri, yaklaşım, referanslar + SEO',
+                'aciklama' => 'Banner, hero kart görselleri (6/8 — Çelik Güvenlik Ağı ve Hafif Çelik ve Konteyner görselleri kendi sayfa bölümlerinden yönetilir), yaklaşım, referanslar + SEO',
                 'alanlar'  => [
                     ['alan' => 'banner_metni',      'baslik' => 'Banner Metni',                                  'tip' => 'metin',    'sira' => 1],
                     ['alan' => 'banner_link',        'baslik' => 'Banner Linki (boş = otomatik mağaza sayfası)', 'tip' => 'url',      'sira' => 2],
