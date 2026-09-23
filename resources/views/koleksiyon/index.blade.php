@@ -46,6 +46,26 @@
     @endforeach
   </div>
 
+  {{-- Ülke Filtresi (sadece Nümizmatik) --}}
+  @if($kategori === 'numizmatik' && $ulkeler->count() > 0)
+  <div class="flex flex-wrap items-center gap-2 mb-7" role="group" aria-label="Ülke filtresi">
+    <span class="text-[11px] font-medium text-[#94A3B8] uppercase tracking-wide mr-1">Ülke:</span>
+    <a href="{{ route('koleksiyon.index', ['kategori' => 'numizmatik']) }}"
+       class="px-3 py-1 text-[12px] font-medium rounded-full border transition-all duration-200
+              {{ !$ulke ? 'bg-[#0F172A] text-white border-transparent' : 'bg-white text-[#64748B] border-[#E2E8F0] hover:border-[#CBD5E1] hover:text-[#0F172A]' }}">
+      Tümü
+    </a>
+    @foreach($ulkeler as $u)
+    <a href="{{ route('koleksiyon.index', ['kategori' => 'numizmatik', 'ulke' => $u]) }}"
+       class="px-3 py-1 text-[12px] font-medium rounded-full border transition-all duration-200
+              {{ $ulke === $u ? 'bg-[#0F172A] text-white border-transparent' : 'bg-white text-[#64748B] border-[#E2E8F0] hover:border-[#CBD5E1] hover:text-[#0F172A]' }}"
+       aria-current="{{ $ulke === $u ? 'true' : 'false' }}">
+      {{ $u }}
+    </a>
+    @endforeach
+  </div>
+  @endif
+
   {{-- Grid --}}
   @if($koleksiyonlar->count() > 0)
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -77,6 +97,9 @@
       </a>
       <div class="p-4">
         <h3 class="text-[15px] font-semibold text-[#0F172A] mb-1 leading-snug tracking-tight">{{ $item->ad }}</h3>
+        @if($item->ulke)
+        <p class="text-[11px] text-[#94A3B8] mb-1.5 flex items-center gap-1"><i class="ti ti-map-pin text-xs"></i>{{ $item->ulke }}</p>
+        @endif
         @if($item->aciklama)
         <p class="text-[12px] text-[#64748B] line-clamp-2 mb-3">{{ $item->aciklama }}</p>
         @endif

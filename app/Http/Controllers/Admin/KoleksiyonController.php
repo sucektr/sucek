@@ -26,7 +26,8 @@ class KoleksiyonController extends Controller
 
     public function create()
     {
-        return view('admin.koleksiyonlar.form', ['koleksiyon' => new \App\Models\Koleksiyon]);
+        $ulkeler = \App\Models\Koleksiyon::whereNotNull('ulke')->distinct()->orderBy('ulke')->pluck('ulke');
+        return view('admin.koleksiyonlar.form', ['koleksiyon' => new \App\Models\Koleksiyon, 'ulkeler' => $ulkeler]);
     }
 
     public function store(Request $request)
@@ -35,6 +36,7 @@ class KoleksiyonController extends Controller
             'ad'           => 'required|string|max:200',
             'slug'         => 'required|string|max:200|unique:koleksiyonlar,slug',
             'kategori'     => 'required|string|max:100',
+            'ulke'         => 'nullable|string|max:100',
             'fiyat'        => 'nullable|numeric|min:0',
             'aciklama'     => 'nullable|string',
             'stok_kodu'    => 'nullable|string|max:50',
@@ -48,7 +50,7 @@ class KoleksiyonController extends Controller
             'one_cikan'       => 'boolean',
         ]);
 
-        $data = $request->only(['ad', 'slug', 'kategori', 'fiyat', 'aciklama', 'stok_kodu', 'durum']);
+        $data = $request->only(['ad', 'slug', 'kategori', 'ulke', 'fiyat', 'aciklama', 'stok_kodu', 'durum']);
         $data['kargo_bedeli']   = $request->input('kargo_bedeli', 0);
         $data['kargo_kim_oder'] = $request->input('kargo_kim_oder', 'magaza');
 
@@ -86,7 +88,8 @@ class KoleksiyonController extends Controller
 
     public function edit(\App\Models\Koleksiyon $koleksiyon)
     {
-        return view('admin.koleksiyonlar.form', compact('koleksiyon'));
+        $ulkeler = \App\Models\Koleksiyon::whereNotNull('ulke')->distinct()->orderBy('ulke')->pluck('ulke');
+        return view('admin.koleksiyonlar.form', compact('koleksiyon', 'ulkeler'));
     }
 
     public function update(Request $request, \App\Models\Koleksiyon $koleksiyon)
@@ -95,6 +98,7 @@ class KoleksiyonController extends Controller
             'ad'           => 'required|string|max:200',
             'slug'         => 'required|string|max:200|unique:koleksiyonlar,slug,'.$koleksiyon->id,
             'kategori'     => 'required|string|max:100',
+            'ulke'         => 'nullable|string|max:100',
             'fiyat'        => 'nullable|numeric|min:0',
             'aciklama'     => 'nullable|string',
             'stok_kodu'    => 'nullable|string|max:50',
@@ -112,7 +116,7 @@ class KoleksiyonController extends Controller
             'one_cikan'       => 'boolean',
         ]);
 
-        $data = $request->only(['ad', 'slug', 'kategori', 'fiyat', 'aciklama', 'stok_kodu', 'durum']);
+        $data = $request->only(['ad', 'slug', 'kategori', 'ulke', 'fiyat', 'aciklama', 'stok_kodu', 'durum']);
         $data['kargo_bedeli']   = $request->input('kargo_bedeli', 0);
         $data['kargo_kim_oder'] = $request->input('kargo_kim_oder', 'magaza');
 

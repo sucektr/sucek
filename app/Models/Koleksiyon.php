@@ -11,7 +11,7 @@ class Koleksiyon extends Model
 
     protected $table = 'koleksiyonlar';
     protected $fillable = [
-        'ad','slug','aciklama','kategori','fiyat','gorsel','gorseller',
+        'ad','slug','aciklama','kategori','ulke','fiyat','gorsel','gorseller',
         'dosyalar','ozellikler','stok_kodu','durum','aktif','one_cikan',
         'kargo_bedeli','kargo_kim_oder',
     ];
