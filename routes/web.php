@@ -44,6 +44,7 @@ Route::get('/uploads/{path}', function (string $path) {
 
 // Google Merchant Center ürün feed'i
 Route::get('/feed.xml', [MerchantFeedController::class, 'feed'])->name('merchant.feed');
+Route::get('/koleksiyon-feed.xml', [MerchantFeedController::class, 'koleksiyonFeed'])->name('merchant.koleksiyon-feed');
 
 // Dil değiştirme
 Route::get('/dil/{dil}', function (string $dil) {

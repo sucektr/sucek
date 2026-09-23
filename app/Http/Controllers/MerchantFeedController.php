@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Koleksiyon;
 use App\Models\Urun;
 use Illuminate\Http\Response;
 
@@ -56,6 +57,59 @@ class MerchantFeedController extends Controller
             if ($urun->kategori) {
                 $xml .= '      <g:product_type>' . e($urun->kategori) . '</g:product_type>' . "\n";
             }
+            $xml .= '    </item>' . "\n";
+        }
+
+        $xml .= '  </channel>' . "\n";
+        $xml .= '</rss>';
+
+        return response($xml, 200, [
+            'Content-Type'  => 'application/xml; charset=UTF-8',
+            'Cache-Control' => 'public, max-age=3600',
+        ]);
+    }
+
+    public function koleksiyonFeed(): Response
+    {
+        // Sadece satista, fiyati girilmis (fiyatsiz = "Teklif Ver" akisi) urunler feed'e girer.
+        $urunler = Koleksiyon::where('aktif', true)
+            ->where('durum', 'satista')
+            ->whereNotNull('fiyat')
+            ->where('fiyat', '>', 0)
+            ->orderBy('id')
+            ->get();
+
+        $sirketAdi = icerik('site', 'sirket_adi', 'SUÇEK');
+        $siteUrl   = rtrim(url('/'), '/');
+
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+        $xml .= '<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">' . "\n";
+        $xml .= '  <channel>' . "\n";
+        $xml .= '    <title>' . e($sirketAdi) . ' Koleksiyon</title>' . "\n";
+        $xml .= '    <link>' . $siteUrl . '</link>' . "\n";
+        $xml .= '    <description>' . e($sirketAdi) . ' antika, saat ve nümizmatik koleksiyonu</description>' . "\n";
+
+        foreach ($urunler as $item) {
+            $fiyat     = number_format((float) $item->fiyat, 2, '.', '') . ' TRY';
+            $link      = $siteUrl . '/koleksiyon/' . $item->slug;
+            $gorselUrl = $item->gorsel ? $siteUrl . '/storage/' . $item->gorsel : '';
+            $aciklama  = strip_tags($item->aciklama ?? '');
+            $aciklama  = mb_substr($aciklama, 0, 5000);
+            $urunTipi  = $item->kategori . ($item->ulke ? ' > ' . $item->ulke : '');
+
+            $xml .= '    <item>' . "\n";
+            $xml .= '      <g:id>' . e($item->stok_kodu ?: 'koleksiyon-' . $item->id) . '</g:id>' . "\n";
+            $xml .= '      <g:title>' . e($item->ad) . '</g:title>' . "\n";
+            $xml .= '      <g:description>' . e($aciklama ?: $item->ad) . '</g:description>' . "\n";
+            $xml .= '      <g:link>' . e($link) . '</g:link>' . "\n";
+            if ($gorselUrl) {
+                $xml .= '      <g:image_link>' . e($gorselUrl) . '</g:image_link>' . "\n";
+            }
+            $xml .= '      <g:price>' . $fiyat . '</g:price>' . "\n";
+            $xml .= '      <g:availability>in_stock</g:availability>' . "\n";
+            $xml .= '      <g:condition>used</g:condition>' . "\n";
+            $xml .= '      <g:identifier_exists>false</g:identifier_exists>' . "\n";
+            $xml .= '      <g:product_type>' . e($urunTipi) . '</g:product_type>' . "\n";
             $xml .= '    </item>' . "\n";
         }
 
