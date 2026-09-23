@@ -2,8 +2,7 @@
 @php
   $mimarlikAktif   = request()->routeIs('mimarlik.*');
   $insaatAktif     = request()->routeIs('insaat.*');
-  $magazaAktif     = request()->routeIs('magaza.*');
-  $koleksiyonAktif = request()->routeIs('koleksiyon.*');
+  $magazaAktif     = request()->routeIs('magaza.*') || request()->routeIs('koleksiyon.*');
   $projelerAktif   = request()->routeIs('projeler.*');
 @endphp
 <nav class="sticky top-0 z-40 bg-white border-b border-[#E2E8F0]"
@@ -113,33 +112,7 @@
           <div class="bg-white border border-[#E2E8F0] rounded-xl shadow-[0_8px_32px_rgba(15,23,42,0.12)] py-1.5" role="menu">
             <a href="{{ route('magaza.index', ['kategori' => 'spor']) }}" class="block px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">Spor Malzemeleri</a>
             <a href="{{ route('magaza.index', ['kategori' => 'insaat']) }}" class="block px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">İnşaat Malzemeleri</a>
-            <a href="{{ route('koleksiyon.index', ['kategori' => 'antika']) }}" class="block px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">Antika</a>
-          </div>
-        </div>
-      </div>
-
-      {{-- Koleksiyon --}}
-      <div class="nav-item group relative"
-           x-data="{ open: false, isActive: {{ $koleksiyonAktif ? 'true' : 'false' }} }"
-           @mouseenter="open=true" @mouseleave="open=false"
-           @focusin="open=true" @focusout="open=false">
-        <a href="{{ route('koleksiyon.index') }}"
-           class="flex items-center gap-1 text-sm font-medium px-3 py-1.5 rounded-md transition-colors duration-150"
-           :class="(open || isActive) ? 'text-[#CC2200] bg-[rgba(204,34,0,0.06)]' : 'text-[#64748B] hover:text-[#0F172A] hover:bg-[#F8FAFC]'"
-           aria-haspopup="true" :aria-expanded="open">
-          Koleksiyon <i class="ti ti-chevron-down text-[10px] transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
-        </a>
-        <div x-show="open"
-             x-transition:enter="transition ease-out duration-150"
-             x-transition:enter-start="opacity-0 -translate-y-1"
-             x-transition:enter-end="opacity-100 translate-y-0"
-             x-transition:leave="transition ease-in duration-100"
-             x-transition:leave-end="opacity-0"
-             class="absolute top-full left-0 pt-1.5 min-w-[175px] z-50"
-             style="display:none;">
-          <div class="bg-white border border-[#E2E8F0] rounded-xl shadow-[0_8px_32px_rgba(15,23,42,0.12)] py-1.5" role="menu">
-            <a href="{{ route('koleksiyon.index', ['kategori' => 'saat']) }}" class="block px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">Saat</a>
-            <a href="{{ route('koleksiyon.index', ['kategori' => 'numizmatik']) }}" class="block px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">Nümizmatik</a>
+            <a href="{{ route('koleksiyon.index') }}" class="block px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">Koleksiyon</a>
           </div>
         </div>
       </div>
@@ -302,7 +275,6 @@
         <i class="ti ti-ruler-measure text-xs mr-1.5"></i>Emsal Hesaplama
       </a>
       <a href="{{ route('magaza.index') }}" class="text-sm font-medium text-[#64748B] px-3 py-2.5 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">Mağaza</a>
-      <a href="{{ route('koleksiyon.index') }}" class="text-sm font-medium text-[#64748B] px-3 py-2.5 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">Koleksiyon</a>
       <a href="{{ route('celik-guvenlik-agi.index') }}" @click="menuOpen=false" class="text-sm font-medium text-[#64748B] px-3 py-2.5 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">
         <i class="ti ti-shield text-xs mr-1.5"></i>Güvenlik Ağı
       </a>
