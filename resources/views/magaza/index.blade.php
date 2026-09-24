@@ -19,6 +19,11 @@
     <h1 class="text-[36px] lg:text-[52px] font-bold text-white leading-tight tracking-tight">
       {{ icerik_metin('magaza','hero_baslik','Kaliteli Ürünler, Uygun Fiyatlar') }}
     </h1>
+    @if(icerik('magaza','hero_alt_baslik',''))
+    <p class="text-[14px] text-[rgba(255,255,255,0.60)] mt-3 max-w-lg leading-relaxed">
+      {{ icerik_metin('magaza','hero_alt_baslik','') }}
+    </p>
+    @endif
   </div>
 </section>
 
