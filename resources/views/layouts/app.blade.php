@@ -29,19 +29,6 @@ if (!$_seoAciklama) {
     $_siteRow2 = Icerik::where('sayfa', 'site')->where('alan', 'seo_aciklama')->value('deger');
     $_seoAciklama = $_siteRow2 ?: null;
 }
-$_logoUrl = icerik_gorsel('site', 'logo', '');
-$_faviconTip = 'image/x-icon';
-if ($_logoUrl) {
-    $_faviconExt = strtolower(pathinfo(parse_url($_logoUrl, PHP_URL_PATH), PATHINFO_EXTENSION));
-    $_faviconTip = match($_faviconExt) {
-        'png'          => 'image/png',
-        'svg'          => 'image/svg+xml',
-        'jpg', 'jpeg'  => 'image/jpeg',
-        'webp'         => 'image/webp',
-        'avif'         => 'image/avif',
-        default        => 'image/x-icon',
-    };
-}
 @endphp
 <!DOCTYPE html>
 <html lang="tr">
@@ -50,8 +37,8 @@ if ($_logoUrl) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="google-site-verification" content="-mBy9hOfHJzBVyqrMs5feDIhdq3_Hzre93LsL6e7bC0" />
-  <link rel="icon" type="{{ $_faviconTip }}" href="{{ $_logoUrl ?: '/favicon.ico' }}">
-  <link rel="shortcut icon" type="{{ $_faviconTip }}" href="{{ $_logoUrl ?: '/favicon.ico' }}">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="shortcut icon" type="image/png" href="/favicon.png">
   @if($_seoBaslik)<title>{{ $_seoBaslik }}</title>
   @else<title>@yield('title', 'SUÇEK — Mimarlık · İnşaat · Koleksiyon · Mağaza')</title>
   @endif
