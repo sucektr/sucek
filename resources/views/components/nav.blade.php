@@ -187,15 +187,41 @@
     {{-- Dil Değiştirici --}}
     @php $aktifDil = app()->getLocale(); @endphp
     <div class="hidden lg:flex items-center ml-3">
-      <a href="{{ route('dil.degistir', $aktifDil === 'tr' ? 'en' : 'tr') }}"
-         class="flex items-center gap-1 text-[11px] font-medium px-2.5 py-1 rounded-md border border-[#E2E8F0] text-[#64748B] hover:border-[#CC2200] hover:text-[#CC2200] transition-colors"
-         title="{{ $aktifDil === 'tr' ? 'Switch to English' : 'Türkçeye geç' }}">
-        @if($aktifDil === 'tr')
-          <span>🇬🇧</span> EN
-        @else
-          <span>🇹🇷</span> TR
-        @endif
-      </a>
+      <div class="nav-item group relative"
+           x-data="{ open: false }"
+           @mouseenter="open=true" @mouseleave="open=false"
+           @focusin="open=true" @focusout="open=false">
+        <button type="button"
+                class="flex items-center gap-1 text-[11px] font-medium px-2.5 py-1.5 rounded-md border transition-colors"
+                :class="open ? 'text-[#CC2200] border-[#CC2200]' : 'text-[#64748B] border-[#E2E8F0] hover:border-[#CC2200] hover:text-[#CC2200]'"
+                aria-haspopup="true" :aria-expanded="open"
+                aria-label="{{ ceviri('Dil seçimi') }}">
+          <i class="ti ti-language text-[13px]"></i>
+          <span>{{ strtoupper($aktifDil) }}</span>
+          <i class="ti ti-chevron-down text-[9px] transition-transform duration-200" :class="open ? 'rotate-180' : ''"></i>
+        </button>
+        <div x-show="open"
+             x-transition:enter="transition ease-out duration-150"
+             x-transition:enter-start="opacity-0 -translate-y-1"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-100"
+             x-transition:leave-end="opacity-0"
+             class="absolute top-full right-0 pt-1.5 min-w-[140px] z-50"
+             style="display:none;">
+          <div class="bg-white border border-[#E2E8F0] rounded-xl shadow-[0_8px_32px_rgba(15,23,42,0.12)] py-1.5" role="menu">
+            <a href="{{ route('dil.degistir', 'tr') }}"
+               class="flex items-center justify-between gap-3 px-4 py-2.5 text-sm transition-colors {{ $aktifDil === 'tr' ? 'text-[#CC2200] font-semibold' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A]' }}"
+               role="menuitem">
+              Türkçe @if($aktifDil === 'tr')<i class="ti ti-check text-sm"></i>@endif
+            </a>
+            <a href="{{ route('dil.degistir', 'en') }}"
+               class="flex items-center justify-between gap-3 px-4 py-2.5 text-sm transition-colors {{ $aktifDil === 'en' ? 'text-[#CC2200] font-semibold' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A]' }}"
+               role="menuitem">
+              English @if($aktifDil === 'en')<i class="ti ti-check text-sm"></i>@endif
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
 
     {{-- Sepet + Auth --}}
@@ -329,16 +355,32 @@
       @endif
       @endauth
 
-      <div class="flex items-center justify-center gap-2 mt-2 pt-2 border-t border-[#E2E8F0]">
+      <div class="mt-2 pt-2 border-t border-[#E2E8F0]" x-data="{ dilOpen: false }">
         @php $aktifDilMobil = app()->getLocale(); @endphp
-        <a href="{{ route('dil.degistir', $aktifDilMobil === 'tr' ? 'en' : 'tr') }}"
-           class="flex items-center gap-1.5 text-[12px] font-medium px-3 py-1.5 rounded-md border border-[#E2E8F0] text-[#64748B] hover:border-[#CC2200] hover:text-[#CC2200] transition-colors">
-          @if($aktifDilMobil === 'tr')
-            <span>🇬🇧</span> English
-          @else
-            <span>🇹🇷</span> Türkçe
-          @endif
-        </a>
+        <button type="button" @click="dilOpen = !dilOpen"
+                class="w-full flex items-center justify-between text-sm font-medium text-[#64748B] px-3 py-2.5 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors"
+                :aria-expanded="dilOpen">
+          <span class="flex items-center gap-2"><i class="ti ti-language text-base"></i> {{ ceviri('Dil') }}</span>
+          <span class="flex items-center gap-1 text-[#94A3B8]">
+            {{ $aktifDilMobil === 'tr' ? 'Türkçe' : 'English' }}
+            <i class="ti ti-chevron-down text-xs transition-transform duration-200" :class="dilOpen ? 'rotate-180' : ''"></i>
+          </span>
+        </button>
+        <div x-show="dilOpen"
+             x-transition:enter="transition ease-out duration-150"
+             x-transition:enter-start="opacity-0 -translate-y-1"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             class="pl-7"
+             style="display:none;">
+          <a href="{{ route('dil.degistir', 'tr') }}"
+             class="flex items-center justify-between text-sm px-3 py-2 rounded-md hover:bg-[#F8FAFC] transition-colors {{ $aktifDilMobil === 'tr' ? 'text-[#CC2200] font-semibold' : 'text-[#94A3B8]' }}">
+            Türkçe @if($aktifDilMobil === 'tr')<i class="ti ti-check text-xs"></i>@endif
+          </a>
+          <a href="{{ route('dil.degistir', 'en') }}"
+             class="flex items-center justify-between text-sm px-3 py-2 rounded-md hover:bg-[#F8FAFC] transition-colors {{ $aktifDilMobil === 'en' ? 'text-[#CC2200] font-semibold' : 'text-[#94A3B8]' }}">
+            English @if($aktifDilMobil === 'en')<i class="ti ti-check text-xs"></i>@endif
+          </a>
+        </div>
       </div>
 
       <div class="flex gap-2 mt-3 pt-3 border-t border-[#E2E8F0]">
