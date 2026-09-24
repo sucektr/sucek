@@ -75,7 +75,7 @@
         @endif
         <div class="flex-1 min-w-0">
           <p class="text-[12px] font-medium text-[#0F0F0F] truncate">{{ $kalem->urun_adi }}</p>
-          <p class="text-[11px] text-[#A0A0A0]">{{ $kalem->adet }} {{ ceviri('adet') }} × {{ number_format($kalem->birim_fiyat, 0, ',', '.') }} ₺</p>
+          <p class="text-[11px] text-[#A0A0A0]">{{ $kalem->adet }} {{ ceviri('birim') }} × {{ number_format($kalem->birim_fiyat, 0, ',', '.') }} ₺</p>
         </div>
         <span class="text-[13px] font-semibold text-[#0F0F0F] shrink-0">
           {{ number_format($kalem->toplam, 0, ',', '.') }} ₺

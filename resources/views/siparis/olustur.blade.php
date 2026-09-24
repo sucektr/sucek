@@ -168,7 +168,7 @@
               @endif
               <div class="flex-1 min-w-0">
                 <p class="text-[12px] font-medium text-[#0F0F0F] truncate">{{ $item['ad'] }}</p>
-                <p class="text-[11px] text-[#A0A0A0]">{{ $item['adet'] }} {{ ceviri('adet') }} × {{ number_format($item['fiyat'], 0, ',', '.') }} ₺</p>
+                <p class="text-[11px] text-[#A0A0A0]">{{ $item['adet'] }} {{ ceviri('birim') }} × {{ number_format($item['fiyat'], 0, ',', '.') }} ₺</p>
               </div>
               <span class="text-[13px] font-semibold text-[#0F0F0F] shrink-0">
                 {{ number_format($item['fiyat'] * $item['adet'], 0, ',', '.') }} ₺

@@ -110,12 +110,18 @@ if (!function_exists('ceviri')) {
         }
 
         if (!array_key_exists($tr, $cache)) {
+            $cache[$tr] = null;
             try {
-                \App\Models\Ceviri::firstOrCreate(['tr_metin' => $tr]);
+                // Not: tr_metin sütunu case-insensitive collation kullanıyor (utf8mb4_unicode_ci),
+                // yani örn. "Adet" ile "adet" veritabanında aynı satıra eşleşir. firstOrCreate()
+                // böyle bir durumda YENİ satır açmaz, mevcut satırı bulur — bu yüzden bulunan
+                // satırın gerçek en_metin değerini önbelleğe almamız gerekir; aksi halde bu farklı
+                // harf varyasyonu hep boşmuş gibi işlenip Türkçe'ye düşer.
+                $row = \App\Models\Ceviri::firstOrCreate(['tr_metin' => $tr]);
+                $cache[$tr] = $row->en_metin;
             } catch (\Exception $e) {
                 // DB henüz hazır değil
             }
-            $cache[$tr] = null;
         }
 
         if (app()->getLocale() === 'en' && !empty($cache[$tr])) {

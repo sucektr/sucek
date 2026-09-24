@@ -1606,5 +1606,129 @@
     {
         "tr": "Dil",
         "en": "Language"
+    },
+    {
+        "tr": "Siparişi Tamamla",
+        "en": "Complete Order"
+    },
+    {
+        "tr": "Bu ürünü sepetten kaldırmak istediğinize emin misiniz?",
+        "en": "Are you sure you want to remove this product from your cart?"
+    },
+    {
+        "tr": "sepetten kaldır",
+        "en": "remove from cart"
+    },
+    {
+        "tr": "birim",
+        "en": "unit"
+    },
+    {
+        "tr": "Ücretsiz kargo",
+        "en": "Free shipping"
+    },
+    {
+        "tr": "Sipariş Özeti",
+        "en": "Order Summary"
+    },
+    {
+        "tr": "Ara Toplam (KDV hariç)",
+        "en": "Subtotal (excl. VAT)"
+    },
+    {
+        "tr": "KDV",
+        "en": "VAT"
+    },
+    {
+        "tr": "Kargo",
+        "en": "Shipping"
+    },
+    {
+        "tr": "Ücretsiz",
+        "en": "Free"
+    },
+    {
+        "tr": "daha ekleyerek ücretsiz kargoya ulaşın",
+        "en": "more to reach free shipping"
+    },
+    {
+        "tr": "Toplam",
+        "en": "Total"
+    },
+    {
+        "tr": "Alışverişe Devam Et",
+        "en": "Continue Shopping"
+    },
+    {
+        "tr": "Sipariş Ver",
+        "en": "Place Order"
+    },
+    {
+        "tr": "Siparişinizi tamamlayın.",
+        "en": "Complete your order."
+    },
+    {
+        "tr": "Mahalle, sokak, kapı no...",
+        "en": "Neighborhood, street, door no..."
+    },
+    {
+        "tr": "Şehir",
+        "en": "City"
+    },
+    {
+        "tr": "Ülke",
+        "en": "Country"
+    },
+    {
+        "tr": "Türkiye",
+        "en": "Turkey"
+    },
+    {
+        "tr": "Ödeme Yöntemi",
+        "en": "Payment Method"
+    },
+    {
+        "tr": "Kredi \/ Banka Kartı",
+        "en": "Credit \/ Debit Card"
+    },
+    {
+        "tr": "Tüm Visa, Mastercard ve Türk kartları ile 3D Secure güvencesiyle ödeme yapın. Taksit seçenekleri mevcuttur.",
+        "en": "Pay securely with all Visa, Mastercard and Turkish cards via 3D Secure. Installment options available."
+    },
+    {
+        "tr": "Havale \/ EFT",
+        "en": "Bank Transfer \/ EFT"
+    },
+    {
+        "tr": "Banka havalesi ile ödeme yapın. Siparişiniz, ödemeniz onaylandıktan sonra hazırlanmaya başlanır.",
+        "en": "Pay by bank transfer. Your order will begin processing once your payment is confirmed."
+    },
+    {
+        "tr": "Not",
+        "en": "Note"
+    },
+    {
+        "tr": "isteğe bağlı",
+        "en": "optional"
+    },
+    {
+        "tr": "Siparişinizle ilgili eklemek istediğiniz not...",
+        "en": "Any note you'd like to add about your order..."
+    },
+    {
+        "tr": "Havale Hesabı",
+        "en": "Bank Transfer Account"
+    },
+    {
+        "tr": "Ödemeye Geç",
+        "en": "Proceed to Payment"
+    },
+    {
+        "tr": "Siparişi Onayla",
+        "en": "Confirm Order"
+    },
+    {
+        "tr": "Sepete Dön",
+        "en": "Back to Cart"
     }
 ]

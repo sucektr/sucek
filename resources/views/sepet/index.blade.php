@@ -131,7 +131,7 @@
               </form>
             </div>
 
-            <p class="text-[12px] text-[#A8A8A8] mt-0.5">{{ number_format($item['fiyat'], 2, ',', '.') }} ₺ / {{ ceviri('adet') }}</p>
+            <p class="text-[12px] text-[#A8A8A8] mt-0.5">{{ number_format($item['fiyat'], 2, ',', '.') }} ₺ / {{ ceviri('birim') }}</p>
 
             @if(($item['kargo_ucreti'] ?? 0) > 0)
             <p class="flex items-center gap-1 text-[11px] text-[#A8A8A8] mt-0.5">
