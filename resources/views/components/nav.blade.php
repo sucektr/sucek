@@ -231,7 +231,7 @@
          aria-label="{{ ceviri('Sepet') }}">
         <i class="ti ti-shopping-cart text-base"></i>
         {{ ceviri('Sepet') }}
-        <span class="cart-badge" x-text="$root.sepetAdet" x-show="$root.sepetAdet > 0" aria-label="{{ ceviri('Sepetteki ürün sayısı') }}"></span>
+        <span class="cart-badge" x-text="sepetAdet" x-show="sepetAdet > 0" aria-label="{{ ceviri('Sepetteki ürün sayısı') }}"></span>
       </a>
 
       <div class="w-px h-5 bg-[#E2E8F0] mx-1"></div>
@@ -262,7 +262,7 @@
          class="relative p-2 rounded-md text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors"
          aria-label="{{ ceviri('Sepet') }}">
         <i class="ti ti-shopping-cart text-xl"></i>
-        <span class="cart-badge" x-text="$root.sepetAdet" x-show="$root.sepetAdet > 0" aria-label="{{ ceviri('Sepetteki ürün sayısı') }}"></span>
+        <span class="cart-badge" x-text="sepetAdet" x-show="sepetAdet > 0" aria-label="{{ ceviri('Sepetteki ürün sayısı') }}"></span>
       </a>
       <button class="p-2 rounded-md text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors"
               @click="menuOpen = !menuOpen"
@@ -319,7 +319,7 @@
       <a href="{{ route('iletisim.index') }}" @click="menuOpen=false" class="text-sm font-medium text-[#64748B] px-3 py-2.5 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">{{ ceviri('İletişim') }}</a>
       <a href="{{ route('sepet.index') }}" @click="menuOpen=false" class="flex items-center gap-2 text-sm font-medium text-[#64748B] px-3 py-2.5 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">
         <i class="ti ti-shopping-cart text-base"></i>{{ ceviri('Sepetim') }}
-        <span class="cart-badge relative top-0 right-0 ml-1" x-text="$root.sepetAdet" x-show="$root.sepetAdet > 0"></span>
+        <span class="cart-badge relative top-0 right-0 ml-1" x-text="sepetAdet" x-show="sepetAdet > 0"></span>
       </a>
 
       @auth

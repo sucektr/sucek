@@ -73,6 +73,7 @@ if (!$_seoAciklama) {
       setTimeout(() => this.bildirim = null, 3500);
     }
   }"
+  @sepet-guncellendi.window="sepetAdet = $event.detail.adet; if ($event.detail.mesaj) bildirimiGoster($event.detail.mesaj)"
 >
 
   {{-- Bildirim Toast --}}

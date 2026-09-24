@@ -201,7 +201,7 @@
               method: 'POST',
               headers: {'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},
               body: JSON.stringify({urun_id:{{ $urun->id }}, urun_tipi:'koleksiyon', adet:1})
-            }).then(r=>r.json()).then(d=>{ $root.sepetAdet=d.adet; $root.bildirimiGoster('{{ $urun->ad }} {{ ceviri('sepete eklendi!') }}'); })
+            }).then(r=>r.json()).then(d=>{ $dispatch('sepet-guncellendi', { adet: d.adet, mesaj: '{{ $urun->ad }} {{ ceviri('sepete eklendi!') }}' }) })
           "
           class="flex items-center justify-center gap-2 bg-[#141414] text-white text-[11px] font-semibold tracking-[1.5px] uppercase py-4 rounded-[10px] hover:bg-[#2a2a2a] active:scale-[0.98] transition-all duration-200 min-h-[52px]">
           <i class="ti ti-shopping-cart text-sm" aria-hidden="true"></i> {{ ceviri('Sepete Ekle') }}

@@ -272,7 +272,7 @@ if ($hasVaryant) {
                 adet: adet,
                 varyant_id: hasVaryant && secilenVaryant ? secilenVaryant.id : null
               })
-            }).then(r=>r.json()).then(d=>{ $root.sepetAdet=d.adet; $root.bildirimiGoster('{{ $urun->ad }} {{ ceviri('sepete eklendi!') }}'); })
+            }).then(r=>r.json()).then(d=>{ $dispatch('sepet-guncellendi', { adet: d.adet, mesaj: '{{ $urun->ad }} {{ ceviri('sepete eklendi!') }}' }) })
           "
           :disabled="aktifStok <= 0 || (hasVaryant && !secimTamMi)"
           :class="(aktifStok <= 0 || (hasVaryant && !secimTamMi))

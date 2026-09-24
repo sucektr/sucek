@@ -26,6 +26,7 @@
       setTimeout(() => this.bildirim = null, 3500);
     }
   }"
+  @sepet-guncellendi.window="sepetAdet = $event.detail.adet; if ($event.detail.mesaj) bildirimiGoster($event.detail.mesaj)"
 >
   @include('components.nav')
   <div style="flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0;">
