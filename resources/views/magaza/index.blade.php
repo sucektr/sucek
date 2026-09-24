@@ -183,7 +183,7 @@
     <div class="overflow-x-auto -mx-5 px-5 scrollbar-hide" role="list">
       <div class="flex gap-3.5 pb-2" style="width:max-content;">
         @foreach($kat['urunler'] as $urun)
-        <article class="group bg-white border border-[#E2E8F0] rounded-xl overflow-hidden hover:shadow-[0_6px_20px_rgba(15,23,42,0.08)] hover:-translate-y-0.5 transition-all duration-200 flex-shrink-0 w-[220px]"
+        <article class="group bg-white border border-[#E2E8F0] rounded-xl overflow-hidden hover:shadow-[0_6px_20px_rgba(15,23,42,0.08)] hover:-translate-y-0.5 transition-all duration-200 flex-shrink-0 w-[220px] flex flex-col"
                  role="listitem">
           <a href="{{ route('magaza.urun', $urun->slug) }}" class="block">
             <div class="relative aspect-square bg-[#F8FAFC] overflow-hidden">
@@ -201,7 +201,7 @@
               @endif
             </div>
             <div class="p-3.5">
-              <h3 class="text-[14px] font-semibold text-[#0F172A] mb-2 line-clamp-2 leading-snug tracking-tight min-h-[2.75em]">{{ $urun->ad }}</h3>
+              <h3 class="text-[14px] font-semibold text-[#0F172A] mb-2 line-clamp-2 leading-snug tracking-tight">{{ $urun->ad }}</h3>
               <div class="flex items-baseline gap-2">
                 <span class="text-[16px] font-bold text-[#0F172A]">{{ number_format($urun->fiyat, 2, ',', '.') }} ₺</span>
                 @if($urun->eski_fiyat)
@@ -210,7 +210,7 @@
               </div>
             </div>
           </a>
-          <div class="px-3.5 pb-3.5">
+          <div class="px-3.5 pb-3.5 mt-auto">
             <button
               @click="
                 fetch('{{ route('sepet.ekle') }}', {

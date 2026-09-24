@@ -1,4 +1,4 @@
-<article class="group bg-white border border-[rgba(0,0,0,0.07)] rounded-[12px] overflow-hidden hover:shadow-[0_6px_24px_rgba(0,0,0,0.10)] hover:-translate-y-0.5 transition-all duration-200"
+<article class="group bg-white border border-[rgba(0,0,0,0.07)] rounded-[12px] overflow-hidden hover:shadow-[0_6px_24px_rgba(0,0,0,0.10)] hover:-translate-y-0.5 transition-all duration-200 h-full flex flex-col"
          role="listitem">
   <a href="{{ route('magaza.urun', $urun->slug) }}" class="block">
     <div class="relative aspect-square bg-[#F0F0F0] overflow-hidden">
@@ -28,7 +28,7 @@
         };
       @endphp
       <p class="text-[10px] text-[#A8A8A8] uppercase tracking-[1px] mb-1">{{ $katLabel }}</p>
-      <h3 class="font-display text-[15px] font-semibold text-[#0F0F0F] mb-2 line-clamp-2 leading-snug min-h-[2.75em]">{{ $urun->ad }}</h3>
+      <h3 class="font-display text-[15px] font-semibold text-[#0F0F0F] mb-2 line-clamp-2 leading-snug">{{ $urun->ad }}</h3>
       @if($premiumFiyat)
       <div class="flex items-baseline gap-2 flex-wrap">
         <span class="font-display text-[17px] font-semibold" style="color:#6d28d9;">{{ number_format($premiumFiyat, 2, ',', '.') }} ₺</span>
@@ -47,7 +47,7 @@
       @endif
     </div>
   </a>
-  <div class="px-3.5 pb-3.5">
+  <div class="px-3.5 pb-3.5 mt-auto">
     <button
       @click="
         fetch('{{ route('sepet.ekle') }}', {
