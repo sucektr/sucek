@@ -17,9 +17,9 @@
        aria-label="{{ ceviri('SUÇEK Ana Sayfa') }}">
       @php $logoUrl = icerik_gorsel('site', 'logo', ''); @endphp
       @if($logoUrl)
-      <img src="{{ $logoUrl }}" alt="SUÇEK" class="h-7 w-auto object-contain">
+      <img src="{{ $logoUrl }}" alt="SUÇEK" class="h-10 w-auto object-contain">
       @endif
-      <span class="font-bold text-[17px] tracking-tight text-[#0F172A] leading-none">SUÇEK</span>
+      <span class="font-bold text-[22px] tracking-tight text-[#0F172A] leading-none">SUÇEK</span>
     </a>
 
     {{-- Desktop Nav Items --}}
