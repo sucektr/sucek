@@ -39,6 +39,35 @@ if (!function_exists('icerik')) {
     }
 }
 
+if (!function_exists('icerik_metin')) {
+    /**
+     * icerik() ile aynı, ama admin hiç içerik girmemişse (TR/EN ikisi de boş)
+     * kod içindeki sabit varsayılan metni ceviri() üzerinden İngilizce'ye çevirir.
+     * Sadece gerçek kullanıcı metinleri için kullanılır — URL, API anahtarı,
+     * sayısal değer gibi teknik varsayılanlar için icerik() kullanılmaya devam eder.
+     */
+    function icerik_metin(string $sayfa, string $alan, string $varsayilan = ''): string
+    {
+        $dil = app()->getLocale();
+        $cache = _icerik_cache($dil);
+        $row = $cache["{$sayfa}.{$alan}"] ?? null;
+        if ($row && $row->deger !== null && $row->deger !== '') {
+            return $row->deger;
+        }
+        if ($dil !== 'tr') {
+            $cacheTr = _icerik_cache('tr');
+            $rowTr = $cacheTr["{$sayfa}.{$alan}"] ?? null;
+            if ($rowTr && $rowTr->deger !== null && $rowTr->deger !== '') {
+                return $rowTr->deger;
+            }
+            if ($varsayilan !== '') {
+                return ceviri($varsayilan);
+            }
+        }
+        return $varsayilan;
+    }
+}
+
 if (!function_exists('kargoUcreti')) {
     /**
      * Sepetteki ürünlerin müşteri kargo ücretlerinin en yükseğini döner.

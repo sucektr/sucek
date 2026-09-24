@@ -4,7 +4,7 @@
 @section('meta-description', ceviri('SUÇEK Koleksiyon: Antika saatler, nümizmatik ve antika eserler.'))
 
 @section('banner')
-  @include('components.banner', ['mesaj' => icerik('koleksiyon','banner_metni','Koleksiyonunuzu değerletmek için randevu alın!')])
+  @include('components.banner', ['mesaj' => icerik_metin('koleksiyon','banner_metni','Koleksiyonunuzu değerletmek için randevu alın!')])
 @endsection
 
 @section('content')
@@ -17,11 +17,11 @@
   <div class="relative z-10 px-6 lg:px-12 py-12 w-full">
     <p class="text-[11px] font-semibold tracking-widest uppercase text-[#CC2200] mb-2">{{ ceviri('KOLEKSİYON') }}</p>
     <h1 class="text-[36px] lg:text-[52px] font-bold text-white leading-tight tracking-tight">
-      {{ icerik('koleksiyon','hero_baslik','Nadir Eserler, Eşsiz Değerler') }}
+      {{ icerik_metin('koleksiyon','hero_baslik','Nadir Eserler, Eşsiz Değerler') }}
     </h1>
     @if(icerik('koleksiyon','hero_alt_baslik',''))
     <p class="text-[14px] text-[rgba(255,255,255,0.55)] mt-3 max-w-lg leading-relaxed">
-      {{ icerik('koleksiyon','hero_alt_baslik','') }}
+      {{ icerik_metin('koleksiyon','hero_alt_baslik','') }}
     </p>
     @endif
   </div>

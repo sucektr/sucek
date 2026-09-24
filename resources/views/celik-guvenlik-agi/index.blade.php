@@ -28,7 +28,7 @@
       {{ ceviri('Çelik') }}<br><span class="text-[#CC2200]">{{ ceviri('Güvenlik Ağı') }}</span>
     </h1>
     <p class="text-[15px] lg:text-[17px] text-[#94A3B8] leading-relaxed max-w-xl mb-8">
-      {{ icerik('celik-guvenlik-agi', 'hero_metin', 'İnşaat güvenliğinden balkon korumaya, endüstriyel tesislerden konut projelerine kadar her ihtiyaca özel çelik güvenlik ağı çözümleri sunuyoruz.') }}
+      {{ icerik_metin('celik-guvenlik-agi', 'hero_metin', 'İnşaat güvenliğinden balkon korumaya, endüstriyel tesislerden konut projelerine kadar her ihtiyaca özel çelik güvenlik ağı çözümleri sunuyoruz.') }}
     </p>
 
     <div class="flex flex-col sm:flex-row gap-3">
@@ -72,9 +72,9 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
       @foreach([
-        ['gorsel'=>icerik_gorsel('celik-guvenlik-agi','hizmet_1_gorsel','/images/mesh/hizmet-1.webp'), 'baslik'=>ceviri('İnşaat Güvenliği'),  'metin'=>icerik('celik-guvenlik-agi','hizmet_1','Bina inşaatlarında düşme ve yaralanmalara karşı EN 1263 standardına uygun güvenlik ağı sistemleri.')],
-        ['gorsel'=>icerik_gorsel('celik-guvenlik-agi','hizmet_2_gorsel','/images/mesh/hizmet-2.webp'), 'baslik'=>ceviri('Balkon & Teras'),    'metin'=>icerik('celik-guvenlik-agi','hizmet_2','Konut ve ticari yapılarda balkon, teras ve boşluklara özel koruyucu çelik ağ uygulamaları.')],
-        ['gorsel'=>icerik_gorsel('celik-guvenlik-agi','hizmet_3_gorsel','/images/mesh/hizmet-3.webp'), 'baslik'=>ceviri('Endüstriyel Alan'),  'metin'=>icerik('celik-guvenlik-agi','hizmet_3','Fabrika, depo ve endüstriyel tesislerde makine koruma, bölme ve güvenlik ağı çözümleri.')],
+        ['gorsel'=>icerik_gorsel('celik-guvenlik-agi','hizmet_1_gorsel','/images/mesh/hizmet-1.webp'), 'baslik'=>ceviri('İnşaat Güvenliği'),  'metin'=>icerik_metin('celik-guvenlik-agi','hizmet_1','Bina inşaatlarında düşme ve yaralanmalara karşı EN 1263 standardına uygun güvenlik ağı sistemleri.')],
+        ['gorsel'=>icerik_gorsel('celik-guvenlik-agi','hizmet_2_gorsel','/images/mesh/hizmet-2.webp'), 'baslik'=>ceviri('Balkon & Teras'),    'metin'=>icerik_metin('celik-guvenlik-agi','hizmet_2','Konut ve ticari yapılarda balkon, teras ve boşluklara özel koruyucu çelik ağ uygulamaları.')],
+        ['gorsel'=>icerik_gorsel('celik-guvenlik-agi','hizmet_3_gorsel','/images/mesh/hizmet-3.webp'), 'baslik'=>ceviri('Endüstriyel Alan'),  'metin'=>icerik_metin('celik-guvenlik-agi','hizmet_3','Fabrika, depo ve endüstriyel tesislerde makine koruma, bölme ve güvenlik ağı çözümleri.')],
       ] as $h)
       <div class="bg-white border border-[#E2E8F0] rounded-xl overflow-hidden hover:shadow-[0_4px_20px_rgba(15,23,42,0.08)] transition-shadow">
         <div class="aspect-[4/3] overflow-hidden">

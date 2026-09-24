@@ -4,7 +4,7 @@
 @section('meta-description', ceviri('SUÇEK Mimarlık hizmetleri: Ruhsat takibi, iç mimari tasarım ve proje yönetimi.'))
 
 @section('banner')
-  @include('components.banner', ['mesaj' => icerik('mimarlik','banner_metni','Ücretsiz ön görüşme için hemen randevu alın!')])
+  @include('components.banner', ['mesaj' => icerik_metin('mimarlik','banner_metni','Ücretsiz ön görüşme için hemen randevu alın!')])
 @endsection
 
 @section('content')
@@ -19,10 +19,10 @@
     <div class="flex-1">
       <p class="text-[11px] font-semibold tracking-widest uppercase text-[#CC2200] mb-3">{{ ceviri('MİMARLIK HİZMETLERİ') }}</p>
       <h1 class="text-[36px] lg:text-[52px] font-bold text-white leading-tight tracking-tight mb-5">
-        {{ icerik('mimarlik','hero_baslik','Vizyonunuzu Gerçeğe Taşıyoruz') }}
+        {{ icerik_metin('mimarlik','hero_baslik','Vizyonunuzu Gerçeğe Taşıyoruz') }}
       </h1>
       <p class="text-[14px] text-[rgba(255,255,255,0.60)] leading-relaxed max-w-[380px]">
-        {{ icerik('mimarlik','hero_alt_baslik','Ruhsat takibinden iç mimari tasarıma kadar kapsamlı mimarlık hizmetleri.') }}
+        {{ icerik_metin('mimarlik','hero_alt_baslik','Ruhsat takibinden iç mimari tasarıma kadar kapsamlı mimarlık hizmetleri.') }}
       </p>
     </div>
     <div class="flex flex-col sm:flex-row lg:flex-col gap-2.5 shrink-0">
@@ -47,12 +47,12 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
     @php
     $hizmetler = [
-      ['ikon'=>'ti-file-certificate','baslik'=>icerik('mimarlik','hizmet_1_baslik','Ruhsat Takibi'),'aciklama'=>icerik('mimarlik','hizmet_1_aciklama','İmar ve inşaat ruhsatlarının başvuru, takip ve sonuçlandırma süreçlerini eksiksiz yönetiyoruz.')],
-      ['ikon'=>'ti-sofa','baslik'=>icerik('mimarlik','hizmet_2_baslik','İç Mimari'),'aciklama'=>icerik('mimarlik','hizmet_2_aciklama','Yaşam alanlarınızı işlevsel ve estetik bir bütünlük içinde yeniden tasarlıyoruz.')],
-      ['ikon'=>'ti-building-arch','baslik'=>icerik('mimarlik','hizmet_3_baslik','Proje Tasarımı'),'aciklama'=>icerik('mimarlik','hizmet_3_aciklama','Konsept geliştirmeden uygulama projelerine kadar tüm mimari süreçleri kapsayan hizmet.')],
-      ['ikon'=>'ti-3d-cube-sphere','baslik'=>icerik('mimarlik','hizmet_4_baslik','3D Görselleştirme'),'aciklama'=>icerik('mimarlik','hizmet_4_aciklama','Projenizin inşaattan önce nasıl görüneceğini gerçekçi 3D render ve animasyonlarla sunuyoruz.')],
-      ['ikon'=>'ti-rulers','baslik'=>icerik('mimarlik','hizmet_5_baslik','Statik Proje'),'aciklama'=>icerik('mimarlik','hizmet_5_aciklama','Yapı güvenliği ve dayanımı için gerekli statik hesap ve projelerin hazırlanması.')],
-      ['ikon'=>'ti-tree','baslik'=>icerik('mimarlik','hizmet_6_baslik','Peyzaj Tasarımı'),'aciklama'=>icerik('mimarlik','hizmet_6_aciklama','Dış mekan düzenlemesi ve peyzaj projelerinde estetik ve sürdürülebilir çözümler.')],
+      ['ikon'=>'ti-file-certificate','baslik'=>icerik_metin('mimarlik','hizmet_1_baslik','Ruhsat Takibi'),'aciklama'=>icerik_metin('mimarlik','hizmet_1_aciklama','İmar ve inşaat ruhsatlarının başvuru, takip ve sonuçlandırma süreçlerini eksiksiz yönetiyoruz.')],
+      ['ikon'=>'ti-sofa','baslik'=>icerik_metin('mimarlik','hizmet_2_baslik','İç Mimari'),'aciklama'=>icerik_metin('mimarlik','hizmet_2_aciklama','Yaşam alanlarınızı işlevsel ve estetik bir bütünlük içinde yeniden tasarlıyoruz.')],
+      ['ikon'=>'ti-building-arch','baslik'=>icerik_metin('mimarlik','hizmet_3_baslik','Proje Tasarımı'),'aciklama'=>icerik_metin('mimarlik','hizmet_3_aciklama','Konsept geliştirmeden uygulama projelerine kadar tüm mimari süreçleri kapsayan hizmet.')],
+      ['ikon'=>'ti-3d-cube-sphere','baslik'=>icerik_metin('mimarlik','hizmet_4_baslik','3D Görselleştirme'),'aciklama'=>icerik_metin('mimarlik','hizmet_4_aciklama','Projenizin inşaattan önce nasıl görüneceğini gerçekçi 3D render ve animasyonlarla sunuyoruz.')],
+      ['ikon'=>'ti-rulers','baslik'=>icerik_metin('mimarlik','hizmet_5_baslik','Statik Proje'),'aciklama'=>icerik_metin('mimarlik','hizmet_5_aciklama','Yapı güvenliği ve dayanımı için gerekli statik hesap ve projelerin hazırlanması.')],
+      ['ikon'=>'ti-tree','baslik'=>icerik_metin('mimarlik','hizmet_6_baslik','Peyzaj Tasarımı'),'aciklama'=>icerik_metin('mimarlik','hizmet_6_aciklama','Dış mekan düzenlemesi ve peyzaj projelerinde estetik ve sürdürülebilir çözümler.')],
     ];
     @endphp
     @foreach($hizmetler as $h)
@@ -76,10 +76,10 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
     @php
     $adimlar = [
-      ['no'=>'01','baslik'=>icerik('mimarlik','adim_1_baslik','Ön Görüşme'),'aciklama'=>icerik('mimarlik','adim_1_aciklama','İhtiyaçlarınızı ve beklentilerinizi dinliyor, projenizi tanıyoruz.')],
-      ['no'=>'02','baslik'=>icerik('mimarlik','adim_2_baslik','Konsept Geliştirme'),'aciklama'=>icerik('mimarlik','adim_2_aciklama','Vizyonunuzu somutlaştıracak tasarım konseptleri hazırlıyoruz.')],
-      ['no'=>'03','baslik'=>icerik('mimarlik','adim_3_baslik','Proje & Ruhsat'),'aciklama'=>icerik('mimarlik','adim_3_aciklama','Tüm mimari ve yasal süreçleri titizlikle yürütüyoruz.')],
-      ['no'=>'04','baslik'=>icerik('mimarlik','adim_4_baslik','Uygulama'),'aciklama'=>icerik('mimarlik','adim_4_aciklama','Proje sürecini başından sonuna kadar denetliyor ve yönetiyoruz.')],
+      ['no'=>'01','baslik'=>icerik_metin('mimarlik','adim_1_baslik','Ön Görüşme'),'aciklama'=>icerik_metin('mimarlik','adim_1_aciklama','İhtiyaçlarınızı ve beklentilerinizi dinliyor, projenizi tanıyoruz.')],
+      ['no'=>'02','baslik'=>icerik_metin('mimarlik','adim_2_baslik','Konsept Geliştirme'),'aciklama'=>icerik_metin('mimarlik','adim_2_aciklama','Vizyonunuzu somutlaştıracak tasarım konseptleri hazırlıyoruz.')],
+      ['no'=>'03','baslik'=>icerik_metin('mimarlik','adim_3_baslik','Proje & Ruhsat'),'aciklama'=>icerik_metin('mimarlik','adim_3_aciklama','Tüm mimari ve yasal süreçleri titizlikle yürütüyoruz.')],
+      ['no'=>'04','baslik'=>icerik_metin('mimarlik','adim_4_baslik','Uygulama'),'aciklama'=>icerik_metin('mimarlik','adim_4_aciklama','Proje sürecini başından sonuna kadar denetliyor ve yönetiyoruz.')],
     ];
     @endphp
     @foreach($adimlar as $i => $adim)
@@ -167,10 +167,10 @@
     <div class="lg:col-span-2 space-y-0" x-data="{ acik: null }">
       @php
       $sorular = [
-        ['soru'=>icerik('mimarlik','sss_1_soru','Ruhsat süreci ne kadar sürer?'),'cevap'=>icerik('mimarlik','sss_1_cevap','Projenin türü ve belediye yoğunluğuna göre değişmekle birlikte standart bir konut ruhsatı genellikle 3-6 ay sürmektedir.')],
-        ['soru'=>icerik('mimarlik','sss_2_soru','İç mimari proje için minimum alan sınırı var mı?'),'cevap'=>icerik('mimarlik','sss_2_cevap','Hayır, her büyüklükteki alana hizmet veriyoruz. Stüdyo daireden villa projelerine kadar geniş bir yelpazeyi kapsıyoruz.')],
-        ['soru'=>icerik('mimarlik','sss_3_soru','Proje maliyeti nasıl belirlenir?'),'cevap'=>icerik('mimarlik','sss_3_cevap','Maliyet; projenin kapsamı, alanı ve hizmet türüne göre belirlenir. Ücretsiz ön görüşmemizde size özel teklif sunuyoruz.')],
-        ['soru'=>icerik('mimarlik','sss_4_soru','Türkiye genelinde hizmet veriyor musunuz?'),'cevap'=>icerik('mimarlik','sss_4_cevap','Evet, tüm Türkiye genelinde proje ve danışmanlık hizmeti sunmaktayız.')],
+        ['soru'=>icerik_metin('mimarlik','sss_1_soru','Ruhsat süreci ne kadar sürer?'),'cevap'=>icerik_metin('mimarlik','sss_1_cevap','Projenin türü ve belediye yoğunluğuna göre değişmekle birlikte standart bir konut ruhsatı genellikle 3-6 ay sürmektedir.')],
+        ['soru'=>icerik_metin('mimarlik','sss_2_soru','İç mimari proje için minimum alan sınırı var mı?'),'cevap'=>icerik_metin('mimarlik','sss_2_cevap','Hayır, her büyüklükteki alana hizmet veriyoruz. Stüdyo daireden villa projelerine kadar geniş bir yelpazeyi kapsıyoruz.')],
+        ['soru'=>icerik_metin('mimarlik','sss_3_soru','Proje maliyeti nasıl belirlenir?'),'cevap'=>icerik_metin('mimarlik','sss_3_cevap','Maliyet; projenin kapsamı, alanı ve hizmet türüne göre belirlenir. Ücretsiz ön görüşmemizde size özel teklif sunuyoruz.')],
+        ['soru'=>icerik_metin('mimarlik','sss_4_soru','Türkiye genelinde hizmet veriyor musunuz?'),'cevap'=>icerik_metin('mimarlik','sss_4_cevap','Evet, tüm Türkiye genelinde proje ve danışmanlık hizmeti sunmaktayız.')],
       ];
       @endphp
       @foreach($sorular as $i => $s)
@@ -215,7 +215,7 @@ for ($i = 1; $i <= 8; $i++) {
   <div class="mb-8 text-center">
     <p class="section-label mb-2 justify-center">{{ ceviri('REFERANSLAR') }}</p>
     <h2 id="kurumlar-baslik" class="text-[22px] font-bold text-[#0F172A] tracking-tight">
-      {{ icerik('mimarlik','referanslar_baslik','Çalıştığımız Kurumlar') }}
+      {{ icerik_metin('mimarlik','referanslar_baslik','Çalıştığımız Kurumlar') }}
     </h2>
   </div>
   <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -243,8 +243,8 @@ for ($i = 1; $i <= 8; $i++) {
   <div class="bg-[#0F172A] rounded-2xl px-8 lg:px-14 py-12 flex flex-col lg:flex-row items-center justify-between gap-6">
     <div>
       <p class="text-[11px] font-semibold tracking-widest uppercase text-[#CC2200] mb-3">{{ ceviri('HAREKETE GEÇ') }}</p>
-      <h2 class="text-[24px] lg:text-[32px] font-bold text-white tracking-tight mb-2">{{ icerik('mimarlik','cta_baslik','Projenizi Konuşalım') }}</h2>
-      <p class="text-[13px] text-[rgba(255,255,255,0.45)]">{{ icerik('mimarlik','cta_metin','Ücretsiz ön görüşme için bugün bize ulaşın.') }}</p>
+      <h2 class="text-[24px] lg:text-[32px] font-bold text-white tracking-tight mb-2">{{ icerik_metin('mimarlik','cta_baslik','Projenizi Konuşalım') }}</h2>
+      <p class="text-[13px] text-[rgba(255,255,255,0.45)]">{{ icerik_metin('mimarlik','cta_metin','Ücretsiz ön görüşme için bugün bize ulaşın.') }}</p>
     </div>
     <div class="flex flex-col sm:flex-row gap-3 shrink-0">
       <a href="{{ route('home') }}#iletisim"

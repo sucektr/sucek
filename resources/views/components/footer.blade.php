@@ -9,7 +9,7 @@
       <div class="lg:col-span-1">
         <div class="font-bold text-[20px] tracking-tight text-white mb-3">{{ icerik('site','sirket_adi','SUÇEK') }}</div>
         <p class="text-[13px] text-[rgba(255,255,255,0.40)] leading-relaxed max-w-[210px]">
-          {{ icerik('site','footer_aciklama','Mimarlık, inşaat, antika koleksiyon ve mağaza hizmetlerinde güvenilir adresiniz.') }}
+          {{ icerik_metin('site','footer_aciklama','Mimarlık, inşaat, antika koleksiyon ve mağaza hizmetlerinde güvenilir adresiniz.') }}
         </p>
         @php
           $sosyal = [
@@ -83,8 +83,8 @@
           <li class="flex items-start gap-2.5 pt-1">
             <i class="ti ti-clock text-sm text-[rgba(255,255,255,0.30)] mt-0.5 shrink-0"></i>
             <span class="text-[13px] text-[rgba(255,255,255,0.50)] leading-relaxed">
-              {{ icerik('site','calisma_hafta','Pzt–Cum 09:00–18:00') }}<br>
-              {{ icerik('site','calisma_cumartesi','Cts 10:00–15:00') }}
+              {{ icerik_metin('site','calisma_hafta','Pzt–Cum 09:00–18:00') }}<br>
+              {{ icerik_metin('site','calisma_cumartesi','Cts 10:00–15:00') }}
             </span>
           </li>
         </ul>

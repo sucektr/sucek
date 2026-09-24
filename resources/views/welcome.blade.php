@@ -11,7 +11,7 @@
 
 @section('banner')
   @include('components.banner', [
-    'mesaj' => icerik('anasayfa','banner_metni','Seçili ürünlerde %30 indirim ve ücretsiz kargo fırsatını kaçırma!'),
+    'mesaj' => icerik_metin('anasayfa','banner_metni','Seçili ürünlerde %30 indirim ve ücretsiz kargo fırsatını kaçırma!'),
     'link'  => icerik('anasayfa','banner_link','') ?: route('magaza.index'),
   ])
 @endsection
@@ -222,10 +222,10 @@ $heroPaneller = [
       <div>
         <p class="section-label mb-3">{{ ceviri('YAKLAŞIMIMIZ') }}</p>
         <h2 id="yaklasim-baslik" class="text-[26px] lg:text-[32px] font-bold text-[#0F172A] leading-tight tracking-tight mb-5">
-          {{ icerik('anasayfa','yaklasim_baslik','Kalite, Güven ve Estetik') }}
+          {{ icerik_metin('anasayfa','yaklasim_baslik','Kalite, Güven ve Estetik') }}
         </h2>
         <p class="text-[15px] text-[#64748B] leading-relaxed">
-          {{ icerik('anasayfa','yaklasim_metin','Her projede müşterilerimizin hayalini gerçeğe dönüştürüyoruz. Mimarlıktan inşaata, antika koleksiyondan mağazacılığa kadar uzanan geniş hizmet yelpazesiyle yanınızdayız.') }}
+          {{ icerik_metin('anasayfa','yaklasim_metin','Her projede müşterilerimizin hayalini gerçeğe dönüştürüyoruz. Mimarlıktan inşaata, antika koleksiyondan mağazacılığa kadar uzanan geniş hizmet yelpazesiyle yanınızdayız.') }}
         </p>
       </div>
       <div class="mt-8 flex items-center gap-3 pt-6 border-t border-[#E2E8F0]">
@@ -253,9 +253,9 @@ $heroPaneller = [
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
     @php
     $referanslar = [
-      ['metin' => icerik('anasayfa','ref_1_metin','SUÇEK ekibi, villam için hayalini kurduğum mimari projeyi en ince ayrıntısına kadar hayata geçirdi. Profesyonellik ve estetik anlayışları gerçekten üst düzey.'), 'ad' => icerik('anasayfa','ref_1_ad','Ahmet K.'), 'unvan' => icerik('anasayfa','ref_1_unvan','Villa Projesi, 2024')],
-      ['metin' => icerik('anasayfa','ref_2_metin','Koleksiyon bölümünden aldığım antika saatin özgünlüğü ve değerlemesi konusunda son derece titiz davrandılar. Tam anlamıyla güvenilir bir adres.'), 'ad' => icerik('anasayfa','ref_2_ad','Nilüfer B.'), 'unvan' => icerik('anasayfa','ref_2_unvan','Antika Koleksiyon')],
-      ['metin' => icerik('anasayfa','ref_3_metin','İnşaat projemiz zamanında, bütçe dahilinde ve vaat edilen kaliteyle teslim edildi. Bu üçlüyü bir arada bulmak artık nadiren mümkün.'), 'ad' => icerik('anasayfa','ref_3_ad','Murat T.'), 'unvan' => icerik('anasayfa','ref_3_unvan','Anahtar Teslim Proje, 2023')],
+      ['metin' => icerik_metin('anasayfa','ref_1_metin','SUÇEK ekibi, villam için hayalini kurduğum mimari projeyi en ince ayrıntısına kadar hayata geçirdi. Profesyonellik ve estetik anlayışları gerçekten üst düzey.'), 'ad' => icerik('anasayfa','ref_1_ad','Ahmet K.'), 'unvan' => icerik_metin('anasayfa','ref_1_unvan','Villa Projesi, 2024')],
+      ['metin' => icerik_metin('anasayfa','ref_2_metin','Koleksiyon bölümünden aldığım antika saatin özgünlüğü ve değerlemesi konusunda son derece titiz davrandılar. Tam anlamıyla güvenilir bir adres.'), 'ad' => icerik('anasayfa','ref_2_ad','Nilüfer B.'), 'unvan' => icerik_metin('anasayfa','ref_2_unvan','Antika Koleksiyon')],
+      ['metin' => icerik_metin('anasayfa','ref_3_metin','İnşaat projemiz zamanında, bütçe dahilinde ve vaat edilen kaliteyle teslim edildi. Bu üçlüyü bir arada bulmak artık nadiren mümkün.'), 'ad' => icerik('anasayfa','ref_3_ad','Murat T.'), 'unvan' => icerik_metin('anasayfa','ref_3_unvan','Anahtar Teslim Proje, 2023')],
     ];
     @endphp
     @foreach($referanslar as $ref)

@@ -18,7 +18,7 @@
       {{ ceviri('Hafif Çelik') }}<br><span class="text-[#CC2200]">{{ ceviri('ve Konteyner') }}</span>
     </h1>
     <p class="text-[15px] lg:text-[17px] text-[#94A3B8] leading-relaxed max-w-xl mb-8">
-      {{ icerik('hafif-celik-konteyner', 'hero_metin', 'Hafif çelik yapı sistemleri ve konteyner çözümleri için bizimle iletişime geçin.') }}
+      {{ icerik_metin('hafif-celik-konteyner', 'hero_metin', 'Hafif çelik yapı sistemleri ve konteyner çözümleri için bizimle iletişime geçin.') }}
     </p>
 
     <div class="flex flex-col sm:flex-row gap-3">

@@ -4,7 +4,7 @@
 @section('meta-description', ceviri('SUÇEK Mağaza: Spor malzemeleri ve inşaat malzemeleri.'))
 
 @section('banner')
-  @include('components.banner', ['mesaj' => icerik('magaza','banner_metni','Seçili ürünlerde %30 indirim ve ücretsiz kargo fırsatını kaçırma!')])
+  @include('components.banner', ['mesaj' => icerik_metin('magaza','banner_metni','Seçili ürünlerde %30 indirim ve ücretsiz kargo fırsatını kaçırma!')])
 @endsection
 
 @section('content')
@@ -17,7 +17,7 @@
   <div class="relative z-10 px-6 lg:px-12 py-12 w-full">
     <p class="text-[11px] font-semibold tracking-widest uppercase text-[#CC2200] mb-2">{{ ceviri('MAĞAZA') }}</p>
     <h1 class="text-[36px] lg:text-[52px] font-bold text-white leading-tight tracking-tight">
-      {{ icerik('magaza','hero_baslik','Kaliteli Ürünler, Uygun Fiyatlar') }}
+      {{ icerik_metin('magaza','hero_baslik','Kaliteli Ürünler, Uygun Fiyatlar') }}
     </h1>
   </div>
 </section>

@@ -16,10 +16,10 @@
   <div class="relative z-10 px-9 lg:px-14 py-12 w-full">
     <p class="text-[9px] font-medium tracking-[3px] uppercase text-[rgba(255,255,255,0.40)] mb-2">{{ ceviri('İLETİŞİM') }}</p>
     <h1 class="font-display text-[36px] lg:text-[48px] font-semibold text-white leading-[1.1]">
-      {{ icerik('iletisim','hero_baslik','Bize Ulaşın') }}
+      {{ icerik_metin('iletisim','hero_baslik','Bize Ulaşın') }}
     </h1>
     <p class="text-[13px] text-[rgba(255,255,255,0.45)] mt-2 max-w-md">
-      {{ icerik('iletisim','hero_alt_baslik','Projeleriniz ve hizmetlerimiz hakkında konuşalım.') }}
+      {{ icerik_metin('iletisim','hero_alt_baslik','Projeleriniz ve hizmetlerimiz hakkında konuşalım.') }}
     </p>
   </div>
 </section>
@@ -81,9 +81,9 @@
         </div>
         <div>
           <p class="text-[9px] font-medium tracking-[2px] uppercase text-[#A8A8A8] mb-1">{{ ceviri('ÇALIŞMA SAATLERİ') }}</p>
-          <p class="text-[13px] font-medium text-[#0F0F0F]">{{ icerik('site','calisma_hafta','Pzt–Cum 09:00–18:00') }}</p>
-          <p class="text-[12px] text-[#A8A8A8] mt-0.5">{{ icerik('site','calisma_cumartesi','Cts 10:00–15:00') }}</p>
-          <p class="text-[12px] text-[#A8A8A8] mt-0.5">{{ icerik('site','calisma_pazar','Pazar: Kapalı') }}</p>
+          <p class="text-[13px] font-medium text-[#0F0F0F]">{{ icerik_metin('site','calisma_hafta','Pzt–Cum 09:00–18:00') }}</p>
+          <p class="text-[12px] text-[#A8A8A8] mt-0.5">{{ icerik_metin('site','calisma_cumartesi','Cts 10:00–15:00') }}</p>
+          <p class="text-[12px] text-[#A8A8A8] mt-0.5">{{ icerik_metin('site','calisma_pazar','Pazar: Kapalı') }}</p>
         </div>
       </div>
 
@@ -111,7 +111,7 @@
   <div class="mb-8">
     <p class="text-[9px] font-medium tracking-[3px] uppercase text-[#A8A8A8] mb-1.5">{{ ceviri('MESAJ GÖNDERIN') }}</p>
     <h2 class="font-display text-[28px] lg:text-[36px] font-semibold text-[#0F0F0F]">
-      {{ icerik('iletisim','form_baslik','Nasıl Yardımcı Olabiliriz?') }}
+      {{ icerik_metin('iletisim','form_baslik','Nasıl Yardımcı Olabiliriz?') }}
     </h2>
   </div>
 
@@ -191,10 +191,10 @@
 
       <div>
         <h3 class="font-display text-[20px] font-semibold text-[#0F0F0F] mb-3">
-          {{ icerik('iletisim','yon_baslik','Projeleriniz İçin Buradayız') }}
+          {{ icerik_metin('iletisim','yon_baslik','Projeleriniz İçin Buradayız') }}
         </h3>
         <p class="text-[14px] text-[#5A5A5A] leading-relaxed">
-          {{ icerik('iletisim','yon_metin','Mimarlık, inşaat, antika koleksiyon ve mağaza hizmetlerimiz hakkında her türlü soru ve talebiniz için iletişim formunu doldurabilir ya da doğrudan bizimle iletişime geçebilirsiniz.') }}
+          {{ icerik_metin('iletisim','yon_metin','Mimarlık, inşaat, antika koleksiyon ve mağaza hizmetlerimiz hakkında her türlü soru ve talebiniz için iletişim formunu doldurabilir ya da doğrudan bizimle iletişime geçebilirsiniz.') }}
         </p>
       </div>
 

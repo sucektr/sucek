@@ -4,7 +4,7 @@
 @section('meta-description', ceviri('İmar ve inşaat ruhsatlarının başvuru, takip ve sonuçlandırma süreçleri hakkında bilgi alın.'))
 
 @section('banner')
-  @include('components.banner', ['mesaj' => icerik('ruhsat','banner_metni','Ruhsat süreciniz için ücretsiz ön görüşme alın!')])
+  @include('components.banner', ['mesaj' => icerik_metin('ruhsat','banner_metni','Ruhsat süreciniz için ücretsiz ön görüşme alın!')])
 @endsection
 
 @section('content')
@@ -21,10 +21,10 @@
       <span class="text-[9px] font-medium tracking-[2px] uppercase text-[rgba(255,255,255,0.55)]">{{ ceviri('Ruhsat Süreci') }}</span>
     </nav>
     <h1 class="font-display text-[40px] lg:text-[54px] font-semibold text-white leading-[1.05] mb-4">
-      {{ icerik('ruhsat','hero_baslik','Ruhsat Süreci') }}
+      {{ icerik_metin('ruhsat','hero_baslik','Ruhsat Süreci') }}
     </h1>
     <p class="text-[13px] text-[rgba(255,255,255,0.60)] leading-relaxed max-w-[420px]">
-      {{ icerik('ruhsat','hero_alt_baslik','İmar ve inşaat ruhsatlarının başvuru, takip ve sonuçlandırma süreçlerini eksiksiz yönetiyoruz.') }}
+      {{ icerik_metin('ruhsat','hero_alt_baslik','İmar ve inşaat ruhsatlarının başvuru, takip ve sonuçlandırma süreçlerini eksiksiz yönetiyoruz.') }}
     </p>
   </div>
 </section>

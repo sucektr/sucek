@@ -1390,5 +1390,213 @@
     {
         "tr": "Diğer Haberler",
         "en": "Other News"
+    },
+    {
+        "tr": "İmar ve inşaat ruhsatlarının başvuru, takip ve sonuçlandırma süreçlerini eksiksiz yönetiyoruz.",
+        "en": "We fully manage the application, follow-up and finalization processes of zoning and construction permits."
+    },
+    {
+        "tr": "Proje Tasarımı",
+        "en": "Project Design"
+    },
+    {
+        "tr": "Konsept geliştirmeden uygulama projelerine kadar tüm mimari süreçleri kapsayan hizmet.",
+        "en": "A service covering all architectural processes from concept development to implementation projects."
+    },
+    {
+        "tr": "3D Görselleştirme",
+        "en": "3D Visualization"
+    },
+    {
+        "tr": "Projenizin inşaattan önce nasıl görüneceğini gerçekçi 3D render ve animasyonlarla sunuyoruz.",
+        "en": "We show you how your project will look before construction with realistic 3D renders and animations."
+    },
+    {
+        "tr": "Statik Proje",
+        "en": "Structural Project"
+    },
+    {
+        "tr": "Yapı güvenliği ve dayanımı için gerekli statik hesap ve projelerin hazırlanması.",
+        "en": "Preparation of the structural calculations and projects required for building safety and strength."
+    },
+    {
+        "tr": "Peyzaj Tasarımı",
+        "en": "Landscape Design"
+    },
+    {
+        "tr": "Dış mekan düzenlemesi ve peyzaj projelerinde estetik ve sürdürülebilir çözümler.",
+        "en": "Aesthetic and sustainable solutions for outdoor design and landscape projects."
+    },
+    {
+        "tr": "Ön Görüşme",
+        "en": "Initial Consultation"
+    },
+    {
+        "tr": "İhtiyaçlarınızı ve beklentilerinizi dinliyor, projenizi tanıyoruz.",
+        "en": "We listen to your needs and expectations to get to know your project."
+    },
+    {
+        "tr": "Konsept Geliştirme",
+        "en": "Concept Development"
+    },
+    {
+        "tr": "Vizyonunuzu somutlaştıracak tasarım konseptleri hazırlıyoruz.",
+        "en": "We prepare design concepts that bring your vision to life."
+    },
+    {
+        "tr": "Proje & Ruhsat",
+        "en": "Project & Permit"
+    },
+    {
+        "tr": "Tüm mimari ve yasal süreçleri titizlikle yürütüyoruz.",
+        "en": "We carry out all architectural and legal processes meticulously."
+    },
+    {
+        "tr": "Proje sürecini başından sonuna kadar denetliyor ve yönetiyoruz.",
+        "en": "We supervise and manage the project process from start to finish."
+    },
+    {
+        "tr": "Ruhsat süreci ne kadar sürer?",
+        "en": "How long does the permit process take?"
+    },
+    {
+        "tr": "Projenin türü ve belediye yoğunluğuna göre değişmekle birlikte standart bir konut ruhsatı genellikle 3-6 ay sürmektedir.",
+        "en": "Although it varies depending on the type of project and municipal workload, a standard residential permit usually takes 3-6 months."
+    },
+    {
+        "tr": "İç mimari proje için minimum alan sınırı var mı?",
+        "en": "Is there a minimum area limit for interior design projects?"
+    },
+    {
+        "tr": "Hayır, her büyüklükteki alana hizmet veriyoruz. Stüdyo daireden villa projelerine kadar geniş bir yelpazeyi kapsıyoruz.",
+        "en": "No, we serve spaces of all sizes. We cover a wide range, from studio apartments to villa projects."
+    },
+    {
+        "tr": "Proje maliyeti nasıl belirlenir?",
+        "en": "How is the project cost determined?"
+    },
+    {
+        "tr": "Maliyet; projenin kapsamı, alanı ve hizmet türüne göre belirlenir. Ücretsiz ön görüşmemizde size özel teklif sunuyoruz.",
+        "en": "Cost is determined by the scope, area and type of service of the project. We offer you a custom quote during our free consultation."
+    },
+    {
+        "tr": "Türkiye genelinde hizmet veriyor musunuz?",
+        "en": "Do you provide service throughout Turkey?"
+    },
+    {
+        "tr": "Evet, tüm Türkiye genelinde proje ve danışmanlık hizmeti sunmaktayız.",
+        "en": "Yes, we provide project and consultancy services throughout Turkey."
+    },
+    {
+        "tr": "İç mimari projeniz için ücretsiz ön görüşme alın!",
+        "en": "Get a free consultation for your interior design project!"
+    },
+    {
+        "tr": "Ruhsat süreciniz için ücretsiz ön görüşme alın!",
+        "en": "Get a free consultation for your permit process!"
+    },
+    {
+        "tr": "Anahtar Teslim",
+        "en": "Turnkey"
+    },
+    {
+        "tr": "Projenizin başından sonuna, her detayıyla sizin adınıza yönetiyoruz. Teslim günü sadece anahtarı alıyorsunuz.",
+        "en": "We manage every detail of your project from start to finish on your behalf. On delivery day, you just take the keys."
+    },
+    {
+        "tr": "Dekorasyon",
+        "en": "Decoration"
+    },
+    {
+        "tr": "İç mekan dekorasyonu ve özel mobilya tasarımıyla yaşam alanlarınızı kişiselleştiriyoruz.",
+        "en": "We personalize your living spaces with interior decoration and custom furniture design."
+    },
+    {
+        "tr": "Tadilat & Renovasyon",
+        "en": "Renovation & Remodeling"
+    },
+    {
+        "tr": "Mevcut yapıların modernizasyonu ve tadilat çalışmalarında hızlı ve güvenilir hizmet sunuyoruz.",
+        "en": "We provide fast and reliable service in the modernization and renovation of existing structures."
+    },
+    {
+        "tr": "Mekanik & Elektrik",
+        "en": "Mechanical & Electrical"
+    },
+    {
+        "tr": "Tesisat, elektrik ve iklimlendirme sistemlerinin proje ve uygulamasını eksiksiz yapıyoruz.",
+        "en": "We fully handle the design and implementation of plumbing, electrical and HVAC systems."
+    },
+    {
+        "tr": "Kaba İnşaat",
+        "en": "Shell Construction"
+    },
+    {
+        "tr": "Temel, taşıyıcı sistem ve çatı dahil tüm kaba inşaat işlerini ustalarımızla gerçekleştiriyoruz.",
+        "en": "We carry out all shell construction work, including foundation, structural system and roofing, with our skilled craftsmen."
+    },
+    {
+        "tr": "İnşaat Denetimi",
+        "en": "Construction Supervision"
+    },
+    {
+        "tr": "Yapım süreçlerinde kalite, güvenlik ve uygunluk denetimi sağlayarak riskleri minimize ediyoruz.",
+        "en": "We minimize risks by ensuring quality, safety and compliance inspection throughout construction processes."
+    },
+    {
+        "tr": "Projenizin Maliyetini Hesaplayın",
+        "en": "Calculate Your Project Cost"
+    },
+    {
+        "tr": "Anlık maliyet tahmini için hesaplama aracımızı kullanın.",
+        "en": "Use our calculation tool for an instant cost estimate."
+    },
+    {
+        "tr": "Arsanızın Emsal Hakkını Hesaplayın",
+        "en": "Calculate Your Land's Floor Area Ratio"
+    },
+    {
+        "tr": "İmar durumuna göre inşaat alanı hakkınızı anında öğrenin.",
+        "en": "Find out your construction area entitlement instantly based on zoning status."
+    },
+    {
+        "tr": "Bize Ulaşın",
+        "en": "Contact Us"
+    },
+    {
+        "tr": "Projeleriniz ve hizmetlerimiz hakkında konuşalım.",
+        "en": "Let's talk about your projects and our services."
+    },
+    {
+        "tr": "Nasıl Yardımcı Olabiliriz?",
+        "en": "How Can We Help?"
+    },
+    {
+        "tr": "Projeleriniz İçin Buradayız",
+        "en": "We're Here For Your Projects"
+    },
+    {
+        "tr": "Mimarlık, inşaat, antika koleksiyon ve mağaza hizmetlerimiz hakkında her türlü soru ve talebiniz için iletişim formunu doldurabilir ya da doğrudan bizimle iletişime geçebilirsiniz.",
+        "en": "You can fill out the contact form or reach out to us directly for any questions or requests regarding our architecture, construction, antique collection and store services."
+    },
+    {
+        "tr": "İnşaat güvenliğinden balkon korumaya, endüstriyel tesislerden konut projelerine kadar her ihtiyaca özel çelik güvenlik ağı çözümleri sunuyoruz.",
+        "en": "We offer tailored steel safety net solutions for every need, from construction safety to balcony protection, from industrial facilities to residential projects."
+    },
+    {
+        "tr": "Bina inşaatlarında düşme ve yaralanmalara karşı EN 1263 standardına uygun güvenlik ağı sistemleri.",
+        "en": "Safety net systems compliant with the EN 1263 standard, protecting against falls and injuries in building construction."
+    },
+    {
+        "tr": "Konut ve ticari yapılarda balkon, teras ve boşluklara özel koruyucu çelik ağ uygulamaları.",
+        "en": "Protective steel net applications tailored for balconies, terraces and openings in residential and commercial buildings."
+    },
+    {
+        "tr": "Fabrika, depo ve endüstriyel tesislerde makine koruma, bölme ve güvenlik ağı çözümleri.",
+        "en": "Machine protection, partitioning and safety net solutions for factories, warehouses and industrial facilities."
+    },
+    {
+        "tr": "Hafif çelik yapı sistemleri ve konteyner çözümleri için bizimle iletişime geçin.",
+        "en": "Contact us for light steel structure systems and container solutions."
     }
 ]

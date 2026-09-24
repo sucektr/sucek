@@ -4,7 +4,7 @@
 @section('meta-description', ceviri('Yaşam alanlarınızı işlevsel ve estetik bir bütünlük içinde yeniden tasarlıyoruz.'))
 
 @section('banner')
-  @include('components.banner', ['mesaj' => icerik('icmimari','banner_metni','İç mimari projeniz için ücretsiz ön görüşme alın!')])
+  @include('components.banner', ['mesaj' => icerik_metin('icmimari','banner_metni','İç mimari projeniz için ücretsiz ön görüşme alın!')])
 @endsection
 
 @section('content')
@@ -21,10 +21,10 @@
       <span class="text-[9px] font-medium tracking-[2px] uppercase text-[rgba(255,255,255,0.55)]">{{ ceviri('İç Mimari') }}</span>
     </nav>
     <h1 class="font-display text-[40px] lg:text-[54px] font-semibold text-white leading-[1.05] mb-4">
-      {{ icerik('icmimari','hero_baslik','İç Mimari') }}
+      {{ icerik_metin('icmimari','hero_baslik','İç Mimari') }}
     </h1>
     <p class="text-[13px] text-[rgba(255,255,255,0.60)] leading-relaxed max-w-[420px]">
-      {{ icerik('icmimari','hero_alt_baslik','Yaşam alanlarınızı işlevsel ve estetik bir bütünlük içinde yeniden tasarlıyoruz.') }}
+      {{ icerik_metin('icmimari','hero_alt_baslik','Yaşam alanlarınızı işlevsel ve estetik bir bütünlük içinde yeniden tasarlıyoruz.') }}
     </p>
   </div>
 </section>

@@ -4,7 +4,7 @@
 @section('meta-description', ceviri('SUÇEK İnşaat hizmetleri: Anahtar teslim projeler, dekorasyon ve inşaat yönetimi.'))
 
 @section('banner')
-  @include('components.banner', ['mesaj' => icerik('insaat','banner_metni','Maliyet hesaplama aracımızı kullanmak için tıklayın →')])
+  @include('components.banner', ['mesaj' => icerik_metin('insaat','banner_metni','Maliyet hesaplama aracımızı kullanmak için tıklayın →')])
 @endsection
 
 @section('content')
@@ -18,10 +18,10 @@
     <div class="flex-1">
       <p class="text-[9px] font-medium tracking-[3px] uppercase text-[rgba(255,255,255,0.45)] mb-3">{{ ceviri('İNŞAAT HİZMETLERİ') }}</p>
       <h1 class="font-display text-[42px] lg:text-[56px] font-semibold text-white leading-[1.05] mb-5">
-        {{ icerik('insaat','hero_baslik','Sağlam Temeller, Mükemmel Sonuçlar') }}
+        {{ icerik_metin('insaat','hero_baslik','Sağlam Temeller, Mükemmel Sonuçlar') }}
       </h1>
       <p class="text-[13px] text-[rgba(255,255,255,0.60)] leading-relaxed max-w-[380px]">
-        {{ icerik('insaat','hero_alt_baslik','Anahtar teslim projelerden dekorasyona, maliyet optimizasyonundan denetim hizmetine.') }}
+        {{ icerik_metin('insaat','hero_alt_baslik','Anahtar teslim projelerden dekorasyona, maliyet optimizasyonundan denetim hizmetine.') }}
       </p>
     </div>
     <div class="flex flex-col sm:flex-row lg:flex-col gap-2 shrink-0">
@@ -46,12 +46,12 @@
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
     @php
     $hizmetler = [
-      ['ikon'=>'ti-home','baslik'=>icerik('insaat','hizmet_1_baslik','Anahtar Teslim'),'aciklama'=>icerik('insaat','hizmet_1_aciklama','Projenizin başından sonuna, her detayıyla sizin adınıza yönetiyoruz. Teslim günü sadece anahtarı alıyorsunuz.'),'one_cikan'=>true],
-      ['ikon'=>'ti-brush','baslik'=>icerik('insaat','hizmet_2_baslik','Dekorasyon'),'aciklama'=>icerik('insaat','hizmet_2_aciklama','İç mekan dekorasyonu ve özel mobilya tasarımıyla yaşam alanlarınızı kişiselleştiriyoruz.'),'one_cikan'=>false],
-      ['ikon'=>'ti-tool','baslik'=>icerik('insaat','hizmet_3_baslik','Tadilat & Renovasyon'),'aciklama'=>icerik('insaat','hizmet_3_aciklama','Mevcut yapıların modernizasyonu ve tadilat çalışmalarında hızlı ve güvenilir hizmet sunuyoruz.'),'one_cikan'=>false],
-      ['ikon'=>'ti-bolt','baslik'=>icerik('insaat','hizmet_4_baslik','Mekanik & Elektrik'),'aciklama'=>icerik('insaat','hizmet_4_aciklama','Tesisat, elektrik ve iklimlendirme sistemlerinin proje ve uygulamasını eksiksiz yapıyoruz.'),'one_cikan'=>false],
-      ['ikon'=>'ti-wall','baslik'=>icerik('insaat','hizmet_5_baslik','Kaba İnşaat'),'aciklama'=>icerik('insaat','hizmet_5_aciklama','Temel, taşıyıcı sistem ve çatı dahil tüm kaba inşaat işlerini ustalarımızla gerçekleştiriyoruz.'),'one_cikan'=>false],
-      ['ikon'=>'ti-report','baslik'=>icerik('insaat','hizmet_6_baslik','İnşaat Denetimi'),'aciklama'=>icerik('insaat','hizmet_6_aciklama','Yapım süreçlerinde kalite, güvenlik ve uygunluk denetimi sağlayarak riskleri minimize ediyoruz.'),'one_cikan'=>false],
+      ['ikon'=>'ti-home','baslik'=>icerik_metin('insaat','hizmet_1_baslik','Anahtar Teslim'),'aciklama'=>icerik_metin('insaat','hizmet_1_aciklama','Projenizin başından sonuna, her detayıyla sizin adınıza yönetiyoruz. Teslim günü sadece anahtarı alıyorsunuz.'),'one_cikan'=>true],
+      ['ikon'=>'ti-brush','baslik'=>icerik_metin('insaat','hizmet_2_baslik','Dekorasyon'),'aciklama'=>icerik_metin('insaat','hizmet_2_aciklama','İç mekan dekorasyonu ve özel mobilya tasarımıyla yaşam alanlarınızı kişiselleştiriyoruz.'),'one_cikan'=>false],
+      ['ikon'=>'ti-tool','baslik'=>icerik_metin('insaat','hizmet_3_baslik','Tadilat & Renovasyon'),'aciklama'=>icerik_metin('insaat','hizmet_3_aciklama','Mevcut yapıların modernizasyonu ve tadilat çalışmalarında hızlı ve güvenilir hizmet sunuyoruz.'),'one_cikan'=>false],
+      ['ikon'=>'ti-bolt','baslik'=>icerik_metin('insaat','hizmet_4_baslik','Mekanik & Elektrik'),'aciklama'=>icerik_metin('insaat','hizmet_4_aciklama','Tesisat, elektrik ve iklimlendirme sistemlerinin proje ve uygulamasını eksiksiz yapıyoruz.'),'one_cikan'=>false],
+      ['ikon'=>'ti-wall','baslik'=>icerik_metin('insaat','hizmet_5_baslik','Kaba İnşaat'),'aciklama'=>icerik_metin('insaat','hizmet_5_aciklama','Temel, taşıyıcı sistem ve çatı dahil tüm kaba inşaat işlerini ustalarımızla gerçekleştiriyoruz.'),'one_cikan'=>false],
+      ['ikon'=>'ti-report','baslik'=>icerik_metin('insaat','hizmet_6_baslik','İnşaat Denetimi'),'aciklama'=>icerik_metin('insaat','hizmet_6_aciklama','Yapım süreçlerinde kalite, güvenlik ve uygunluk denetimi sağlayarak riskleri minimize ediyoruz.'),'one_cikan'=>false],
     ];
     @endphp
     @foreach($hizmetler as $h)
@@ -98,8 +98,8 @@
 <section class="section">
   <div class="bg-[#141414] rounded-[16px] px-6 lg:px-16 py-10 lg:py-12 flex flex-col lg:flex-row items-center justify-between gap-6 text-center lg:text-left">
     <div>
-      <h2 class="font-display text-[28px] lg:text-[34px] font-semibold text-white mb-2">{{ icerik('insaat','cta_baslik','Projenizin Maliyetini Hesaplayın') }}</h2>
-      <p class="text-[13px] text-[rgba(255,255,255,0.50)]">{{ icerik('insaat','cta_metin','Anlık maliyet tahmini için hesaplama aracımızı kullanın.') }}</p>
+      <h2 class="font-display text-[28px] lg:text-[34px] font-semibold text-white mb-2">{{ icerik_metin('insaat','cta_baslik','Projenizin Maliyetini Hesaplayın') }}</h2>
+      <p class="text-[13px] text-[rgba(255,255,255,0.50)]">{{ icerik_metin('insaat','cta_metin','Anlık maliyet tahmini için hesaplama aracımızı kullanın.') }}</p>
     </div>
     <a href="{{ route('insaat.hesaplama') }}"
        class="btn bg-white text-[#0F0F0F] text-[10px] tracking-[1.5px] px-8 py-3.5 min-h-[44px] justify-center hover:bg-[#F0F0F0] transition-colors rounded-[8px] shrink-0">
@@ -111,8 +111,8 @@
 <section class="section pt-0">
   <div class="bg-[#141414] rounded-[16px] px-6 lg:px-16 py-10 lg:py-12 flex flex-col lg:flex-row items-center justify-between gap-6 text-center lg:text-left">
     <div>
-      <h2 class="font-display text-[28px] lg:text-[34px] font-semibold text-white mb-2">{{ icerik('insaat','emsal_cta_baslik','Arsanızın Emsal Hakkını Hesaplayın') }}</h2>
-      <p class="text-[13px] text-[rgba(255,255,255,0.50)]">{{ icerik('insaat','emsal_cta_metin','İmar durumuna göre inşaat alanı hakkınızı anında öğrenin.') }}</p>
+      <h2 class="font-display text-[28px] lg:text-[34px] font-semibold text-white mb-2">{{ icerik_metin('insaat','emsal_cta_baslik','Arsanızın Emsal Hakkını Hesaplayın') }}</h2>
+      <p class="text-[13px] text-[rgba(255,255,255,0.50)]">{{ icerik_metin('insaat','emsal_cta_metin','İmar durumuna göre inşaat alanı hakkınızı anında öğrenin.') }}</p>
     </div>
     <a href="{{ route('insaat.emsal') }}"
        class="btn bg-white text-[#0F0F0F] text-[10px] tracking-[1.5px] px-8 py-3.5 min-h-[44px] justify-center hover:bg-[#F0F0F0] transition-colors rounded-[8px] shrink-0">
