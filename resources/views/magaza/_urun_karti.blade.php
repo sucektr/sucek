@@ -28,7 +28,7 @@
         };
       @endphp
       <p class="text-[10px] text-[#A8A8A8] uppercase tracking-[1px] mb-1">{{ $katLabel }}</p>
-      <h3 class="font-display text-[15px] font-semibold text-[#0F0F0F] mb-2 line-clamp-2 leading-snug">{{ $urun->ad }}</h3>
+      <h3 class="font-display text-[15px] font-semibold text-[#0F0F0F] mb-2 line-clamp-2 leading-snug min-h-[2.75em]">{{ $urun->ad }}</h3>
       @if($premiumFiyat)
       <div class="flex items-baseline gap-2 flex-wrap">
         <span class="font-display text-[17px] font-semibold" style="color:#6d28d9;">{{ number_format($premiumFiyat, 2, ',', '.') }} ₺</span>

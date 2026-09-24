@@ -201,7 +201,7 @@
               @endif
             </div>
             <div class="p-3.5">
-              <h3 class="text-[14px] font-semibold text-[#0F172A] mb-2 line-clamp-2 leading-snug tracking-tight">{{ $urun->ad }}</h3>
+              <h3 class="text-[14px] font-semibold text-[#0F172A] mb-2 line-clamp-2 leading-snug tracking-tight min-h-[2.75em]">{{ $urun->ad }}</h3>
               <div class="flex items-baseline gap-2">
                 <span class="text-[16px] font-bold text-[#0F172A]">{{ number_format($urun->fiyat, 2, ',', '.') }} ₺</span>
                 @if($urun->eski_fiyat)
