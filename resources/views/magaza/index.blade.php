@@ -169,7 +169,7 @@
       </div>
       <a href="{{ route('magaza.index') }}?kategori={{ $kat['key'] }}"
          class="hidden sm:flex items-center gap-1.5 text-[13px] font-medium text-[#64748B] hover:text-[#CC2200] transition-colors min-h-[44px]"
-         aria-label="{{ $kat['baslik'] }} {{ ceviri('tümünü gör') }}">
+         aria-label="{{ $kat['baslik'] }} {{ ceviri('Tümünü Gör') }}">
         {{ ceviri('Tümünü Gör') }} <i class="ti ti-arrow-right text-sm" aria-hidden="true"></i>
       </a>
     </div>
@@ -215,7 +215,7 @@
                 }).then(r=>r.json()).then(d=>{ $dispatch('sepet-guncellendi', { adet: d.adet, mesaj: '{{ $urun->ad }} {{ ceviri('sepete eklendi') }}' }) })
               "
               class="w-full flex items-center justify-center gap-1.5 text-[13px] font-medium text-white bg-[#0F172A] py-2.5 rounded-lg hover:bg-[#1e293b] active:scale-95 transition-all duration-200 min-h-[40px]"
-              aria-label="{{ $urun->ad }} {{ ceviri('sepete ekle') }}">
+              aria-label="{{ $urun->ad }} {{ ceviri('Sepete Ekle') }}">
               <i class="ti ti-shopping-cart text-sm" aria-hidden="true"></i> {{ ceviri('Sepete Ekle') }}
             </button>
           </div>
