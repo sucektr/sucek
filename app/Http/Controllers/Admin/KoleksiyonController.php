@@ -3,34 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Services\BanknoteSerialBlurService;
 use Illuminate\Http\Request;
 
 class KoleksiyonController extends Controller
 {
-    public function __construct(private BanknoteSerialBlurService $blurService)
-    {
-    }
-
-    /**
-     * Numizmatik kategorisindeki banknot görsellerinde seri numarasını otomatik blurlar.
-     * Google Vision API anahtarı tanımlı değilse admin'i uyarır, yüklemeyi engellemez.
-     */
-    private function blurNumizmatikGorseller(string $kategori, array $paths): void
-    {
-        if (strtolower($kategori) !== 'numizmatik' || empty($paths)) {
-            return;
-        }
-
-        if (!config('services.google_vision.key')) {
-            session()->flash('uyari', 'Google Vision API anahtarı tanımlı olmadığı için seri numarası otomatik blurlanmadı. Görseli kontrol edin.');
-            return;
-        }
-
-        foreach ($paths as $path) {
-            $this->blurService->blur($path);
-        }
-    }
     public function index(\Illuminate\Http\Request $request)
     {
         $q        = $request->input('q');
@@ -104,8 +80,6 @@ class KoleksiyonController extends Controller
         $data['aktif']     = $request->boolean('aktif');
         $data['one_cikan'] = $request->boolean('one_cikan');
 
-        $this->blurNumizmatikGorseller($data['kategori'], array_filter([$data['gorsel'] ?? null, ...$ekGorseller]));
-
         \App\Models\Koleksiyon::create($data);
         return redirect()->route('admin.koleksiyonlar.index')->with('basari', 'Koleksiyon eklendi.');
     }
@@ -158,12 +132,10 @@ class KoleksiyonController extends Controller
                 $mevcutGorseller = array_values(array_filter($mevcutGorseller, fn($g) => $g !== $silinecek));
             }
         }
-        $yeniGorseller = [];
         if ($request->hasFile('gorseller')) {
             foreach ($request->file('gorseller') as $file) {
-                $yeniGorseller[] = $file->store('koleksiyonlar', 'public');
+                $mevcutGorseller[] = $file->store('koleksiyonlar', 'public');
             }
-            $mevcutGorseller = array_merge($mevcutGorseller, $yeniGorseller);
         }
         $data['gorseller'] = !empty($mevcutGorseller) ? $mevcutGorseller : null;
 
@@ -186,9 +158,6 @@ class KoleksiyonController extends Controller
 
         $data['aktif']     = $request->boolean('aktif');
         $data['one_cikan'] = $request->boolean('one_cikan');
-
-        $yeniGorselYolu = $request->hasFile('gorsel') ? $data['gorsel'] : null;
-        $this->blurNumizmatikGorseller($data['kategori'], array_filter([$yeniGorselYolu, ...$yeniGorseller]));
 
         $koleksiyon->update($data);
         return redirect()->route('admin.koleksiyonlar.index')->with('basari', 'Koleksiyon güncellendi.');
