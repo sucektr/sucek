@@ -57,12 +57,12 @@ class BanknoteSerialBlurService
         );
 
         $manager = new ImageManager(new Driver());
-        $image = $manager->decode($fullPath);
+        $image = $manager->read($fullPath);
 
         foreach ($boxes as $box) {
             $region = (clone $image)->crop($box['w'], $box['h'], $box['x'], $box['y']);
             $region->pixelate(self::PIXEL_SIZE);
-            $image->insert($region, $box['x'], $box['y']);
+            $image->place($region, 'top-left', $box['x'], $box['y']);
         }
 
         $image->save($fullPath);
