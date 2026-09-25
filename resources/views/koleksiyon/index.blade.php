@@ -53,6 +53,7 @@
          open: false,
          q: '',
          ulkeler: @js($ulkeler),
+         ulkeEtiketleri: @js($ulkeler->mapWithKeys(fn($u) => [$u => ceviri($u)])),
          secili: @js($ulke),
          get filtered() {
            return this.q === '' ? this.ulkeler : this.ulkeler.filter(u => u.toLowerCase().includes(this.q.toLowerCase()));
@@ -65,7 +66,7 @@
     <label class="block text-[11px] font-medium text-[#94A3B8] uppercase tracking-wide mb-1.5">{{ ceviri('Ülke') }}</label>
     <div class="relative">
       <input type="text" x-model="q" @focus="open = true"
-             placeholder="{{ $ulke ?: ceviri('Tüm ülkeler') }}"
+             placeholder="{{ $ulke ? ceviri($ulke) : ceviri('Tüm ülkeler') }}"
              class="w-full pl-4 pr-9 py-2.5 text-[13px] border border-[#E2E8F0] rounded-lg focus:outline-none focus:border-[#CC2200] focus:ring-2 focus:ring-[rgba(204,34,0,0.08)] transition-colors"
              aria-label="{{ ceviri('Ülke ara') }}">
       <i class="ti ti-search text-[14px] text-[#94A3B8] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" aria-hidden="true"></i>
@@ -80,7 +81,7 @@
           <button type="button" @click="git(u); open = false"
                   class="w-full text-left px-4 py-2 text-[13px] hover:bg-[#F8FAFC] transition-colors"
                   :class="u === secili ? 'text-[#CC2200] font-semibold' : 'text-[#64748B]'"
-                  x-text="u"></button>
+                  x-text="ulkeEtiketleri[u] ?? u"></button>
         </template>
         <p x-show="filtered.length === 0" style="display:none;" class="px-4 py-2 text-[12px] text-[#94A3B8]">{{ ceviri('Eşleşen ülke yok') }}</p>
       </div>
@@ -126,7 +127,7 @@
       <div class="p-4">
         <h3 class="text-[15px] font-semibold text-[#0F172A] mb-1 leading-snug tracking-tight">{{ $item->ad }}</h3>
         @if($item->ulke)
-        <p class="text-[11px] text-[#94A3B8] mb-1.5 flex items-center gap-1"><i class="ti ti-map-pin text-xs"></i>{{ $item->ulke }}</p>
+        <p class="text-[11px] text-[#94A3B8] mb-1.5 flex items-center gap-1"><i class="ti ti-map-pin text-xs"></i>{{ ceviri($item->ulke) }}</p>
         @endif
         @if($item->aciklama)
         <p class="text-[12px] text-[#64748B] line-clamp-2 mb-3">{{ $item->aciklama }}</p>

@@ -95,7 +95,7 @@
     <div class="flex flex-col gap-5">
       <div>
         <p class="text-[10px] font-medium tracking-[2px] uppercase text-[#A8A8A8] mb-1">
-          {{ $showKatLabel }}{{ $urun->ulke ? ' · '.$urun->ulke : '' }}
+          {{ $showKatLabel }}{{ $urun->ulke ? ' · '.ceviri($urun->ulke) : '' }}
         </p>
         <h1 class="font-display text-[32px] lg:text-[38px] font-semibold text-[#0F0F0F] leading-[1.1] mb-2">{{ $urun->ad }}</h1>
         @if($urun->stok_kodu)
