@@ -130,7 +130,7 @@
         <p class="text-[11px] text-[#94A3B8] mb-1.5 flex items-center gap-1"><i class="ti ti-map-pin text-xs"></i>{{ ceviri($item->ulke) }}</p>
         @endif
         @if($item->aciklama)
-        <p class="text-[12px] text-[#64748B] line-clamp-2 mb-3">{{ $item->aciklama }}</p>
+        <div class="text-[12px] text-[#64748B] line-clamp-2 mb-3 urun-aciklama">{!! $item->aciklama !!}</div>
         @endif
         @php
           $isPremium = auth()->check() && auth()->user()->isPremium();
@@ -177,3 +177,11 @@
 </section>
 
 @endsection
+
+@push('styles')
+<style>
+.urun-aciklama p{margin-bottom:0}
+.urun-aciklama strong{font-weight:600;color:#0F172A}
+.urun-aciklama ul,.urun-aciklama ol{padding-left:1.2em;margin:0}
+</style>
+@endpush

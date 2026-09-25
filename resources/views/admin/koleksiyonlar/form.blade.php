@@ -1,4 +1,20 @@
 ﻿@extends('admin.layouts.app')
+@push('styles')
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+<style>
+.ql-toolbar.ql-snow{border-radius:8px 8px 0 0;border-color:#E2E8F0;background:#F8FAFC;}
+.ql-container.ql-snow{border-radius:0 0 8px 8px;border-color:#E2E8F0;}
+.ql-editor{min-height:110px;font-size:14px;font-family:'Inter',sans-serif;line-height:1.65;}
+.ql-editor.ql-blank::before{color:#94A3B8;font-style:normal;}
+.ql-snow .ql-stroke{stroke:#64748B;}
+.ql-snow .ql-fill,.ql-snow .ql-stroke.ql-fill{fill:#64748B;}
+.ql-snow.ql-toolbar button:hover .ql-stroke,.ql-snow.ql-toolbar button.ql-active .ql-stroke{stroke:#0F172A;}
+.ql-snow.ql-toolbar button:hover .ql-fill,.ql-snow.ql-toolbar button.ql-active .ql-fill{fill:#0F172A;}
+.ql-snow.ql-toolbar button.ql-active,.ql-snow.ql-toolbar .ql-picker-label.ql-active,.ql-snow.ql-toolbar .ql-picker-item.ql-selected{color:#0F172A;}
+.ql-snow .ql-picker{color:#64748B;}
+.ql-snow .ql-picker-label:hover,.ql-snow .ql-picker-label.ql-active{color:#0F172A;}
+</style>
+@endpush
 @section('title', $koleksiyon->exists ? 'Koleksiyon Düzenle' : 'Yeni Koleksiyon')
 @section('page-title', $koleksiyon->exists ? 'Koleksiyon Düzenle' : 'Yeni Koleksiyon')
 
@@ -13,7 +29,7 @@
 @endsection
 
 @section('content')
-<form action="{{ $koleksiyon->exists ? route('admin.koleksiyonlar.update', $koleksiyon) : route('admin.koleksiyonlar.store') }}"
+<form id="koleksiyon-formu" action="{{ $koleksiyon->exists ? route('admin.koleksiyonlar.update', $koleksiyon) : route('admin.koleksiyonlar.store') }}"
       method="POST" enctype="multipart/form-data"
       x-data="{ kategori: '{{ old('kategori', $koleksiyon->kategori) }}' }">
   @csrf
@@ -92,9 +108,8 @@
           </div>
           <div>
             <label class="block text-[11px] font-medium text-[#64748B] uppercase tracking-[.06em] mb-1.5">Açıklama</label>
-            <textarea name="aciklama" rows="4"
-                      class="w-full px-4 py-2.5 border border-[#E2E8F0] rounded-[8px] text-[14px] focus:outline-none focus:border-[#CC2200] focus:ring-2 focus:ring-[rgba(204,34,0,0.08)] transition-colors resize-none"
-                      placeholder="Ürün hakkında açıklama...">{{ old('aciklama', $koleksiyon->aciklama) }}</textarea>
+            <div id="aciklama-editor"></div>
+            <input type="hidden" name="aciklama" id="aciklama-hidden">
           </div>
         </div>
       </div>
@@ -214,6 +229,31 @@
 @endsection
 
 @push('scripts')
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+<script>
+(function () {
+  var quill = new Quill('#aciklama-editor', {
+    theme: 'snow',
+    placeholder: 'Koleksiyon ürünü hakkında açıklama...',
+    modules: {
+      toolbar: [
+        [{ size: ['small', false, 'large', 'huge'] }],
+        ['bold', 'italic', 'underline'],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        ['clean']
+      ]
+    }
+  });
+
+  var existing = {!! json_encode(old('aciklama', $koleksiyon->aciklama)) !!};
+  if (existing) { quill.root.innerHTML = existing; }
+
+  document.getElementById('koleksiyon-formu').addEventListener('submit', function () {
+    var html = quill.root.innerHTML;
+    document.getElementById('aciklama-hidden').value = (html === '<p><br></p>') ? '' : html;
+  });
+})();
+</script>
 <script>
 (function () {
   var kaynak = document.getElementById('slug-kaynak');

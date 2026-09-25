@@ -132,7 +132,7 @@
 
       {{-- Açıklama --}}
       @if($urun->aciklama)
-      <p class="text-[14px] text-[#5A5A5A] leading-relaxed">{{ $urun->aciklama }}</p>
+      <div class="text-[14px] text-[#5A5A5A] leading-relaxed urun-aciklama">{!! $urun->aciklama !!}</div>
       @endif
 
       {{-- Özellikler --}}
@@ -294,5 +294,10 @@
 <style>
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.urun-aciklama p{margin-bottom:.5em}
+.urun-aciklama p:last-child{margin-bottom:0}
+.urun-aciklama strong{font-weight:600;color:#0F0F0F}
+.urun-aciklama ul,.urun-aciklama ol{padding-left:1.4em;margin-bottom:.5em}
+.urun-aciklama li{margin-bottom:.2em}
 </style>
 @endpush
