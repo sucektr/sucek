@@ -19,9 +19,14 @@ class DeployController extends Controller
         $sonuclar = [];
 
         // ── Git adımları (exec gerekli) ───────────────────────────────────
+        // Not: "pull" yerine "fetch + reset --hard" kullanılıyor çünkü sunucuda
+        // git'in bilmediği elle dosya değişiklikleri (acil müdahale) git pull'u
+        // "local changes would be overwritten" hatasıyla tıkıyordu. reset --hard
+        // sunucuyu her seferinde GitHub'daki son haliyle birebir eşitler.
         foreach ([
             'git remote' => "cd \"{$kok}\" && git remote set-url origin https://github.com/sucektr/sucek.git 2>&1",
-            'git pull'   => "cd \"{$kok}\" && git pull origin main 2>&1",
+            'git fetch'  => "cd \"{$kok}\" && git fetch origin main 2>&1",
+            'git reset'  => "cd \"{$kok}\" && git reset --hard origin/main 2>&1",
         ] as $ad => $komut) {
             $cikti = [];
             $kod   = 0;
