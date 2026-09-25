@@ -190,6 +190,12 @@
     <span>{{ session('basari') }}</span>
   </div>
   @endif
+  @if(session('uyari'))
+  <div class="mx-6 mt-4 flex items-center gap-3 bg-[#FEF3C7] border border-[#FCD34D] text-[#92400E] rounded-[8px] px-4 py-3 text-[13px]" role="alert">
+    <i class="ti ti-alert-triangle text-base shrink-0"></i>
+    <span>{{ session('uyari') }}</span>
+  </div>
+  @endif
   @if(session('hata') || (isset($errors) && $errors->any()))
   <div class="mx-6 mt-4 flex items-start gap-3 bg-[#FEE2E2] border border-[#FCA5A5] text-[#991B1B] rounded-[8px] px-4 py-3 text-[13px]" role="alert">
     <i class="ti ti-alert-circle text-base shrink-0 mt-0.5"></i>

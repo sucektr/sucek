@@ -48,4 +48,8 @@ return [
         'score'  => env('RECAPTCHA_MIN_SCORE', 0.5),
     ],
 
+    'google_vision' => [
+        'key' => env('GOOGLE_VISION_API_KEY'),
+    ],
+
 ];
