@@ -6,7 +6,7 @@
 @section('content')
 
 {{-- ─── Hero ──────────────────────────────────────────────────────────────── --}}
-<section class="relative overflow-hidden" style="min-height:480px;">
+<section class="relative overflow-hidden">
   {{-- Arka plan: çelik ağ dokusu --}}
   <div class="absolute inset-0 bg-cover bg-center"
        style="background-image:url('{{ icerik_gorsel('celik-guvenlik-agi','hero_gorsel','/images/mesh/hizmet-4.webp') }}');"></div>
@@ -15,7 +15,7 @@
   {{-- Kırmızı şerit --}}
   <div class="absolute top-0 left-0 right-0 h-[3px] bg-[#CC2200]"></div>
 
-  <div class="relative max-w-[1280px] mx-auto px-4 lg:px-6 py-16 lg:py-24">
+  <div class="relative max-w-[1280px] mx-auto px-4 lg:px-6 py-14 lg:py-20">
 
     {{-- MESH logosu --}}
     <div class="flex items-center gap-3 mb-8">
@@ -42,20 +42,6 @@
         <i class="ti ti-layout-grid text-sm"></i> {{ ceviri('Ürünleri İncele') }}
       </a>
       @endif
-    </div>
-
-    {{-- Stat sütunları --}}
-    <div class="mt-12 flex flex-wrap gap-6 lg:gap-10">
-      @foreach([
-        ['rakam'=>'20+', 'metin'=>ceviri('Yıllık Tecrübe')],
-        ['rakam'=>'500+', 'metin'=>ceviri('Tamamlanan Proje')],
-        ['rakam'=>'TSE', 'metin'=>ceviri('Sertifikalı Üretim')],
-      ] as $s)
-      <div>
-        <p class="text-[28px] lg:text-[34px] font-bold text-white leading-none">{{ $s['rakam'] }}</p>
-        <p class="text-[12px] text-[#64748B] mt-1">{{ $s['metin'] }}</p>
-      </div>
-      @endforeach
     </div>
 
   </div>
