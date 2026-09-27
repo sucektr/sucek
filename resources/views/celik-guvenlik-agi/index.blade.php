@@ -103,33 +103,79 @@
 </section>
 
 {{-- ─── Referans Proje Görselleri ─────────────────────────────────────────── --}}
-<section class="bg-[#F8FAFC] border-b border-[#E2E8F0]">
+@php
+  $referansGorseller = [
+    icerik_gorsel('celik-guvenlik-agi','proje_1_gorsel','/images/mesh/proje-1.jpg'),
+    icerik_gorsel('celik-guvenlik-agi','proje_2_gorsel','/images/mesh/proje-2.jpg'),
+    icerik_gorsel('celik-guvenlik-agi','proje_3_gorsel','/images/mesh/hero-2.jpg'),
+    icerik_gorsel('celik-guvenlik-agi','proje_4_gorsel','/images/mesh/hero-1.jpg'),
+    icerik_gorsel('celik-guvenlik-agi','proje_5_gorsel','/images/mesh/hero-3.jpg'),
+    icerik_gorsel('celik-guvenlik-agi','proje_6_gorsel','/images/mesh/hero-4.jpg'),
+    icerik_gorsel('celik-guvenlik-agi','proje_7_gorsel','/images/mesh/hizmet-1.webp'),
+    icerik_gorsel('celik-guvenlik-agi','proje_8_gorsel','/images/mesh/hizmet-2.webp'),
+    icerik_gorsel('celik-guvenlik-agi','proje_9_gorsel','/images/mesh/hizmet-3.webp'),
+  ];
+  $referansToplam = count($referansGorseller);
+@endphp
+<section class="bg-[#F8FAFC] border-b border-[#E2E8F0]"
+         x-data="{ lightbox: null, toplam: {{ $referansToplam }} }"
+         @keydown.escape.window="lightbox = null"
+         @keydown.arrow-left.window="lightbox !== null ? lightbox = (lightbox - 1 + toplam) % toplam : null"
+         @keydown.arrow-right.window="lightbox !== null ? lightbox = (lightbox + 1) % toplam : null">
   <div class="max-w-[1280px] mx-auto px-4 lg:px-6 py-12 lg:py-16">
     <div class="flex items-end justify-between mb-8">
       <div>
         <p class="text-[10px] font-semibold tracking-widest uppercase text-[#CC2200] mb-2">{{ ceviri('REFERANSLAR') }}</p>
-        <h2 class="text-[22px] lg:text-[28px] font-bold text-[#0F172A] tracking-tight">{{ ceviri('Tamamlanan Projeler') }}</h2>
+        <h2 class="text-[22px] lg:text-[28px] font-bold text-[#0F172A] tracking-tight">{{ ceviri('Örnek Projeler') }}</h2>
       </div>
     </div>
     <div class="grid grid-cols-2 lg:grid-cols-3 gap-3">
-      @foreach([
-        icerik_gorsel('celik-guvenlik-agi','proje_1_gorsel','/images/mesh/proje-1.jpg'),
-        icerik_gorsel('celik-guvenlik-agi','proje_2_gorsel','/images/mesh/proje-2.jpg'),
-        icerik_gorsel('celik-guvenlik-agi','proje_3_gorsel','/images/mesh/hero-2.jpg'),
-        icerik_gorsel('celik-guvenlik-agi','proje_4_gorsel','/images/mesh/hero-1.jpg'),
-        icerik_gorsel('celik-guvenlik-agi','proje_5_gorsel','/images/mesh/hero-3.jpg'),
-        icerik_gorsel('celik-guvenlik-agi','proje_6_gorsel','/images/mesh/hero-4.jpg'),
-        icerik_gorsel('celik-guvenlik-agi','proje_7_gorsel','/images/mesh/hizmet-1.webp'),
-        icerik_gorsel('celik-guvenlik-agi','proje_8_gorsel','/images/mesh/hizmet-2.webp'),
-        icerik_gorsel('celik-guvenlik-agi','proje_9_gorsel','/images/mesh/hizmet-3.webp'),
-      ] as $gorsel)
-      <div class="aspect-[4/3] rounded-xl overflow-hidden bg-[#E2E8F0]">
+      @foreach($referansGorseller as $i => $gorsel)
+      <div class="relative aspect-[4/3] rounded-xl overflow-hidden bg-[#E2E8F0] cursor-zoom-in group"
+           @click="lightbox = {{ $i }}">
         <img src="{{ $gorsel }}" alt="{{ ceviri('Referans Proje') }}"
-             class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 cursor-zoom-in"
+             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
              loading="lazy">
+        <div class="absolute inset-0 bg-[#0F172A]/0 group-hover:bg-[#0F172A]/15 transition-all duration-300 flex items-center justify-center">
+          <i class="ti ti-zoom-in text-2xl text-white opacity-0 group-hover:opacity-80 transition-opacity duration-300 drop-shadow-lg"></i>
+        </div>
       </div>
       @endforeach
     </div>
+  </div>
+
+  {{-- Lightbox --}}
+  <div x-show="lightbox !== null"
+       x-transition:enter="transition ease-out duration-200"
+       x-transition:enter-start="opacity-0"
+       x-transition:enter-end="opacity-100"
+       class="fixed inset-0 z-50 bg-black/92 flex items-center justify-center p-4"
+       @click.self="lightbox = null"
+       style="display:none;">
+    <button @click="lightbox = null"
+            class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer z-10"
+            aria-label="{{ ceviri('Kapat') }}">
+      <i class="ti ti-x text-xl"></i>
+    </button>
+    <button @click="lightbox = (lightbox - 1 + toplam) % toplam"
+            class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer z-10"
+            aria-label="{{ ceviri('Önceki') }}">
+      <i class="ti ti-chevron-left text-xl"></i>
+    </button>
+    <button @click="lightbox = (lightbox + 1) % toplam"
+            class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer z-10"
+            aria-label="{{ ceviri('Sonraki') }}">
+      <i class="ti ti-chevron-right text-xl"></i>
+    </button>
+    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/50 text-[12px]"
+         x-text="(lightbox + 1) + ' / {{ $referansToplam }}'"></div>
+    @foreach($referansGorseller as $i => $gorsel)
+    <img x-show="lightbox === {{ $i }}"
+         src="{{ $gorsel }}"
+         alt="{{ ceviri('Referans Proje') }} {{ $i + 1 }}"
+         class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
+         style="display:none;">
+    @endforeach
   </div>
 </section>
 
