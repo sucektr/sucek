@@ -6,7 +6,7 @@
 @section('content')
 
 {{-- ─── Hero ──────────────────────────────────────────────────────────────── --}}
-<section class="relative overflow-hidden">
+<section class="relative overflow-hidden min-h-[280px] flex items-center" aria-label="{{ ceviri('Çelik Güvenlik Ağı hero') }}">
   {{-- Arka plan: çelik ağ dokusu --}}
   <div class="absolute inset-0 bg-cover bg-center"
        style="background-image:url('{{ icerik_gorsel('celik-guvenlik-agi','hero_gorsel','/images/mesh/hizmet-4.webp') }}');"></div>
@@ -15,19 +15,19 @@
   {{-- Kırmızı şerit --}}
   <div class="absolute top-0 left-0 right-0 h-[3px] bg-[#CC2200]"></div>
 
-  <div class="relative max-w-[1280px] mx-auto px-4 lg:px-6 py-14 lg:py-20">
+  <div class="relative max-w-[1280px] mx-auto px-4 lg:px-6 py-10 lg:py-12 w-full">
 
     {{-- MESH logosu --}}
-    <div class="flex items-center gap-3 mb-8">
-      <img src="{{ icerik_gorsel('celik-guvenlik-agi','logo','/images/mesh/logo-color.png') }}" alt="MESH Çelik Ağ" class="h-10 w-auto brightness-0 invert opacity-90">
-      <div class="w-px h-6 bg-white/20"></div>
+    <div class="flex items-center gap-3 mb-4">
+      <img src="{{ icerik_gorsel('celik-guvenlik-agi','logo','/images/mesh/logo-color.png') }}" alt="MESH Çelik Ağ" class="h-8 w-auto brightness-0 invert opacity-90">
+      <div class="w-px h-5 bg-white/20"></div>
       <span class="text-[11px] font-semibold tracking-[0.14em] uppercase text-[#CC2200]">{{ ceviri('Yetkili Bayii') }}</span>
     </div>
 
-    <h1 class="text-[36px] lg:text-[54px] font-bold text-white leading-tight tracking-tight mb-4 max-w-2xl">
-      {{ ceviri('Çelik') }}<br><span class="text-[#CC2200]">{{ ceviri('Güvenlik Ağı') }}</span>
+    <h1 class="text-[32px] lg:text-[44px] font-bold text-white leading-tight tracking-tight mb-3 max-w-2xl">
+      {{ ceviri('Çelik') }} <span class="text-[#CC2200]">{{ ceviri('Güvenlik Ağı') }}</span>
     </h1>
-    <p class="text-[15px] lg:text-[17px] text-[#94A3B8] leading-relaxed max-w-xl mb-8">
+    <p class="text-[14px] lg:text-[15px] text-[#94A3B8] leading-relaxed max-w-xl mb-5">
       {{ icerik_metin('celik-guvenlik-agi', 'hero_metin', 'İnşaat güvenliğinden balkon korumaya, endüstriyel tesislerden konut projelerine kadar her ihtiyaca özel çelik güvenlik ağı çözümleri sunuyoruz.') }}
     </p>
 
