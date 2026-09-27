@@ -6,18 +6,18 @@
 @section('content')
 
 {{-- ─── Hero ──────────────────────────────────────────────────────────────── --}}
-<section class="relative overflow-hidden" style="min-height:420px;">
+<section class="relative overflow-hidden min-h-[280px] flex items-center" aria-label="{{ ceviri('Hafif Çelik ve Konteyner hero') }}">
   <div class="absolute inset-0 bg-cover bg-center"
        style="background-image:url('{{ icerik_gorsel('hafif-celik-konteyner','hero_gorsel','https://images.unsplash.com/photo-1541976590-713941681591?w=1600&q=80') }}');"></div>
   <div class="absolute inset-0 bg-gradient-to-r from-[rgba(10,15,30,0.94)] via-[rgba(10,15,30,0.82)] to-[rgba(10,15,30,0.55)]"></div>
   <div class="absolute top-0 left-0 right-0 h-[3px] bg-[#CC2200]"></div>
 
-  <div class="relative max-w-[1280px] mx-auto px-4 lg:px-6 py-16 lg:py-24">
-    <p class="text-[11px] font-semibold tracking-[0.14em] uppercase text-[#CC2200] mb-4">{{ ceviri('SUÇEK İNŞAAT') }}</p>
-    <h1 class="text-[36px] lg:text-[54px] font-bold text-white leading-tight tracking-tight mb-4 max-w-2xl">
-      {{ ceviri('Hafif Çelik') }}<br><span class="text-[#CC2200]">{{ ceviri('ve Konteyner') }}</span>
+  <div class="relative max-w-[1280px] mx-auto px-4 lg:px-6 py-10 lg:py-12 w-full">
+    <p class="text-[11px] font-semibold tracking-[0.14em] uppercase text-[#CC2200] mb-3">{{ ceviri('SUÇEK İNŞAAT') }}</p>
+    <h1 class="text-[32px] lg:text-[44px] font-bold text-white leading-tight tracking-tight mb-3 max-w-2xl">
+      {{ ceviri('Hafif Çelik') }} <span class="text-[#CC2200]">{{ ceviri('ve Konteyner') }}</span>
     </h1>
-    <p class="text-[15px] lg:text-[17px] text-[#94A3B8] leading-relaxed max-w-xl mb-8">
+    <p class="text-[14px] lg:text-[15px] text-[#94A3B8] leading-relaxed max-w-xl mb-5">
       {{ icerik_metin('hafif-celik-konteyner', 'hero_metin', 'Hafif çelik yapı sistemleri ve konteyner çözümleri için bizimle iletişime geçin.') }}
     </p>
 
