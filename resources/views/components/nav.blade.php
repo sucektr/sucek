@@ -80,6 +80,10 @@
              class="absolute top-full left-0 pt-1.5 min-w-[210px] z-50"
              style="display:none;">
           <div class="bg-white border border-[#E2E8F0] rounded-xl shadow-[0_8px_32px_rgba(15,23,42,0.12)] py-1.5" role="menu">
+            <a href="{{ route('hafif-celik-konteyner.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">
+              <i class="ti ti-container text-base opacity-50"></i>{{ ceviri('Hafif Çelik & Konteyner') }}
+            </a>
+            <div class="border-t border-[#F1F5F9] my-1"></div>
             <a href="{{ route('insaat.hesaplama') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors" role="menuitem">
               <i class="ti ti-calculator text-base opacity-50"></i>{{ ceviri('Maliyet Hesaplama') }}
             </a>
@@ -256,8 +260,40 @@
       @endauth
     </div>
 
-    {{-- Mobile: Sepet + Hamburger --}}
+    {{-- Mobile: Dil + Sepet + Hamburger --}}
     <div class="lg:hidden ml-auto flex items-center gap-1">
+      <div class="nav-item relative" x-data="{ open: false }" @click.outside="open=false">
+        <button type="button"
+                class="flex items-center gap-1 text-[11px] font-medium px-2 py-2 rounded-md border transition-colors"
+                :class="open ? 'text-[#CC2200] border-[#CC2200]' : 'text-[#64748B] border-[#E2E8F0]'"
+                @click="open = !open"
+                aria-haspopup="true" :aria-expanded="open"
+                aria-label="{{ ceviri('Dil seçimi') }}">
+          <i class="ti ti-language text-[13px]"></i>
+          <span>{{ strtoupper($aktifDil) }}</span>
+        </button>
+        <div x-show="open"
+             x-transition:enter="transition ease-out duration-150"
+             x-transition:enter-start="opacity-0 -translate-y-1"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-100"
+             x-transition:leave-end="opacity-0"
+             class="absolute top-full right-0 pt-1.5 min-w-[140px] z-50"
+             style="display:none;">
+          <div class="bg-white border border-[#E2E8F0] rounded-xl shadow-[0_8px_32px_rgba(15,23,42,0.12)] py-1.5" role="menu">
+            <a href="{{ route('dil.degistir', 'tr') }}"
+               class="flex items-center justify-between gap-3 px-4 py-2.5 text-sm transition-colors {{ $aktifDil === 'tr' ? 'text-[#CC2200] font-semibold' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A]' }}"
+               role="menuitem">
+              Türkçe @if($aktifDil === 'tr')<i class="ti ti-check text-sm"></i>@endif
+            </a>
+            <a href="{{ route('dil.degistir', 'en') }}"
+               class="flex items-center justify-between gap-3 px-4 py-2.5 text-sm transition-colors {{ $aktifDil === 'en' ? 'text-[#CC2200] font-semibold' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A]' }}"
+               role="menuitem">
+              English @if($aktifDil === 'en')<i class="ti ti-check text-sm"></i>@endif
+            </a>
+          </div>
+        </div>
+      </div>
       <a href="{{ route('sepet.index') }}"
          class="relative p-2 rounded-md text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors"
          aria-label="{{ ceviri('Sepet') }}">
@@ -297,6 +333,9 @@
         <i class="ti ti-file-certificate text-xs mr-1.5"></i>{{ ceviri('Belgeler') }}
       </a>
       <a href="{{ route('insaat.index') }}" class="text-sm font-medium text-[#64748B] px-3 py-2.5 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">{{ ceviri('İnşaat') }}</a>
+      <a href="{{ route('hafif-celik-konteyner.index') }}" @click="menuOpen=false" class="text-sm text-[#94A3B8] px-3 py-2 pl-7 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">
+        <i class="ti ti-container text-xs mr-1.5"></i>{{ ceviri('Hafif Çelik & Konteyner') }}
+      </a>
       <a href="{{ route('insaat.hesaplama') }}" @click="menuOpen=false" class="text-sm text-[#94A3B8] px-3 py-2 pl-7 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors">
         <i class="ti ti-calculator text-xs mr-1.5"></i>{{ ceviri('Maliyet Hesaplama') }}
       </a>
@@ -354,34 +393,6 @@
       </div>
       @endif
       @endauth
-
-      <div class="mt-2 pt-2 border-t border-[#E2E8F0]" x-data="{ dilOpen: false }">
-        @php $aktifDilMobil = app()->getLocale(); @endphp
-        <button type="button" @click="dilOpen = !dilOpen"
-                class="w-full flex items-center justify-between text-sm font-medium text-[#64748B] px-3 py-2.5 rounded-md hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors"
-                :aria-expanded="dilOpen">
-          <span class="flex items-center gap-2"><i class="ti ti-language text-base"></i> {{ ceviri('Dil') }}</span>
-          <span class="flex items-center gap-1 text-[#94A3B8]">
-            {{ $aktifDilMobil === 'tr' ? 'Türkçe' : 'English' }}
-            <i class="ti ti-chevron-down text-xs transition-transform duration-200" :class="dilOpen ? 'rotate-180' : ''"></i>
-          </span>
-        </button>
-        <div x-show="dilOpen"
-             x-transition:enter="transition ease-out duration-150"
-             x-transition:enter-start="opacity-0 -translate-y-1"
-             x-transition:enter-end="opacity-100 translate-y-0"
-             class="pl-7"
-             style="display:none;">
-          <a href="{{ route('dil.degistir', 'tr') }}"
-             class="flex items-center justify-between text-sm px-3 py-2 rounded-md hover:bg-[#F8FAFC] transition-colors {{ $aktifDilMobil === 'tr' ? 'text-[#CC2200] font-semibold' : 'text-[#94A3B8]' }}">
-            Türkçe @if($aktifDilMobil === 'tr')<i class="ti ti-check text-xs"></i>@endif
-          </a>
-          <a href="{{ route('dil.degistir', 'en') }}"
-             class="flex items-center justify-between text-sm px-3 py-2 rounded-md hover:bg-[#F8FAFC] transition-colors {{ $aktifDilMobil === 'en' ? 'text-[#CC2200] font-semibold' : 'text-[#94A3B8]' }}">
-            English @if($aktifDilMobil === 'en')<i class="ti ti-check text-xs"></i>@endif
-          </a>
-        </div>
-      </div>
 
       <div class="flex gap-2 mt-3 pt-3 border-t border-[#E2E8F0]">
         @auth
