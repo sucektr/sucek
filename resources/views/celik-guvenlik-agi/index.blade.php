@@ -130,6 +130,12 @@
         icerik_gorsel('celik-guvenlik-agi','proje_1_gorsel','/images/mesh/proje-1.jpg'),
         icerik_gorsel('celik-guvenlik-agi','proje_2_gorsel','/images/mesh/proje-2.jpg'),
         icerik_gorsel('celik-guvenlik-agi','proje_3_gorsel','/images/mesh/hero-2.jpg'),
+        icerik_gorsel('celik-guvenlik-agi','proje_4_gorsel','/images/mesh/hero-1.jpg'),
+        icerik_gorsel('celik-guvenlik-agi','proje_5_gorsel','/images/mesh/hero-3.jpg'),
+        icerik_gorsel('celik-guvenlik-agi','proje_6_gorsel','/images/mesh/hero-4.jpg'),
+        icerik_gorsel('celik-guvenlik-agi','proje_7_gorsel','/images/mesh/hizmet-1.webp'),
+        icerik_gorsel('celik-guvenlik-agi','proje_8_gorsel','/images/mesh/hizmet-2.webp'),
+        icerik_gorsel('celik-guvenlik-agi','proje_9_gorsel','/images/mesh/hizmet-3.webp'),
       ] as $gorsel)
       <div class="aspect-[4/3] rounded-xl overflow-hidden bg-[#E2E8F0]">
         <img src="{{ $gorsel }}" alt="{{ ceviri('Referans Proje') }}"
