@@ -108,14 +108,9 @@ $sayfalar = $kalemler->chunk(3);
                 <div style="text-align:center;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#94A3B8;margin-top:4px;">Arka Yüz</div>
             </div>
         </div>
-        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;">
-            <div style="min-width:0;">
-                <span style="font-family:'Cormorant Garamond',serif;font-size:13px;color:#B8962E;font-weight:600;margin-right:6px;">{{ ($sIndex * 3) + $kIndex + 1 }}.</span>
-                <span style="font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;color:#0F172A;">{{ $kalem->ad }}</span>
-            </div>
-            @if($kalem->fiyat)
-            <div style="font-size:16px;color:#0F172A;font-weight:700;flex-shrink:0;white-space:nowrap;">{{ number_format($kalem->fiyat, 2, ',', '.') }} ₺</div>
-            @endif
+        <div>
+            <span style="font-family:'Cormorant Garamond',serif;font-size:13px;color:#B8962E;font-weight:600;margin-right:6px;">{{ ($sIndex * 3) + $kIndex + 1 }}.</span>
+            <span style="font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;color:#0F172A;">{{ $kalem->ad }}</span>
         </div>
         <div style="display:flex;gap:20px;font-size:11px;">
             @if($kalem->ulke)
