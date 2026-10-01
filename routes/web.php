@@ -209,6 +209,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('urunler/{urun}/varyantlar/gorseller', [Admin\UrunVaryantController::class, 'gorsellerKaydet'])->name('urunler.varyantlar.gorseller');
         Route::delete('urunler/{urun}/varyantlar', [Admin\UrunVaryantController::class, 'sil'])->name('urunler.varyantlar.sil');
         Route::resource('koleksiyonlar', Admin\KoleksiyonController::class)->except('show')->parameters(['koleksiyonlar' => 'koleksiyon']);
+
+        Route::get('numizmatik-katalog', [Admin\NumizmatikKatalogController::class, 'index'])->name('numizmatik-katalog.index');
+        Route::get('numizmatik-katalog-kalemler', [Admin\NumizmatikKatalogController::class, 'kalemler'])->name('numizmatik-katalog.kalemler');
+        Route::post('numizmatik-katalog', [Admin\NumizmatikKatalogController::class, 'kaydet'])->name('numizmatik-katalog.kaydet');
+        Route::post('numizmatik-katalog-logo', [Admin\NumizmatikKatalogController::class, 'logoYukle'])->name('numizmatik-katalog.logo-yukle');
+        Route::get('numizmatik-katalog/{id}/yazdir', [Admin\NumizmatikKatalogController::class, 'yazdir'])->name('numizmatik-katalog.yazdir');
+        Route::delete('numizmatik-katalog/{id}', [Admin\NumizmatikKatalogController::class, 'sil'])->name('numizmatik-katalog.sil');
         Route::resource('projeler', Admin\ProjeController::class)->except('show')->parameters(['projeler' => 'proje']);
         Route::resource('belgeler', Admin\BelgeController::class)->except('show')->parameters(['belgeler' => 'belge']);
 

@@ -45,6 +45,9 @@
     <a href="{{ route('admin.koleksiyonlar.index') }}" class="nav-link {{ request()->routeIs('admin.koleksiyonlar.*') ? 'active' : '' }}">
       <i class="ti ti-diamond"></i> Koleksiyonlar
     </a>
+    <a href="{{ route('admin.numizmatik-katalog.index') }}" class="nav-link {{ request()->routeIs('admin.numizmatik-katalog.*') ? 'active' : '' }}">
+      <i class="ti ti-coin"></i> Nümizmatik Katalog
+    </a>
     <a href="{{ route('admin.projeler.index') }}" class="nav-link {{ request()->routeIs('admin.projeler.*') ? 'active' : '' }}">
       <i class="ti ti-building-arch"></i> Projeler
     </a>
