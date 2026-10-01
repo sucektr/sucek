@@ -96,7 +96,46 @@
             <p class="text-[11px] text-[#94A3B8]">{{ $k->stok_kodu }}</p>
           </td>
           <td class="px-5 py-3 text-[13px] text-[#64748B]">{{ ucfirst($k->kategori) }}</td>
-          <td class="px-5 py-3 text-[13px] font-medium text-[#0F172A]">{{ number_format($k->fiyat, 2, ',', '.') }} ₺</td>
+          <td class="px-5 py-3 text-[13px] font-medium text-[#0F172A]"
+              x-data="{
+                duzenleniyor: false,
+                kaydediliyor: false,
+                deger: {{ $k->fiyat ?? 0 }},
+                duzenle() {
+                  this.duzenleniyor = true;
+                  this.$nextTick(() => this.$refs.fiyatInput.focus());
+                },
+                kaydet() {
+                  if (!this.duzenleniyor) return;
+                  this.kaydediliyor = true;
+                  fetch('{{ route('admin.koleksiyonlar.fiyat', $k) }}', {
+                    method: 'PATCH',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'X-CSRF-TOKEN': document.querySelector('meta[name=\'csrf-token\']').content,
+                      'Accept': 'application/json',
+                    },
+                    body: JSON.stringify({ fiyat: this.deger }),
+                  })
+                  .then(r => r.json())
+                  .then(data => {
+                    if (data.success) { window.location.reload(); }
+                    else { this.kaydediliyor = false; }
+                  })
+                  .catch(() => { this.kaydediliyor = false; });
+                },
+              }">
+            <span x-show="!duzenleniyor" @click="duzenle()" class="cursor-pointer border-b border-dotted border-transparent hover:border-[#CC2200] hover:text-[#CC2200] transition-colors"
+                  title="Düzenlemek için tıklayın"
+                  x-text="Number(deger || 0).toLocaleString('tr-TR', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' ₺'"></span>
+            <span x-show="duzenleniyor" x-cloak class="inline-flex items-center gap-1.5">
+              <input type="number" x-ref="fiyatInput" x-model="deger" step="0.01" min="0"
+                     :disabled="kaydediliyor"
+                     @keydown.enter="kaydet()" @keydown.escape="duzenleniyor = false" @blur="kaydet()"
+                     class="w-24 px-2 py-1 border border-[#CC2200] rounded-[6px] text-[13px] focus:outline-none focus:ring-2 focus:ring-[rgba(204,34,0,0.12)]">
+              <i class="ti ti-loader-2 animate-spin text-sm text-[#94A3B8]" x-show="kaydediliyor"></i>
+            </span>
+          </td>
           <td class="px-5 py-3">
             <div class="flex items-center gap-1.5 flex-wrap">
               @php

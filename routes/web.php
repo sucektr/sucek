@@ -209,6 +209,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('urunler/{urun}/varyantlar/gorseller', [Admin\UrunVaryantController::class, 'gorsellerKaydet'])->name('urunler.varyantlar.gorseller');
         Route::delete('urunler/{urun}/varyantlar', [Admin\UrunVaryantController::class, 'sil'])->name('urunler.varyantlar.sil');
         Route::resource('koleksiyonlar', Admin\KoleksiyonController::class)->except('show')->parameters(['koleksiyonlar' => 'koleksiyon']);
+        Route::patch('koleksiyonlar/{koleksiyon}/fiyat', [Admin\KoleksiyonController::class, 'fiyatGuncelle'])->name('koleksiyonlar.fiyat');
 
         Route::get('numizmatik-katalog', [Admin\NumizmatikKatalogController::class, 'index'])->name('numizmatik-katalog.index');
         Route::get('numizmatik-katalog-kalemler', [Admin\NumizmatikKatalogController::class, 'kalemler'])->name('numizmatik-katalog.kalemler');

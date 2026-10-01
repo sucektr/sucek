@@ -174,6 +174,17 @@ class KoleksiyonController extends Controller
         return redirect()->route('admin.koleksiyonlar.index')->with('basari', 'Koleksiyon güncellendi.');
     }
 
+    public function fiyatGuncelle(Request $request, \App\Models\Koleksiyon $koleksiyon)
+    {
+        $request->validate([
+            'fiyat' => 'nullable|numeric|min:0',
+        ]);
+
+        $koleksiyon->update(['fiyat' => $request->input('fiyat')]);
+
+        return response()->json(['success' => true, 'fiyat' => (float) $koleksiyon->fiyat]);
+    }
+
     public function destroy(\App\Models\Koleksiyon $koleksiyon)
     {
         if ($koleksiyon->gorsel) \Illuminate\Support\Facades\Storage::disk('public')->delete($koleksiyon->gorsel);
