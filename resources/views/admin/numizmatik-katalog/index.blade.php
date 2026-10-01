@@ -485,10 +485,24 @@ function numizmatikKatalogBuilder() {
 
         <template x-for="(kalem, kIndex) in sayfa" :key="kalem.id+'-'+kIndex">
           <div class="nk-kart">
-            <div style="width:140px;flex-shrink:0;border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;background:#F8FAFC;display:flex;align-items:center;justify-content:center;">
-              <img x-show="kalem.gorsel" :src="kalem.gorsel" :alt="kalem.ad" style="max-width:100%;max-height:100%;object-fit:contain;padding:8px;">
-              <div x-show="!kalem.gorsel" style="text-align:center;color:#CBD5E1;font-size:11px;padding:16px;">
-                <i class="ti ti-photo" style="font-size:22px;display:block;margin-bottom:4px;"></i>Görsel yok
+            <div style="width:260px;flex-shrink:0;display:flex;gap:6px;">
+              <div style="flex:1;min-width:0;">
+                <div style="border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;background:#F8FAFC;display:flex;align-items:center;justify-content:center;height:118px;">
+                  <img x-show="kalem.gorsel" :src="kalem.gorsel" :alt="kalem.ad" style="max-width:100%;max-height:100%;object-fit:contain;padding:6px;">
+                  <div x-show="!kalem.gorsel" style="text-align:center;color:#CBD5E1;font-size:10px;padding:10px;">
+                    <i class="ti ti-photo" style="font-size:18px;display:block;margin-bottom:3px;"></i>Yok
+                  </div>
+                </div>
+                <div style="text-align:center;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#94A3B8;margin-top:3px;">Ön Yüz</div>
+              </div>
+              <div style="flex:1;min-width:0;">
+                <div style="border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;background:#F8FAFC;display:flex;align-items:center;justify-content:center;height:118px;">
+                  <img x-show="kalem.arka" :src="kalem.arka" :alt="kalem.ad" style="max-width:100%;max-height:100%;object-fit:contain;padding:6px;">
+                  <div x-show="!kalem.arka" style="text-align:center;color:#CBD5E1;font-size:10px;padding:10px;">
+                    <i class="ti ti-photo" style="font-size:18px;display:block;margin-bottom:3px;"></i>Yok
+                  </div>
+                </div>
+                <div style="text-align:center;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#94A3B8;margin-top:3px;">Arka Yüz</div>
               </div>
             </div>
             <div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;">

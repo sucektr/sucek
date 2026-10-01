@@ -81,14 +81,32 @@ $sayfalar = $kalemler->chunk(3);
 
     @foreach($sayfa as $kIndex => $kalem)
     <div class="kart">
-        <div style="width:140px;flex-shrink:0;border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;background:#F8FAFC;display:flex;align-items:center;justify-content:center;">
-            @if($kalem->gorsel)
-            <img src="{{ asset('storage/' . $kalem->gorsel) }}" alt="{{ $kalem->ad }}" style="max-width:100%;max-height:100%;object-fit:contain;padding:8px;">
-            @else
-            <div style="text-align:center;color:#CBD5E1;font-size:11px;padding:16px;">
-                <i class="ti ti-photo" style="font-size:22px;display:block;margin-bottom:4px;"></i>Görsel yok
+        @php $arkaGorsel = $kalem->gorseller[0] ?? null; @endphp
+        <div style="width:260px;flex-shrink:0;display:flex;gap:6px;">
+            <div style="flex:1;min-width:0;">
+                <div style="border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;background:#F8FAFC;display:flex;align-items:center;justify-content:center;height:118px;">
+                    @if($kalem->gorsel)
+                    <img src="{{ asset('storage/' . $kalem->gorsel) }}" alt="{{ $kalem->ad }}" style="max-width:100%;max-height:100%;object-fit:contain;padding:6px;">
+                    @else
+                    <div style="text-align:center;color:#CBD5E1;font-size:10px;padding:10px;">
+                        <i class="ti ti-photo" style="font-size:18px;display:block;margin-bottom:3px;"></i>Yok
+                    </div>
+                    @endif
+                </div>
+                <div style="text-align:center;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#94A3B8;margin-top:3px;">Ön Yüz</div>
             </div>
-            @endif
+            <div style="flex:1;min-width:0;">
+                <div style="border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;background:#F8FAFC;display:flex;align-items:center;justify-content:center;height:118px;">
+                    @if($arkaGorsel)
+                    <img src="{{ asset('storage/' . $arkaGorsel) }}" alt="{{ $kalem->ad }}" style="max-width:100%;max-height:100%;object-fit:contain;padding:6px;">
+                    @else
+                    <div style="text-align:center;color:#CBD5E1;font-size:10px;padding:10px;">
+                        <i class="ti ti-photo" style="font-size:18px;display:block;margin-bottom:3px;"></i>Yok
+                    </div>
+                    @endif
+                </div>
+                <div style="text-align:center;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#94A3B8;margin-top:3px;">Arka Yüz</div>
+            </div>
         </div>
         <div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;">
             <span style="font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:#B8962E;font-weight:600;margin-bottom:4px;">{{ ($sIndex * 3) + $kIndex + 1 }}</span>

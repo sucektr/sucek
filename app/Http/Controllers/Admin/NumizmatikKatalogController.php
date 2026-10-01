@@ -18,7 +18,8 @@ class NumizmatikKatalogController extends Controller
         if ($request->filled('katalog')) {
             $duzenlenenKatalog = NumizmatikKatalog::find($request->katalog);
             if ($duzenlenenKatalog) {
-                $duzenlenenKalemler = $this->kalemleriYukle($duzenlenenKatalog->koleksiyon_idler ?? []);
+                $duzenlenenKalemler = $this->kalemleriYukle($duzenlenenKatalog->koleksiyon_idler ?? [])
+                    ->map(fn($k) => $this->kalemDizi($k));
             }
         }
 
@@ -124,6 +125,7 @@ class NumizmatikKatalogController extends Controller
             'fiyat'     => $k->fiyat,
             'durum'     => $k->durum,
             'gorsel'    => $k->gorsel ? asset('storage/' . $k->gorsel) : null,
+            'arka'      => !empty($k->gorseller[0]) ? asset('storage/' . $k->gorseller[0]) : null,
         ];
     }
 }
