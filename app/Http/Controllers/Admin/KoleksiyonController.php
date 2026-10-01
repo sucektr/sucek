@@ -13,15 +13,24 @@ class KoleksiyonController extends Controller
         $kategori = $request->input('kategori');
         $durum    = $request->input('durum');
 
-        $koleksiyonlar = \App\Models\Koleksiyon::latest()
+        $filtreli = \App\Models\Koleksiyon::query()
             ->when($q, fn($query) => $query->where(function ($sub) use ($q) {
                 $sub->where('ad', 'like', "%{$q}%")->orWhere('stok_kodu', 'like', "%{$q}%");
             }))
             ->when($kategori, fn($query) => $query->where('kategori', $kategori))
-            ->when($durum, fn($query) => $query->where('durum', $durum))
-            ->paginate(20)->withQueryString();
+            ->when($durum, fn($query) => $query->where('durum', $durum));
 
-        return view('admin.koleksiyonlar.index', compact('koleksiyonlar'));
+        $stats = [
+            'adet'           => (clone $filtreli)->count(),
+            'toplam_deger'   => (clone $filtreli)->sum('fiyat'),
+            'satista_deger'  => (clone $filtreli)->where('durum', 'satista')->sum('fiyat'),
+            'satildi_deger'  => (clone $filtreli)->where('durum', 'satildi')->sum('fiyat'),
+            'rezerve_deger'  => (clone $filtreli)->where('durum', 'rezerve')->sum('fiyat'),
+        ];
+
+        $koleksiyonlar = $filtreli->latest()->paginate(20)->withQueryString();
+
+        return view('admin.koleksiyonlar.index', compact('koleksiyonlar', 'stats'));
     }
 
     public function create()

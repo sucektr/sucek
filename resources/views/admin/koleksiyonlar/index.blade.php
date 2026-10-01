@@ -44,6 +44,28 @@
   @endif
 </form>
 
+{{-- Toplam bedel özeti --}}
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
+  @php
+  $ozetKartlar = [
+    ['label' => 'Toplam Ürün', 'value' => number_format($stats['adet'], 0, ',', '.'), 'icon' => 'ti-diamond', 'color' => '#3d2d7a', 'bg' => '#eeecfa'],
+    ['label' => 'Toplam Değer', 'value' => number_format($stats['toplam_deger'], 2, ',', '.').' ₺', 'icon' => 'ti-sum', 'color' => '#0F172A', 'bg' => '#F1F5F9'],
+    ['label' => 'Satıştaki Değer', 'value' => number_format($stats['satista_deger'], 2, ',', '.').' ₺', 'icon' => 'ti-tag', 'color' => '#1A5C3A', 'bg' => '#E6F4EC'],
+    ['label' => 'Satılan Değer', 'value' => number_format($stats['satildi_deger'], 2, ',', '.').' ₺', 'icon' => 'ti-circle-check', 'color' => '#64748B', 'bg' => '#F8FAFC'],
+  ];
+  @endphp
+  @foreach($ozetKartlar as $kart)
+  <div class="bg-white rounded-[12px] border border-[#E2E8F0] p-5">
+    <div class="w-9 h-9 rounded-[8px] flex items-center justify-center mb-3"
+         style="background:{{ $kart['bg'] }}">
+      <i class="ti {{ $kart['icon'] }}" style="color:{{ $kart['color'] }};font-size:18px;"></i>
+    </div>
+    <div class="text-[20px] font-semibold text-[#0F172A] leading-none mb-1">{{ $kart['value'] }}</div>
+    <div class="text-[11px] font-medium text-[#94A3B8] uppercase tracking-[.05em]">{{ $kart['label'] }}</div>
+  </div>
+  @endforeach
+</div>
+
 <div class="bg-white rounded-[12px] border border-[#E2E8F0] overflow-hidden">
   <div class="overflow-x-auto">
     <table class="w-full text-sm">
