@@ -46,6 +46,25 @@
     @endforeach
   </div>
 
+  {{-- Para Türü Filtresi (sadece Nümizmatik) --}}
+  @if($kategori === 'numizmatik')
+  <div class="flex flex-wrap gap-2 mb-5" role="group" aria-label="{{ ceviri('Para türü filtresi') }}">
+    @php
+    $paraTurleri = ['' => ceviri('Tümü'), 'madeni' => ceviri('Madeni Para'), 'kagit' => ceviri('Kağıt Para')];
+    @endphp
+    @foreach($paraTurleri as $key => $label)
+    <a href="{{ route('koleksiyon.index', array_filter(['kategori' => 'numizmatik', 'ulke' => $ulke ?: null, 'para_turu' => $key ?: null])) }}"
+       class="px-4 py-1.5 text-[13px] font-medium rounded-full border transition-all duration-200 min-h-[36px] flex items-center
+              {{ ($paraTuru ?? '') === $key
+                ? 'bg-[#CC2200] text-white border-transparent'
+                : 'bg-white text-[#64748B] border-[#E2E8F0] hover:border-[#CBD5E1] hover:text-[#0F172A]' }}"
+       aria-current="{{ ($paraTuru ?? '') === $key ? 'true' : 'false' }}">
+      {{ $label }}
+    </a>
+    @endforeach
+  </div>
+  @endif
+
   {{-- Ülke Filtresi (sadece Nümizmatik) — aranabilir açılır liste --}}
   @if($kategori === 'numizmatik' && $ulkeler->count() > 0)
   <div class="relative max-w-xs mb-7"
@@ -55,12 +74,13 @@
          ulkeler: @js($ulkeler),
          ulkeEtiketleri: @js($ulkeler->mapWithKeys(fn($u) => [$u => ceviri($u)])),
          secili: @js($ulke),
+         git(u) {
+           window.location = '{{ route('koleksiyon.index', array_filter(['kategori' => 'numizmatik', 'para_turu' => $paraTuru ?: null])) }}'
+             + (u ? ('&ulke=' + encodeURIComponent(u)) : '');
+         },
          get filtered() {
            return this.q === '' ? this.ulkeler : this.ulkeler.filter(u => u.toLowerCase().includes(this.q.toLowerCase()));
          },
-         git(u) {
-           window.location = '{{ route('koleksiyon.index', ['kategori' => 'numizmatik']) }}' + (u ? '?ulke=' + encodeURIComponent(u) : '');
-         }
        }"
        @click.outside="open = false">
     <label class="block text-[11px] font-medium text-[#94A3B8] uppercase tracking-wide mb-1.5">{{ ceviri('Ülke') }}</label>
@@ -126,8 +146,15 @@
       </a>
       <div class="p-4">
         <h3 class="text-[15px] font-semibold text-[#0F172A] mb-1 leading-snug tracking-tight">{{ $item->ad }}</h3>
-        @if($item->ulke)
-        <p class="text-[11px] text-[#94A3B8] mb-1.5 flex items-center gap-1"><i class="ti ti-map-pin text-xs"></i>{{ ceviri($item->ulke) }}</p>
+        @if($item->ulke || $item->para_turu)
+        <p class="text-[11px] text-[#94A3B8] mb-1.5 flex items-center gap-2 flex-wrap">
+          @if($item->ulke)
+          <span class="flex items-center gap-1"><i class="ti ti-map-pin text-xs"></i>{{ ceviri($item->ulke) }}</span>
+          @endif
+          @if($item->para_turu)
+          <span class="flex items-center gap-1"><i class="ti ti-{{ $item->para_turu === 'madeni' ? 'coin' : 'cash' }} text-xs"></i>{{ $item->para_turu === 'madeni' ? ceviri('Madeni Para') : ceviri('Kağıt Para') }}</span>
+          @endif
+        </p>
         @endif
         @if($item->aciklama)
         <div class="text-[12px] text-[#64748B] line-clamp-2 mb-3 urun-aciklama">{!! $item->aciklama !!}</div>

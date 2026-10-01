@@ -82,6 +82,17 @@
               <p class="text-[11px] text-[#94A3B8] mt-1">Nümizmatik ürünlerde mağaza sayfasında ülkeye göre filtrelenir.</p>
               @error('ulke')<p class="text-[11px] text-[#CC2200] mt-1">{{ $message }}</p>@enderror
             </div>
+            <div x-show="kategori === 'numizmatik'" x-cloak>
+              <label class="block text-[11px] font-medium text-[#64748B] uppercase tracking-[.06em] mb-1.5">Para Türü</label>
+              <select name="para_turu" class="w-full px-4 py-2.5 border border-[#E2E8F0] rounded-[8px] text-[14px] focus:outline-none focus:border-[#CC2200] focus:ring-2 focus:ring-[rgba(204,34,0,0.08)] bg-white">
+                <option value="">Belirtilmemiş</option>
+                @foreach(['madeni' => 'Madeni Para', 'kagit' => 'Kağıt Para'] as $val => $lbl)
+                  <option value="{{ $val }}" {{ old('para_turu', $koleksiyon->para_turu) === $val ? 'selected' : '' }}>{{ $lbl }}</option>
+                @endforeach
+              </select>
+              <p class="text-[11px] text-[#94A3B8] mt-1">Mağaza sayfasında Madeni/Kağıt Para filtresi için kullanılır.</p>
+              @error('para_turu')<p class="text-[11px] text-[#CC2200] mt-1">{{ $message }}</p>@enderror
+            </div>
             <div>
               <label class="block text-[11px] font-medium text-[#64748B] uppercase tracking-[.06em] mb-1.5">Satış Durumu <span class="text-[#CC2200]">*</span></label>
               <select name="durum" required class="w-full px-4 py-2.5 border border-[#E2E8F0] rounded-[8px] text-[14px] focus:outline-none focus:border-[#CC2200] focus:ring-2 focus:ring-[rgba(204,34,0,0.08)] bg-white">

@@ -10,6 +10,7 @@ class KoleksiyonController extends Controller
     {
         $kategori = $request->input('kategori', 'tumu');
         $ulke     = $request->input('ulke');
+        $paraTuru = $request->input('para_turu');
 
         $query = \App\Models\Koleksiyon::where('aktif', true)->orderBy('one_cikan', 'desc');
 
@@ -18,6 +19,9 @@ class KoleksiyonController extends Controller
         }
         if ($ulke) {
             $query->where('ulke', $ulke);
+        }
+        if ($paraTuru) {
+            $query->where('para_turu', $paraTuru);
         }
 
         $koleksiyonlar = $query->get();
@@ -32,7 +36,7 @@ class KoleksiyonController extends Controller
                 ->pluck('ulke');
         }
 
-        return view('koleksiyon.index', compact('koleksiyonlar', 'kategori', 'ulke', 'ulkeler'));
+        return view('koleksiyon.index', compact('koleksiyonlar', 'kategori', 'ulke', 'ulkeler', 'paraTuru'));
     }
 
     public function show(string $slug)

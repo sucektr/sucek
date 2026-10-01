@@ -46,6 +46,7 @@ class KoleksiyonController extends Controller
             'slug'         => 'required|string|max:200|unique:koleksiyonlar,slug',
             'kategori'     => 'required|string|max:100',
             'ulke'         => 'nullable|string|max:100',
+            'para_turu'    => 'nullable|in:madeni,kagit',
             'fiyat'        => 'nullable|numeric|min:0',
             'aciklama'     => 'nullable|string',
             'stok_kodu'    => 'nullable|string|max:50',
@@ -59,7 +60,7 @@ class KoleksiyonController extends Controller
             'one_cikan'       => 'boolean',
         ]);
 
-        $data = $request->only(['ad', 'slug', 'kategori', 'ulke', 'fiyat', 'aciklama', 'stok_kodu', 'durum']);
+        $data = $request->only(['ad', 'slug', 'kategori', 'ulke', 'para_turu', 'fiyat', 'aciklama', 'stok_kodu', 'durum']);
         $data['kargo_bedeli']   = $request->input('kargo_bedeli', 0);
         $data['kargo_kim_oder'] = $request->input('kargo_kim_oder', 'magaza');
 
@@ -108,6 +109,7 @@ class KoleksiyonController extends Controller
             'slug'         => 'required|string|max:200|unique:koleksiyonlar,slug,'.$koleksiyon->id,
             'kategori'     => 'required|string|max:100',
             'ulke'         => 'nullable|string|max:100',
+            'para_turu'    => 'nullable|in:madeni,kagit',
             'fiyat'        => 'nullable|numeric|min:0',
             'aciklama'     => 'nullable|string',
             'stok_kodu'    => 'nullable|string|max:50',
@@ -125,7 +127,7 @@ class KoleksiyonController extends Controller
             'one_cikan'       => 'boolean',
         ]);
 
-        $data = $request->only(['ad', 'slug', 'kategori', 'ulke', 'fiyat', 'aciklama', 'stok_kodu', 'durum']);
+        $data = $request->only(['ad', 'slug', 'kategori', 'ulke', 'para_turu', 'fiyat', 'aciklama', 'stok_kodu', 'durum']);
         $data['kargo_bedeli']   = $request->input('kargo_bedeli', 0);
         $data['kargo_kim_oder'] = $request->input('kargo_kim_oder', 'magaza');
 
