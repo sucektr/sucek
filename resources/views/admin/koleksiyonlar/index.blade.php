@@ -94,6 +94,12 @@
           <td class="px-5 py-3">
             <p class="font-medium text-[#0F172A] text-[13px]">{{ $k->ad }}</p>
             <p class="text-[11px] text-[#94A3B8]">{{ $k->stok_kodu }}</p>
+            @if($k->kategori === 'numizmatik' && $k->para_turu)
+            <span class="inline-flex items-center gap-1 text-[10px] text-[#94A3B8] mt-1">
+              <i class="ti ti-{{ $k->para_turu === 'madeni' ? 'coin' : 'cash' }} text-[11px]"></i>
+              {{ $k->para_turu === 'madeni' ? 'Madeni Para' : 'Kağıt Para' }}
+            </span>
+            @endif
           </td>
           <td class="px-5 py-3 text-[13px] text-[#64748B]">{{ ucfirst($k->kategori) }}</td>
           <td class="px-5 py-3 text-[13px] font-medium text-[#0F172A]"
