@@ -51,7 +51,7 @@
 .nk-preview::-webkit-scrollbar{width:6px;}
 .nk-preview::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.15);border-radius:3px;}
 .nk-sayfa{width:210mm;min-height:297mm;background:white;padding:16mm 16mm;box-shadow:0 4px 24px rgba(0,0,0,0.1);margin:0 auto 24px;display:flex;flex-direction:column;flex-shrink:0;}
-.nk-kart{display:flex;gap:14px;align-items:stretch;flex:1;border-bottom:1px solid #F1F5F9;padding:14px 0;}
+.nk-kart{display:flex;flex-direction:column;gap:10px;flex:1;border-bottom:1px solid #F1F5F9;padding:14px 0;}
 .nk-kart:last-child{border-bottom:none;}
 /* Print */
 @media print{
@@ -485,41 +485,37 @@ function numizmatikKatalogBuilder() {
 
         <template x-for="(kalem, kIndex) in sayfa" :key="kalem.id+'-'+kIndex">
           <div class="nk-kart">
-            <div style="width:260px;flex-shrink:0;display:flex;gap:6px;">
+            <div style="display:flex;gap:10px;">
               <div style="flex:1;min-width:0;">
-                <div style="border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;background:#F8FAFC;display:flex;align-items:center;justify-content:center;height:118px;">
-                  <img x-show="kalem.gorsel" :src="kalem.gorsel" :alt="kalem.ad" style="max-width:100%;max-height:100%;object-fit:contain;padding:6px;">
-                  <div x-show="!kalem.gorsel" style="text-align:center;color:#CBD5E1;font-size:10px;padding:10px;">
-                    <i class="ti ti-photo" style="font-size:18px;display:block;margin-bottom:3px;"></i>Yok
+                <div style="border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;background:#F8FAFC;display:flex;align-items:center;justify-content:center;height:150px;">
+                  <img x-show="kalem.gorsel" :src="kalem.gorsel" :alt="kalem.ad" style="max-width:100%;max-height:100%;object-fit:contain;padding:8px;">
+                  <div x-show="!kalem.gorsel" style="text-align:center;color:#CBD5E1;font-size:11px;padding:16px;">
+                    <i class="ti ti-photo" style="font-size:22px;display:block;margin-bottom:4px;"></i>Görsel yok
                   </div>
                 </div>
-                <div style="text-align:center;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#94A3B8;margin-top:3px;">Ön Yüz</div>
+                <div style="text-align:center;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#94A3B8;margin-top:4px;">Ön Yüz</div>
               </div>
               <div style="flex:1;min-width:0;">
-                <div style="border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;background:#F8FAFC;display:flex;align-items:center;justify-content:center;height:118px;">
-                  <img x-show="kalem.arka" :src="kalem.arka" :alt="kalem.ad" style="max-width:100%;max-height:100%;object-fit:contain;padding:6px;">
-                  <div x-show="!kalem.arka" style="text-align:center;color:#CBD5E1;font-size:10px;padding:10px;">
-                    <i class="ti ti-photo" style="font-size:18px;display:block;margin-bottom:3px;"></i>Yok
+                <div style="border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;background:#F8FAFC;display:flex;align-items:center;justify-content:center;height:150px;">
+                  <img x-show="kalem.arka" :src="kalem.arka" :alt="kalem.ad" style="max-width:100%;max-height:100%;object-fit:contain;padding:8px;">
+                  <div x-show="!kalem.arka" style="text-align:center;color:#CBD5E1;font-size:11px;padding:16px;">
+                    <i class="ti ti-photo" style="font-size:22px;display:block;margin-bottom:4px;"></i>Görsel yok
                   </div>
                 </div>
-                <div style="text-align:center;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#94A3B8;margin-top:3px;">Arka Yüz</div>
+                <div style="text-align:center;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#94A3B8;margin-top:4px;">Arka Yüz</div>
               </div>
             </div>
-            <div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;">
-              <span style="font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:#B8962E;font-weight:600;margin-bottom:4px;" x-text="(sIndex*3)+kIndex+1"></span>
-              <div x-text="kalem.ad" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#0F172A;line-height:1.2;margin-bottom:8px;"></div>
-              <div style="display:flex;flex-direction:column;gap:4px;">
-                <div x-show="kalem.ulke" style="display:flex;gap:8px;font-size:11px;">
-                  <span style="color:#94A3B8;width:60px;flex-shrink:0;">Ülke</span>
-                  <span x-text="kalem.ulke" style="color:#334155;font-weight:500;"></span>
-                </div>
-                <div x-show="kalem.stok_kodu" style="display:flex;gap:8px;font-size:11px;">
-                  <span style="color:#94A3B8;width:60px;flex-shrink:0;">Stok Kodu</span>
-                  <span x-text="kalem.stok_kodu" style="color:#334155;font-weight:500;font-family:monospace;"></span>
-                </div>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;">
+              <div style="min-width:0;">
+                <span style="font-family:'Cormorant Garamond',serif;font-size:13px;color:#B8962E;font-weight:600;margin-right:6px;" x-text="((sIndex*3)+kIndex+1)+'.'"></span>
+                <span x-text="kalem.ad" style="font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;color:#0F172A;"></span>
               </div>
               <div x-text="kalem.fiyat ? (Number(kalem.fiyat).toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' ₺') : ''"
-                   style="font-size:16px;color:#0F172A;font-weight:700;margin-top:10px;"></div>
+                   style="font-size:16px;color:#0F172A;font-weight:700;flex-shrink:0;white-space:nowrap;"></div>
+            </div>
+            <div style="display:flex;gap:20px;font-size:11px;">
+              <span x-show="kalem.ulke"><span style="color:#94A3B8;">Ülke </span><span x-text="kalem.ulke" style="color:#334155;font-weight:500;"></span></span>
+              <span x-show="kalem.stok_kodu"><span style="color:#94A3B8;">Stok Kodu </span><span x-text="kalem.stok_kodu" style="color:#334155;font-weight:500;font-family:monospace;"></span></span>
             </div>
           </div>
         </template>

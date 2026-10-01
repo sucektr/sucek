@@ -20,7 +20,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:#EBEBEB;}
 .btn-yazdir:hover{background:#333;}
 .btn-geri{background:white;color:#0F172A;padding:10px 20px;border-radius:8px;border:1px solid rgba(0,0,0,0.15);cursor:pointer;font-family:inherit;font-size:13px;font-weight:500;}
 .btn-geri:hover{background:#F5F5F5;}
-.kart{display:flex;gap:14px;align-items:stretch;flex:1;border-bottom:1px solid #F1F5F9;padding:14px 0;}
+.kart{display:flex;flex-direction:column;gap:10px;flex:1;border-bottom:1px solid #F1F5F9;padding:14px 0;}
 .kart:last-child{border-bottom:none;}
 @media print{
     *,-webkit-*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
@@ -82,51 +82,47 @@ $sayfalar = $kalemler->chunk(3);
     @foreach($sayfa as $kIndex => $kalem)
     <div class="kart">
         @php $arkaGorsel = $kalem->gorseller[0] ?? null; @endphp
-        <div style="width:260px;flex-shrink:0;display:flex;gap:6px;">
+        <div style="display:flex;gap:10px;">
             <div style="flex:1;min-width:0;">
-                <div style="border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;background:#F8FAFC;display:flex;align-items:center;justify-content:center;height:118px;">
+                <div style="border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;background:#F8FAFC;display:flex;align-items:center;justify-content:center;height:150px;">
                     @if($kalem->gorsel)
-                    <img src="{{ asset('storage/' . $kalem->gorsel) }}" alt="{{ $kalem->ad }}" style="max-width:100%;max-height:100%;object-fit:contain;padding:6px;">
+                    <img src="{{ asset('storage/' . $kalem->gorsel) }}" alt="{{ $kalem->ad }}" style="max-width:100%;max-height:100%;object-fit:contain;padding:8px;">
                     @else
-                    <div style="text-align:center;color:#CBD5E1;font-size:10px;padding:10px;">
-                        <i class="ti ti-photo" style="font-size:18px;display:block;margin-bottom:3px;"></i>Yok
+                    <div style="text-align:center;color:#CBD5E1;font-size:11px;padding:16px;">
+                        <i class="ti ti-photo" style="font-size:22px;display:block;margin-bottom:4px;"></i>Görsel yok
                     </div>
                     @endif
                 </div>
-                <div style="text-align:center;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#94A3B8;margin-top:3px;">Ön Yüz</div>
+                <div style="text-align:center;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#94A3B8;margin-top:4px;">Ön Yüz</div>
             </div>
             <div style="flex:1;min-width:0;">
-                <div style="border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;background:#F8FAFC;display:flex;align-items:center;justify-content:center;height:118px;">
+                <div style="border:1px solid #E2E8F0;border-radius:4px;overflow:hidden;background:#F8FAFC;display:flex;align-items:center;justify-content:center;height:150px;">
                     @if($arkaGorsel)
-                    <img src="{{ asset('storage/' . $arkaGorsel) }}" alt="{{ $kalem->ad }}" style="max-width:100%;max-height:100%;object-fit:contain;padding:6px;">
+                    <img src="{{ asset('storage/' . $arkaGorsel) }}" alt="{{ $kalem->ad }}" style="max-width:100%;max-height:100%;object-fit:contain;padding:8px;">
                     @else
-                    <div style="text-align:center;color:#CBD5E1;font-size:10px;padding:10px;">
-                        <i class="ti ti-photo" style="font-size:18px;display:block;margin-bottom:3px;"></i>Yok
+                    <div style="text-align:center;color:#CBD5E1;font-size:11px;padding:16px;">
+                        <i class="ti ti-photo" style="font-size:22px;display:block;margin-bottom:4px;"></i>Görsel yok
                     </div>
                     @endif
                 </div>
-                <div style="text-align:center;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#94A3B8;margin-top:3px;">Arka Yüz</div>
+                <div style="text-align:center;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#94A3B8;margin-top:4px;">Arka Yüz</div>
             </div>
         </div>
-        <div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;">
-            <span style="font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:#B8962E;font-weight:600;margin-bottom:4px;">{{ ($sIndex * 3) + $kIndex + 1 }}</span>
-            <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#0F172A;line-height:1.2;margin-bottom:8px;">{{ $kalem->ad }}</div>
-            <div style="display:flex;flex-direction:column;gap:4px;">
-                @if($kalem->ulke)
-                <div style="display:flex;gap:8px;font-size:11px;">
-                    <span style="color:#94A3B8;width:60px;flex-shrink:0;">Ülke</span>
-                    <span style="color:#334155;font-weight:500;">{{ $kalem->ulke }}</span>
-                </div>
-                @endif
-                @if($kalem->stok_kodu)
-                <div style="display:flex;gap:8px;font-size:11px;">
-                    <span style="color:#94A3B8;width:60px;flex-shrink:0;">Stok Kodu</span>
-                    <span style="color:#334155;font-weight:500;font-family:monospace;">{{ $kalem->stok_kodu }}</span>
-                </div>
-                @endif
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;">
+            <div style="min-width:0;">
+                <span style="font-family:'Cormorant Garamond',serif;font-size:13px;color:#B8962E;font-weight:600;margin-right:6px;">{{ ($sIndex * 3) + $kIndex + 1 }}.</span>
+                <span style="font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;color:#0F172A;">{{ $kalem->ad }}</span>
             </div>
             @if($kalem->fiyat)
-            <div style="font-size:16px;color:#0F172A;font-weight:700;margin-top:10px;">{{ number_format($kalem->fiyat, 2, ',', '.') }} ₺</div>
+            <div style="font-size:16px;color:#0F172A;font-weight:700;flex-shrink:0;white-space:nowrap;">{{ number_format($kalem->fiyat, 2, ',', '.') }} ₺</div>
+            @endif
+        </div>
+        <div style="display:flex;gap:20px;font-size:11px;">
+            @if($kalem->ulke)
+            <span><span style="color:#94A3B8;">Ülke </span><span style="color:#334155;font-weight:500;">{{ $kalem->ulke }}</span></span>
+            @endif
+            @if($kalem->stok_kodu)
+            <span><span style="color:#94A3B8;">Stok Kodu </span><span style="color:#334155;font-weight:500;font-family:monospace;">{{ $kalem->stok_kodu }}</span></span>
             @endif
         </div>
     </div>
