@@ -100,6 +100,15 @@
               {{ $k->para_turu === 'madeni' ? 'Madeni Para' : 'Kağıt Para' }}
             </span>
             @endif
+            @if($k->kategori === 'saat' && ($k->saat_turu || $k->maden_turu))
+            <span class="inline-flex items-center gap-1 text-[10px] text-[#94A3B8] mt-1 flex-wrap">
+              <i class="ti ti-clock text-[11px]"></i>
+              {{ collect([
+                   $k->saat_turu ? ($k->saat_turu === 'cep' ? 'Cep Saati' : 'Kol Saati') : null,
+                   $k->maden_turu ? ($k->maden_turu === 'altin' ? 'Altın'.($k->ayar ? ' '.$k->ayar.' Ayar' : '') : 'Gümüş') : null,
+                 ])->filter()->implode(' · ') }}
+            </span>
+            @endif
           </td>
           <td class="px-5 py-3 text-[13px] text-[#64748B]">{{ ucfirst($k->kategori) }}</td>
           <td class="px-5 py-3 text-[13px] font-medium text-[#0F172A]"

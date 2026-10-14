@@ -109,6 +109,42 @@
   </div>
   @endif
 
+  {{-- Saat Türü Filtresi (sadece Saatler) --}}
+  @if($kategori === 'saat')
+  <div class="flex flex-wrap gap-2 mb-3" role="group" aria-label="{{ ceviri('Saat türü filtresi') }}">
+    @php
+    $saatTurleri = ['' => ceviri('Tümü'), 'cep' => ceviri('Cep Saati'), 'kol' => ceviri('Kol Saati')];
+    @endphp
+    @foreach($saatTurleri as $key => $label)
+    <a href="{{ route('koleksiyon.index', array_filter(['kategori' => 'saat', 'maden_turu' => $madenTuru ?: null, 'saat_turu' => $key ?: null])) }}"
+       class="px-4 py-1.5 text-[13px] font-medium rounded-full border transition-all duration-200 min-h-[36px] flex items-center
+              {{ ($saatTuru ?? '') === $key
+                ? 'bg-[#CC2200] text-white border-transparent'
+                : 'bg-white text-[#64748B] border-[#E2E8F0] hover:border-[#CBD5E1] hover:text-[#0F172A]' }}"
+       aria-current="{{ ($saatTuru ?? '') === $key ? 'true' : 'false' }}">
+      {{ $label }}
+    </a>
+    @endforeach
+  </div>
+
+  {{-- Maden Türü Filtresi (sadece Saatler) --}}
+  <div class="flex flex-wrap gap-2 mb-7" role="group" aria-label="{{ ceviri('Maden türü filtresi') }}">
+    @php
+    $madenTurleri = ['' => ceviri('Tümü'), 'altin' => ceviri('Altın'), 'gumus' => ceviri('Gümüş')];
+    @endphp
+    @foreach($madenTurleri as $key => $label)
+    <a href="{{ route('koleksiyon.index', array_filter(['kategori' => 'saat', 'saat_turu' => $saatTuru ?: null, 'maden_turu' => $key ?: null])) }}"
+       class="px-4 py-1.5 text-[13px] font-medium rounded-full border transition-all duration-200 min-h-[36px] flex items-center
+              {{ ($madenTuru ?? '') === $key
+                ? 'bg-[#0F172A] text-white border-transparent'
+                : 'bg-white text-[#64748B] border-[#E2E8F0] hover:border-[#CBD5E1] hover:text-[#0F172A]' }}"
+       aria-current="{{ ($madenTuru ?? '') === $key ? 'true' : 'false' }}">
+      {{ $label }}
+    </a>
+    @endforeach
+  </div>
+  @endif
+
   {{-- Grid --}}
   @if($koleksiyonlar->count() > 0)
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -146,13 +182,19 @@
       </a>
       <div class="p-4">
         <h3 class="text-[15px] font-semibold text-[#0F172A] mb-1 leading-snug tracking-tight">{{ $item->ad }}</h3>
-        @if($item->ulke || $item->para_turu)
+        @if($item->ulke || $item->para_turu || $item->saat_turu || $item->maden_turu)
         <p class="text-[11px] text-[#94A3B8] mb-1.5 flex items-center gap-2 flex-wrap">
           @if($item->ulke)
           <span class="flex items-center gap-1"><i class="ti ti-map-pin text-xs"></i>{{ ceviri($item->ulke) }}</span>
           @endif
           @if($item->para_turu)
           <span class="flex items-center gap-1"><i class="ti ti-{{ $item->para_turu === 'madeni' ? 'coin' : 'cash' }} text-xs"></i>{{ $item->para_turu === 'madeni' ? ceviri('Madeni Para') : ceviri('Kağıt Para') }}</span>
+          @endif
+          @if($item->saat_turu)
+          <span class="flex items-center gap-1"><i class="ti ti-clock text-xs"></i>{{ $item->saat_turu === 'cep' ? ceviri('Cep Saati') : ceviri('Kol Saati') }}</span>
+          @endif
+          @if($item->maden_turu)
+          <span class="flex items-center gap-1"><i class="ti ti-diamond text-xs"></i>{{ $item->maden_turu === 'altin' ? ceviri('Altın').($item->ayar ? ' '.$item->ayar.' '.ceviri('Ayar') : '') : ceviri('Gümüş') }}</span>
           @endif
         </p>
         @endif

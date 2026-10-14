@@ -47,6 +47,9 @@ class KoleksiyonController extends Controller
             'kategori'     => 'required|string|max:100',
             'ulke'         => 'nullable|string|max:100',
             'para_turu'    => 'nullable|in:madeni,kagit',
+            'saat_turu'    => 'nullable|in:cep,kol',
+            'maden_turu'   => 'nullable|in:altin,gumus',
+            'ayar'         => 'nullable|string|max:20',
             'fiyat'        => 'nullable|numeric|min:0',
             'aciklama'     => 'nullable|string',
             'stok_kodu'    => 'nullable|string|max:50',
@@ -60,7 +63,7 @@ class KoleksiyonController extends Controller
             'one_cikan'       => 'boolean',
         ]);
 
-        $data = $request->only(['ad', 'slug', 'kategori', 'ulke', 'para_turu', 'fiyat', 'aciklama', 'stok_kodu', 'durum']);
+        $data = $request->only(['ad', 'slug', 'kategori', 'ulke', 'para_turu', 'saat_turu', 'maden_turu', 'ayar', 'fiyat', 'aciklama', 'stok_kodu', 'durum']);
         $data['kargo_bedeli']   = $request->input('kargo_bedeli', 0);
         $data['kargo_kim_oder'] = $request->input('kargo_kim_oder', 'magaza');
 
@@ -110,6 +113,9 @@ class KoleksiyonController extends Controller
             'kategori'     => 'required|string|max:100',
             'ulke'         => 'nullable|string|max:100',
             'para_turu'    => 'nullable|in:madeni,kagit',
+            'saat_turu'    => 'nullable|in:cep,kol',
+            'maden_turu'   => 'nullable|in:altin,gumus',
+            'ayar'         => 'nullable|string|max:20',
             'fiyat'        => 'nullable|numeric|min:0',
             'aciklama'     => 'nullable|string',
             'stok_kodu'    => 'nullable|string|max:50',
@@ -127,7 +133,7 @@ class KoleksiyonController extends Controller
             'one_cikan'       => 'boolean',
         ]);
 
-        $data = $request->only(['ad', 'slug', 'kategori', 'ulke', 'para_turu', 'fiyat', 'aciklama', 'stok_kodu', 'durum']);
+        $data = $request->only(['ad', 'slug', 'kategori', 'ulke', 'para_turu', 'saat_turu', 'maden_turu', 'ayar', 'fiyat', 'aciklama', 'stok_kodu', 'durum']);
         $data['kargo_bedeli']   = $request->input('kargo_bedeli', 0);
         $data['kargo_kim_oder'] = $request->input('kargo_kim_oder', 'magaza');
 

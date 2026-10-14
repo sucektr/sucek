@@ -8,9 +8,11 @@ class KoleksiyonController extends Controller
 {
     public function index(Request $request)
     {
-        $kategori = $request->input('kategori', 'tumu');
-        $ulke     = $request->input('ulke');
-        $paraTuru = $request->input('para_turu');
+        $kategori  = $request->input('kategori', 'tumu');
+        $ulke      = $request->input('ulke');
+        $paraTuru  = $request->input('para_turu');
+        $saatTuru  = $request->input('saat_turu');
+        $madenTuru = $request->input('maden_turu');
 
         $query = \App\Models\Koleksiyon::where('aktif', true)->orderBy('one_cikan', 'desc');
 
@@ -22,6 +24,12 @@ class KoleksiyonController extends Controller
         }
         if ($paraTuru) {
             $query->where('para_turu', $paraTuru);
+        }
+        if ($saatTuru) {
+            $query->where('saat_turu', $saatTuru);
+        }
+        if ($madenTuru) {
+            $query->where('maden_turu', $madenTuru);
         }
 
         $koleksiyonlar = $query->get();
@@ -36,7 +44,7 @@ class KoleksiyonController extends Controller
                 ->pluck('ulke');
         }
 
-        return view('koleksiyon.index', compact('koleksiyonlar', 'kategori', 'ulke', 'ulkeler', 'paraTuru'));
+        return view('koleksiyon.index', compact('koleksiyonlar', 'kategori', 'ulke', 'ulkeler', 'paraTuru', 'saatTuru', 'madenTuru'));
     }
 
     public function show(string $slug)

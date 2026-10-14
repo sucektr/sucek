@@ -31,7 +31,7 @@
 @section('content')
 <form id="koleksiyon-formu" action="{{ $koleksiyon->exists ? route('admin.koleksiyonlar.update', $koleksiyon) : route('admin.koleksiyonlar.store') }}"
       method="POST" enctype="multipart/form-data"
-      x-data="{ kategori: '{{ old('kategori', $koleksiyon->kategori) }}' }">
+      x-data="{ kategori: '{{ old('kategori', $koleksiyon->kategori) }}', madenTuru: '{{ old('maden_turu', $koleksiyon->maden_turu) }}' }">
   @csrf
   @if($koleksiyon->exists) @method('PUT') @endif
 
@@ -92,6 +92,36 @@
               </select>
               <p class="text-[11px] text-[#94A3B8] mt-1">Mağaza sayfasında Madeni/Kağıt Para filtresi için kullanılır.</p>
               @error('para_turu')<p class="text-[11px] text-[#CC2200] mt-1">{{ $message }}</p>@enderror
+            </div>
+            <div x-show="kategori === 'saat'" x-cloak>
+              <label class="block text-[11px] font-medium text-[#64748B] uppercase tracking-[.06em] mb-1.5">Saat Türü</label>
+              <select name="saat_turu" class="w-full px-4 py-2.5 border border-[#E2E8F0] rounded-[8px] text-[14px] focus:outline-none focus:border-[#CC2200] focus:ring-2 focus:ring-[rgba(204,34,0,0.08)] bg-white">
+                <option value="">Belirtilmemiş</option>
+                @foreach(['cep' => 'Cep Saati', 'kol' => 'Kol Saati'] as $val => $lbl)
+                  <option value="{{ $val }}" {{ old('saat_turu', $koleksiyon->saat_turu) === $val ? 'selected' : '' }}>{{ $lbl }}</option>
+                @endforeach
+              </select>
+              <p class="text-[11px] text-[#94A3B8] mt-1">Mağaza sayfasında Cep/Kol Saati filtresi için kullanılır.</p>
+              @error('saat_turu')<p class="text-[11px] text-[#CC2200] mt-1">{{ $message }}</p>@enderror
+            </div>
+            <div x-show="kategori === 'saat'" x-cloak>
+              <label class="block text-[11px] font-medium text-[#64748B] uppercase tracking-[.06em] mb-1.5">Maden Türü</label>
+              <select name="maden_turu" x-model="madenTuru" class="w-full px-4 py-2.5 border border-[#E2E8F0] rounded-[8px] text-[14px] focus:outline-none focus:border-[#CC2200] focus:ring-2 focus:ring-[rgba(204,34,0,0.08)] bg-white">
+                <option value="">Belirtilmemiş</option>
+                @foreach(['altin' => 'Altın', 'gumus' => 'Gümüş'] as $val => $lbl)
+                  <option value="{{ $val }}" {{ old('maden_turu', $koleksiyon->maden_turu) === $val ? 'selected' : '' }}>{{ $lbl }}</option>
+                @endforeach
+              </select>
+              <p class="text-[11px] text-[#94A3B8] mt-1">Mağaza sayfasında Altın/Gümüş filtresi için kullanılır.</p>
+              @error('maden_turu')<p class="text-[11px] text-[#CC2200] mt-1">{{ $message }}</p>@enderror
+            </div>
+            <div x-show="kategori === 'saat' && madenTuru === 'altin'" x-cloak>
+              <label class="block text-[11px] font-medium text-[#64748B] uppercase tracking-[.06em] mb-1.5">Ayar</label>
+              <input type="text" name="ayar" value="{{ old('ayar', $koleksiyon->ayar) }}"
+                     class="w-full px-4 py-2.5 border border-[#E2E8F0] rounded-[8px] text-[14px] focus:outline-none focus:border-[#CC2200] focus:ring-2 focus:ring-[rgba(204,34,0,0.08)] transition-colors"
+                     placeholder="Örn. 14, 18, 22, 24">
+              <p class="text-[11px] text-[#94A3B8] mt-1">Altın ayarı (karat).</p>
+              @error('ayar')<p class="text-[11px] text-[#CC2200] mt-1">{{ $message }}</p>@enderror
             </div>
             <div>
               <label class="block text-[11px] font-medium text-[#64748B] uppercase tracking-[.06em] mb-1.5">Satış Durumu <span class="text-[#CC2200]">*</span></label>
