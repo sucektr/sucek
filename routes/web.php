@@ -226,6 +226,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::post('ayarlar', [Admin\CariController::class, 'ayarlarKaydet'])->name('ayarlar');
             Route::get('{musteri}', [Admin\CariController::class, 'show'])->name('show');
             Route::patch('{musteri}', [Admin\CariController::class, 'update'])->name('update');
+            Route::delete('{musteri}', [Admin\CariController::class, 'destroy'])->name('destroy');
             Route::post('{musteri}/hareketler', [Admin\CariController::class, 'hareketEkle'])->name('hareketler.ekle');
             Route::patch('{musteri}/hareketler/{hareket}', [Admin\CariController::class, 'hareketGuncelle'])->name('hareketler.guncelle');
             Route::delete('{musteri}/hareketler/{hareket}', [Admin\CariController::class, 'hareketSil'])->name('hareketler.sil');

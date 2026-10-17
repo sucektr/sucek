@@ -133,6 +133,16 @@ class CariController extends Controller
         return back()->with('basari', 'Müşteri bilgileri güncellendi.');
     }
 
+    public function destroy(Musteri $musteri)
+    {
+        $adSoyad = $musteri->ad_soyad;
+
+        Storage::disk('public')->deleteDirectory('cari-belgeler/' . $musteri->id);
+        $musteri->delete();
+
+        return redirect()->route('admin.cari.index')->with('basari', '"' . $adSoyad . '" cari hesabı silindi.');
+    }
+
     public function hareketEkle(Request $request, Musteri $musteri)
     {
         $data = $request->validate([

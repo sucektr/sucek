@@ -267,6 +267,16 @@
         </label>
         <button type="submit" class="w-full bg-[#CC2200] text-white text-[14px] font-semibold py-3 rounded-[10px] mt-2">Kaydet</button>
       </form>
+
+      <div class="mt-4 pt-4 border-t border-[#F1F5F9]">
+        <form action="{{ route('admin.cari.destroy', $musteri) }}" method="POST"
+              onsubmit="return confirm('\"{{ $musteri->ad_soyad }}\" cari hesabı ve tüm hareket/belgeleri kalıcı olarak silinecek. Emin misin?')">
+          @csrf @method('DELETE')
+          <button type="submit" class="w-full bg-white border border-[#FCA5A5] text-[#CC2200] text-[13px] font-semibold py-2.5 rounded-[10px] flex items-center justify-center gap-1.5">
+            <i class="ti ti-trash text-[15px]"></i> Müşteriyi Sil
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 
