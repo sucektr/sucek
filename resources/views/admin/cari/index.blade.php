@@ -41,27 +41,28 @@
   @endif
 
   {{-- Genel cari durum grafikleri --}}
-  <div class="mb-5">
-    <p class="text-[12px] font-semibold text-[#64748B] uppercase tracking-wide mb-2">Genel Durum</p>
-    <div class="flex gap-3 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-      <div class="snap-center shrink-0 w-[86%] bg-white rounded-[12px] border border-[#E2E8F0] p-4">
-        <p class="text-[11px] font-medium text-[#64748B] mb-3">Toplam Bakiye Trendi · Son 6 Ay</p>
-        <div style="height:170px;"><canvas id="grafikTrend"></canvas></div>
+  <div class="mb-5 space-y-3">
+    <p class="text-[12px] font-semibold text-[#64748B] uppercase tracking-wide">Genel Durum</p>
+
+    <div class="bg-white rounded-[12px] border border-[#E2E8F0] p-4">
+      <p class="text-[11px] font-medium text-[#64748B] mb-3">Toplam Bakiye Trendi · Son 6 Ay</p>
+      <div style="height:190px;"><canvas id="grafikTrend"></canvas></div>
+    </div>
+
+    <div class="bg-white rounded-[12px] border border-[#E2E8F0] p-4">
+      <p class="text-[11px] font-medium text-[#64748B] mb-3">En Yüksek Bakiyeli Müşteriler</p>
+      <div style="height:190px;">
+        @if($enYuksekBorclular->isEmpty())
+          <p class="text-[12px] text-[#94A3B8] text-center pt-16">Borçlu müşteri yok.</p>
+        @else
+          <canvas id="grafikBorclular"></canvas>
+        @endif
       </div>
-      <div class="snap-center shrink-0 w-[86%] bg-white rounded-[12px] border border-[#E2E8F0] p-4">
-        <p class="text-[11px] font-medium text-[#64748B] mb-3">En Yüksek Bakiyeli Müşteriler</p>
-        <div style="height:170px;">
-          @if($enYuksekBorclular->isEmpty())
-            <p class="text-[12px] text-[#94A3B8] text-center pt-14">Borçlu müşteri yok.</p>
-          @else
-            <canvas id="grafikBorclular"></canvas>
-          @endif
-        </div>
-      </div>
-      <div class="snap-center shrink-0 w-[86%] bg-white rounded-[12px] border border-[#E2E8F0] p-4">
-        <p class="text-[11px] font-medium text-[#64748B] mb-3">Aylık Borç / Tahsilat</p>
-        <div style="height:170px;"><canvas id="grafikAylik"></canvas></div>
-      </div>
+    </div>
+
+    <div class="bg-white rounded-[12px] border border-[#E2E8F0] p-4">
+      <p class="text-[11px] font-medium text-[#64748B] mb-3">Aylık Borç / Tahsilat</p>
+      <div style="height:190px;"><canvas id="grafikAylik"></canvas></div>
     </div>
   </div>
 
@@ -165,9 +166,8 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
 <script>
-(function () {
+document.addEventListener('DOMContentLoaded', function () {
   if (typeof Chart === 'undefined') return;
 
   Chart.defaults.font.family = 'Inter, system-ui, sans-serif';
@@ -249,6 +249,6 @@
       },
     },
   });
-})();
+});
 </script>
 @endpush

@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-gTj9aZ6g.css",
+    "file": "assets/app-2ildEPxs.css",
     "name": "app",
     "names": [
       "app.css"
@@ -12,6 +12,12 @@
     "file": "assets/app-C-BaoeGc.js",
     "name": "app",
     "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/chart-vendor.js": {
+    "file": "assets/chart-vendor-BozGQiWL.js",
+    "name": "chart-vendor",
+    "src": "resources/js/chart-vendor.js",
     "isEntry": true
   }
 }
