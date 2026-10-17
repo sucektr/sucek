@@ -35,6 +35,7 @@ class Musteri extends Model
     public function bakiye(): float
     {
         return (float) $this->hareketler()
+            ->reorder()
             ->selectRaw("COALESCE(SUM(CASE WHEN tur = 'borc' THEN tutar ELSE -tutar END), 0) as bakiye")
             ->value('bakiye');
     }
