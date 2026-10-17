@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\CariBelgeMail;
 use App\Mail\CariEkstreMail;
+use App\Models\CariBelge;
 use App\Models\CariHareket;
 use App\Models\Icerik;
 use App\Models\Musteri;
@@ -11,6 +13,7 @@ use App\Services\MailService;
 use App\Services\SmsService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CariController extends Controller
 {
@@ -42,7 +45,47 @@ class CariController extends Controller
             'telefon' => icerik('sistem', 'cari_hatirlatma_telefon'),
         ];
 
-        return view('admin.cari.index', compact('musteriler', 'toplamBakiye', 'vadesiYaklasanlar', 'hatirlatmaAyarlari'));
+        $grafik = $this->grafikVerisi();
+
+        $enYuksekBorclular = $musteriler
+            ->filter(fn (Musteri $m) => $m->hesaplanan_bakiye > 0)
+            ->sortByDesc('hesaplanan_bakiye')
+            ->take(5)
+            ->values();
+
+        return view('admin.cari.index', compact(
+            'musteriler', 'toplamBakiye', 'vadesiYaklasanlar', 'hatirlatmaAyarlari', 'grafik', 'enYuksekBorclular'
+        ));
+    }
+
+    private function grafikVerisi(): array
+    {
+        $turkceAylar = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
+        $aylar = collect(range(5, 0))->map(fn ($i) => now()->subMonths($i)->startOfMonth());
+
+        $etiketler      = [];
+        $bakiyeTrend    = [];
+        $aylikBorc      = [];
+        $aylikTahsilat  = [];
+
+        foreach ($aylar as $ay) {
+            $etiketler[] = $turkceAylar[$ay->month - 1] . ' ' . $ay->format('y');
+
+            $bakiyeTrend[] = (float) CariHareket::where('tarih', '<=', $ay->copy()->endOfMonth())
+                ->selectRaw("COALESCE(SUM(CASE WHEN tur = 'borc' THEN tutar ELSE -tutar END), 0) as b")
+                ->value('b');
+
+            $araligBasi = $ay->copy()->startOfMonth();
+            $araligSonu = $ay->copy()->endOfMonth();
+
+            $aylikBorc[] = (float) CariHareket::where('tur', 'borc')
+                ->whereBetween('tarih', [$araligBasi, $araligSonu])->sum('tutar');
+
+            $aylikTahsilat[] = (float) CariHareket::where('tur', 'tahsilat')
+                ->whereBetween('tarih', [$araligBasi, $araligSonu])->sum('tutar');
+        }
+
+        return compact('etiketler', 'bakiyeTrend', 'aylikBorc', 'aylikTahsilat');
     }
 
     public function store(Request $request)
@@ -66,8 +109,9 @@ class CariController extends Controller
     {
         $hareketler = $musteri->hareketler()->get();
         $bakiye     = $musteri->bakiye();
+        $belgeler   = $musteri->belgeler()->get();
 
-        return view('admin.cari.show', compact('musteri', 'hareketler', 'bakiye'));
+        return view('admin.cari.show', compact('musteri', 'hareketler', 'bakiye', 'belgeler'));
     }
 
     public function update(Request $request, Musteri $musteri)
@@ -187,6 +231,59 @@ class CariController extends Controller
         }
 
         return back()->with('basari', 'Ekstre gönderildi.');
+    }
+
+    public function belgeYukle(Request $request, Musteri $musteri)
+    {
+        $request->validate([
+            'dosya' => 'required|file|mimes:pdf,jpg,jpeg,png,doc,docx,xls,xlsx|max:10240',
+        ]);
+
+        $dosya = $request->file('dosya');
+        $yol   = $dosya->store('cari-belgeler/' . $musteri->id, 'public');
+
+        $musteri->belgeler()->create([
+            'dosya_adi'    => $dosya->getClientOriginalName(),
+            'dosya_yolu'   => $yol,
+            'dosya_boyutu' => $dosya->getSize(),
+            'mime_tipi'    => $dosya->getClientMimeType(),
+        ]);
+
+        return back()->with('basari', 'Belge yüklendi.');
+    }
+
+    public function belgeSil(Musteri $musteri, CariBelge $belge)
+    {
+        abort_unless($belge->musteri_id === $musteri->id, 404);
+
+        Storage::disk('public')->delete($belge->dosya_yolu);
+        $belge->delete();
+
+        return back()->with('basari', 'Belge silindi.');
+    }
+
+    public function belgeGonder(Musteri $musteri, CariBelge $belge, MailService $mail, SmsService $sms)
+    {
+        abort_unless($belge->musteri_id === $musteri->id, 404);
+
+        if (!$musteri->email) {
+            return back()->with('hata', 'Müşterinin kayıtlı e-postası yok, belge gönderilemedi.');
+        }
+
+        $mailGonderildi = $mail->gonder($musteri->email, new CariBelgeMail($musteri, $belge), 'cari_belge');
+
+        if ($mailGonderildi && $musteri->telefon) {
+            $sms->gonder(
+                $musteri->telefon,
+                'Sayın ' . $musteri->ad_soyad . ', size yeni bir belge e-posta ile gönderildi. Bilgi: SUÇEK',
+                'cari_belge'
+            );
+        }
+
+        return back()->with(
+            $mailGonderildi ? 'basari' : 'hata',
+            $mailGonderildi ? 'Belge "' . $musteri->email . '" adresine gönderildi.' : 'Belge gönderilemedi.'
+        );
     }
 
     public function ayarlarKaydet(Request $request)

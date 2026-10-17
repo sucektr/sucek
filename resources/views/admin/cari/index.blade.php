@@ -40,6 +40,31 @@
   </div>
   @endif
 
+  {{-- Genel cari durum grafikleri --}}
+  <div class="mb-5">
+    <p class="text-[12px] font-semibold text-[#64748B] uppercase tracking-wide mb-2">Genel Durum</p>
+    <div class="flex gap-3 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div class="snap-center shrink-0 w-[86%] bg-white rounded-[12px] border border-[#E2E8F0] p-4">
+        <p class="text-[11px] font-medium text-[#64748B] mb-3">Toplam Bakiye Trendi · Son 6 Ay</p>
+        <div style="height:170px;"><canvas id="grafikTrend"></canvas></div>
+      </div>
+      <div class="snap-center shrink-0 w-[86%] bg-white rounded-[12px] border border-[#E2E8F0] p-4">
+        <p class="text-[11px] font-medium text-[#64748B] mb-3">En Yüksek Bakiyeli Müşteriler</p>
+        <div style="height:170px;">
+          @if($enYuksekBorclular->isEmpty())
+            <p class="text-[12px] text-[#94A3B8] text-center pt-14">Borçlu müşteri yok.</p>
+          @else
+            <canvas id="grafikBorclular"></canvas>
+          @endif
+        </div>
+      </div>
+      <div class="snap-center shrink-0 w-[86%] bg-white rounded-[12px] border border-[#E2E8F0] p-4">
+        <p class="text-[11px] font-medium text-[#64748B] mb-3">Aylık Borç / Tahsilat</p>
+        <div style="height:170px;"><canvas id="grafikAylik"></canvas></div>
+      </div>
+    </div>
+  </div>
+
   {{-- Arama --}}
   <form method="GET" class="mb-4">
     <div class="relative">
@@ -138,3 +163,92 @@
   </div>
 
 @endsection
+
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script>
+(function () {
+  if (typeof Chart === 'undefined') return;
+
+  Chart.defaults.font.family = 'Inter, system-ui, sans-serif';
+  Chart.defaults.font.size = 11;
+  Chart.defaults.color = '#64748B';
+
+  const etiketler = @json($grafik['etiketler']);
+
+  new Chart(document.getElementById('grafikTrend'), {
+    type: 'line',
+    data: {
+      labels: etiketler,
+      datasets: [{
+        data: @json($grafik['bakiyeTrend']),
+        borderColor: '#CC2200',
+        backgroundColor: 'rgba(204,34,0,0.08)',
+        borderWidth: 2,
+        pointRadius: 3,
+        pointBackgroundColor: '#CC2200',
+        tension: 0.3,
+        fill: true,
+      }]
+    },
+    options: {
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => c.parsed.y.toLocaleString('tr-TR', {minimumFractionDigits:2}) + ' ₺' } } },
+      scales: {
+        x: { grid: { display: false } },
+        y: { grid: { color: '#F1F5F9' }, ticks: { callback: (v) => v.toLocaleString('tr-TR') } },
+      },
+    },
+  });
+
+  @if($enYuksekBorclular->isNotEmpty())
+  new Chart(document.getElementById('grafikBorclular'), {
+    type: 'bar',
+    data: {
+      labels: @json($enYuksekBorclular->pluck('ad_soyad')),
+      datasets: [{
+        data: @json($enYuksekBorclular->pluck('hesaplanan_bakiye')),
+        backgroundColor: '#CC2200',
+        borderRadius: 4,
+        maxBarThickness: 22,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (c) => c.parsed.x.toLocaleString('tr-TR', {minimumFractionDigits:2}) + ' ₺' } },
+      },
+      scales: {
+        x: { grid: { color: '#F1F5F9' }, ticks: { callback: (v) => v.toLocaleString('tr-TR') } },
+        y: { grid: { display: false } },
+      },
+    },
+  });
+  @endif
+
+  new Chart(document.getElementById('grafikAylik'), {
+    type: 'bar',
+    data: {
+      labels: etiketler,
+      datasets: [
+        { label: 'Borç', data: @json($grafik['aylikBorc']), backgroundColor: '#CC2200', borderRadius: 3, maxBarThickness: 16 },
+        { label: 'Tahsilat', data: @json($grafik['aylikTahsilat']), backgroundColor: '#1D7A4C', borderRadius: 3, maxBarThickness: 16 },
+      ]
+    },
+    options: {
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true, position: 'top', labels: { boxWidth: 10, boxHeight: 10, padding: 12 } },
+        tooltip: { callbacks: { label: (c) => c.dataset.label + ': ' + c.parsed.y.toLocaleString('tr-TR', {minimumFractionDigits:2}) + ' ₺' } },
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: { grid: { color: '#F1F5F9' }, ticks: { callback: (v) => v.toLocaleString('tr-TR') } },
+      },
+    },
+  });
+})();
+</script>
+@endpush

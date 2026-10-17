@@ -32,6 +32,11 @@ class Musteri extends Model
         return $this->hasMany(CariHareket::class)->orderByDesc('tarih')->orderByDesc('id');
     }
 
+    public function belgeler(): HasMany
+    {
+        return $this->hasMany(CariBelge::class)->orderByDesc('id');
+    }
+
     public function bakiye(): float
     {
         return (float) $this->hareketler()
