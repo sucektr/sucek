@@ -20,12 +20,14 @@ class CariHareket extends Model
         'tarih',
         'vade_tarihi',
         'odendi_mi',
+        'iptal',
     ];
 
     protected $casts = [
         'tarih'       => 'date',
         'vade_tarihi' => 'date',
         'odendi_mi'   => 'boolean',
+        'iptal'       => 'boolean',
         'tutar'       => 'decimal:2',
     ];
 

@@ -43,6 +43,7 @@ class Musteri extends Model
     {
         return (float) $this->hareketler()
             ->reorder()
+            ->where('iptal', false)
             ->selectRaw("COALESCE(SUM(CASE WHEN tur = 'borc' THEN tutar ELSE -tutar END), 0) as bakiye")
             ->value('bakiye');
     }
@@ -52,6 +53,7 @@ class Musteri extends Model
         return $this->hareketler()
             ->where('tur', 'borc')
             ->where('odendi_mi', false)
+            ->where('iptal', false)
             ->whereNotNull('vade_tarihi')
             ->whereDate('vade_tarihi', '<=', now()->addDays(3))
             ->orderBy('vade_tarihi');

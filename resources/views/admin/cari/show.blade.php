@@ -64,19 +64,22 @@
   <p class="text-[12px] font-semibold text-[#64748B] uppercase tracking-wide mb-2">Hareketler</p>
   <div class="space-y-2">
     @forelse($hareketler as $h)
-      <div class="bg-white rounded-[12px] border border-[#E2E8F0] px-4 py-3">
+      <div class="bg-white rounded-[12px] border border-[#E2E8F0] px-4 py-3 {{ $h->iptal ? 'opacity-50' : '' }}">
         <div class="flex items-start justify-between gap-3">
           <div class="min-w-0">
-            <p class="text-[13.5px] font-medium text-[#0F172A] truncate">{{ $h->aciklama }}</p>
+            <p class="text-[13.5px] font-medium text-[#0F172A] truncate {{ $h->iptal ? 'line-through' : '' }}">{{ $h->aciklama }}</p>
             <p class="text-[11px] text-[#94A3B8] mt-0.5">
               {{ $h->tarih->format('d.m.Y') }}
               @if($h->vade_tarihi)
                 · Vade: <span class="{{ $h->vadesiGecti() ? 'text-[#CC2200] font-medium' : '' }}">{{ $h->vade_tarihi->format('d.m.Y') }}</span>
               @endif
+              @if($h->iptal)
+                · <span class="text-[#CC2200] font-semibold">İptal Edildi</span>
+              @endif
             </p>
           </div>
           <div class="shrink-0 text-right">
-            <p class="text-[14px] font-bold {{ $h->tur === 'borc' ? 'text-[#CC2200]' : 'text-[#1D7A4C]' }}">
+            <p class="text-[14px] font-bold {{ $h->iptal ? 'line-through text-[#94A3B8]' : ($h->tur === 'borc' ? 'text-[#CC2200]' : 'text-[#1D7A4C]') }}">
               {{ $h->tur === 'borc' ? '+' : '−' }}{{ number_format($h->tutar, 2, ',', '.') }} ₺
             </p>
             <div class="flex items-center gap-2 justify-end mt-1">
@@ -84,6 +87,13 @@
                       onclick="hareketDuzenleAc({{ $h->id }}, '{{ $h->tur }}', '{{ $h->tutar }}', {{ json_encode($h->aciklama) }}, '{{ $h->tarih->format('Y-m-d') }}', '{{ $h->vade_tarihi?->format('Y-m-d') }}')">
                 Düzenle
               </button>
+              <form action="{{ route('admin.cari.hareketler.guncelle', [$musteri, $h]) }}" method="POST">
+                @csrf @method('PATCH')
+                <input type="hidden" name="iptal" value="{{ $h->iptal ? 0 : 1 }}">
+                <button type="submit" class="text-[10px] {{ $h->iptal ? 'text-[#1D7A4C]' : 'text-[#CC2200]' }}">
+                  {{ $h->iptal ? 'İptali Geri Al' : 'İptal Et' }}
+                </button>
+              </form>
               <form action="{{ route('admin.cari.hareketler.sil', [$musteri, $h]) }}" method="POST" onsubmit="return confirm('Bu hareket silinsin mi?')">
                 @csrf @method('DELETE')
                 <button type="submit" class="text-[10px] text-[#94A3B8]">Sil</button>
@@ -91,7 +101,7 @@
             </div>
           </div>
         </div>
-        @if($h->tur === 'borc' && $h->vade_tarihi)
+        @if(!$h->iptal && $h->tur === 'borc' && $h->vade_tarihi)
           <label class="flex items-center gap-2 mt-2.5 pt-2.5 border-t border-[#F1F5F9] text-[11px] text-[#64748B]">
             <form action="{{ route('admin.cari.hareketler.guncelle', [$musteri, $h]) }}" method="POST" class="flex items-center gap-2">
               @csrf @method('PATCH')

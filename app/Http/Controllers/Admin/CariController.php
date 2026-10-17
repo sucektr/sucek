@@ -37,6 +37,7 @@ class CariController extends Controller
         $vadesiYaklasanlar = CariHareket::with('musteri')
             ->where('tur', 'borc')
             ->where('odendi_mi', false)
+            ->where('iptal', false)
             ->whereNotNull('vade_tarihi')
             ->whereDate('vade_tarihi', '<=', now()->addDays(3))
             ->orderBy('vade_tarihi')
@@ -49,7 +50,7 @@ class CariController extends Controller
 
         $grafik = $this->grafikVerisi();
 
-        $enYuksekBorclular = $musteriler
+        $enYuksekBorclular = $musteriler->concat($tedarikciler)
             ->filter(fn (Musteri $m) => $m->hesaplanan_bakiye > 0)
             ->sortByDesc('hesaplanan_bakiye')
             ->take(5)
@@ -94,37 +95,55 @@ class CariController extends Controller
         return view('admin.cari.tedarikci.index', compact('tedarikciler'));
     }
 
+    private function aySonuBakiye(string $tip, \Illuminate\Support\Carbon $sonTarih): float
+    {
+        return (float) CariHareket::where('iptal', false)
+            ->whereHas('musteri', fn ($q) => $q->where('tip', $tip))
+            ->where('tarih', '<=', $sonTarih)
+            ->selectRaw("COALESCE(SUM(CASE WHEN tur = 'borc' THEN tutar ELSE -tutar END), 0) as b")
+            ->value('b');
+    }
+
+    private function ayTutari(string $tip, string $tur, \Illuminate\Support\Carbon $basi, \Illuminate\Support\Carbon $sonu): float
+    {
+        return (float) CariHareket::where('iptal', false)
+            ->whereHas('musteri', fn ($q) => $q->where('tip', $tip))
+            ->where('tur', $tur)
+            ->whereBetween('tarih', [$basi, $sonu])
+            ->sum('tutar');
+    }
+
     private function grafikVerisi(): array
     {
         $turkceAylar = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
         $aylar = collect(range(5, 0))->map(fn ($i) => now()->subMonths($i)->startOfMonth());
 
-        $etiketler      = [];
-        $bakiyeTrend    = [];
-        $aylikBorc      = [];
-        $aylikTahsilat  = [];
-
-        $musteriTip = fn ($q) => $q->whereHas('musteri', fn ($qq) => $qq->where('tip', 'musteri'));
+        $etiketler             = [];
+        $bakiyeTrendMusteri    = [];
+        $bakiyeTrendTedarikci  = [];
+        $aylikMusteriBorc      = [];
+        $aylikMusteriTahsilat  = [];
+        $aylikTedarikciBorc    = [];
+        $aylikTedarikciOdeme   = [];
 
         foreach ($aylar as $ay) {
             $etiketler[] = $turkceAylar[$ay->month - 1] . ' ' . $ay->format('y');
+            $araligBasi  = $ay->copy()->startOfMonth();
+            $araligSonu  = $ay->copy()->endOfMonth();
 
-            $bakiyeTrend[] = (float) CariHareket::tap($musteriTip)
-                ->where('tarih', '<=', $ay->copy()->endOfMonth())
-                ->selectRaw("COALESCE(SUM(CASE WHEN tur = 'borc' THEN tutar ELSE -tutar END), 0) as b")
-                ->value('b');
+            $bakiyeTrendMusteri[]   = $this->aySonuBakiye('musteri', $araligSonu);
+            $bakiyeTrendTedarikci[] = $this->aySonuBakiye('tedarikci', $araligSonu);
 
-            $araligBasi = $ay->copy()->startOfMonth();
-            $araligSonu = $ay->copy()->endOfMonth();
-
-            $aylikBorc[] = (float) CariHareket::tap($musteriTip)->where('tur', 'borc')
-                ->whereBetween('tarih', [$araligBasi, $araligSonu])->sum('tutar');
-
-            $aylikTahsilat[] = (float) CariHareket::tap($musteriTip)->where('tur', 'tahsilat')
-                ->whereBetween('tarih', [$araligBasi, $araligSonu])->sum('tutar');
+            $aylikMusteriBorc[]     = $this->ayTutari('musteri', 'borc', $araligBasi, $araligSonu);
+            $aylikMusteriTahsilat[] = $this->ayTutari('musteri', 'tahsilat', $araligBasi, $araligSonu);
+            $aylikTedarikciBorc[]   = $this->ayTutari('tedarikci', 'borc', $araligBasi, $araligSonu);
+            $aylikTedarikciOdeme[]  = $this->ayTutari('tedarikci', 'tahsilat', $araligBasi, $araligSonu);
         }
 
-        return compact('etiketler', 'bakiyeTrend', 'aylikBorc', 'aylikTahsilat');
+        return compact(
+            'etiketler', 'bakiyeTrendMusteri', 'bakiyeTrendTedarikci',
+            'aylikMusteriBorc', 'aylikMusteriTahsilat', 'aylikTedarikciBorc', 'aylikTedarikciOdeme'
+        );
     }
 
     public function store(Request $request)
@@ -212,6 +231,11 @@ class CariController extends Controller
             return back()->with('basari', 'Hareket durumu güncellendi.');
         }
 
+        if ($request->has('iptal') && !$request->has('tutar')) {
+            $hareket->update(['iptal' => $request->boolean('iptal')]);
+            return back()->with('basari', $request->boolean('iptal') ? 'Hareket iptal edildi, hesaplamalardan hariç tutulacak.' : 'Hareketin iptali geri alındı.');
+        }
+
         $data = $request->validate([
             'tur'         => 'required|in:borc,tahsilat',
             'tutar'       => 'required|numeric|min:0.01',
@@ -238,7 +262,7 @@ class CariController extends Controller
     {
         $pdf = Pdf::loadView('admin.cari.pdf.ekstre', [
             'musteri'    => $musteri,
-            'hareketler' => $musteri->hareketler()->get(),
+            'hareketler' => $musteri->hareketler()->where('iptal', false)->get(),
             'bakiye'     => $musteri->bakiye(),
         ]);
 
@@ -258,7 +282,7 @@ class CariController extends Controller
 
         $pdf = Pdf::loadView('admin.cari.pdf.ekstre', [
             'musteri'    => $musteri,
-            'hareketler' => $musteri->hareketler()->get(),
+            'hareketler' => $musteri->hareketler()->where('iptal', false)->get(),
             'bakiye'     => $musteri->bakiye(),
         ]);
 

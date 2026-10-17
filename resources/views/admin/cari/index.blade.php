@@ -61,18 +61,18 @@
 
   {{-- Genel cari durum grafikleri --}}
   <div class="mb-5 space-y-3">
-    <p class="text-[12px] font-semibold text-[#64748B] uppercase tracking-wide">Grafikler · Müşteriler</p>
+    <p class="text-[12px] font-semibold text-[#64748B] uppercase tracking-wide">Grafikler · Müşteri + Tedarikçi</p>
 
     <div class="bg-white rounded-[12px] border border-[#E2E8F0] p-4">
-      <p class="text-[11px] font-medium text-[#64748B] mb-3">Toplam Bakiye Trendi · Son 6 Ay</p>
+      <p class="text-[11px] font-medium text-[#64748B] mb-3">Bakiye Trendi · Son 6 Ay</p>
       <div style="height:190px;"><canvas id="grafikTrend"></canvas></div>
     </div>
 
     <div class="bg-white rounded-[12px] border border-[#E2E8F0] p-4">
-      <p class="text-[11px] font-medium text-[#64748B] mb-3">En Yüksek Bakiyeli Müşteriler</p>
+      <p class="text-[11px] font-medium text-[#64748B] mb-3">En Yüksek Bakiyeli Taraflar</p>
       <div style="height:190px;">
         @if($enYuksekBorclular->isEmpty())
-          <p class="text-[12px] text-[#94A3B8] text-center pt-16">Borçlu müşteri yok.</p>
+          <p class="text-[12px] text-[#94A3B8] text-center pt-16">Borçlu/alacaklı taraf yok.</p>
         @else
           <canvas id="grafikBorclular"></canvas>
         @endif
@@ -80,8 +80,8 @@
     </div>
 
     <div class="bg-white rounded-[12px] border border-[#E2E8F0] p-4">
-      <p class="text-[11px] font-medium text-[#64748B] mb-3">Aylık Borç / Tahsilat</p>
-      <div style="height:190px;"><canvas id="grafikAylik"></canvas></div>
+      <p class="text-[11px] font-medium text-[#64748B] mb-3">Aylık Hareketler</p>
+      <div style="height:210px;"><canvas id="grafikAylik"></canvas></div>
     </div>
   </div>
 
@@ -217,20 +217,37 @@ document.addEventListener('DOMContentLoaded', function () {
     type: 'line',
     data: {
       labels: etiketler,
-      datasets: [{
-        data: @json($grafik['bakiyeTrend']),
-        borderColor: '#CC2200',
-        backgroundColor: 'rgba(204,34,0,0.08)',
-        borderWidth: 2,
-        pointRadius: 3,
-        pointBackgroundColor: '#CC2200',
-        tension: 0.3,
-        fill: true,
-      }]
+      datasets: [
+        {
+          label: 'Müşteri Alacağı',
+          data: @json($grafik['bakiyeTrendMusteri']),
+          borderColor: '#CC2200',
+          backgroundColor: 'rgba(204,34,0,0.08)',
+          borderWidth: 2,
+          pointRadius: 3,
+          pointBackgroundColor: '#CC2200',
+          tension: 0.3,
+          fill: true,
+        },
+        {
+          label: 'Tedarikçi Borcu',
+          data: @json($grafik['bakiyeTrendTedarikci']),
+          borderColor: '#B8962E',
+          backgroundColor: 'rgba(184,150,46,0.08)',
+          borderWidth: 2,
+          pointRadius: 3,
+          pointBackgroundColor: '#B8962E',
+          tension: 0.3,
+          fill: true,
+        },
+      ]
     },
     options: {
       maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => c.parsed.y.toLocaleString('tr-TR', {minimumFractionDigits:2}) + ' ₺' } } },
+      plugins: {
+        legend: { display: true, position: 'top', labels: { boxWidth: 10, boxHeight: 10, padding: 12 } },
+        tooltip: { callbacks: { label: (c) => c.dataset.label + ': ' + c.parsed.y.toLocaleString('tr-TR', {minimumFractionDigits:2}) + ' ₺' } },
+      },
       scales: {
         x: { grid: { display: false } },
         y: { grid: { color: '#F1F5F9' }, ticks: { callback: (v) => v.toLocaleString('tr-TR') } },
@@ -245,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function () {
       labels: @json($enYuksekBorclular->pluck('ad_soyad')),
       datasets: [{
         data: @json($enYuksekBorclular->pluck('hesaplanan_bakiye')),
-        backgroundColor: '#CC2200',
+        backgroundColor: @json($enYuksekBorclular->map(fn ($m) => $m->tip === 'tedarikci' ? '#B8962E' : '#CC2200')),
         borderRadius: 4,
         maxBarThickness: 22,
       }]
@@ -255,7 +272,14 @@ document.addEventListener('DOMContentLoaded', function () {
       maintainAspectRatio: false,
       plugins: {
         legend: { display: false },
-        tooltip: { callbacks: { label: (c) => c.parsed.x.toLocaleString('tr-TR', {minimumFractionDigits:2}) + ' ₺' } },
+        tooltip: {
+          callbacks: {
+            label: (c) => {
+              const etiketler = @json($enYuksekBorclular->map(fn ($m) => $m->tip === 'tedarikci' ? 'Tedarikçi borcu' : 'Müşteri alacağı'));
+              return etiketler[c.dataIndex] + ': ' + c.parsed.x.toLocaleString('tr-TR', {minimumFractionDigits:2}) + ' ₺';
+            },
+          },
+        },
       },
       scales: {
         x: { grid: { color: '#F1F5F9' }, ticks: { callback: (v) => v.toLocaleString('tr-TR') } },
@@ -270,14 +294,16 @@ document.addEventListener('DOMContentLoaded', function () {
     data: {
       labels: etiketler,
       datasets: [
-        { label: 'Borç', data: @json($grafik['aylikBorc']), backgroundColor: '#CC2200', borderRadius: 3, maxBarThickness: 16 },
-        { label: 'Tahsilat', data: @json($grafik['aylikTahsilat']), backgroundColor: '#1D7A4C', borderRadius: 3, maxBarThickness: 16 },
+        { label: 'Müşteri Borç', data: @json($grafik['aylikMusteriBorc']), backgroundColor: '#CC2200', borderRadius: 3, maxBarThickness: 12 },
+        { label: 'Müşteri Tahsilat', data: @json($grafik['aylikMusteriTahsilat']), backgroundColor: '#1D7A4C', borderRadius: 3, maxBarThickness: 12 },
+        { label: 'Tedarikçi Borç', data: @json($grafik['aylikTedarikciBorc']), backgroundColor: '#B8962E', borderColor: '#92720F', borderWidth: 1.5, borderRadius: 3, maxBarThickness: 12 },
+        { label: 'Tedarikçi Ödeme', data: @json($grafik['aylikTedarikciOdeme']), backgroundColor: '#2563EB', borderRadius: 3, maxBarThickness: 12 },
       ]
     },
     options: {
       maintainAspectRatio: false,
       plugins: {
-        legend: { display: true, position: 'top', labels: { boxWidth: 10, boxHeight: 10, padding: 12 } },
+        legend: { display: true, position: 'top', labels: { boxWidth: 10, boxHeight: 10, padding: 10, font: { size: 10 } } },
         tooltip: { callbacks: { label: (c) => c.dataset.label + ': ' + c.parsed.y.toLocaleString('tr-TR', {minimumFractionDigits:2}) + ' ₺' } },
       },
       scales: {

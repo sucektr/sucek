@@ -19,6 +19,7 @@ class CariHatirlatmaGonder extends Command
         $vadesiYaklasan = fn ($q) => $q
             ->where('tur', 'borc')
             ->where('odendi_mi', false)
+            ->where('iptal', false)
             ->whereNotNull('vade_tarihi')
             ->whereDate('vade_tarihi', '<=', now()->addDays(3))
             ->orderBy('vade_tarihi');
