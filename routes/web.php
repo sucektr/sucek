@@ -224,6 +224,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', [Admin\CariController::class, 'anasayfa'])->name('index');
             Route::post('/', [Admin\CariController::class, 'store'])->name('store');
             Route::post('ayarlar', [Admin\CariController::class, 'ayarlarKaydet'])->name('ayarlar');
+            Route::post('hatirlatma-gonder', [Admin\CariController::class, 'hatirlatmaGonder'])->name('hatirlatma.gonder');
 
             // Not: literal "musteriler"/"tedarikci" rotaları, aşağıdaki {musteri}
             // wildcard'ından ÖNCE tanımlanmalı — aksi halde bu segmentler musteri

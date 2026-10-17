@@ -13,6 +13,7 @@ use App\Services\MailService;
 use App\Services\SmsService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 
 class CariController extends Controller
@@ -380,5 +381,13 @@ class CariController extends Controller
         }
 
         return back()->with('basari', 'Hatırlatma ayarları kaydedildi.');
+    }
+
+    public function hatirlatmaGonder()
+    {
+        Artisan::call('cari:hatirlatma');
+        $cikti = trim(Artisan::output());
+
+        return back()->with('basari', $cikti ?: 'Hatırlatma kontrol edildi.');
     }
 }

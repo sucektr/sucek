@@ -12,7 +12,7 @@ class CariHatirlatmaGonder extends Command
 {
     protected $signature = 'cari:hatirlatma';
 
-    protected $description = 'Vadesi yaklaşan/geçen müşteri alacakları ve tedarikçi borçları için günlük özet email/SMS gönderir';
+    protected $description = 'Vadesi yaklaşan/geçen müşteri alacakları ve tedarikçi borçları için özet email/SMS gönderir (haftalık otomatik + manuel tetiklenebilir)';
 
     public function handle(MailService $mail, SmsService $sms): int
     {

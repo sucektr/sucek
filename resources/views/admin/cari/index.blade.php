@@ -87,9 +87,10 @@
 
   {{-- Hatırlatma ayarları --}}
   <div class="mb-6 bg-white rounded-[12px] border border-[#E2E8F0] px-4 py-4">
-    <p class="text-[12px] font-semibold text-[#0F172A] mb-3 flex items-center gap-1.5">
-      <i class="ti ti-bell"></i> Günlük Hatırlatma Ayarları
+    <p class="text-[12px] font-semibold text-[#0F172A] mb-1 flex items-center gap-1.5">
+      <i class="ti ti-bell"></i> Hatırlatma Ayarları
     </p>
+    <p class="text-[11px] text-[#94A3B8] mb-3">Her Pazartesi 09:00'da otomatik gönderilir. İstediğin an da elle gönderebilirsin.</p>
     <form action="{{ route('admin.cari.ayarlar') }}" method="POST" class="space-y-3">
       @csrf
       <div>
@@ -102,7 +103,13 @@
         <input type="text" name="cari_hatirlatma_telefon" value="{{ $hatirlatmaAyarlari['telefon'] }}" placeholder="05XX XXX XX XX"
                class="w-full px-3 py-2 rounded-[8px] border border-[#E2E8F0] text-[13px] focus:outline-none focus:ring-2 focus:ring-[#CC2200]/20">
       </div>
-      <button type="submit" class="w-full bg-[#141414] text-white text-[13px] font-medium py-2.5 rounded-[8px]">Kaydet</button>
+      <button type="submit" class="w-full bg-[#141414] text-white text-[13px] font-medium py-2.5 rounded-[8px]">Ayarları Kaydet</button>
+    </form>
+    <form action="{{ route('admin.cari.hatirlatma.gonder') }}" method="POST" class="mt-2">
+      @csrf
+      <button type="submit" class="w-full bg-white border border-[#E2E8F0] text-[#0F172A] text-[13px] font-semibold py-2.5 rounded-[8px] flex items-center justify-center gap-1.5">
+        <i class="ti ti-send text-[15px]"></i> Şimdi Gönder
+      </button>
     </form>
   </div>
 
