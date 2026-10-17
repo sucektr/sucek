@@ -220,6 +220,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('projeler', Admin\ProjeController::class)->except('show')->parameters(['projeler' => 'proje']);
         Route::resource('belgeler', Admin\BelgeController::class)->except('show')->parameters(['belgeler' => 'belge']);
 
+        Route::prefix('cari')->name('cari.')->group(function () {
+            Route::get('/', [Admin\CariController::class, 'index'])->name('index');
+            Route::post('/', [Admin\CariController::class, 'store'])->name('store');
+            Route::post('ayarlar', [Admin\CariController::class, 'ayarlarKaydet'])->name('ayarlar');
+            Route::get('{musteri}', [Admin\CariController::class, 'show'])->name('show');
+            Route::patch('{musteri}', [Admin\CariController::class, 'update'])->name('update');
+            Route::post('{musteri}/hareketler', [Admin\CariController::class, 'hareketEkle'])->name('hareketler.ekle');
+            Route::patch('{musteri}/hareketler/{hareket}', [Admin\CariController::class, 'hareketGuncelle'])->name('hareketler.guncelle');
+            Route::delete('{musteri}/hareketler/{hareket}', [Admin\CariController::class, 'hareketSil'])->name('hareketler.sil');
+            Route::get('{musteri}/ekstre', [Admin\CariController::class, 'ekstrePdf'])->name('ekstre');
+            Route::post('{musteri}/ekstre/gonder', [Admin\CariController::class, 'ekstreGonder'])->name('ekstre.gonder');
+        });
+
         Route::get('iletisim', [Admin\IletisimController::class, 'index'])->name('iletisim.index');
         Route::patch('iletisim/{mesaj}/oku', [Admin\IletisimController::class, 'oku'])->name('iletisim.oku');
         Route::delete('iletisim/{mesaj}', [Admin\IletisimController::class, 'destroy'])->name('iletisim.destroy');

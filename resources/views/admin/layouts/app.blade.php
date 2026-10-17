@@ -54,6 +54,9 @@
     <a href="{{ route('admin.belgeler.index') }}" class="nav-link {{ request()->routeIs('admin.belgeler.*') ? 'active' : '' }}">
       <i class="ti ti-files"></i> Belgeler
     </a>
+    <a href="{{ route('admin.cari.index') }}" class="nav-link {{ request()->routeIs('admin.cari.*') ? 'active' : '' }}">
+      <i class="ti ti-report-money"></i> Cari Hesap
+    </a>
 
     <div class="nav-section mt-2">Site</div>
     <a href="{{ route('admin.icerik.index') }}" class="nav-link {{ request()->routeIs('admin.icerik.*') ? 'active' : '' }}">
