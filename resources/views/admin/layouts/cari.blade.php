@@ -38,6 +38,10 @@
     </div>
     <div class="flex items-center gap-2">
       @yield('header-actions')
+      <a href="{{ route('admin.dashboard') }}" title="Admin Panele Dön"
+         class="w-8 h-8 flex items-center justify-center rounded-full bg-[rgba(255,255,255,0.08)] text-white shrink-0">
+        <i class="ti ti-layout-dashboard text-[16px]"></i>
+      </a>
     </div>
   </header>
 
