@@ -221,15 +221,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('belgeler', Admin\BelgeController::class)->except('show')->parameters(['belgeler' => 'belge']);
 
         Route::prefix('cari')->name('cari.')->group(function () {
-            Route::get('/', [Admin\CariController::class, 'index'])->name('index');
+            Route::get('/', [Admin\CariController::class, 'anasayfa'])->name('index');
             Route::post('/', [Admin\CariController::class, 'store'])->name('store');
             Route::post('ayarlar', [Admin\CariController::class, 'ayarlarKaydet'])->name('ayarlar');
 
-            // Not: literal "tedarikci" rotası, aşağıdaki {musteri} wildcard'ından
-            // ÖNCE tanımlanmalı — aksi halde "tedarikci" segmenti musteri id'si
-            // olarak yakalanıp route model binding 404'üne düşer. Müşteri ve
-            // tedarikçi art​ık aynı Musteri tablosunda (tip alanıyla ayrılır),
+            // Not: literal "musteriler"/"tedarikci" rotaları, aşağıdaki {musteri}
+            // wildcard'ından ÖNCE tanımlanmalı — aksi halde bu segmentler musteri
+            // id'si olarak yakalanıp route model binding 404'üne düşer. Müşteri ve
+            // tedarikçi artık aynı Musteri tablosunda (tip alanıyla ayrılır),
             // bu yüzden show/update/destroy/hareketler rotaları ortak.
+            Route::get('musteriler', [Admin\CariController::class, 'musteriIndex'])->name('musteriler');
             Route::get('tedarikci', [Admin\CariController::class, 'tedarikciIndex'])->name('tedarikci.index');
 
             Route::get('{musteri}', [Admin\CariController::class, 'show'])->name('show');

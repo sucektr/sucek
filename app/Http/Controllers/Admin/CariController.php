@@ -17,24 +17,24 @@ use Illuminate\Support\Facades\Storage;
 
 class CariController extends Controller
 {
-    public function index(Request $request)
+    public function anasayfa()
     {
-        $arama = $request->get('q');
+        $musteriler = Musteri::where('tip', 'musteri')->get()
+            ->map(function (Musteri $m) {
+                $m->hesaplanan_bakiye = $m->bakiye();
+                return $m;
+            });
 
-        $musteriler = Musteri::query()
-            ->where('tip', 'musteri')
-            ->when($arama, fn ($q) => $q->where('ad_soyad', 'like', "%{$arama}%"))
-            ->orderBy('ad_soyad')
-            ->get()
-            ->map(function (Musteri $musteri) {
-                $musteri->hesaplanan_bakiye = $musteri->bakiye();
-                return $musteri;
+        $tedarikciler = Musteri::where('tip', 'tedarikci')->get()
+            ->map(function (Musteri $t) {
+                $t->hesaplanan_bakiye = $t->bakiye();
+                return $t;
             });
 
         $toplamBakiye = $musteriler->sum('hesaplanan_bakiye');
+        $toplamBorc   = $tedarikciler->sum('hesaplanan_bakiye');
 
         $vadesiYaklasanlar = CariHareket::with('musteri')
-            ->whereHas('musteri', fn ($q) => $q->where('tip', 'musteri'))
             ->where('tur', 'borc')
             ->where('odendi_mi', false)
             ->whereNotNull('vade_tarihi')
@@ -56,8 +56,25 @@ class CariController extends Controller
             ->values();
 
         return view('admin.cari.index', compact(
-            'musteriler', 'toplamBakiye', 'vadesiYaklasanlar', 'hatirlatmaAyarlari', 'grafik', 'enYuksekBorclular'
+            'toplamBakiye', 'toplamBorc', 'vadesiYaklasanlar', 'hatirlatmaAyarlari', 'grafik', 'enYuksekBorclular'
         ));
+    }
+
+    public function musteriIndex(Request $request)
+    {
+        $arama = $request->get('q');
+
+        $musteriler = Musteri::query()
+            ->where('tip', 'musteri')
+            ->when($arama, fn ($q) => $q->where('ad_soyad', 'like', "%{$arama}%"))
+            ->orderBy('ad_soyad')
+            ->get()
+            ->map(function (Musteri $musteri) {
+                $musteri->hesaplanan_bakiye = $musteri->bakiye();
+                return $musteri;
+            });
+
+        return view('admin.cari.musteriler', compact('musteriler'));
     }
 
     public function tedarikciIndex(Request $request)
@@ -74,18 +91,7 @@ class CariController extends Controller
                 return $t;
             });
 
-        $toplamBorc = $tedarikciler->sum('hesaplanan_bakiye');
-
-        $vadesiYaklasanlar = CariHareket::with('musteri')
-            ->whereHas('musteri', fn ($q) => $q->where('tip', 'tedarikci'))
-            ->where('tur', 'borc')
-            ->where('odendi_mi', false)
-            ->whereNotNull('vade_tarihi')
-            ->whereDate('vade_tarihi', '<=', now()->addDays(3))
-            ->orderBy('vade_tarihi')
-            ->get();
-
-        return view('admin.cari.tedarikci.index', compact('tedarikciler', 'toplamBorc', 'vadesiYaklasanlar'));
+        return view('admin.cari.tedarikci.index', compact('tedarikciler'));
     }
 
     private function grafikVerisi(): array
