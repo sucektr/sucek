@@ -243,6 +243,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('{musteri}/ekstre', [Admin\CariController::class, 'ekstrePdf'])->name('ekstre');
             Route::post('{musteri}/ekstre/gonder', [Admin\CariController::class, 'ekstreGonder'])->name('ekstre.gonder');
             Route::post('{musteri}/belgeler', [Admin\CariController::class, 'belgeYukle'])->name('belgeler.yukle');
+            Route::post('{musteri}/belgeler/coklu-gonder', [Admin\CariController::class, 'belgelerGonder'])->name('belgeler.coklu-gonder');
             Route::delete('{musteri}/belgeler/{belge}', [Admin\CariController::class, 'belgeSil'])->name('belgeler.sil');
             Route::post('{musteri}/belgeler/{belge}/gonder', [Admin\CariController::class, 'belgeGonder'])->name('belgeler.gonder');
         });

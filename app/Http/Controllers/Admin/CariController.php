@@ -316,20 +316,24 @@ class CariController extends Controller
     public function belgeYukle(Request $request, Musteri $musteri)
     {
         $request->validate([
-            'dosya' => 'required|file|mimes:pdf,jpg,jpeg,png,doc,docx,xls,xlsx|max:10240',
+            'dosya'   => 'required|array|min:1',
+            'dosya.*' => 'file|mimes:pdf,jpg,jpeg,png,doc,docx,xls,xlsx|max:10240',
         ]);
 
-        $dosya = $request->file('dosya');
-        $yol   = $dosya->store('cari-belgeler/' . $musteri->id, 'public');
+        foreach ($request->file('dosya') as $dosya) {
+            $yol = $dosya->store('cari-belgeler/' . $musteri->id, 'public');
 
-        $musteri->belgeler()->create([
-            'dosya_adi'    => $dosya->getClientOriginalName(),
-            'dosya_yolu'   => $yol,
-            'dosya_boyutu' => $dosya->getSize(),
-            'mime_tipi'    => $dosya->getClientMimeType(),
-        ]);
+            $musteri->belgeler()->create([
+                'dosya_adi'    => $dosya->getClientOriginalName(),
+                'dosya_yolu'   => $yol,
+                'dosya_boyutu' => $dosya->getSize(),
+                'mime_tipi'    => $dosya->getClientMimeType(),
+            ]);
+        }
 
-        return back()->with('basari', 'Belge yüklendi.');
+        $sayi = count($request->file('dosya'));
+
+        return back()->with('basari', $sayi > 1 ? $sayi . ' belge yüklendi.' : 'Belge yüklendi.');
     }
 
     public function belgeSil(Musteri $musteri, CariBelge $belge)
@@ -346,23 +350,46 @@ class CariController extends Controller
     {
         abort_unless($belge->musteri_id === $musteri->id, 404);
 
+        return $this->belgeleriGonderVeYanitVer($musteri, collect([$belge]), $mail, $sms);
+    }
+
+    public function belgelerGonder(Request $request, Musteri $musteri, MailService $mail, SmsService $sms)
+    {
+        $request->validate([
+            'belge_ids'   => 'required|array|min:1',
+            'belge_ids.*' => 'integer',
+        ]);
+
+        $belgeler = $musteri->belgeler()->whereIn('id', $request->input('belge_ids'))->get();
+
+        if ($belgeler->isEmpty()) {
+            return back()->with('hata', 'Seçili belge bulunamadı.');
+        }
+
+        return $this->belgeleriGonderVeYanitVer($musteri, $belgeler, $mail, $sms);
+    }
+
+    private function belgeleriGonderVeYanitVer(Musteri $musteri, \Illuminate\Support\Collection $belgeler, MailService $mail, SmsService $sms)
+    {
         if (!$musteri->email) {
             return back()->with('hata', 'Müşterinin kayıtlı e-postası yok, belge gönderilemedi.');
         }
 
-        $mailGonderildi = $mail->gonder($musteri->email, new CariBelgeMail($musteri, $belge), 'cari_belge');
+        $mailGonderildi = $mail->gonder($musteri->email, new CariBelgeMail($musteri, $belgeler), 'cari_belge');
 
         if ($mailGonderildi && $musteri->telefon) {
-            $sms->gonder(
-                $musteri->telefon,
-                'Sayın ' . $musteri->ad_soyad . ', size yeni bir belge e-posta ile gönderildi. Bilgi: SUÇEK',
-                'cari_belge'
-            );
+            $mesaj = $belgeler->count() > 1
+                ? 'Sayın ' . $musteri->ad_soyad . ', size ' . $belgeler->count() . ' belge e-posta ile gönderildi. Bilgi: SUÇEK'
+                : 'Sayın ' . $musteri->ad_soyad . ', size yeni bir belge e-posta ile gönderildi. Bilgi: SUÇEK';
+
+            $sms->gonder($musteri->telefon, $mesaj, 'cari_belge');
         }
+
+        $belgeKelimesi = $belgeler->count() > 1 ? $belgeler->count() . ' belge' : 'Belge';
 
         return back()->with(
             $mailGonderildi ? 'basari' : 'hata',
-            $mailGonderildi ? 'Belge "' . $musteri->email . '" adresine gönderildi.' : 'Belge gönderilemedi.'
+            $mailGonderildi ? $belgeKelimesi . ' "' . $musteri->email . '" adresine gönderildi.' : 'Belge gönderilemedi.'
         );
     }
 

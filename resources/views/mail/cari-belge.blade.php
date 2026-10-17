@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ $belge->dosya_adi }}</title>
+<title>{{ $belgeler->count() === 1 ? $belgeler->first()->dosya_adi : $belgeler->count() . ' Belge' }}</title>
 </head>
 <body style="margin:0;padding:0;background:#F1F5F9;font-family:Arial,Helvetica,sans-serif;">
 
@@ -23,9 +23,20 @@
             <p style="margin:0 0 16px;font-size:15px;color:#1E293B;line-height:1.8;">
               Sayın {{ $musteri->ad_soyad }},
             </p>
+            @if($belgeler->count() === 1)
             <p style="margin:0;font-size:15px;color:#1E293B;line-height:1.8;">
-              "<strong>{{ $belge->dosya_adi }}</strong>" adlı belge bu e-postaya ek olarak iliştirilmiştir. Herhangi bir sorunuz olursa bizimle iletişime geçebilirsiniz.
+              "<strong>{{ $belgeler->first()->dosya_adi }}</strong>" adlı belge bu e-postaya ek olarak iliştirilmiştir. Herhangi bir sorunuz olursa bizimle iletişime geçebilirsiniz.
             </p>
+            @else
+            <p style="margin:0 0 14px;font-size:15px;color:#1E293B;line-height:1.8;">
+              Aşağıdaki <strong>{{ $belgeler->count() }}</strong> belge bu e-postaya ek olarak iliştirilmiştir. Herhangi bir sorunuz olursa bizimle iletişime geçebilirsiniz.
+            </p>
+            <ul style="margin:0;padding:0 0 0 18px;font-size:13px;color:#374151;line-height:1.9;">
+              @foreach($belgeler as $belge)
+                <li>{{ $belge->dosya_adi }}</li>
+              @endforeach
+            </ul>
+            @endif
           </td>
         </tr>
 

@@ -123,10 +123,24 @@
   </div>
 
   {{-- Belgeler --}}
-  <p class="text-[12px] font-semibold text-[#64748B] uppercase tracking-wide mb-2 mt-6">Belgeler</p>
+  <div class="flex items-center justify-between mb-2 mt-6">
+    <p class="text-[12px] font-semibold text-[#64748B] uppercase tracking-wide">Belgeler</p>
+    @if($belgeler->isNotEmpty())
+      <button type="submit" form="coklu-gonder-form" id="coklu-gonder-btn"
+              class="hidden items-center gap-1.5 text-[11px] font-semibold text-[#CC2200] bg-[#FEE2E2] px-2.5 py-1 rounded-full">
+        <i class="ti ti-send text-[12px]"></i> Seçilenleri Gönder (<span id="coklu-gonder-sayi">0</span>)
+      </button>
+    @endif
+  </div>
+  <form id="coklu-gonder-form" action="{{ route('admin.cari.belgeler.coklu-gonder', $musteri) }}" method="POST"
+        onsubmit="return confirm('Seçili belgeler tek e-postada müşteriye gönderilsin mi?')">
+    @csrf
+  </form>
   <div class="space-y-2">
     @forelse($belgeler as $b)
       <div class="bg-white rounded-[12px] border border-[#E2E8F0] px-4 py-3 flex items-center gap-3">
+        <input type="checkbox" class="belge-checkbox shrink-0 w-4 h-4" name="belge_ids[]" value="{{ $b->id }}"
+               form="coklu-gonder-form" onchange="cokluGonderGuncelle()">
         <div class="w-9 h-9 rounded-[8px] bg-[#F1F5F9] flex items-center justify-center shrink-0 text-[#64748B]">
           <i class="ti {{ in_array($b->uzanti(), ['jpg','jpeg','png']) ? 'ti-photo' : ($b->uzanti() === 'pdf' ? 'ti-file-type-pdf' : 'ti-file') }} text-[18px]"></i>
         </div>
@@ -169,9 +183,10 @@
       <form action="{{ route('admin.cari.belgeler.yukle', $musteri) }}" method="POST" enctype="multipart/form-data" class="space-y-3">
         @csrf
         <div>
-          <label class="text-[11px] text-[#64748B] mb-1 block">Dosya (PDF, resim, Word, Excel — max 10MB) *</label>
-          <input type="file" name="dosya" required accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx"
+          <label class="text-[11px] text-[#64748B] mb-1 block">Dosya(lar) (PDF, resim, Word, Excel — her biri max 10MB) *</label>
+          <input type="file" name="dosya[]" required multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx"
                  class="w-full text-[13px] file:mr-3 file:py-2 file:px-3 file:rounded-[8px] file:border-0 file:bg-[#141414] file:text-white file:text-[12px]">
+          <p class="text-[10.5px] text-[#94A3B8] mt-1">Birden fazla dosya seçebilirsin.</p>
         </div>
         <button type="submit" class="w-full bg-[#CC2200] text-white text-[14px] font-semibold py-3 rounded-[10px] mt-2">Yükle</button>
       </form>
@@ -377,6 +392,15 @@
     document.getElementById('hd-tarih').value = tarih;
     document.getElementById('hd-vade').value = (vade && vade !== '') ? vade : '';
     document.getElementById('hareket-duzenle-modal').classList.remove('hidden');
+  }
+
+  function cokluGonderGuncelle() {
+    const secili = document.querySelectorAll('.belge-checkbox:checked').length;
+    const buton = document.getElementById('coklu-gonder-btn');
+    if (!buton) return;
+    document.getElementById('coklu-gonder-sayi').textContent = secili;
+    buton.classList.toggle('hidden', secili === 0);
+    buton.classList.toggle('flex', secili > 0);
   }
 </script>
 @endpush
