@@ -224,6 +224,21 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', [Admin\CariController::class, 'index'])->name('index');
             Route::post('/', [Admin\CariController::class, 'store'])->name('store');
             Route::post('ayarlar', [Admin\CariController::class, 'ayarlarKaydet'])->name('ayarlar');
+
+            // Not: literal "tedarikci" rotaları, aşağıdaki {musteri} wildcard'ından
+            // ÖNCE tanımlanmalı — aksi halde "tedarikci" segmenti musteri id'si
+            // olarak yakalanıp route model binding 404'üne düşer.
+            Route::prefix('tedarikci')->name('tedarikci.')->group(function () {
+                Route::get('/', [Admin\TedarikciController::class, 'index'])->name('index');
+                Route::post('/', [Admin\TedarikciController::class, 'store'])->name('store');
+                Route::get('{tedarikci}', [Admin\TedarikciController::class, 'show'])->name('show');
+                Route::patch('{tedarikci}', [Admin\TedarikciController::class, 'update'])->name('update');
+                Route::delete('{tedarikci}', [Admin\TedarikciController::class, 'destroy'])->name('destroy');
+                Route::post('{tedarikci}/hareketler', [Admin\TedarikciController::class, 'hareketEkle'])->name('hareketler.ekle');
+                Route::patch('{tedarikci}/hareketler/{hareket}', [Admin\TedarikciController::class, 'hareketGuncelle'])->name('hareketler.guncelle');
+                Route::delete('{tedarikci}/hareketler/{hareket}', [Admin\TedarikciController::class, 'hareketSil'])->name('hareketler.sil');
+            });
+
             Route::get('{musteri}', [Admin\CariController::class, 'show'])->name('show');
             Route::patch('{musteri}', [Admin\CariController::class, 'update'])->name('update');
             Route::delete('{musteri}', [Admin\CariController::class, 'destroy'])->name('destroy');

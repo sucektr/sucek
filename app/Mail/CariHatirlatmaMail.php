@@ -14,19 +14,25 @@ class CariHatirlatmaMail extends Mailable
     use Queueable, SerializesModels;
 
     public function __construct(
-        public Collection $hareketler,
+        public Collection $musteriHareketleri,
+        public Collection $tedarikciHareketleri,
     ) {}
 
     public function envelope(): Envelope
     {
-        return new Envelope(subject: 'Cari Hesap Hatırlatma — ' . $this->hareketler->count() . ' Ödeme');
+        $toplam = $this->musteriHareketleri->count() + $this->tedarikciHareketleri->count();
+
+        return new Envelope(subject: 'Cari Hesap Hatırlatma — ' . $toplam . ' Ödeme');
     }
 
     public function content(): Content
     {
         return new Content(
             view: 'mail.cari-hatirlatma',
-            with: ['hareketler' => $this->hareketler],
+            with: [
+                'musteriHareketleri' => $this->musteriHareketleri,
+                'tedarikciHareketleri' => $this->tedarikciHareketleri,
+            ],
         );
     }
 }

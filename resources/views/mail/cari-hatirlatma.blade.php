@@ -18,16 +18,23 @@
           </td>
         </tr>
 
+        @php $toplam = $musteriHareketleri->count() + $tedarikciHareketleri->count(); @endphp
         <tr>
           <td style="padding:32px 40px 16px;">
             <p style="margin:0;font-size:14px;color:#1E293B;line-height:1.7;">
-              Vadesi yaklaşan veya geçmiş <strong>{{ $hareketler->count() }}</strong> ödeme bulunuyor:
+              Vadesi yaklaşan veya geçmiş <strong>{{ $toplam }}</strong> ödeme bulunuyor:
             </p>
           </td>
         </tr>
 
+        @if($musteriHareketleri->isNotEmpty())
         <tr>
-          <td style="padding:0 40px 32px;">
+          <td style="padding:0 40px 8px;">
+            <p style="margin:0;font-size:11px;font-weight:700;color:#CC2200;text-transform:uppercase;letter-spacing:.05em;">Müşterilerden Alacaklarınız</p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:0 40px 24px;">
             <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
               <tr>
                 <td style="font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;padding:8px 0;border-bottom:1px solid #E2E8F0;">Müşteri</td>
@@ -35,7 +42,7 @@
                 <td style="font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;padding:8px 0;border-bottom:1px solid #E2E8F0;text-align:right;">Tutar</td>
                 <td style="font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;padding:8px 0;border-bottom:1px solid #E2E8F0;text-align:right;">Vade</td>
               </tr>
-              @foreach($hareketler as $h)
+              @foreach($musteriHareketleri as $h)
               <tr>
                 <td style="font-size:13px;color:#1E293B;padding:9px 0;border-bottom:1px solid #F1F5F9;">{{ $h->musteri->ad_soyad }}</td>
                 <td style="font-size:13px;color:#1E293B;padding:9px 0;border-bottom:1px solid #F1F5F9;">{{ $h->aciklama }}</td>
@@ -48,6 +55,37 @@
             </table>
           </td>
         </tr>
+        @endif
+
+        @if($tedarikciHareketleri->isNotEmpty())
+        <tr>
+          <td style="padding:0 40px 8px;">
+            <p style="margin:0;font-size:11px;font-weight:700;color:#B8962E;text-transform:uppercase;letter-spacing:.05em;">Tedarikçilere Borçlarınız</p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:0 40px 32px;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+              <tr>
+                <td style="font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;padding:8px 0;border-bottom:1px solid #E2E8F0;">Tedarikçi</td>
+                <td style="font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;padding:8px 0;border-bottom:1px solid #E2E8F0;">Açıklama</td>
+                <td style="font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;padding:8px 0;border-bottom:1px solid #E2E8F0;text-align:right;">Tutar</td>
+                <td style="font-size:10px;font-weight:700;color:#94A3B8;text-transform:uppercase;padding:8px 0;border-bottom:1px solid #E2E8F0;text-align:right;">Vade</td>
+              </tr>
+              @foreach($tedarikciHareketleri as $h)
+              <tr>
+                <td style="font-size:13px;color:#1E293B;padding:9px 0;border-bottom:1px solid #F1F5F9;">{{ $h->tedarikci->unvan }}</td>
+                <td style="font-size:13px;color:#1E293B;padding:9px 0;border-bottom:1px solid #F1F5F9;">{{ $h->aciklama }}</td>
+                <td style="font-size:13px;color:#1E293B;padding:9px 0;border-bottom:1px solid #F1F5F9;text-align:right;">{{ number_format($h->tutar, 2, ',', '.') }} ₺</td>
+                <td style="font-size:13px;padding:9px 0;border-bottom:1px solid #F1F5F9;text-align:right;color:{{ $h->vade_tarihi->isPast() ? '#CC2200' : '#1E293B' }};font-weight:{{ $h->vade_tarihi->isPast() ? '700' : '400' }};">
+                  {{ $h->vade_tarihi->format('d.m.Y') }}
+                </td>
+              </tr>
+              @endforeach
+            </table>
+          </td>
+        </tr>
+        @endif
 
         <tr>
           <td style="background:#141414;padding:16px 40px;text-align:center;">

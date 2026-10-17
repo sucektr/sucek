@@ -12,6 +12,8 @@
 
 @section('content')
 
+  @include('admin.cari._sekme', ['aktif' => 'musteri'])
+
   {{-- Toplam bakiye kartı --}}
   <div class="bg-[#141414] rounded-[14px] px-5 py-5 mb-4 text-white">
     <p class="text-[10px] uppercase tracking-wider text-[rgba(255,255,255,0.4)] mb-1">Toplam Bakiye</p>
