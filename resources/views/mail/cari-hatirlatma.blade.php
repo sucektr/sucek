@@ -74,7 +74,7 @@
               </tr>
               @foreach($tedarikciHareketleri as $h)
               <tr>
-                <td style="font-size:13px;color:#1E293B;padding:9px 0;border-bottom:1px solid #F1F5F9;">{{ $h->tedarikci->unvan }}</td>
+                <td style="font-size:13px;color:#1E293B;padding:9px 0;border-bottom:1px solid #F1F5F9;">{{ $h->musteri->ad_soyad }}</td>
                 <td style="font-size:13px;color:#1E293B;padding:9px 0;border-bottom:1px solid #F1F5F9;">{{ $h->aciklama }}</td>
                 <td style="font-size:13px;color:#1E293B;padding:9px 0;border-bottom:1px solid #F1F5F9;text-align:right;">{{ number_format($h->tutar, 2, ',', '.') }} ₺</td>
                 <td style="font-size:13px;padding:9px 0;border-bottom:1px solid #F1F5F9;text-align:right;color:{{ $h->vade_tarihi->isPast() ? '#CC2200' : '#1E293B' }};font-weight:{{ $h->vade_tarihi->isPast() ? '700' : '400' }};">

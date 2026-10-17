@@ -132,6 +132,7 @@
       </div>
       <form action="{{ route('admin.cari.store') }}" method="POST" class="space-y-3">
         @csrf
+        <input type="hidden" name="tip" value="musteri">
         <div>
           <label class="text-[11px] text-[#64748B] mb-1 block">Ad Soyad *</label>
           <input type="text" name="ad_soyad" required class="w-full px-3 py-2.5 rounded-[8px] border border-[#E2E8F0] text-[14px] focus:outline-none focus:ring-2 focus:ring-[#CC2200]/20">

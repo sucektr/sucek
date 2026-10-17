@@ -2,7 +2,7 @@
 
 @section('title', $musteri->ad_soyad)
 @section('page-title', $musteri->ad_soyad)
-@section('geri', route('admin.cari.index'))
+@section('geri', $musteri->tip === 'tedarikci' ? route('admin.cari.tedarikci.index') : route('admin.cari.index'))
 
 @section('header-actions')
   <button type="button" onclick="document.getElementById('belge-modal').classList.remove('hidden')"
@@ -24,10 +24,20 @@
       {{ number_format($bakiye, 2, ',', '.') }} ₺
     </p>
     <p class="text-[11px] text-[rgba(255,255,255,0.5)] mt-1">
-      {{ $bakiye > 0 ? 'Müşteri size borçlu' : ($bakiye < 0 ? 'Siz müşteriye borçlusunuz' : 'Hesap dengede') }}
+      @if($musteri->tip === 'tedarikci')
+        {{ $bakiye > 0 ? 'Tedarikçiye borçlusunuz' : ($bakiye < 0 ? 'Tedarikçi size borçlu' : 'Hesap dengede') }}
+      @else
+        {{ $bakiye > 0 ? 'Müşteri size borçlu' : ($bakiye < 0 ? 'Siz müşteriye borçlusunuz' : 'Hesap dengede') }}
+      @endif
     </p>
-    @if($musteri->telefon || $musteri->email)
-    <div class="flex items-center gap-3 mt-3 pt-3 border-t border-[rgba(255,255,255,0.1)] text-[12px] text-[rgba(255,255,255,0.7)]">
+    <div class="mt-2">
+      <span class="inline-block text-[9.5px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full {{ $musteri->tip === 'tedarikci' ? 'bg-[rgba(184,150,46,0.25)] text-[#D9B65C]' : 'bg-[rgba(204,34,0,0.2)] text-[#FF8A6B]' }}">
+        {{ $musteri->tip === 'tedarikci' ? 'Tedarikçi' : 'Müşteri' }}
+      </span>
+    </div>
+    @if($musteri->yetkili_kisi || $musteri->telefon || $musteri->email)
+    <div class="flex flex-wrap items-center gap-3 mt-3 pt-3 border-t border-[rgba(255,255,255,0.1)] text-[12px] text-[rgba(255,255,255,0.7)]">
+      @if($musteri->yetkili_kisi)<span><i class="ti ti-user"></i> {{ $musteri->yetkili_kisi }}</span>@endif
       @if($musteri->telefon)<span><i class="ti ti-phone"></i> {{ $musteri->telefon }}</span>@endif
       @if($musteri->email)<span><i class="ti ti-mail"></i> {{ $musteri->email }}</span>@endif
     </div>
@@ -69,10 +79,16 @@
             <p class="text-[14px] font-bold {{ $h->tur === 'borc' ? 'text-[#CC2200]' : 'text-[#1D7A4C]' }}">
               {{ $h->tur === 'borc' ? '+' : '−' }}{{ number_format($h->tutar, 2, ',', '.') }} ₺
             </p>
-            <form action="{{ route('admin.cari.hareketler.sil', [$musteri, $h]) }}" method="POST" onsubmit="return confirm('Bu hareket silinsin mi?')" class="mt-1">
-              @csrf @method('DELETE')
-              <button type="submit" class="text-[10px] text-[#94A3B8]">Sil</button>
-            </form>
+            <div class="flex items-center gap-2 justify-end mt-1">
+              <button type="button" class="text-[10px] text-[#64748B]"
+                      onclick="hareketDuzenleAc({{ $h->id }}, '{{ $h->tur }}', '{{ $h->tutar }}', {{ json_encode($h->aciklama) }}, '{{ $h->tarih->format('Y-m-d') }}', '{{ $h->vade_tarihi?->format('Y-m-d') }}')">
+                Düzenle
+              </button>
+              <form action="{{ route('admin.cari.hareketler.sil', [$musteri, $h]) }}" method="POST" onsubmit="return confirm('Bu hareket silinsin mi?')">
+                @csrf @method('DELETE')
+                <button type="submit" class="text-[10px] text-[#94A3B8]">Sil</button>
+              </form>
+            </div>
           </div>
         </div>
         @if($h->tur === 'borc' && $h->vade_tarihi)
@@ -165,10 +181,10 @@
         @csrf
         <div class="grid grid-cols-2 gap-2">
           <label class="flex items-center justify-center gap-1.5 border border-[#E2E8F0] rounded-[8px] py-2.5 text-[13px] font-medium cursor-pointer has-[:checked]:bg-[#FEE2E2] has-[:checked]:border-[#CC2200] has-[:checked]:text-[#CC2200]">
-            <input type="radio" name="tur" value="borc" checked class="hidden"> Borç
+            <input type="radio" name="tur" value="borc" checked class="hidden"> {{ $musteri->tip === 'tedarikci' ? 'Borç (Aldım)' : 'Borç' }}
           </label>
           <label class="flex items-center justify-center gap-1.5 border border-[#E2E8F0] rounded-[8px] py-2.5 text-[13px] font-medium cursor-pointer has-[:checked]:bg-[#E6F4EC] has-[:checked]:border-[#1D7A4C] has-[:checked]:text-[#1D7A4C]">
-            <input type="radio" name="tur" value="tahsilat" class="hidden"> Tahsilat
+            <input type="radio" name="tur" value="tahsilat" class="hidden"> {{ $musteri->tip === 'tedarikci' ? 'Ödeme (Yaptım)' : 'Tahsilat' }}
           </label>
         </div>
         <div>
@@ -187,6 +203,48 @@
           <div>
             <label class="text-[11px] text-[#64748B] mb-1 block">Vade (opsiyonel)</label>
             <input type="date" name="vade_tarihi" class="w-full px-3 py-2.5 rounded-[8px] border border-[#E2E8F0] text-[14px] focus:outline-none focus:ring-2 focus:ring-[#CC2200]/20">
+          </div>
+        </div>
+        <button type="submit" class="w-full bg-[#CC2200] text-white text-[14px] font-semibold py-3 rounded-[10px] mt-2">Kaydet</button>
+      </form>
+    </div>
+  </div>
+
+  {{-- Hareket düzenleme modalı --}}
+  <div id="hareket-duzenle-modal" class="hidden fixed inset-0 bg-black/50 z-40 flex items-end justify-center">
+    <div class="bg-white w-full max-w-2xl rounded-t-[16px] p-5 max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between mb-4">
+        <p class="text-[15px] font-semibold text-[#0F172A]">Hareketi Düzenle</p>
+        <button type="button" onclick="document.getElementById('hareket-duzenle-modal').classList.add('hidden')" class="w-7 h-7 flex items-center justify-center rounded-full bg-[#F1F5F9]">
+          <i class="ti ti-x text-[14px]"></i>
+        </button>
+      </div>
+      <form id="hareket-duzenle-form" method="POST" class="space-y-3">
+        @csrf @method('PATCH')
+        <div class="grid grid-cols-2 gap-2">
+          <label class="flex items-center justify-center gap-1.5 border border-[#E2E8F0] rounded-[8px] py-2.5 text-[13px] font-medium cursor-pointer has-[:checked]:bg-[#FEE2E2] has-[:checked]:border-[#CC2200] has-[:checked]:text-[#CC2200]">
+            <input type="radio" name="tur" value="borc" id="hd-tur-borc" class="hidden"> {{ $musteri->tip === 'tedarikci' ? 'Borç (Aldım)' : 'Borç' }}
+          </label>
+          <label class="flex items-center justify-center gap-1.5 border border-[#E2E8F0] rounded-[8px] py-2.5 text-[13px] font-medium cursor-pointer has-[:checked]:bg-[#E6F4EC] has-[:checked]:border-[#1D7A4C] has-[:checked]:text-[#1D7A4C]">
+            <input type="radio" name="tur" value="tahsilat" id="hd-tur-tahsilat" class="hidden"> {{ $musteri->tip === 'tedarikci' ? 'Ödeme (Yaptım)' : 'Tahsilat' }}
+          </label>
+        </div>
+        <div>
+          <label class="text-[11px] text-[#64748B] mb-1 block">Tutar (₺) *</label>
+          <input type="number" step="0.01" min="0.01" name="tutar" id="hd-tutar" required class="w-full px-3 py-2.5 rounded-[8px] border border-[#E2E8F0] text-[14px] focus:outline-none focus:ring-2 focus:ring-[#CC2200]/20">
+        </div>
+        <div>
+          <label class="text-[11px] text-[#64748B] mb-1 block">Açıklama *</label>
+          <input type="text" name="aciklama" id="hd-aciklama" required class="w-full px-3 py-2.5 rounded-[8px] border border-[#E2E8F0] text-[14px] focus:outline-none focus:ring-2 focus:ring-[#CC2200]/20">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-[11px] text-[#64748B] mb-1 block">Tarih *</label>
+            <input type="date" name="tarih" id="hd-tarih" required class="w-full px-3 py-2.5 rounded-[8px] border border-[#E2E8F0] text-[14px] focus:outline-none focus:ring-2 focus:ring-[#CC2200]/20">
+          </div>
+          <div>
+            <label class="text-[11px] text-[#64748B] mb-1 block">Vade (opsiyonel)</label>
+            <input type="date" name="vade_tarihi" id="hd-vade" class="w-full px-3 py-2.5 rounded-[8px] border border-[#E2E8F0] text-[14px] focus:outline-none focus:ring-2 focus:ring-[#CC2200]/20">
           </div>
         </div>
         <button type="submit" class="w-full bg-[#CC2200] text-white text-[14px] font-semibold py-3 rounded-[10px] mt-2">Kaydet</button>
@@ -222,7 +280,7 @@
   <div id="duzenle-modal" class="hidden fixed inset-0 bg-black/50 z-40 flex items-end justify-center">
     <div class="bg-white w-full max-w-2xl rounded-t-[16px] p-5 max-h-[85vh] overflow-y-auto">
       <div class="flex items-center justify-between mb-4">
-        <p class="text-[15px] font-semibold text-[#0F172A]">Müşteriyi Düzenle</p>
+        <p class="text-[15px] font-semibold text-[#0F172A]">Kaydı Düzenle</p>
         <button type="button" onclick="document.getElementById('duzenle-modal').classList.add('hidden')" class="w-7 h-7 flex items-center justify-center rounded-full bg-[#F1F5F9]">
           <i class="ti ti-x text-[14px]"></i>
         </button>
@@ -230,8 +288,23 @@
       <form action="{{ route('admin.cari.update', $musteri) }}" method="POST" class="space-y-3">
         @csrf @method('PATCH')
         <div>
-          <label class="text-[11px] text-[#64748B] mb-1 block">Ad Soyad *</label>
+          <label class="text-[11px] text-[#64748B] mb-1 block">Kayıt Türü *</label>
+          <div class="grid grid-cols-2 gap-2">
+            <label class="flex items-center justify-center gap-1.5 border border-[#E2E8F0] rounded-[8px] py-2.5 text-[13px] font-medium cursor-pointer has-[:checked]:bg-[#FEE2E2] has-[:checked]:border-[#CC2200] has-[:checked]:text-[#CC2200]">
+              <input type="radio" name="tip" value="musteri" {{ $musteri->tip === 'musteri' ? 'checked' : '' }} class="hidden"> Müşteri
+            </label>
+            <label class="flex items-center justify-center gap-1.5 border border-[#E2E8F0] rounded-[8px] py-2.5 text-[13px] font-medium cursor-pointer has-[:checked]:bg-[#FEF3C7] has-[:checked]:border-[#B8962E] has-[:checked]:text-[#92720F]">
+              <input type="radio" name="tip" value="tedarikci" {{ $musteri->tip === 'tedarikci' ? 'checked' : '' }} class="hidden"> Tedarikçi
+            </label>
+          </div>
+        </div>
+        <div>
+          <label class="text-[11px] text-[#64748B] mb-1 block">Ad Soyad / Firma *</label>
           <input type="text" name="ad_soyad" required value="{{ $musteri->ad_soyad }}" class="w-full px-3 py-2.5 rounded-[8px] border border-[#E2E8F0] text-[14px] focus:outline-none focus:ring-2 focus:ring-[#CC2200]/20">
+        </div>
+        <div>
+          <label class="text-[11px] text-[#64748B] mb-1 block">Yetkili Kişi</label>
+          <input type="text" name="yetkili_kisi" value="{{ $musteri->yetkili_kisi }}" class="w-full px-3 py-2.5 rounded-[8px] border border-[#E2E8F0] text-[14px] focus:outline-none focus:ring-2 focus:ring-[#CC2200]/20">
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
@@ -263,7 +336,7 @@
         </div>
         <label class="flex items-center gap-2">
           <input type="checkbox" name="aktif" value="1" {{ $musteri->aktif ? 'checked' : '' }}>
-          <span class="text-[13px]">Aktif müşteri</span>
+          <span class="text-[13px]">Aktif kayıt</span>
         </label>
         <button type="submit" class="w-full bg-[#CC2200] text-white text-[14px] font-semibold py-3 rounded-[10px] mt-2">Kaydet</button>
       </form>
@@ -273,7 +346,7 @@
               onsubmit="return confirm('\"{{ $musteri->ad_soyad }}\" cari hesabı ve tüm hareket/belgeleri kalıcı olarak silinecek. Emin misin?')">
           @csrf @method('DELETE')
           <button type="submit" class="w-full bg-white border border-[#FCA5A5] text-[#CC2200] text-[13px] font-semibold py-2.5 rounded-[10px] flex items-center justify-center gap-1.5">
-            <i class="ti ti-trash text-[15px]"></i> Müşteriyi Sil
+            <i class="ti ti-trash text-[15px]"></i> Kaydı Sil
           </button>
         </form>
       </div>
@@ -281,3 +354,19 @@
   </div>
 
 @endsection
+
+@push('scripts')
+<script>
+  const hareketGuncelleUrlSablonu = '{{ route('admin.cari.hareketler.guncelle', [$musteri, '__ID__']) }}';
+
+  function hareketDuzenleAc(id, tur, tutar, aciklama, tarih, vade) {
+    document.getElementById('hareket-duzenle-form').action = hareketGuncelleUrlSablonu.replace('__ID__', id);
+    document.getElementById(tur === 'borc' ? 'hd-tur-borc' : 'hd-tur-tahsilat').checked = true;
+    document.getElementById('hd-tutar').value = tutar;
+    document.getElementById('hd-aciklama').value = aciklama;
+    document.getElementById('hd-tarih').value = tarih;
+    document.getElementById('hd-vade').value = (vade && vade !== '') ? vade : '';
+    document.getElementById('hareket-duzenle-modal').classList.remove('hidden');
+  }
+</script>
+@endpush

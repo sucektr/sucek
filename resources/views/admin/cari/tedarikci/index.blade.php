@@ -33,8 +33,8 @@
     </p>
     <div class="space-y-1.5">
       @foreach($vadesiYaklasanlar as $h)
-        <a href="{{ route('admin.cari.tedarikci.show', $h->tedarikci) }}" class="flex items-center justify-between text-[12px] text-[#78350F]">
-          <span class="truncate">{{ $h->tedarikci->unvan }} — {{ $h->aciklama }}</span>
+        <a href="{{ route('admin.cari.show', $h->musteri) }}" class="flex items-center justify-between text-[12px] text-[#78350F]">
+          <span class="truncate">{{ $h->musteri->ad_soyad }} — {{ $h->aciklama }}</span>
           <span class="shrink-0 font-semibold {{ $h->vade_tarihi->isPast() ? 'text-[#CC2200]' : '' }}">{{ $h->vade_tarihi->format('d.m.Y') }}</span>
         </a>
       @endforeach
@@ -54,9 +54,9 @@
   {{-- Tedarikçi listesi --}}
   <div class="space-y-2">
     @forelse($tedarikciler as $t)
-      <a href="{{ route('admin.cari.tedarikci.show', $t) }}" class="block bg-white rounded-[12px] border border-[#E2E8F0] px-4 py-3.5 flex items-center justify-between gap-3">
+      <a href="{{ route('admin.cari.show', $t) }}" class="block bg-white rounded-[12px] border border-[#E2E8F0] px-4 py-3.5 flex items-center justify-between gap-3">
         <div class="min-w-0">
-          <p class="text-[14px] font-semibold text-[#0F172A] truncate">{{ $t->unvan }}</p>
+          <p class="text-[14px] font-semibold text-[#0F172A] truncate">{{ $t->ad_soyad }}</p>
           @if($t->telefon)<p class="text-[11px] text-[#94A3B8] mt-0.5">{{ $t->telefon }}</p>@endif
         </div>
         <div class="shrink-0 text-right">
@@ -83,11 +83,12 @@
           <i class="ti ti-x text-[14px]"></i>
         </button>
       </div>
-      <form action="{{ route('admin.cari.tedarikci.store') }}" method="POST" class="space-y-3">
+      <form action="{{ route('admin.cari.store') }}" method="POST" class="space-y-3">
         @csrf
+        <input type="hidden" name="tip" value="tedarikci">
         <div>
           <label class="text-[11px] text-[#64748B] mb-1 block">Firma / Unvan *</label>
-          <input type="text" name="unvan" required class="w-full px-3 py-2.5 rounded-[8px] border border-[#E2E8F0] text-[14px] focus:outline-none focus:ring-2 focus:ring-[#CC2200]/20">
+          <input type="text" name="ad_soyad" required class="w-full px-3 py-2.5 rounded-[8px] border border-[#E2E8F0] text-[14px] focus:outline-none focus:ring-2 focus:ring-[#CC2200]/20">
         </div>
         <div>
           <label class="text-[11px] text-[#64748B] mb-1 block">Yetkili Kişi</label>

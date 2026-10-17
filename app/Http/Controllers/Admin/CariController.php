@@ -22,6 +22,7 @@ class CariController extends Controller
         $arama = $request->get('q');
 
         $musteriler = Musteri::query()
+            ->where('tip', 'musteri')
             ->when($arama, fn ($q) => $q->where('ad_soyad', 'like', "%{$arama}%"))
             ->orderBy('ad_soyad')
             ->get()
@@ -33,6 +34,7 @@ class CariController extends Controller
         $toplamBakiye = $musteriler->sum('hesaplanan_bakiye');
 
         $vadesiYaklasanlar = CariHareket::with('musteri')
+            ->whereHas('musteri', fn ($q) => $q->where('tip', 'musteri'))
             ->where('tur', 'borc')
             ->where('odendi_mi', false)
             ->whereNotNull('vade_tarihi')
@@ -58,6 +60,34 @@ class CariController extends Controller
         ));
     }
 
+    public function tedarikciIndex(Request $request)
+    {
+        $arama = $request->get('q');
+
+        $tedarikciler = Musteri::query()
+            ->where('tip', 'tedarikci')
+            ->when($arama, fn ($q) => $q->where('ad_soyad', 'like', "%{$arama}%"))
+            ->orderBy('ad_soyad')
+            ->get()
+            ->map(function (Musteri $t) {
+                $t->hesaplanan_bakiye = $t->bakiye();
+                return $t;
+            });
+
+        $toplamBorc = $tedarikciler->sum('hesaplanan_bakiye');
+
+        $vadesiYaklasanlar = CariHareket::with('musteri')
+            ->whereHas('musteri', fn ($q) => $q->where('tip', 'tedarikci'))
+            ->where('tur', 'borc')
+            ->where('odendi_mi', false)
+            ->whereNotNull('vade_tarihi')
+            ->whereDate('vade_tarihi', '<=', now()->addDays(3))
+            ->orderBy('vade_tarihi')
+            ->get();
+
+        return view('admin.cari.tedarikci.index', compact('tedarikciler', 'toplamBorc', 'vadesiYaklasanlar'));
+    }
+
     private function grafikVerisi(): array
     {
         $turkceAylar = ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'];
@@ -68,20 +98,23 @@ class CariController extends Controller
         $aylikBorc      = [];
         $aylikTahsilat  = [];
 
+        $musteriTip = fn ($q) => $q->whereHas('musteri', fn ($qq) => $qq->where('tip', 'musteri'));
+
         foreach ($aylar as $ay) {
             $etiketler[] = $turkceAylar[$ay->month - 1] . ' ' . $ay->format('y');
 
-            $bakiyeTrend[] = (float) CariHareket::where('tarih', '<=', $ay->copy()->endOfMonth())
+            $bakiyeTrend[] = (float) CariHareket::tap($musteriTip)
+                ->where('tarih', '<=', $ay->copy()->endOfMonth())
                 ->selectRaw("COALESCE(SUM(CASE WHEN tur = 'borc' THEN tutar ELSE -tutar END), 0) as b")
                 ->value('b');
 
             $araligBasi = $ay->copy()->startOfMonth();
             $araligSonu = $ay->copy()->endOfMonth();
 
-            $aylikBorc[] = (float) CariHareket::where('tur', 'borc')
+            $aylikBorc[] = (float) CariHareket::tap($musteriTip)->where('tur', 'borc')
                 ->whereBetween('tarih', [$araligBasi, $araligSonu])->sum('tutar');
 
-            $aylikTahsilat[] = (float) CariHareket::where('tur', 'tahsilat')
+            $aylikTahsilat[] = (float) CariHareket::tap($musteriTip)->where('tur', 'tahsilat')
                 ->whereBetween('tarih', [$araligBasi, $araligSonu])->sum('tutar');
         }
 
@@ -92,6 +125,8 @@ class CariController extends Controller
     {
         $data = $request->validate([
             'ad_soyad'      => 'required|string|max:150',
+            'tip'           => 'nullable|in:musteri,tedarikci',
+            'yetkili_kisi'  => 'nullable|string|max:150',
             'telefon'       => 'nullable|string|max:20',
             'email'         => 'nullable|email|max:150',
             'adres'         => 'nullable|string|max:500',
@@ -99,6 +134,7 @@ class CariController extends Controller
             'vergi_no'      => 'nullable|string|max:50',
             'notlar'        => 'nullable|string|max:1000',
         ]);
+        $data['tip'] = $data['tip'] ?? 'musteri';
 
         $musteri = Musteri::create($data);
 
@@ -118,6 +154,8 @@ class CariController extends Controller
     {
         $data = $request->validate([
             'ad_soyad'      => 'required|string|max:150',
+            'tip'           => 'required|in:musteri,tedarikci',
+            'yetkili_kisi'  => 'nullable|string|max:150',
             'telefon'       => 'nullable|string|max:20',
             'email'         => 'nullable|email|max:150',
             'adres'         => 'nullable|string|max:500',
@@ -130,17 +168,18 @@ class CariController extends Controller
 
         $musteri->update($data);
 
-        return back()->with('basari', 'Müşteri bilgileri güncellendi.');
+        return back()->with('basari', 'Kayıt güncellendi.');
     }
 
     public function destroy(Musteri $musteri)
     {
         $adSoyad = $musteri->ad_soyad;
+        $hedefRota = $musteri->tip === 'tedarikci' ? 'admin.cari.tedarikci.index' : 'admin.cari.index';
 
         Storage::disk('public')->deleteDirectory('cari-belgeler/' . $musteri->id);
         $musteri->delete();
 
-        return redirect()->route('admin.cari.index')->with('basari', '"' . $adSoyad . '" cari hesabı silindi.');
+        return redirect()->route($hedefRota)->with('basari', '"' . $adSoyad . '" cari hesabı silindi.');
     }
 
     public function hareketEkle(Request $request, Musteri $musteri)

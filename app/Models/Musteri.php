@@ -14,6 +14,8 @@ class Musteri extends Model
 
     protected $fillable = [
         'ad_soyad',
+        'tip',
+        'yetkili_kisi',
         'telefon',
         'email',
         'adres',

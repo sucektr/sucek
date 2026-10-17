@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Mail\CariHatirlatmaMail;
 use App\Models\CariHareket;
-use App\Models\TedarikciHareket;
 use App\Services\MailService;
 use App\Services\SmsService;
 use Illuminate\Console\Command;
@@ -17,20 +16,21 @@ class CariHatirlatmaGonder extends Command
 
     public function handle(MailService $mail, SmsService $sms): int
     {
-        $musteriHareketleri = CariHareket::with('musteri')
+        $vadesiYaklasan = fn ($q) => $q
             ->where('tur', 'borc')
             ->where('odendi_mi', false)
             ->whereNotNull('vade_tarihi')
             ->whereDate('vade_tarihi', '<=', now()->addDays(3))
-            ->orderBy('vade_tarihi')
+            ->orderBy('vade_tarihi');
+
+        $musteriHareketleri = CariHareket::with('musteri')
+            ->whereHas('musteri', fn ($q) => $q->where('tip', 'musteri'))
+            ->tap($vadesiYaklasan)
             ->get();
 
-        $tedarikciHareketleri = TedarikciHareket::with('tedarikci')
-            ->where('tur', 'borc')
-            ->where('odendi_mi', false)
-            ->whereNotNull('vade_tarihi')
-            ->whereDate('vade_tarihi', '<=', now()->addDays(3))
-            ->orderBy('vade_tarihi')
+        $tedarikciHareketleri = CariHareket::with('musteri')
+            ->whereHas('musteri', fn ($q) => $q->where('tip', 'tedarikci'))
+            ->tap($vadesiYaklasan)
             ->get();
 
         if ($musteriHareketleri->isEmpty() && $tedarikciHareketleri->isEmpty()) {
