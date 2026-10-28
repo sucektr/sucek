@@ -79,7 +79,7 @@ class MagazaController extends Controller
 
     public function urun(string $slug)
     {
-        $urun = Urun::where('slug', $slug)->where('aktif', true)->firstOrFail();
+        $urun = Urun::where('slug', $slug)->firstOrFail();
         $ilgiliUrunler = Urun::where('aktif', true)
             ->where('kategori', $urun->kategori)
             ->where('id', '!=', $urun->id)

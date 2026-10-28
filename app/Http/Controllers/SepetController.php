@@ -35,6 +35,8 @@ class SepetController extends Controller
             ? \App\Models\Koleksiyon::findOrFail($request->urun_id)
             : \App\Models\Urun::findOrFail($request->urun_id);
 
+        abort_unless($model->aktif, 404);
+
         $varyantBilgisi = null;
         $varyantGorsel  = null;
         if ($varyantId) {

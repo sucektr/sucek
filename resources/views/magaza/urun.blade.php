@@ -64,6 +64,7 @@ if ($hasVaryant) {
       return Object.values(this.secimler).every(v => !!v);
     },
     get aktifStok() {
+      if (!{{ $urun->aktif ? 'true' : 'false' }}) return 0;
       if (!this.hasVaryant) return {{ $urun->stok }};
       const v = this.secilenVaryant;
       return v ? v.stok : 0;
@@ -141,7 +142,7 @@ if ($hasVaryant) {
             <span class="text-[10px] font-medium bg-[#F5F5F5] text-[#A8A8A8] px-2.5 py-1 rounded-[6px] border">{{ ceviri('Stok Yok') }}</span>
           </template>
           @else
-          @if($urun->stok > 0)
+          @if($urun->aktif && $urun->stok > 0)
           <span class="flex items-center gap-1 bg-green-50 border border-green-200 text-green-700 text-[10px] font-medium px-2.5 py-1 rounded-[6px]">
             <span class="w-1.5 h-1.5 bg-green-500 rounded-full" aria-hidden="true"></span> {{ ceviri('Stokta') }}
           </span>
@@ -205,7 +206,7 @@ if ($hasVaryant) {
         </span>
         @else
         <div class="flex items-baseline gap-3">
-          <span class="font-display text-[36px] font-semibold text-[#0F0F0F]">{{ number_format($urun->fiyat, 2, ',', '.') }} ₺</span>
+          <span class="font-display text-[36px] font-semibold text-[#0F0F0F]">{{ number_format($urun->fiyat ?? 0, 2, ',', '.') }} ₺</span>
           @if($urun->eski_fiyat)
           <span class="font-display text-[20px] text-[#A8A8A8] line-through">{{ number_format($urun->eski_fiyat, 2, ',', '.') }} ₺</span>
           @endif
@@ -281,7 +282,7 @@ if ($hasVaryant) {
           class="flex-1 flex items-center justify-center gap-2 text-white text-[11px] font-semibold tracking-[1.5px] uppercase py-4 rounded-[10px] transition-all duration-200 min-h-[52px]">
           <i class="ti ti-shopping-cart text-sm" aria-hidden="true"></i>
           <span x-text="hasVaryant && !secimTamMi ? '{{ ceviri('Seçenek Seçin') }}' : (aktifStok <= 0 ? '{{ ceviri('Stok Yok') }}' : '{{ ceviri('Sepete Ekle') }}')">
-            {{ $hasVaryant ? ceviri('Seçenek Seçin') : ($urun->stok > 0 ? ceviri('Sepete Ekle') : ceviri('Stok Yok')) }}
+            {{ $hasVaryant ? ceviri('Seçenek Seçin') : ($urun->aktif && $urun->stok > 0 ? ceviri('Sepete Ekle') : ceviri('Stok Yok')) }}
           </span>
         </button>
         <a href="{{ route('home') }}#iletisim"
