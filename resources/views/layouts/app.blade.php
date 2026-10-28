@@ -45,6 +45,7 @@ if (!$_seoAciklama) {
   @if($_seoAciklama)<meta name="description" content="{{ $_seoAciklama }}">
   @else<meta name="description" content="@yield('meta-description', 'SUÇEK — Mimarlık, inşaat, antika koleksiyon ve mağaza hizmetleri.')">
   @endif
+  <link rel="canonical" href="@yield('canonical', url()->current())">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
