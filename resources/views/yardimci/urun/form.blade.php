@@ -18,7 +18,7 @@
         </div>
       </template>
       <img :src="onizleme" x-show="onizleme" class="absolute inset-0 w-full h-full object-cover">
-      <input type="file" name="gorsel" accept="image/*" capture="environment" required class="hidden"
+      <input type="file" name="gorsel" accept="image/*" required class="hidden"
              @change="onizleme = $event.target.files[0] ? URL.createObjectURL($event.target.files[0]) : null">
     </label>
     @error('gorsel')<p class="text-[11px] text-[#CC2200] mt-1">{{ $message }}</p>@enderror
