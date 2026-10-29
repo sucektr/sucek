@@ -28,6 +28,7 @@ use App\Http\Controllers\ProjeController;
 use App\Http\Controllers\MerchantFeedController;
 use App\Http\Controllers\CelikGuvenlikAgiController;
 use App\Http\Controllers\HafifCelikKonteynerController;
+use App\Http\Controllers\Yardimci;
 
 // Storage / uploads dosyalarını symlink olmadan sun (fallback; Apache direkt okuyabiliyorsa bu çalışmaz zaten)
 Route::get('/storage/{path}', function (string $path) {
@@ -211,6 +212,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('koleksiyonlar', Admin\KoleksiyonController::class)->except('show')->parameters(['koleksiyonlar' => 'koleksiyon']);
         Route::patch('koleksiyonlar/{koleksiyon}/fiyat', [Admin\KoleksiyonController::class, 'fiyatGuncelle'])->name('koleksiyonlar.fiyat');
 
+        Route::get('onay-bekleyenler', [Admin\OnayBekleyenlerController::class, 'index'])->name('onay-bekleyenler.index');
+        Route::post('onay-bekleyenler/urun/{urun}/onayla', [Admin\OnayBekleyenlerController::class, 'urunOnayla'])->name('onay-bekleyenler.urun.onayla');
+        Route::post('onay-bekleyenler/urun/{urun}/reddet', [Admin\OnayBekleyenlerController::class, 'urunReddet'])->name('onay-bekleyenler.urun.reddet');
+        Route::post('onay-bekleyenler/koleksiyon/{koleksiyon}/onayla', [Admin\OnayBekleyenlerController::class, 'koleksiyonOnayla'])->name('onay-bekleyenler.koleksiyon.onayla');
+        Route::post('onay-bekleyenler/koleksiyon/{koleksiyon}/reddet', [Admin\OnayBekleyenlerController::class, 'koleksiyonReddet'])->name('onay-bekleyenler.koleksiyon.reddet');
+
         Route::get('numizmatik-katalog', [Admin\NumizmatikKatalogController::class, 'index'])->name('numizmatik-katalog.index');
         Route::get('numizmatik-katalog-kalemler', [Admin\NumizmatikKatalogController::class, 'kalemler'])->name('numizmatik-katalog.kalemler');
         Route::post('numizmatik-katalog', [Admin\NumizmatikKatalogController::class, 'kaydet'])->name('numizmatik-katalog.kaydet');
@@ -287,6 +294,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('uye-urunleri/{id}/donustur', [Admin\UyeUrunController::class, 'donustur'])->name('uye-urunleri.donustur');
         Route::post('uye-urunleri/{id}/kaydet', [Admin\UyeUrunController::class, 'kaydet'])->name('uye-urunleri.kaydet');
 
+        Route::get('yardimcilar', [Admin\YardimciController::class, 'index'])->name('yardimcilar.index');
+        Route::post('yardimcilar', [Admin\YardimciController::class, 'store'])->name('yardimcilar.store');
+        Route::post('yardimcilar/{yardimci}/sifre', [Admin\YardimciController::class, 'sifreSifirla'])->name('yardimcilar.sifre');
+        Route::delete('yardimcilar/{yardimci}', [Admin\YardimciController::class, 'destroy'])->name('yardimcilar.destroy');
+
         Route::get('guncelle', [DeployController::class, 'index'])->name('deploy.index');
         Route::post('guncelle', [DeployController::class, 'guncelle'])->name('deploy.guncelle');
 
@@ -336,6 +348,23 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['auth', 'premium:maliyet-teklif'])->group(function () {
         Route::get('maliyet-teklif', [Admin\MaliyetTeklifController::class, 'index'])->name('maliyet-teklif.index');
         Route::get('maliyet-teklif/poz-kutuphanesi.json', [Admin\MaliyetTeklifController::class, 'pozKutuphanesi'])->name('maliyet-teklif.poz-kutuphanesi');
+    });
+});
+
+// Yardımcı — admin paneline girmeden mobilden ürün ekleme
+Route::prefix('urun-ekle')->name('yardimci.')->group(function () {
+    Route::get('/giris', [Yardimci\AuthController::class, 'girisForm'])->name('giris');
+    Route::post('/giris', [Yardimci\AuthController::class, 'giris'])->name('giris.post');
+
+    Route::middleware('yardimci')->group(function () {
+        Route::post('/cikis', [Yardimci\AuthController::class, 'cikis'])->name('cikis');
+        Route::get('/', [Yardimci\PanelController::class, 'index'])->name('index');
+
+        Route::get('/urun/yeni', [Yardimci\UrunEkleController::class, 'create'])->name('urun.yeni');
+        Route::post('/urun', [Yardimci\UrunEkleController::class, 'store'])->name('urun.kaydet');
+
+        Route::get('/koleksiyon/yeni', [Yardimci\KoleksiyonEkleController::class, 'create'])->name('koleksiyon.yeni');
+        Route::post('/koleksiyon', [Yardimci\KoleksiyonEkleController::class, 'store'])->name('koleksiyon.kaydet');
     });
 });
 

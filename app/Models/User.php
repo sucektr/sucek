@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'is_admin',
+        'is_yardimci',
         'rol',
         'telefon',
         'dogum_gun',
@@ -48,6 +49,8 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_admin'          => 'boolean',
+        'is_yardimci'       => 'boolean',
         'sms_izni'          => 'boolean',
         'iletisim_izni'     => 'boolean',
         'dogum_gun'         => 'integer',
@@ -59,6 +62,8 @@ class User extends Authenticatable
     {
         return in_array($this->rol, ['standart', 'sucek', 'teknik']);
     }
+
+    public function isYardimci(): bool { return (bool) $this->is_yardimci; }
 
     public function isStandart(): bool { return $this->rol === 'standart'; }
     public function isSucek(): bool    { return $this->rol === 'sucek'; }

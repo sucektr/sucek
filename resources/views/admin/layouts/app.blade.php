@@ -45,6 +45,13 @@
     <a href="{{ route('admin.koleksiyonlar.index') }}" class="nav-link {{ request()->routeIs('admin.koleksiyonlar.*') ? 'active' : '' }}">
       <i class="ti ti-diamond"></i> Koleksiyonlar
     </a>
+    @php $bekleyenOnay = \App\Models\Urun::where('onay_durumu','bekliyor')->count() + \App\Models\Koleksiyon::where('onay_durumu','bekliyor')->count(); @endphp
+    <a href="{{ route('admin.onay-bekleyenler.index') }}" class="nav-link {{ request()->routeIs('admin.onay-bekleyenler.*') ? 'active' : '' }}">
+      <i class="ti ti-circle-check"></i> Onay Bekleyenler
+      @if($bekleyenOnay > 0)
+        <span class="badge-red">{{ $bekleyenOnay }}</span>
+      @endif
+    </a>
     <a href="{{ route('admin.numizmatik-katalog.index') }}" class="nav-link {{ request()->routeIs('admin.numizmatik-katalog.*') ? 'active' : '' }}">
       <i class="ti ti-coin"></i> Nümizmatik Katalog
     </a>
@@ -95,6 +102,9 @@
       @if($bekleyenUrunSayisi > 0)
         <span class="badge-red">{{ $bekleyenUrunSayisi }}</span>
       @endif
+    </a>
+    <a href="{{ route('admin.yardimcilar.index') }}" class="nav-link {{ request()->routeIs('admin.yardimcilar.*') ? 'active' : '' }}">
+      <i class="ti ti-user-plus"></i> Yardımcılar
     </a>
 
     <div class="nav-section mt-2">Araçlar</div>

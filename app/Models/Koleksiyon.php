@@ -14,7 +14,7 @@ class Koleksiyon extends Model
         'ad','slug','aciklama','kategori','ulke','para_turu','saat_turu','maden_turu','ayar',
         'fiyat','gorsel','gorseller',
         'dosyalar','ozellikler','stok_kodu','durum','aktif','one_cikan',
-        'kargo_bedeli','kargo_kim_oder',
+        'kargo_bedeli','kargo_kim_oder','onay_durumu','eklenen_kullanici_id',
     ];
     protected $casts = [
         'gorseller'    => 'array',
@@ -25,6 +25,16 @@ class Koleksiyon extends Model
         'fiyat'        => 'decimal:2',
         'kargo_bedeli' => 'decimal:2',
     ];
+
+    public function ekleyen()
+    {
+        return $this->belongsTo(User::class, 'eklenen_kullanici_id');
+    }
+
+    public function onayBekliyor(): bool
+    {
+        return $this->onay_durumu === 'bekliyor';
+    }
 
     public function musteriKargoUcreti(): float
     {

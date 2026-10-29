@@ -13,7 +13,7 @@ class Urun extends Model
     protected $fillable = [
         'ad','slug','marka','aciklama','fiyat','eski_fiyat','kdv_orani','kdv_dahil','kategori','alt_kategori',
         'gorsel','gorseller','dosyalar','ozellikler','stok_kodu','stok','aktif','one_cikan',
-        'kargo_bedeli','kargo_kim_oder',
+        'kargo_bedeli','kargo_kim_oder','onay_durumu','eklenen_kullanici_id',
     ];
     protected $casts = [
         'gorseller'     => 'array',
@@ -64,6 +64,16 @@ class Urun extends Model
             return (float) $this->kargo_bedeli;
         }
         return 0.0;
+    }
+
+    public function ekleyen()
+    {
+        return $this->belongsTo(User::class, 'eklenen_kullanici_id');
+    }
+
+    public function onayBekliyor(): bool
+    {
+        return $this->onay_durumu === 'bekliyor';
     }
 
     public function secenekler()
