@@ -70,6 +70,12 @@
           <i class="ti ti-photo text-6xl text-[#D0D0D0]" aria-hidden="true"></i>
         @endif
 
+        <div class="absolute top-4 left-4">
+          <span class="inline-flex items-center gap-1 text-[10px] font-medium bg-white/90 text-[#5A5A5A] px-2.5 py-1 rounded-[6px] border border-[rgba(0,0,0,0.08)]">
+            <i class="ti ti-certificate text-[11px]" aria-hidden="true"></i> {{ ceviri('İkinci El / Koleksiyonluk') }}
+          </span>
+        </div>
+
         @if($urun->durum === 'satildi')
         <div class="absolute inset-0 bg-[rgba(0,0,0,0.50)] flex items-center justify-center rounded-[16px]">
           <span class="text-[14px] font-bold tracking-[3px] uppercase text-white bg-[rgba(0,0,0,0.70)] px-6 py-3 rounded-[8px]">{{ ceviri('Satıldı') }}</span>
@@ -287,6 +293,32 @@
     </div>
   </div>
 </section>
+
+@if($urun->fiyat)
+@push('scripts')
+<script type="application/ld+json">
+{!! json_encode([
+    '@context'    => 'https://schema.org/',
+    '@type'       => 'Product',
+    'name'        => $urun->ad,
+    'image'       => array_map(fn($g) => asset('storage/'.$g), $tumGorseller),
+    'description' => strip_tags($urun->aciklama ?? $urun->ad),
+    'sku'         => $urun->stok_kodu,
+    'offers'      => [
+        '@type'            => 'Offer',
+        'url'              => url()->current(),
+        'priceCurrency'    => 'TRY',
+        'price'            => (float) $urun->fiyat,
+        'availability'     => in_array($urun->durum, ['satildi', 'rezerve'])
+            ? 'https://schema.org/OutOfStock'
+            : 'https://schema.org/InStock',
+        'itemCondition'    => 'https://schema.org/UsedCondition',
+        'identifierExists' => false,
+    ],
+], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+</script>
+@endpush
+@endif
 
 @endsection
 
