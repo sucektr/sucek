@@ -15,14 +15,14 @@ class PanelController extends Controller
         $urunler = Urun::where('eklenen_kullanici_id', $kullaniciId)
             ->latest()->take(10)->get()
             ->map(fn ($u) => (object) [
-                'tip' => 'urun', 'ad' => $u->ad, 'gorsel' => $u->gorsel,
+                'tip' => 'urun', 'id' => $u->id, 'ad' => $u->ad, 'gorsel' => $u->gorsel,
                 'durum' => $u->onay_durumu, 'tarih' => $u->created_at,
             ]);
 
         $koleksiyonlar = Koleksiyon::where('eklenen_kullanici_id', $kullaniciId)
             ->latest()->take(10)->get()
             ->map(fn ($k) => (object) [
-                'tip' => 'koleksiyon', 'ad' => $k->ad, 'gorsel' => $k->gorsel,
+                'tip' => 'koleksiyon', 'id' => $k->id, 'ad' => $k->ad, 'gorsel' => $k->gorsel,
                 'durum' => $k->onay_durumu, 'tarih' => $k->created_at,
             ]);
 

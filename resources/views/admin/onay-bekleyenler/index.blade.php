@@ -42,9 +42,15 @@
                      class="w-8 h-8 flex items-center justify-center rounded-[6px] border border-[#E2E8F0] hover:bg-[#F1F5F9] text-[#64748B] transition-colors" title="Düzenle">
                     <i class="ti ti-edit text-sm"></i>
                   </a>
+                  <form action="{{ route('admin.urunler.destroy', $u) }}" method="POST" onsubmit="return confirm('Bu ürün kalıcı olarak silinsin mi?')">
+                    @csrf @method('DELETE')
+                    <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-[6px] border border-[#E2E8F0] hover:bg-[#FEE2E2] hover:text-[#DC2626] text-[#C0C0C0] transition-colors" title="Sil">
+                      <i class="ti ti-trash text-sm"></i>
+                    </button>
+                  </form>
                   <form action="{{ route('admin.onay-bekleyenler.urun.reddet', $u) }}" method="POST" onsubmit="return confirm('Bu ürün reddedilsin mi?')">
                     @csrf
-                    <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-[6px] border border-[#E2E8F0] hover:bg-[#FEE2E2] hover:text-[#DC2626] text-[#C0C0C0] transition-colors" title="Reddet">
+                    <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-[6px] border border-[#E2E8F0] hover:bg-[#FEF3C7] hover:text-[#B8962E] text-[#C0C0C0] transition-colors" title="Reddet">
                       <i class="ti ti-x text-sm"></i>
                     </button>
                   </form>
@@ -103,9 +109,15 @@
                      class="w-8 h-8 flex items-center justify-center rounded-[6px] border border-[#E2E8F0] hover:bg-[#F1F5F9] text-[#64748B] transition-colors" title="Düzenle">
                     <i class="ti ti-edit text-sm"></i>
                   </a>
+                  <form action="{{ route('admin.koleksiyonlar.destroy', $k) }}" method="POST" onsubmit="return confirm('Bu ürün kalıcı olarak silinsin mi?')">
+                    @csrf @method('DELETE')
+                    <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-[6px] border border-[#E2E8F0] hover:bg-[#FEE2E2] hover:text-[#DC2626] text-[#C0C0C0] transition-colors" title="Sil">
+                      <i class="ti ti-trash text-sm"></i>
+                    </button>
+                  </form>
                   <form action="{{ route('admin.onay-bekleyenler.koleksiyon.reddet', $k) }}" method="POST" onsubmit="return confirm('Bu ürün reddedilsin mi?')">
                     @csrf
-                    <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-[6px] border border-[#E2E8F0] hover:bg-[#FEE2E2] hover:text-[#DC2626] text-[#C0C0C0] transition-colors" title="Reddet">
+                    <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-[6px] border border-[#E2E8F0] hover:bg-[#FEF3C7] hover:text-[#B8962E] text-[#C0C0C0] transition-colors" title="Reddet">
                       <i class="ti ti-x text-sm"></i>
                     </button>
                   </form>

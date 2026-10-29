@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Yardimci;
 use App\Http\Controllers\Controller;
 use App\Models\Urun;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class UrunEkleController extends Controller
 {
     public function create()
     {
-        return view('yardimci.urun.form');
+        return view('yardimci.urun.form', ['urun' => new Urun]);
     }
 
     public function store(Request $request)
@@ -52,6 +53,70 @@ class UrunEkleController extends Controller
         Urun::create($data);
 
         return redirect()->route('yardimci.index')->with('basari', 'Ürün eklendi, onay için gönderildi.');
+    }
+
+    public function edit(Urun $urun)
+    {
+        $this->sahipMi($urun);
+        return view('yardimci.urun.form', compact('urun'));
+    }
+
+    public function update(Request $request, Urun $urun)
+    {
+        $this->sahipMi($urun);
+
+        $request->validate([
+            'ad'        => 'required|string|max:200',
+            'kategori'  => 'required|in:spor,insaat,diger,celik-guvenlik-agi',
+            'fiyat'     => 'required|numeric|min:0',
+            'stok'      => 'required|integer|min:0',
+            'aciklama'  => 'nullable|string',
+            'stok_kodu' => 'nullable|string|max:50',
+            'gorsel'      => 'nullable|image|max:8192',
+            'gorseller.*' => 'nullable|image|max:8192',
+        ]);
+
+        $data = $request->only(['ad', 'kategori', 'fiyat', 'stok', 'aciklama', 'stok_kodu']);
+
+        // Reddedilmiş bir ürün düzenlenip tekrar gönderiliyorsa, yeniden onaya düşsün.
+        if ($urun->onay_durumu === 'reddedildi') {
+            $data['onay_durumu'] = 'bekliyor';
+        }
+
+        if ($request->hasFile('gorsel')) {
+            if ($urun->gorsel) Storage::disk('public')->delete($urun->gorsel);
+            $data['gorsel'] = $request->file('gorsel')->store('urunler', 'public');
+        }
+
+        $mevcutGorseller = $urun->gorseller ?? [];
+        if ($request->hasFile('gorseller')) {
+            foreach ($request->file('gorseller') as $file) {
+                $mevcutGorseller[] = $file->store('urunler', 'public');
+            }
+        }
+        $data['gorseller'] = !empty($mevcutGorseller) ? $mevcutGorseller : null;
+
+        $urun->update($data);
+
+        return redirect()->route('yardimci.index')->with('basari', 'Ürün güncellendi, onay için gönderildi.');
+    }
+
+    public function destroy(Urun $urun)
+    {
+        $this->sahipMi($urun);
+
+        if ($urun->gorsel) Storage::disk('public')->delete($urun->gorsel);
+        foreach ($urun->gorseller ?? [] as $g) {
+            Storage::disk('public')->delete($g);
+        }
+        $urun->delete();
+
+        return redirect()->route('yardimci.index')->with('basari', 'Ürün silindi.');
+    }
+
+    private function sahipMi(Urun $urun): void
+    {
+        abort_unless($urun->eklenen_kullanici_id === auth()->id() && $urun->onay_durumu !== 'onaylandi', 403);
     }
 
     private function benzersizSlug(string $ad): string

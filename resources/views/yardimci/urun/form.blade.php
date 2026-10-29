@@ -1,15 +1,17 @@
 @extends('yardimci.layouts.app')
 
-@section('title', 'Mağaza Ürünü Ekle')
+@section('title', $urun->exists ? 'Ürünü Düzenle' : 'Mağaza Ürünü Ekle')
 @section('geri', route('yardimci.index'))
 
 @section('content')
-<form action="{{ route('yardimci.urun.kaydet') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+<form action="{{ $urun->exists ? route('yardimci.urun.guncelle', $urun) : route('yardimci.urun.kaydet') }}"
+      method="POST" enctype="multipart/form-data" class="space-y-4">
   @csrf
+  @if($urun->exists) @method('PUT') @endif
 
   {{-- Ana Fotoğraf --}}
-  <div x-data="{ onizleme: null }">
-    <label class="block text-[11px] font-medium text-[#6B6B6B] uppercase tracking-[.06em] mb-1.5">Ürün Fotoğrafı <span class="text-[#CC2200]">*</span></label>
+  <div x-data="{ onizleme: @js($urun->gorsel ? asset('storage/'.$urun->gorsel) : null) }">
+    <label class="block text-[11px] font-medium text-[#6B6B6B] uppercase tracking-[.06em] mb-1.5">Ürün Fotoğrafı @unless($urun->exists)<span class="text-[#CC2200]">*</span>@endunless</label>
     <label class="relative flex flex-col items-center justify-center w-full aspect-square bg-[#F5F5F5] border-2 border-dashed border-[rgba(0,0,0,0.12)] rounded-[14px] overflow-hidden cursor-pointer">
       <template x-if="!onizleme">
         <div class="flex flex-col items-center gap-2 text-[#A8A8A8]">
@@ -18,8 +20,8 @@
         </div>
       </template>
       <img :src="onizleme" x-show="onizleme" class="absolute inset-0 w-full h-full object-cover">
-      <input type="file" name="gorsel" accept="image/*" required class="hidden"
-             @change="onizleme = $event.target.files[0] ? URL.createObjectURL($event.target.files[0]) : null">
+      <input type="file" name="gorsel" accept="image/*" {{ $urun->exists ? '' : 'required' }} class="hidden"
+             @change="onizleme = $event.target.files[0] ? URL.createObjectURL($event.target.files[0]) : onizleme">
     </label>
     @error('gorsel')<p class="text-[11px] text-[#CC2200] mt-1">{{ $message }}</p>@enderror
   </div>
@@ -38,7 +40,7 @@
   {{-- Ürün Adı --}}
   <div>
     <label class="block text-[11px] font-medium text-[#6B6B6B] uppercase tracking-[.06em] mb-1.5">Ürün Adı <span class="text-[#CC2200]">*</span></label>
-    <input type="text" name="ad" required value="{{ old('ad') }}"
+    <input type="text" name="ad" required value="{{ old('ad', $urun->ad) }}"
            class="w-full px-4 py-3 border border-[rgba(0,0,0,0.12)] rounded-[10px] text-[15px] focus:outline-none focus:border-[#141414] transition-colors">
     @error('ad')<p class="text-[11px] text-[#CC2200] mt-1">{{ $message }}</p>@enderror
   </div>
@@ -49,7 +51,7 @@
     <select name="kategori" required class="w-full px-4 py-3 border border-[rgba(0,0,0,0.12)] rounded-[10px] text-[15px] focus:outline-none focus:border-[#141414] transition-colors bg-white">
       <option value="">Seçin</option>
       @foreach(['spor' => 'Spor', 'insaat' => 'İnşaat', 'diger' => 'Diğer', 'celik-guvenlik-agi' => 'Çelik Güvenlik Ağı'] as $val => $label)
-        <option value="{{ $val }}" {{ old('kategori') === $val ? 'selected' : '' }}>{{ $label }}</option>
+        <option value="{{ $val }}" {{ old('kategori', $urun->kategori) === $val ? 'selected' : '' }}>{{ $label }}</option>
       @endforeach
     </select>
     @error('kategori')<p class="text-[11px] text-[#CC2200] mt-1">{{ $message }}</p>@enderror
@@ -59,13 +61,13 @@
   <div class="grid grid-cols-2 gap-3">
     <div>
       <label class="block text-[11px] font-medium text-[#6B6B6B] uppercase tracking-[.06em] mb-1.5">Fiyat (₺) <span class="text-[#CC2200]">*</span></label>
-      <input type="number" name="fiyat" step="0.01" min="0" required value="{{ old('fiyat') }}"
+      <input type="number" name="fiyat" step="0.01" min="0" required value="{{ old('fiyat', $urun->fiyat) }}"
              class="w-full px-4 py-3 border border-[rgba(0,0,0,0.12)] rounded-[10px] text-[15px] focus:outline-none focus:border-[#141414] transition-colors">
       @error('fiyat')<p class="text-[11px] text-[#CC2200] mt-1">{{ $message }}</p>@enderror
     </div>
     <div>
       <label class="block text-[11px] font-medium text-[#6B6B6B] uppercase tracking-[.06em] mb-1.5">Stok Adedi <span class="text-[#CC2200]">*</span></label>
-      <input type="number" name="stok" min="0" required value="{{ old('stok', 1) }}"
+      <input type="number" name="stok" min="0" required value="{{ old('stok', $urun->exists ? $urun->stok : 1) }}"
              class="w-full px-4 py-3 border border-[rgba(0,0,0,0.12)] rounded-[10px] text-[15px] focus:outline-none focus:border-[#141414] transition-colors">
       @error('stok')<p class="text-[11px] text-[#CC2200] mt-1">{{ $message }}</p>@enderror
     </div>
@@ -74,7 +76,7 @@
   {{-- Stok Kodu --}}
   <div>
     <label class="block text-[11px] font-medium text-[#6B6B6B] uppercase tracking-[.06em] mb-1.5">Stok Kodu (opsiyonel)</label>
-    <input type="text" name="stok_kodu" value="{{ old('stok_kodu') }}"
+    <input type="text" name="stok_kodu" value="{{ old('stok_kodu', $urun->stok_kodu) }}"
            class="w-full px-4 py-3 border border-[rgba(0,0,0,0.12)] rounded-[10px] text-[15px] focus:outline-none focus:border-[#141414] transition-colors">
   </div>
 
@@ -82,7 +84,7 @@
   <div>
     <label class="block text-[11px] font-medium text-[#6B6B6B] uppercase tracking-[.06em] mb-1.5">Açıklama (opsiyonel)</label>
     <textarea name="aciklama" rows="4"
-              class="w-full px-4 py-3 border border-[rgba(0,0,0,0.12)] rounded-[10px] text-[14px] focus:outline-none focus:border-[#141414] transition-colors resize-none">{{ old('aciklama') }}</textarea>
+              class="w-full px-4 py-3 border border-[rgba(0,0,0,0.12)] rounded-[10px] text-[14px] focus:outline-none focus:border-[#141414] transition-colors resize-none">{{ old('aciklama', $urun->aciklama) }}</textarea>
   </div>
 
   <button type="submit"
@@ -91,4 +93,15 @@
   </button>
   <p class="text-[11px] text-[#A8A8A8] text-center">Ürün önce yönetici onayına düşer, onaylandıktan sonra sitede yayınlanır.</p>
 </form>
+
+@if($urun->exists)
+<form action="{{ route('yardimci.urun.sil', $urun) }}" method="POST" class="mt-3"
+      onsubmit="return confirm('Bu ürünü silmek istediğinize emin misiniz?')">
+  @csrf @method('DELETE')
+  <button type="submit"
+          class="w-full flex items-center justify-center gap-2 border border-[rgba(204,34,0,0.25)] text-[#CC2200] text-[13px] font-semibold tracking-[1px] uppercase py-3.5 rounded-[10px] hover:bg-[#FDECEC] transition-all duration-200 min-h-[48px]">
+    <i class="ti ti-trash text-sm"></i> Ürünü Sil
+  </button>
+</form>
+@endif
 @endsection

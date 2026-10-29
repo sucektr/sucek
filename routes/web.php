@@ -362,9 +362,15 @@ Route::prefix('urun-ekle')->name('yardimci.')->group(function () {
 
         Route::get('/urun/yeni', [Yardimci\UrunEkleController::class, 'create'])->name('urun.yeni');
         Route::post('/urun', [Yardimci\UrunEkleController::class, 'store'])->name('urun.kaydet');
+        Route::get('/urun/{urun}/duzenle', [Yardimci\UrunEkleController::class, 'edit'])->name('urun.duzenle');
+        Route::put('/urun/{urun}', [Yardimci\UrunEkleController::class, 'update'])->name('urun.guncelle');
+        Route::delete('/urun/{urun}', [Yardimci\UrunEkleController::class, 'destroy'])->name('urun.sil');
 
         Route::get('/koleksiyon/yeni', [Yardimci\KoleksiyonEkleController::class, 'create'])->name('koleksiyon.yeni');
         Route::post('/koleksiyon', [Yardimci\KoleksiyonEkleController::class, 'store'])->name('koleksiyon.kaydet');
+        Route::get('/koleksiyon/{koleksiyon}/duzenle', [Yardimci\KoleksiyonEkleController::class, 'edit'])->name('koleksiyon.duzenle');
+        Route::put('/koleksiyon/{koleksiyon}', [Yardimci\KoleksiyonEkleController::class, 'update'])->name('koleksiyon.guncelle');
+        Route::delete('/koleksiyon/{koleksiyon}', [Yardimci\KoleksiyonEkleController::class, 'destroy'])->name('koleksiyon.sil');
     });
 });
 
