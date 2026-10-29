@@ -116,7 +116,7 @@ class UrunEkleController extends Controller
 
     private function sahipMi(Urun $urun): void
     {
-        abort_unless($urun->eklenen_kullanici_id === auth()->id() && $urun->onay_durumu !== 'onaylandi', 403);
+        abort_unless($urun->eklenen_kullanici_id === auth()->id(), 403);
     }
 
     private function benzersizSlug(string $ad): string

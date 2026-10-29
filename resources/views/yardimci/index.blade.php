@@ -46,7 +46,6 @@
         'reddedildi' => ['label' => 'Reddedildi', 'bg' => '#FDECEC', 'renk' => '#8A1F1F'],
         default      => ['label' => $e->durum, 'bg' => '#F5F5F5', 'renk' => '#5A5A5A'],
       };
-      $duzenlenebilir = $e->durum !== 'onaylandi';
       $duzenleRota = $e->tip === 'urun' ? route('yardimci.urun.duzenle', $e->id) : route('yardimci.koleksiyon.duzenle', $e->id);
       $silRota     = $e->tip === 'urun' ? route('yardimci.urun.sil', $e->id) : route('yardimci.koleksiyon.sil', $e->id);
     @endphp
@@ -65,7 +64,6 @@
       <span class="text-[10px] font-semibold px-2.5 py-1 rounded-[6px] shrink-0" style="background:{{ $durumBilgi['bg'] }};color:{{ $durumBilgi['renk'] }};">
         {{ $durumBilgi['label'] }}
       </span>
-      @if($duzenlenebilir)
       <div class="flex items-center gap-1 shrink-0">
         <a href="{{ $duzenleRota }}" class="w-8 h-8 flex items-center justify-center rounded-[6px] hover:bg-[#F5F5F5] text-[#5A5A5A]" aria-label="Düzenle">
           <i class="ti ti-edit text-[15px]"></i>
@@ -77,7 +75,6 @@
           </button>
         </form>
       </div>
-      @endif
     </div>
     @endforeach
   </div>

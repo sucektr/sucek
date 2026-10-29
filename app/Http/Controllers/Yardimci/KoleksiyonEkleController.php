@@ -114,7 +114,7 @@ class KoleksiyonEkleController extends Controller
 
     private function sahipMi(Koleksiyon $koleksiyon): void
     {
-        abort_unless($koleksiyon->eklenen_kullanici_id === auth()->id() && $koleksiyon->onay_durumu !== 'onaylandi', 403);
+        abort_unless($koleksiyon->eklenen_kullanici_id === auth()->id(), 403);
     }
 
     private function benzersizSlug(string $ad): string
